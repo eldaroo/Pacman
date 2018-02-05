@@ -10,6 +10,14 @@ public abstract class Creature extends Observable {
 	Direction potentialDirection =Direction.LEFT;
 	String identy = null;
 
+	public void eatDot (){
+		System.out.println("Comió un dot");
+	}
+
+	public Position getBoardPosition() {
+		return position.getBoardPosition();
+	}
+
 	public Direction getDirection() {
 		return direction;
 	}
@@ -18,16 +26,16 @@ public abstract class Creature extends Observable {
 		return position;
 	}
 
+	public Direction getPotentialDirection() {
+		return potentialDirection;
+	}
+
 	public boolean isDead() {
 		return !alive;
 	}
 
 	public void kill() {
 		alive = false;
-	}
-	
-	public void eatDot (){
-		System.out.println("Comió un dot");
 	}
 
 	public void setDirection(Direction direction) {
@@ -39,14 +47,10 @@ public abstract class Creature extends Observable {
 		this.position = position;
 		setChanged();
 		notifyObservers();
-		
+
 	}
 
 	public void setPotentialDirection(Direction potentialDirection) {
 		this.potentialDirection=potentialDirection;
-	}
-
-	public Direction getPotentialDirection() {
-		return potentialDirection;
 	}
 }

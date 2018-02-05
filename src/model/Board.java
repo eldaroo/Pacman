@@ -1,8 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Serializable{
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6472116531941544087L;
 
 	Square[][] board;
 	Dot[][] dots;
@@ -24,16 +30,16 @@ public class Board {
 	}
 
 	private void lookingForDot(){
-		
+
 	}
-	
+
 	private void makeBoard(int[][] levelBoard) {
 		board = new Square[levelBoard.length][levelBoard.length];
 		for (int i = 0; i < levelBoard.length; i++) {
 			for (int j = 0; j < levelBoard.length; j++) {
 				switch (levelBoard[i][j]) {
 				case 1:
-					
+
 					board[i][j] = new Path ();
 					break;
 				case 0:
@@ -68,7 +74,7 @@ public class Board {
 				}
 			}
 		}
-		
+
 	}
 
 	private void makeDots(int[][] levelDots) {
@@ -77,21 +83,21 @@ public class Board {
 			for (int j = 0; j < levelDots.length; j++) {
 				switch (levelDots[i][j]) {
 				case 1:
-			
+
 					dots[i][j] = new Dot ();
 					break;
 				case 2:
 					dots[i][j] = new SuperDot();
 					break;
 
-					}
+				}
 			}
 		}
-		
+
 	}
 
 	public void move(Creature creature) {
-		
+
 		if(creature.position.getClass().getName()== "model.Teleport")
 		{
 			teleportCreature(creature);
@@ -105,19 +111,19 @@ public class Board {
 		if (nextPotentialPosition.isNavegable(creature)) {
 			creature.direction=potentialDirection;
 			creature.setPosition(nextPotentialPosition);
-			
+
 		} else if((potentialDirection != direction)&&(nextPosition.isNavegable(creature)))
 		{
-			
+
 			creature.setPosition(nextPosition);
-			
-		} 
-		
-		if(creature.identy=="Pacman"){
+
+		}
+
+		if(creature.identy.equals("Pacman")){
 			if (creature.position.getClass().getName()=="model.Dot"){
 				creature.eatDot();
 			}else if (creature.position.getClass().getName()=="model.SuperDot"){
-				
+
 			}
 		}
 	}
@@ -130,33 +136,33 @@ public class Board {
 	public void setDots(Dot[][] dots) {
 		this.dots = dots;
 	}
-		
-	
+
+
 
 	private void teleportCreature(Creature creature) {
-			if(teleportList.get(0)==creature.position)
-			{
-				creature.setPosition(teleportList.get(5).getLeft());
-			}
-			if(teleportList.get(1).equals(creature.position))
-			{
-				creature.setPosition(teleportList.get(2).getUp());				
-			}
-			if(teleportList.get(2).equals(creature.position))
-			{				
-				creature.setPosition(teleportList.get(1).getDown());
-			}
-			if(teleportList.get(3).equals(creature.position))
-			{
-				creature.setPosition(teleportList.get(4).getUp());
-			}
-			if(teleportList.get(4).equals(creature.position))
-			{
-				creature.setPosition(teleportList.get(3).getDown());
-			}
-			if(teleportList.get(5).equals(creature.position))
-			{
-				creature.setPosition(teleportList.get(0).getRight());
-			}
+		if(teleportList.get(0)==creature.position)
+		{
+			creature.setPosition(teleportList.get(5).getLeft());
 		}
+		if(teleportList.get(1).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(2).getUp());
+		}
+		if(teleportList.get(2).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(1).getDown());
+		}
+		if(teleportList.get(3).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(4).getUp());
+		}
+		if(teleportList.get(4).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(3).getDown());
+		}
+		if(teleportList.get(5).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(0).getRight());
+		}
+	}
 }

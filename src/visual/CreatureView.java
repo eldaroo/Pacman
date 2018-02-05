@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 
 import model.Creature;
 import model.Direction;
+import model.Position;
 
 public class CreatureView extends JLabel implements Observer {
 
@@ -14,6 +15,7 @@ public class CreatureView extends JLabel implements Observer {
 	public void update(Observable observable, Object object) {
 
 		Creature creature = (Creature) observable;
+		Position boardPosition = creature.getBoardPosition();
 		Direction direction =creature.getDirection();
 		switch (direction) {
 		case RIGHT:

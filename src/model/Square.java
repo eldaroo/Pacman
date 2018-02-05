@@ -5,7 +5,7 @@ public abstract class Square {
 	private Square left = null;
 	private Square right = null;
 	private Square up = null;
-	private Position position = null;
+	private Position boardPosition = null;
 
 
 	public Square get(Direction direction) {
@@ -24,7 +24,7 @@ public abstract class Square {
 	}
 
 	public Position getBoardPosition() {
-		return position;
+		return boardPosition;
 	}
 
 
@@ -47,7 +47,7 @@ public abstract class Square {
 	public abstract boolean isNavegable(Creature creature);
 
 	public void setBoardPosition(Position position) {
-		this.position = position;
+		this.boardPosition = position;
 	}
 
 	public void setDown(Square down) {
