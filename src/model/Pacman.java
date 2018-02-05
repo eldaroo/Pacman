@@ -7,4 +7,12 @@ public class Pacman extends Creature {
 		identy = "Pacman";
 	}
 
+	public void eatDot(Dot dot) {
+
+	}
+
+	public void eatGhost() {
+
+	}
+
 }

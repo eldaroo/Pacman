@@ -5,6 +5,7 @@ import java.util.Observable;
 public abstract class Creature extends Observable {
 
 	boolean alive = true;
+<<<<<<< HEAD
 	Direction direction = Direction.UP;
 	String identy = null;
 	Square position = null;
@@ -13,6 +14,15 @@ public abstract class Creature extends Observable {
 	public void eatDot() {
 		System.out.println("Comió un dot");
 	}
+=======
+
+	Direction direction = Direction.LEFT;
+	Direction potentialDirection = Direction.LEFT;
+
+	Square position = null;
+
+	String identy = null;
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();

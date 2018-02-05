@@ -13,18 +13,28 @@ import model.Ghost;
 import model.Pacman;
 import model.Square;
 import visual.BoardView;
-import visual.CreatureView;
+import visual.CreaturesView;
 import visual.DotsView;
-import visual.GhostView;
-import visual.PacmanView;
 
 public class Game implements KeyListener {
 
+<<<<<<< HEAD
+=======
+	static JLayeredPane layers;
+	static Pacman pacman;
+	static Ghost ghost;
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 	static Board board;
 	static Square[][] boardMatrix;
 	static BoardView boardView;
 	static Dot[][] dotMatrix;
 	static DotsView dotsView;
+<<<<<<< HEAD
+=======
+	static CreaturesView pacmanView;
+	static CreaturesView ghostView;
+
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 	static Game game = new Game();
 	static Ghost ghost;
 	static CreatureView ghostView;
@@ -38,7 +48,26 @@ public class Game implements KeyListener {
 		game.initGame();
 		game.initVisual();
 		game.Play();
+<<<<<<< HEAD
 
+=======
+
+	}
+
+	private void Play() {
+		while (run) {
+			try {
+				Thread.sleep(80);
+
+			} catch (InterruptedException time) {
+
+			}
+			ghost.pathFinder();
+			board.move(ghost);
+			board.move(pacman);
+
+		}
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 	}
 
 	private void initGame() {
@@ -58,10 +87,19 @@ public class Game implements KeyListener {
 
 		dotsView = new DotsView(dotMatrix, layers);
 		boardView = new BoardView(boardMatrix, layers);
+<<<<<<< HEAD
 		pacmanView = new PacmanView(layers);
 		ghostView = new GhostView(layers);
+=======
+
+		pacmanView = new CreaturesView(pacman, layers);
+		ghostView = new CreaturesView(ghost, layers);
+
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 		pacman.addObserver(pacmanView);
 		ghost.addObserver(ghostView);
+		board.addObserver(dotsView);
+
 		boardView.addKeyListener(game);
 	}
 

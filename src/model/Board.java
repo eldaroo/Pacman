@@ -2,8 +2,13 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
+<<<<<<< HEAD
 public class Board implements Serializable {
+=======
+public class Board extends Observable implements Serializable {
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 
 	/**
 	 *
@@ -12,7 +17,20 @@ public class Board implements Serializable {
 
 	Square[][] board;
 	Dot[][] dots;
+<<<<<<< HEAD
 	ArrayList<Square> teleportList = new ArrayList<Square>();
+=======
+	ArrayList <Square> teleportList = new ArrayList <Square>();
+	Dot dotRemoved;
+
+	public Dot getDotRemoved() {
+		return dotRemoved;
+	}
+
+	public void setDotRemoved(Dot dotRemoved) {
+		this.dotRemoved = dotRemoved;
+	}
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 
 	public Board(int[][] levelBoard, int[][] levelDots) {
 		makeBoard(levelBoard);
@@ -27,6 +45,7 @@ public class Board implements Serializable {
 		return dots;
 	}
 
+<<<<<<< HEAD
 	private void linkTeleports() {
 		teleportList.get(0).setLeft(teleportList.get(5));
 		teleportList.get(1).setUp(teleportList.get(2));
@@ -54,6 +73,8 @@ public class Board implements Serializable {
 	private void lookingForDot() {
 
 	}
+=======
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 
 	private void makeBoard(int[][] levelBoard) {
 		board = new Square[levelBoard.length][levelBoard.length];
@@ -115,11 +136,14 @@ public class Board implements Serializable {
 					break;
 
 				}
+				if (dots[i][j] != null)
+					dots[i][j].position = board[i][j];
 			}
 		}
 
 	}
 
+<<<<<<< HEAD
 	/*
 	 * public void move(Creature creature) {
 	 *
@@ -147,6 +171,42 @@ public class Board implements Serializable {
 	 *
 	 * } } }
 	 */
+=======
+	public void move(Creature creature) {
+
+		if(creature.position.getClass().getName()== "model.Teleport")
+		{
+			teleportCreature(creature);
+		}
+		Direction potentialDirection = creature.getPotentialDirection();
+		Direction direction = creature.getDirection();
+		Square position = creature.getPosition();
+		Square nextPotentialPosition = position.get(potentialDirection);
+		Square nextPosition = position.get(direction);
+
+		if (nextPotentialPosition.isNavegable(creature)) {
+			creature.direction=potentialDirection;
+			creature.setPosition(nextPotentialPosition);
+
+		} else if((potentialDirection != direction)&&(nextPosition.isNavegable(creature)))
+		{
+
+			creature.setPosition(nextPosition);
+
+		}
+
+
+		if (creature.identy.equals("Pacman")
+				&& (dots[creature.getBoardPosition().getX()][creature.getBoardPosition().getY()] != null)) {
+
+			removeDot(dots[creature.getBoardPosition().getX()][creature.getBoardPosition().getY()]);
+			// creature.eatDot();
+
+		}
+
+	}
+
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 	public void setBoard(Square[][] board) {
 		this.board = board;
 	}
@@ -154,4 +214,50 @@ public class Board implements Serializable {
 	public void setDots(Dot[][] dots) {
 		this.dots = dots;
 	}
+<<<<<<< HEAD
+=======
+
+	public void removeDot(Dot dot) {
+		dotRemoved = dot;
+		if (dots[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()].superDot) {
+			dots[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()] = null;
+			// modeSuperDotOn();
+		}else
+		{
+			dots[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()] = null;
+
+		}
+		System.out.println(dotRemoved);
+
+		setChanged();
+		notifyObservers();
+	}
+
+	private void teleportCreature(Creature creature) {
+		if(teleportList.get(0)==creature.position)
+		{
+			creature.setPosition(teleportList.get(5).getLeft());
+		}
+		if(teleportList.get(1).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(2).getUp());
+		}
+		if(teleportList.get(2).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(1).getDown());
+		}
+		if(teleportList.get(3).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(4).getUp());
+		}
+		if(teleportList.get(4).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(3).getDown());
+		}
+		if(teleportList.get(5).equals(creature.position))
+		{
+			creature.setPosition(teleportList.get(0).getRight());
+		}
+	}
+>>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 }

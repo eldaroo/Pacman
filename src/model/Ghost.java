@@ -7,9 +7,7 @@ public class Ghost extends Creature {
 
 	public Ghost(Square position) {
 		this.position = position;
-		this.direction = Direction.UP;
 		identy = "Ghost";
-
 	}
 
 	public void pathFinder() {
@@ -36,6 +34,10 @@ public class Ghost extends Creature {
 
 			setPotentialDirection(directionsAvailables.get(aux));
 		}
+	}
+
+	public void eatPacman() {
+
 	}
 
 }

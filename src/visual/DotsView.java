@@ -8,15 +8,16 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import model.Board;
 import model.Dot;
 
 public class DotsView extends JPanel implements Observer {
 
+	JLabel[][] dotMatrix = new JLabel[20][20];
 	public DotsView(Dot[][] dots, JLayeredPane layers)
 	{
 		int capa=1;
 
-		JLabel[][] dotMatrix = new JLabel[20][20];
 		for (int i = 0; i < dots.length; i++) {
 			capa++;
 			for (int j = 0; j < dots.length; j++) {
@@ -41,7 +42,9 @@ public class DotsView extends JPanel implements Observer {
 
 	}
 	@Override
-	public void update (Observable o, Object arg){
-
+	public void update(Observable observable, Object arg) {
+		Board board = (Board) observable;
+		Dot dotRemoved = board.getDotRemoved();
+		dotMatrix[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()].setVisible(false);
 	}
 }
