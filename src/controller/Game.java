@@ -19,61 +19,45 @@ import visual.GhostView;
 import visual.PacmanView;
 
 public class Game implements KeyListener {
-	
-	static JLayeredPane layers;
-	static Pacman pacman;
-	static Ghost ghost;
+
 	static Board board;
 	static Square[][] boardMatrix;
-	static Dot[][] dotMatrix;
-	static boolean run=true;
 	static BoardView boardView;
+	static Dot[][] dotMatrix;
 	static DotsView dotsView;
-	static CreatureView pacmanView;
-	static CreatureView ghostView;
 	static Game game = new Game();
+	static Ghost ghost;
+	static CreatureView ghostView;
+	static JLayeredPane layers;
+	static Pacman pacman;
+	static CreatureView pacmanView;
+	static boolean run = true;
 
 	public static void main(String[] args) {
-	
+
 		game.initGame();
 		game.initVisual();
 		game.Play();
-		
-	}
-	
-	private void Play() {
-		while (run) {
-			try {
-				Thread.sleep(80);
 
-			} catch (InterruptedException time) {
-
-			}
-			ghost.pathFinder();
-			board.move(ghost);
-			board.move(pacman);
-		
-		}
 	}
 
-	private void initGame()
-	{
+	private void initGame() {
 
 		BoardConfiguration boardconfiguration = new BoardConfiguration();
 		board = new Board(boardconfiguration.level1Board, boardconfiguration.level1Dots);
 		boardMatrix = board.getBoard();
 		dotMatrix = board.getDots();
-		ghost= new Ghost(boardMatrix[8][4]);
+		ghost = new Ghost(boardMatrix[8][4]);
 		pacman = new Pacman(boardMatrix[9][14]);
 
 	}
-	
+
 	private void initVisual() {
-		
+
 		layers = new JLayeredPane();
-		
+
 		dotsView = new DotsView(dotMatrix, layers);
-		boardView = new BoardView(boardMatrix,layers);
+		boardView = new BoardView(boardMatrix, layers);
 		pacmanView = new PacmanView(layers);
 		ghostView = new GhostView(layers);
 		pacman.addObserver(pacmanView);
@@ -84,7 +68,7 @@ public class Game implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		switch (arg0.getKeyCode()) {
-		case KeyEvent.VK_LEFT: {	
+		case KeyEvent.VK_LEFT: {
 			pacman.setPotentialDirection(Direction.LEFT);
 			break;
 		}
@@ -114,6 +98,21 @@ public class Game implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void Play() {
+		while (run) {
+			try {
+				Thread.sleep(80);
+
+			} catch (InterruptedException time) {
+
+			}
+			ghost.pathFinder();
+			ghost.move();
+			pacman.move();
+
+		}
 	}
 
 }

@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board implements Serializable{
+public class Board implements Serializable {
 
 	/**
 	 *
@@ -12,14 +12,12 @@ public class Board implements Serializable{
 
 	Square[][] board;
 	Dot[][] dots;
-	ArrayList <Square> teleportList = new ArrayList <Square>();
+	ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	public Board(int[][] levelBoard,int[][] levelDots ) {
+	public Board(int[][] levelBoard, int[][] levelDots) {
 		makeBoard(levelBoard);
 		makeDots(levelDots);
 	}
-
-
 
 	public Square[][] getBoard() {
 		return board;
@@ -29,7 +27,31 @@ public class Board implements Serializable{
 		return dots;
 	}
 
-	private void lookingForDot(){
+	private void linkTeleports() {
+		teleportList.get(0).setLeft(teleportList.get(5));
+		teleportList.get(1).setUp(teleportList.get(2));
+		teleportList.get(2).setDown(teleportList.get(1));
+		teleportList.get(3).setUp(teleportList.get(4));
+		teleportList.get(4).setDown(teleportList.get(3));
+		teleportList.get(5).setRight(teleportList.get(0));
+
+	}
+	/*
+	 * private void teleportCreature(Creature creature) { if (teleportList.get(0) ==
+	 * creature.position) { creature.setPosition(teleportList.get(5).getLeft()); }
+	 * if (teleportList.get(1).equals(creature.position)) {
+	 * creature.setPosition(teleportList.get(2).getUp()); } if
+	 * (teleportList.get(2).equals(creature.position)) {
+	 * creature.setPosition(teleportList.get(1).getDown()); } if
+	 * (teleportList.get(3).equals(creature.position)) {
+	 * creature.setPosition(teleportList.get(4).getUp()); } if
+	 * (teleportList.get(4).equals(creature.position)) {
+	 * creature.setPosition(teleportList.get(3).getDown()); } if
+	 * (teleportList.get(5).equals(creature.position)) {
+	 * creature.setPosition(teleportList.get(0).getRight()); } }
+	 */
+
+	private void lookingForDot() {
 
 	}
 
@@ -40,7 +62,7 @@ public class Board implements Serializable{
 				switch (levelBoard[i][j]) {
 				case 1:
 
-					board[i][j] = new Path ();
+					board[i][j] = new Path();
 					break;
 				case 0:
 					board[i][j] = new Wall();
@@ -49,21 +71,22 @@ public class Board implements Serializable{
 					board[i][j] = new Hell();
 					break;
 				case 9:
-					board[i][j] = new Teleport();
+					board[i][j] = new Path();
 					teleportList.add(board[i][j]);
-					break;
+
 				}
-				board[i][j].setBoardPosition(new Position(i,j));
+				board[i][j].setBoardPosition(new Position(i, j));
 			}
 		}
 
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board.length; j++) {
-				if (j + 1 < board.length)  {
+
+				if (j + 1 < board.length) {
 					board[i][j].setDown(board[i][j + 1]);
 
 				}
-				if (j - 1 >= 0){
+				if (j - 1 >= 0) {
 					board[i][j].setUp(board[i][j - 1]);
 				}
 				if (i - 1 >= 0) {
@@ -74,6 +97,7 @@ public class Board implements Serializable{
 				}
 			}
 		}
+		linkTeleports();
 
 	}
 
@@ -84,7 +108,7 @@ public class Board implements Serializable{
 				switch (levelDots[i][j]) {
 				case 1:
 
-					dots[i][j] = new Dot ();
+					dots[i][j] = new Dot();
 					break;
 				case 2:
 					dots[i][j] = new SuperDot();
@@ -96,73 +120,38 @@ public class Board implements Serializable{
 
 	}
 
-	public void move(Creature creature) {
-
-		if(creature.position.getClass().getName()== "model.Teleport")
-		{
-			teleportCreature(creature);
-		}
-		Direction potentialDirection = creature.getPotentialDirection();
-		Direction direction = creature.getDirection();
-		Square position = creature.getPosition();
-		Square nextPotentialPosition = position.get(potentialDirection);
-		Square nextPosition = position.get(direction);
-
-		if (nextPotentialPosition.isNavegable(creature)) {
-			creature.direction=potentialDirection;
-			creature.setPosition(nextPotentialPosition);
-
-		} else if((potentialDirection != direction)&&(nextPosition.isNavegable(creature)))
-		{
-
-			creature.setPosition(nextPosition);
-
-		}
-
-		if(creature.identy.equals("Pacman")){
-			if (creature.position.getClass().getName()=="model.Dot"){
-				creature.eatDot();
-			}else if (creature.position.getClass().getName()=="model.SuperDot"){
-
-			}
-		}
-	}
-
+	/*
+	 * public void move(Creature creature) {
+	 *
+	 * if(creature.position.getClass().getName()== "model.Teleport") {
+	 * teleportCreature(creature); } Direction potentialDirection =
+	 * creature.getPotentialDirection(); Direction direction =
+	 * creature.getDirection(); Square position = creature.getPosition(); Square
+	 * nextPotentialPosition = position.get(potentialDirection); Square nextPosition
+	 * = position.get(direction);
+	 *
+	 * if (nextPotentialPosition.isNavegable(creature)) {
+	 * creature.direction=potentialDirection;
+	 * creature.setPosition(nextPotentialPosition);
+	 *
+	 * } else if((potentialDirection !=
+	 * direction)&&(nextPosition.isNavegable(creature))) {
+	 *
+	 * creature.setPosition(nextPosition);
+	 *
+	 * }
+	 *
+	 * if(creature.identy.equals("Pacman")){ if
+	 * (creature.position.getClass().getName()=="model.Dot"){ creature.eatDot();
+	 * }else if (creature.position.getClass().getName()=="model.SuperDot"){
+	 *
+	 * } } }
+	 */
 	public void setBoard(Square[][] board) {
 		this.board = board;
 	}
 
-
 	public void setDots(Dot[][] dots) {
 		this.dots = dots;
-	}
-
-
-
-	private void teleportCreature(Creature creature) {
-		if(teleportList.get(0)==creature.position)
-		{
-			creature.setPosition(teleportList.get(5).getLeft());
-		}
-		if(teleportList.get(1).equals(creature.position))
-		{
-			creature.setPosition(teleportList.get(2).getUp());
-		}
-		if(teleportList.get(2).equals(creature.position))
-		{
-			creature.setPosition(teleportList.get(1).getDown());
-		}
-		if(teleportList.get(3).equals(creature.position))
-		{
-			creature.setPosition(teleportList.get(4).getUp());
-		}
-		if(teleportList.get(4).equals(creature.position))
-		{
-			creature.setPosition(teleportList.get(3).getDown());
-		}
-		if(teleportList.get(5).equals(creature.position))
-		{
-			creature.setPosition(teleportList.get(0).getRight());
-		}
 	}
 }
