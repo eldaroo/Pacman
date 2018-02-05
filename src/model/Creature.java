@@ -5,14 +5,13 @@ import java.util.Observable;
 public abstract class Creature extends Observable {
 
 	boolean alive = true;
-	Direction direction = Direction.UP;
-	Square position = null;
-	Direction potentialDirection =Direction.LEFT;
-	String identy = null;
 
-	public void eatDot (){
-		System.out.println("Comió un dot");
-	}
+	Direction direction = Direction.LEFT;
+	Direction potentialDirection = Direction.LEFT;
+
+	Square position = null;
+
+	String identy = null;
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();

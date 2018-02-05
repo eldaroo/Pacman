@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Board implements Serializable{
+public class Board extends Observable implements Serializable {
 
 	/**
 	 *
@@ -13,6 +14,15 @@ public class Board implements Serializable{
 	Square[][] board;
 	Dot[][] dots;
 	ArrayList <Square> teleportList = new ArrayList <Square>();
+	Dot dotRemoved;
+
+	public Dot getDotRemoved() {
+		return dotRemoved;
+	}
+
+	public void setDotRemoved(Dot dotRemoved) {
+		this.dotRemoved = dotRemoved;
+	}
 
 	public Board(int[][] levelBoard,int[][] levelDots ) {
 		makeBoard(levelBoard);
@@ -29,9 +39,6 @@ public class Board implements Serializable{
 		return dots;
 	}
 
-	private void lookingForDot(){
-
-	}
 
 	private void makeBoard(int[][] levelBoard) {
 		board = new Square[levelBoard.length][levelBoard.length];
@@ -91,6 +98,8 @@ public class Board implements Serializable{
 					break;
 
 				}
+				if (dots[i][j] != null)
+					dots[i][j].position = board[i][j];
 			}
 		}
 
@@ -119,13 +128,15 @@ public class Board implements Serializable{
 
 		}
 
-		if(creature.identy.equals("Pacman")){
-			if (creature.position.getClass().getName()=="model.Dot"){
-				creature.eatDot();
-			}else if (creature.position.getClass().getName()=="model.SuperDot"){
 
-			}
+		if (creature.identy.equals("Pacman")
+				&& (dots[creature.getBoardPosition().getX()][creature.getBoardPosition().getY()] != null)) {
+
+			removeDot(dots[creature.getBoardPosition().getX()][creature.getBoardPosition().getY()]);
+			// creature.eatDot();
+
 		}
+
 	}
 
 	public void setBoard(Square[][] board) {
@@ -137,7 +148,21 @@ public class Board implements Serializable{
 		this.dots = dots;
 	}
 
+	public void removeDot(Dot dot) {
+		dotRemoved = dot;
+		if (dots[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()].superDot) {
+			dots[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()] = null;
+			// modeSuperDotOn();
+		}else
+		{
+			dots[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()] = null;
 
+		}
+		System.out.println(dotRemoved);
+
+		setChanged();
+		notifyObservers();
+	}
 
 	private void teleportCreature(Creature creature) {
 		if(teleportList.get(0)==creature.position)

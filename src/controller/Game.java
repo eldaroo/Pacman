@@ -13,13 +13,11 @@ import model.Ghost;
 import model.Pacman;
 import model.Square;
 import visual.BoardView;
-import visual.CreatureView;
+import visual.CreaturesView;
 import visual.DotsView;
-import visual.GhostView;
-import visual.PacmanView;
 
 public class Game implements KeyListener {
-	
+
 	static JLayeredPane layers;
 	static Pacman pacman;
 	static Ghost ghost;
@@ -29,18 +27,19 @@ public class Game implements KeyListener {
 	static boolean run=true;
 	static BoardView boardView;
 	static DotsView dotsView;
-	static CreatureView pacmanView;
-	static CreatureView ghostView;
+	static CreaturesView pacmanView;
+	static CreaturesView ghostView;
+
 	static Game game = new Game();
 
 	public static void main(String[] args) {
-	
+
 		game.initGame();
 		game.initVisual();
 		game.Play();
-		
+
 	}
-	
+
 	private void Play() {
 		while (run) {
 			try {
@@ -52,7 +51,7 @@ public class Game implements KeyListener {
 			ghost.pathFinder();
 			board.move(ghost);
 			board.move(pacman);
-		
+
 		}
 	}
 
@@ -63,28 +62,32 @@ public class Game implements KeyListener {
 		board = new Board(boardconfiguration.level1Board, boardconfiguration.level1Dots);
 		boardMatrix = board.getBoard();
 		dotMatrix = board.getDots();
-		ghost= new Ghost(boardMatrix[8][4]);
+		ghost = new Ghost(boardMatrix[8][4]);
 		pacman = new Pacman(boardMatrix[9][14]);
 
 	}
-	
+
 	private void initVisual() {
-		
+
 		layers = new JLayeredPane();
-		
+
 		dotsView = new DotsView(dotMatrix, layers);
-		boardView = new BoardView(boardMatrix,layers);
-		pacmanView = new PacmanView(layers);
-		ghostView = new GhostView(layers);
+		boardView = new BoardView(boardMatrix, layers);
+
+		pacmanView = new CreaturesView(pacman, layers);
+		ghostView = new CreaturesView(ghost, layers);
+
 		pacman.addObserver(pacmanView);
 		ghost.addObserver(ghostView);
+		board.addObserver(dotsView);
+
 		boardView.addKeyListener(game);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		switch (arg0.getKeyCode()) {
-		case KeyEvent.VK_LEFT: {	
+		case KeyEvent.VK_LEFT: {
 			pacman.setPotentialDirection(Direction.LEFT);
 			break;
 		}

@@ -1,7 +1,7 @@
 package model;
 
 public class Path extends Square {
-	
+
 	public Path()
 	{
 
@@ -10,6 +10,6 @@ public class Path extends Square {
 	public boolean isNavegable(Creature creature) {
 		return true;
 	}
-	
+
 
 }

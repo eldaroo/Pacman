@@ -12,7 +12,7 @@ public class BoardView extends JFrame {
 
 
 	public BoardView(Square[][] squareArray, JLayeredPane layers) throws HeadlessException {
-		super("jUEGO");
+		super("JUEGO");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 840);
 
