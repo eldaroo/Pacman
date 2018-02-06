@@ -14,18 +14,19 @@ import model.Dot;
 public class DotsView extends JPanel implements Observer {
 
 	JLabel[][] dotMatrix = new JLabel[20][20];
-	public DotsView(Dot[][] dots, JLayeredPane layers)
-	{
-		int capa=1;
+
+	public DotsView(Dot[][] dots, JLayeredPane layers) {
+		int capa = 1;
 
 		for (int i = 0; i < dots.length; i++) {
 			capa++;
 			for (int j = 0; j < dots.length; j++) {
 				capa++;
 				dotMatrix[i][j] = new JLabel();
-				String identidadDot="";
-				if(dots[i][j]!= null){
-					identidadDot = dots[i][j].getClass().getName();}
+				String identidadDot = "";
+				if (dots[i][j] != null) {
+					identidadDot = dots[i][j].getClass().getName();
+				}
 
 				switch (identidadDot) {
 				case "model.Dot":
@@ -36,11 +37,12 @@ public class DotsView extends JPanel implements Observer {
 					break;
 				}
 				dotMatrix[i][j].setBounds(i * 40, j * 40, 40, 40);
-				layers.add(dotMatrix[i][j], capa);
+				// layers.add(dotMatrix[i][j], capa);
 			}
 		}
 
 	}
+
 	@Override
 	public void update(Observable observable, Object arg) {
 		Board board = (Board) observable;

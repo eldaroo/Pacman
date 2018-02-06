@@ -66,6 +66,8 @@ public class Board extends Observable implements Serializable {
 				case 0:
 					board[i][j] = new Wall();
 					break;
+				case 2:
+					board[i][j] = new FalsePath();
 				case 6:
 					board[i][j] = new Hell();
 					break;
@@ -96,7 +98,7 @@ public class Board extends Observable implements Serializable {
 				}
 			}
 		}
-		linkTeleports();
+		// linkTeleports();
 
 	}
 

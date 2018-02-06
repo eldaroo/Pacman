@@ -45,7 +45,7 @@ public class Game implements KeyListener {
 	private void initGame() {
 
 		BoardConfiguration boardconfiguration = new BoardConfiguration();
-		board = new Board(boardconfiguration.level1Board, boardconfiguration.level1Dots);
+		board = new Board(boardconfiguration.level1BoardRecharged, boardconfiguration.level1Dots);
 		boardMatrix = board.getBoard();
 		dotMatrix = board.getDots();
 		ghost = new Ghost(boardMatrix[8][4]);
