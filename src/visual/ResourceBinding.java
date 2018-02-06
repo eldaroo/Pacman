@@ -20,10 +20,8 @@ public abstract class ResourceBinding {
 		images.put(Wall.class, new ImageIcon("resources/0.png"));
 		images.put(Hell.class, new ImageIcon("resources/6.png"));
 		images.put(Pacman.class, new ImageIcon("resources/CRIATURA.png"));
-<<<<<<< HEAD
-=======
+
 		images.put(Ghost.class, new ImageIcon("resources/GHOST.png"));
->>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
 
 	}
 

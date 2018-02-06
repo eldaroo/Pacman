@@ -5,24 +5,13 @@ import java.util.Observable;
 public abstract class Creature extends Observable {
 
 	boolean alive = true;
-<<<<<<< HEAD
-	Direction direction = Direction.UP;
-	String identy = null;
-	Square position = null;
-	Direction potentialDirection = Direction.LEFT;
-
-	public void eatDot() {
-		System.out.println("Comió un dot");
-	}
-=======
 
 	Direction direction = Direction.LEFT;
-	Direction potentialDirection = Direction.LEFT;
+	String identy = null;
 
 	Square position = null;
 
-	String identy = null;
->>>>>>> 23109994925dd78db28c484068f24dbf2c728aa5
+	Direction potentialDirection = Direction.LEFT;
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
@@ -52,7 +41,6 @@ public abstract class Creature extends Observable {
 
 		Square nextPotentialPosition = position.get(potentialDirection);
 		Square nextPosition = position.get(direction);
-		System.out.println(position + " , " + nextPosition);
 		if (nextPotentialPosition.isNavegable(this)) {
 			direction = potentialDirection;
 			setPosition(nextPotentialPosition);
@@ -61,7 +49,6 @@ public abstract class Creature extends Observable {
 			setPosition(nextPosition);
 
 		}
-
 	}
 
 	public void setDirection(Direction direction) {
