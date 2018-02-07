@@ -12,12 +12,10 @@ import model.Position;
 
 public class CreaturesView extends JLabel implements Observer {
 
-	private static ResourceBinding imagesResources;
-
 	public CreaturesView(Creature obj, JLayeredPane layers) {
 
-		this.setBounds(obj.getBoardPosition().getX() * 40, obj.getBoardPosition().getY() * 40, 40, 40);
-		setIcon(imagesResources.getImageIcon(obj));
+		this.setBounds((obj.getBoardPosition().getX() * 10) - 10, (obj.getBoardPosition().getY() * 10) - 10, 30, 30);
+		setIcon(ResourceBinding.getImageIcon(obj));
 		layers.add(this, 6);
 
 	}
@@ -28,24 +26,7 @@ public class CreaturesView extends JLabel implements Observer {
 		Creature creature = (Creature) observable;
 		Position boardPosition = creature.getBoardPosition();
 		Direction direction = creature.getDirection();
-		this.setBounds(boardPosition.getX() * 10, boardPosition.getY() * 10, 30, 30);
-
-		/*
-		 * switch (direction) { case RIGHT: this.setBounds(this.getX()+40, this.getY(),
-		 * 40, 40); if (creature.getPosition().getClass().getName() == "model.Teleport")
-		 * this.setBounds(this.getX()-760, this.getY(), 40, 40); break; case LEFT:
-		 * this.setBounds(this.getX()-40, this.getY(), 40, 40); if
-		 * (creature.getPosition().getClass().getName() == "model.Teleport")
-		 * this.setBounds(this.getX()+760, this.getY(), 40, 40); break; case UP:
-		 * this.setBounds(this.getX(), this.getY()-40, 40, 40); if
-		 * (creature.getPosition().getClass().getName() == "model.Teleport")
-		 * this.setBounds(this.getX(), this.getY()+760, 40, 40); break; case DOWN:
-		 * this.setBounds(this.getX(), this.getY()+40, 40, 40); if
-		 * (creature.getPosition().getClass().getName() == "model.Teleport")
-		 * this.setBounds(this.getX(), this.getY()-760, 40, 40);
-		 *
-		 * break; }
-		 */
+		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10, 30, 30);
 
 	}
 }

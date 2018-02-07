@@ -5,11 +5,13 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import model.Dot;
 import model.FalsePath;
 import model.Ghost;
 import model.Hell;
 import model.Pacman;
 import model.Path;
+import model.SuperDot;
 import model.Wall;
 
 public abstract class ResourceBinding {
@@ -23,7 +25,9 @@ public abstract class ResourceBinding {
 		images.put(Pacman.class, new ImageIcon("resources/CRIATURA.png"));
 		images.put(FalsePath.class, new ImageIcon("resources/1.png"));
 		images.put(Ghost.class, new ImageIcon("resources/GHOST.png"));
-
+		images.put(Dot.class, new ImageIcon("resources/dot.png"));
+		images.put(SuperDot.class, new ImageIcon("resources/superdot.png"));
+		
 	}
 
 	static public ImageIcon getImageIcon(Object object) {

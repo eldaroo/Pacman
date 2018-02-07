@@ -10,6 +10,7 @@ public class Board extends Observable implements Serializable {
 
 	Square[][] board;
 	Dot dotRemoved;
+	boolean pacmanEatNewDot;
 	Dot[][] dots;
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
@@ -20,13 +21,13 @@ public class Board extends Observable implements Serializable {
 
 	public void eatingDot(Pacman pacman) {
 
+		pacmanEatNewDot = false;
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
 
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
-
+			pacmanEatNewDot = true;
 		}
-		System.out.println(dotRemoved);
 
 		setChanged();
 		notifyObservers();
@@ -68,6 +69,13 @@ public class Board extends Observable implements Serializable {
 					break;
 				case 2:
 					board[i][j] = new FalsePath();
+					break;
+				case 4:
+					board[i][j] = new Path();
+					break;
+				case 5:
+					board[i][j] = new Path();
+					break;
 				case 6:
 					board[i][j] = new Hell();
 					break;
@@ -98,7 +106,7 @@ public class Board extends Observable implements Serializable {
 				}
 			}
 		}
-		// linkTeleports();
+		linkTeleports();
 
 	}
 
@@ -107,11 +115,11 @@ public class Board extends Observable implements Serializable {
 		for (int i = 0; i < levelDots.length; i++) {
 			for (int j = 0; j < levelDots.length; j++) {
 				switch (levelDots[i][j]) {
-				case 1:
+				case 4:
 
 					dots[i][j] = new Dot();
 					break;
-				case 2:
+				case 5:
 					dots[i][j] = new SuperDot();
 					break;
 
@@ -133,5 +141,10 @@ public class Board extends Observable implements Serializable {
 
 	public void setDots(Dot[][] dots) {
 		this.dots = dots;
+	}
+
+	public boolean pacmanEatNewDot() {
+		// TODO Auto-generated method stub
+		return pacmanEatNewDot;
 	}
 }
