@@ -8,6 +8,7 @@ public class Ghost extends Creature {
 	public Ghost(Square position) {
 		this.position = position;
 		identy = "Ghost";
+		super.eateable = false;
 	}
 
 	public void eatPacman() {

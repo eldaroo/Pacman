@@ -1,17 +1,20 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 public abstract class Creature extends Observable {
 
 	boolean alive = true;
-
+	public boolean eateable = true;
+	
 	Direction direction = Direction.LEFT;
 	String identy = null;
 
 	Square position = null;
 
 	Direction potentialDirection = Direction.LEFT;
+
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
@@ -65,4 +68,6 @@ public abstract class Creature extends Observable {
 	public void setPotentialDirection(Direction potentialDirection) {
 		this.potentialDirection = potentialDirection;
 	}
+
+	
 }

@@ -8,11 +8,15 @@ public class Board extends Observable implements Serializable {
 
 	private static final long serialVersionUID = -6472116531941544087L;
 
+	
 	Square[][] board;
 	Dot dotRemoved;
 	Dot[][] dots;
 	ArrayList<Square> teleportList = new ArrayList<Square>();
-
+	
+	public boolean superMode = false;
+	
+	
 	public Board(int[][] levelBoard, int[][] levelDots) {
 		makeBoard(levelBoard);
 		makeDots(levelDots);
@@ -23,14 +27,20 @@ public class Board extends Observable implements Serializable {
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
 
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
+			if (dotRemoved.superDot == true)
+				superMode=true;
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
 
 		}
+		
+		
 		System.out.println(dotRemoved);
 
 		setChanged();
 		notifyObservers();
 	}
+	
+	
 
 	public Square[][] getBoard() {
 		return board;
