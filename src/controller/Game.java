@@ -26,6 +26,7 @@ public class Game implements KeyListener {
 	static Game game = new Game();
 	static Ghost ghost;
 	static CreaturesView ghostView;
+	static int superTime = 0;
 
 	static JLayeredPane layers;
 	static Pacman pacman;
@@ -117,8 +118,58 @@ public class Game implements KeyListener {
 			ghost.move();
 			pacman.move();
 			board.eatingDot(pacman);
-
+			if (board.superMode) 
+				SUPERMODE(ghost, pacman);
 		}
 	}
 
+	public void  SUPERMODE(Ghost ghost, Pacman pacman) {
+		pacman.eateable = false;
+		ghost.eateable = true;
+			
+		while (board.superMode) {
+				try {
+					Thread.sleep(80);
+
+			} catch (InterruptedException time) {
+
+			}
+				
+			/*	
+			creatures.get(indexPacman).eateable = false;
+			for (Creature creature : creatures) {
+				if ((creature.identy=="Ghost")&&(creature.alive)) {
+					creature.eateable = true;
+				}
+			}
+			 <<<CUANDO SEAN VARIAS CRIATURAS>>>	
+			*/
+				
+			ghost.move();
+			pacman.move();
+			pacman.eatingGhosts(ghost, pacman);
+			board.eatingDot(pacman);
+
+			superTime++;
+			System.out.println("caca");
+
+			//32 segundos??
+			if (superTime/12==30) {
+				superTime = 0;
+				/*for (Creature creature : creatures) {
+					if (creature.identy!="Pacman") {
+						creature.eateable = false;
+					}else creature.eateable = true;
+				} <<<CUANDO SEAN VARIAS CRIATURAS>>> */
+				pacman.eateable = true;
+				ghost.eateable = false;
+				board.superMode = false;
+			}
+			
+			//creatures.get(indexPacman).eatingGhosts(creatures, indexPacman);
+			//  <<<CUANDO SEAN VARIAS CRIATURAS>>>	
+				
+			
+		}
+		}
 }

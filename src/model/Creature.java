@@ -5,7 +5,7 @@ import java.util.Observable;
 public abstract class Creature extends Observable {
 
 	boolean alive = true;
-
+	public boolean eateable = true;
 	Direction direction = Direction.LEFT;
 	String identy = null;
 

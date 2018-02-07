@@ -11,7 +11,9 @@ public class Board extends Observable implements Serializable {
 	Square[][] board;
 	Dot dotRemoved;
 	boolean pacmanEatNewDot;
+	public boolean superMode = false;
 	Dot[][] dots;
+	
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
 	public Board(int[][] levelBoard, int[][] levelDots) {
@@ -25,6 +27,8 @@ public class Board extends Observable implements Serializable {
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
 
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
+			if (dotRemoved.superDot == true)
+				superMode=true;
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
 			pacmanEatNewDot = true;
 		}

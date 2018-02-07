@@ -6,10 +6,14 @@ public class Pacman extends Creature {
 		super();
 		this.position = position;
 		identy = "Pacman";
+		super.eateable = true;
 	}
 
-	public void eatGhost() {
-
+	public void eatingGhosts(Ghost ghost, Pacman pacman) {
+		//creatures.remove(indexPacman); <<<CUANDO SEAN VARIAS CRIATURAS>>>
+		
+		
 	}
+
 
 }
