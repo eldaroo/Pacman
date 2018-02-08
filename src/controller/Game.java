@@ -49,7 +49,7 @@ public class Game implements KeyListener {
 		board = new Board(boardconfiguration.level1BoardRecharged, boardconfiguration.level1BoardRecharged);
 		boardMatrix = board.getBoard();
 		dotMatrix = board.getDots();
-		ghost = new Ghost(boardMatrix[23][23]);
+		ghost = new Ghost(boardMatrix[23][22]);
 		pacman = new Pacman(boardMatrix[27][43]);
 
 	}
@@ -114,7 +114,7 @@ public class Game implements KeyListener {
 			} catch (InterruptedException time) {
 
 			}
-			ghost.pathFinder();
+			ghost.pathFinder(pacman, 10);
 			ghost.move();
 			pacman.move();
 			board.eatingDot(pacman);
