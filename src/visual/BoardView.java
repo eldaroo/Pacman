@@ -15,7 +15,7 @@ public class BoardView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 840);
 
-		int capa = 2000;
+		int capa = 1000;
 		JLabel[][] Fondo = new JLabel[60][60];
 		for (int i = 0; i < squareArray.length; i++) {
 			capa++;

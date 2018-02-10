@@ -49,8 +49,8 @@ public class Game implements KeyListener {
 		board = new Board(boardconfiguration.level1BoardRecharged, boardconfiguration.level1BoardRecharged);
 		boardMatrix = board.getBoard();
 		dotMatrix = board.getDots();
-		ghost = new Ghost(boardMatrix[23][23]);
 		pacman = new Pacman(boardMatrix[27][43]);
+		ghost = new Ghost(boardMatrix[23][23]);
 
 	}
 

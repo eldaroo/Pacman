@@ -15,7 +15,7 @@ public class DotsView extends JPanel implements Observer {
 	JLabel[][] dotMatrix = new JLabel[60][60];
 
 	public DotsView(Dot[][] dots, JLayeredPane layers) {
-		int capa = 1;
+		int capa = 6000;
 
 		for (int i = 0; i < dots.length; i++) {
 			capa++;
