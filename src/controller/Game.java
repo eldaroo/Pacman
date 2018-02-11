@@ -185,8 +185,8 @@ public class Game implements KeyListener {
 			superTime++;
 			System.out.println("caca");
 
-			//32 segundos??
-			if (superTime/12==30) {
+			
+			if (superTime==100) {
 				superTime = 0;
 				/*for (Creature creature : creatures) {
 					if (creature.identy!="Pacman") {

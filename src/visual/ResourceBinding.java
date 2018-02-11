@@ -29,7 +29,9 @@ public abstract class ResourceBinding {
 		images.put(SuperDot.class, new ImageIcon("resources/superdot.png"));
 		
 	}
-
+	
+	//HAY QUE VER COMO RESOLVER LOS RECURSOS PARA LAS ANIMACIONES Y LOS CAMBIOS DE SENTIDO
+	
 	static public ImageIcon getImageIcon(Object object) {
 		return images.get(object.getClass());
 	}
