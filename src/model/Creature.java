@@ -15,6 +15,21 @@ public abstract class Creature extends Observable {
 
 	Direction potentialDirection = Direction.LEFT;
 
+	Position previousPosition = null;
+
+
+	boolean stoped = true;
+	
+	public Position getPreviousPosition() {
+		if (previousPosition==null) {
+			return position.getBoardPosition();
+		}else
+		return previousPosition;
+	}
+
+	public void setPreviousPosition(Position previousPosition) {
+		this.previousPosition = previousPosition;
+	}
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
@@ -44,6 +59,7 @@ public abstract class Creature extends Observable {
 
 		Square nextPotentialPosition = position.get(potentialDirection);
 		Square nextPosition = position.get(direction);
+		
 		if (nextPotentialPosition.isNavegable(this)) {
 			direction = potentialDirection;
 			setPosition(nextPotentialPosition);
@@ -52,6 +68,7 @@ public abstract class Creature extends Observable {
 			setPosition(nextPosition);
 
 		}
+		
 	}
 
 	public void setDirection(Direction direction) {
