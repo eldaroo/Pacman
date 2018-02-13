@@ -1,8 +1,14 @@
 package model;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashMap;
 import java.util.Observable;
 
-public abstract class Creature extends Observable {
+import org.json.simple.JSONStreamAware;
+import org.json.simple.JSONValue;
+
+public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	boolean alive = true;
 	public boolean eateable = true;
@@ -64,5 +70,14 @@ public abstract class Creature extends Observable {
 
 	public void setPotentialDirection(Direction potentialDirection) {
 		this.potentialDirection = potentialDirection;
+	}
+	
+	public void writeJSONString(Writer out) throws IOException {
+	
+		LinkedHashMap obj = new LinkedHashMap<>();
+		obj.put("direction", String.valueOf(direction));
+		obj.put("getX", String.valueOf(position.getBoardPosition().getX()));
+		obj.put("getY", String.valueOf(position.getBoardPosition().getY()));
+		JSONValue.writeJSONString(obj, out);
 	}
 }

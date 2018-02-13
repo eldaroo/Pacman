@@ -13,7 +13,7 @@ public class BoardView extends JFrame {
 	public BoardView(Square[][] squareArray, JLayeredPane layers) throws HeadlessException {
 		super("JUEGO");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 840);
+		setSize(600, 640);
 
 		int capa = 1000;
 		JLabel[][] Fondo = new JLabel[60][60];

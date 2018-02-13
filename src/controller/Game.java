@@ -2,8 +2,20 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Iterator;
 
 import javax.swing.JLayeredPane;
+import javax.swing.text.html.HTMLEditorKit.Parser;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import model.Board;
 import model.BoardConfiguration;
@@ -36,6 +48,10 @@ public class Game implements KeyListener {
 	static CreaturesView ghostView4;
 	static CreaturesView ghostView5;
 	static CreaturesView pacmanView;
+	static JSONArray Data = new JSONArray();
+	static JSONObject jObj = new JSONObject();
+	static JSONParser parser = new JSONParser();
+
 
 	static int superTime = 0;
 
@@ -43,11 +59,20 @@ public class Game implements KeyListener {
 
 	static boolean run = true;
 
-	public static void main(String[] args) {
+	public static boolean isPaused() {
+		return !run;
+	}
+
+	public void Pause(boolean run) {
+		Game.run = !run;
+	}
+
+	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 
 		game.initGame();
 		game.initVisual();
 		game.Play();
+		System.out.println("se esta ejecutando");
 
 	}
 
@@ -64,7 +89,6 @@ public class Game implements KeyListener {
 		ghost5 = new Ghost(boardMatrix[23][22]);
 		pacman = new Pacman(boardMatrix[27][43]);
 		
-		//ghost = new Ghost(boardMatrix[23][23]);
 
 	}
 
@@ -96,6 +120,7 @@ public class Game implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+
 		switch (arg0.getKeyCode()) {
 		case KeyEvent.VK_LEFT: {
 			pacman.setPotentialDirection(Direction.LEFT);
@@ -113,9 +138,32 @@ public class Game implements KeyListener {
 			pacman.setPotentialDirection(Direction.DOWN);
 			break;
 		}
+		case KeyEvent.VK_P: {
+			game.Pause(!isPaused());
+			break;
 		}
-
+		case KeyEvent.VK_S:{
+			try {
+				toPersist();
+			} catch (IOException e) {
+				System.out.println("error " +e);
+				e.printStackTrace();
+			}
+			break;
+		}
+		case KeyEvent.VK_R:
+		{
+			try {
+				game.recover();
+			} catch (IOException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		}
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
@@ -129,14 +177,14 @@ public class Game implements KeyListener {
 
 	}
 
-	private void Play() {
+	private void Play() throws IOException, ParseException, InterruptedException {
+		boolean ever=true;
+		while(ever)
+		{
 		while (run) {
-			try {
+
 				Thread.sleep(80);
 
-			} catch (InterruptedException time) {
-
-			}
 			ghost1.pathFinder(pacman, 1);
 			ghost2.pathFinder(pacman, 3);
 			ghost3.pathFinder(pacman, 5);
@@ -152,8 +200,47 @@ public class Game implements KeyListener {
 			board.eatingDot(pacman);
 			if (board.superMode) 
 				SUPERMODE(ghost1, pacman);
+
+		}
+		}
+		
+	}
+
+	private void recover() throws FileNotFoundException, IOException, ParseException {
+		game.Data.clear();
+		game.jObj.clear();
+		try {
+			game.Data = (JSONArray) parser.parse(new FileReader("pacman.Json"));
+
+			//Iterator<String> iterator = game.Data.iterator();
+			for (int i = 0; i < game.Data.size(); i++) {
+				
+				game.jObj = (JSONObject) game.Data.get(i);
+				String direccion = game.jObj.get("direction").toString();
+				String x = game.jObj.get("getX").toString();
+				String y = game.jObj.get("getY").toString();
+
+				System.out.println("el objeto"+ game.jObj + " va para la "+ direccion+ " y esta en la posición:"+ x +" , "+y);
+			}
+
+		} catch (ParseException e) {
+			System.out.println("error"+e);
+		} 
+	}
+
+	private void toPersist() throws IOException {
+		game.Data.add(ghost1);
+		game.Data.add(ghost2);
+		StringWriter out = new StringWriter();
+		game.Data.writeJSONString(out);
+		try(FileWriter file = new FileWriter("pacman.Json");){
+			file.write(out.toString());
+			file.flush();
+		} catch (Exception e){
+			System.out.println("exception "+ e);
 		}
 	}
+
 
 	public void  SUPERMODE(Ghost ghost, Pacman pacman) {
 		pacman.eateable = false;
@@ -176,15 +263,14 @@ public class Game implements KeyListener {
 			}
 			 <<<CUANDO SEAN VARIAS CRIATURAS>>>	
 			*/
-				
+			ghost.pathFinder(pacman, 10);	
 			ghost.move();
 			pacman.move();
 			pacman.eatingGhosts(ghost, pacman);
 			board.eatingDot(pacman);
 
 			superTime++;
-			System.out.println("caca");
-
+			
 			//32 segundos??
 			if (superTime/12==30) {
 				superTime = 0;
