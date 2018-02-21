@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class Ghost extends Creature {
 
-	public Ghost(Square position) {
+	public Ghost(String name, Square position) {
+		super(name);
 		this.position = position;
-		identy = "Ghost";
 		super.eateable = false;
 	}
 

@@ -25,7 +25,7 @@ public class DotsView extends JPanel implements Observer {
 					dotMatrix[i][j] = new JLabel();
 
 					dotMatrix[i][j].setIcon(ResourceBinding.getImageIcon(dots[i][j]));
-					dotMatrix[i][j].setBounds((i * 10) - 10, (j * 10) - 10, 30, 30);
+					dotMatrix[i][j].setBounds((i * 10) - 10, (j * 10) - 10+25, 30, 30);
 
 					layers.add(dotMatrix[i][j], capa);
 				}

@@ -2,10 +2,9 @@ package model;
 
 public class Pacman extends Creature {
 
-	public Pacman(Square position) {
-		super();
+	public Pacman(String name, Square position) {
+		super(name);
 		this.position = position;
-		identy = "Pacman";
 		super.eateable = true;
 	}
 

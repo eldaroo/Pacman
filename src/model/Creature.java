@@ -13,7 +13,12 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	boolean alive = true;
 	public boolean eateable = true;
 	Direction direction = Direction.LEFT;
-	String identy = null;
+	String name = null;
+
+	public Creature(String name) {
+		super();
+		this.name = name;
+	}
 
 	Square position = null;
 
@@ -75,9 +80,11 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	public void writeJSONString(Writer out) throws IOException {
 	
 		LinkedHashMap obj = new LinkedHashMap<>();
+		obj.put("name", String.valueOf(name));
 		obj.put("direction", String.valueOf(direction));
 		obj.put("getX", String.valueOf(position.getBoardPosition().getX()));
 		obj.put("getY", String.valueOf(position.getBoardPosition().getY()));
+		obj.put("status", alive);
 		JSONValue.writeJSONString(obj, out);
 	}
 }

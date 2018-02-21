@@ -30,6 +30,7 @@ public abstract class ResourceBinding {
 		
 	}
 	
+	
 	//HAY QUE VER COMO RESOLVER LOS RECURSOS PARA LAS ANIMACIONES Y LOS CAMBIOS DE SENTIDO
 	
 	static public ImageIcon getImageIcon(Object object) {
