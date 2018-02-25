@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import javax.swing.JOptionPane;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -46,6 +48,8 @@ public class Serializator {
 		try(FileWriter file = new FileWriter("pacman.Json");){
 			file.write(out.toString());
 			file.flush();
+			JOptionPane.showMessageDialog(null, "la partida ha sido guardada con exito");
+
 		} catch (Exception e){
 			System.out.println("exception "+ e);
 		}
