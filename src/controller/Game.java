@@ -26,6 +26,7 @@ import model.Board;
 import model.BoardConfiguration;
 import model.Direction;
 import model.Dot;
+import model.GameState;
 import model.Ghost;
 import model.Pacman;
 import model.Serializator;
@@ -33,6 +34,7 @@ import model.Square;
 import visual.BeginMenu;
 import visual.GameView;
 import visual.PlayerView;
+import visual.RecoveryMenu;
 import visual.CreaturesView;
 import visual.DotsView;
 
@@ -57,7 +59,6 @@ public class Game implements KeyListener {
 	static CreaturesView ghostView5;
 	static CreaturesView pacmanView;
 	static Serializator serializator = new Serializator();
-	static enum GameState {LOAD, NORMALMODE, SUPERMODE, POSTGAME, PAUSA}
 	static GameState gameState;
 	static BeginMenu beginMenu ;
 	static int superTime = 0;
@@ -65,6 +66,7 @@ public class Game implements KeyListener {
 	static boolean run = true;
 	static boolean firstTime= true;
 	static PlayerView playerView;
+	static RecoveryMenu	recoveryMenu;
 	
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {	
 		initGame();
@@ -74,6 +76,7 @@ public class Game implements KeyListener {
 	private static void initGame() {
 
 		gameView = new GameView();
+		recoveryMenu = new RecoveryMenu();
 		BoardConfiguration boardconfiguration = new BoardConfiguration();
 		board = new Board(boardconfiguration.level1BoardRecharged, boardconfiguration.level1BoardRecharged);
 		boardMatrix = board.getBoard();
@@ -120,22 +123,23 @@ public class Game implements KeyListener {
 		{
 			gameView.requestFocus();
 
-			System.out.println(gameState);
+			//System.out.println(gameState);
 
 			switch (gameState) {
 			case LOAD:
+				load();
+				
+				break;
+			case RECOVERY:
 				if (firstTime)
 				{
-					beginMenu = new BeginMenu();
-					gameView.setContentPane(beginMenu);
+					
+					recoveryMenu = new RecoveryMenu();
+					gameView.setContentPane(recoveryMenu);
 					firstTime = false;
 				}
-				if(beginMenu.wasPress())
-				{
-					gameState = GameState.NORMALMODE;
-					firstTime = true;
-					beginMenu.dispose();
-				}
+				
+
 				break;
 			case NORMALMODE:
 				if(firstTime)
@@ -158,6 +162,30 @@ public class Game implements KeyListener {
 			
 		}
 		
+	}
+
+	
+	private static void load() {
+		if (firstTime)
+		{
+			beginMenu = new BeginMenu();
+			gameView.setContentPane(beginMenu);
+			firstTime = false;
+		}
+		
+		if(beginMenu.wasPressbtnBegin())
+		{
+			gameState = GameState.NORMALMODE;
+			firstTime = true;
+			beginMenu.dispose();
+		}else if(beginMenu.wasPressBtnRecovery())
+		{
+			gameState = GameState.RECOVERY;
+			beginMenu.dispose();
+			firstTime = true;
+
+			
+		}
 	}
 
 	private static void pausa() {
@@ -292,7 +320,7 @@ public class Game implements KeyListener {
 			e.printStackTrace();
 		}
 	}
-	private void recover() throws FileNotFoundException, IOException, ParseException {
+	public static void recovery() throws FileNotFoundException, IOException, ParseException {
 
 		JSONArray Data = serializator.recover();
 		JSONObject jObj;
@@ -308,6 +336,14 @@ public class Game implements KeyListener {
 		} //Agarra cada objeto JSON y le extrae sus variables
 	}
 	
+	public static GameState getGameState() {
+		return gameState;
+	}
+
+	public static void setGameState(GameState gameState) {
+		Game.gameState = gameState;
+	}
+
 	public static boolean isPaused() {
 		return !run;
 	}

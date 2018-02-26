@@ -20,8 +20,8 @@ import java.awt.BorderLayout;
 
 public class BeginMenu extends JInternalFrame implements ActionListener {
 
-	private boolean recovery = false;
-	private boolean press = false;
+	private boolean pressRecovery = false;
+	private boolean pressBegin = false;
 	JLayeredPane layers = new JLayeredPane();
 	JButton btnRecovery;
 	JButton btnBegin;
@@ -31,7 +31,7 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		
 		btnBegin = new JButton("Comenzar");
 		btnBegin.setBounds(200, 400, 137, 29);
-		btnBegin.addActionListener(this);
+		btnBegin.addActionListener(this );
 		
 
 		
@@ -56,8 +56,8 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		setBounds(200, 200, 600, 650);
 	}
 
-	public boolean wasPress() {
-		return press;
+	public boolean wasPressbtnBegin() {
+		return pressBegin;
 	}
 
 	@Override
@@ -65,18 +65,18 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 
 		if (e.getSource()==btnBegin)
 		{
-			press=true;
+			pressBegin=true;
 		}
 		else if  (e.getSource()==btnRecovery)
 		{
-			recovery = true;
+			pressRecovery = true;
 		}
 
 			
 	}
 
-	public JButton getBtnRecovery() {
-		return btnRecovery;
+	public boolean wasPressBtnRecovery() {
+		return pressRecovery;
 	}
 
 }
