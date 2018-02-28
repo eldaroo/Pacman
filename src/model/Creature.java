@@ -10,8 +10,7 @@ import org.json.simple.JSONValue;
 
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
-	boolean alive = true;
-	public boolean eateable = true;
+	public boolean alive = true;
 	Direction direction = Direction.LEFT;
 	String name = null;
 
@@ -40,8 +39,9 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		return potentialDirection;
 	}
 
-	public boolean isDead() {
-		return !alive;
+	public void isDead() {
+		System.out.println("muere");
+		alive = false;
 	}
 
 	public void kill() {

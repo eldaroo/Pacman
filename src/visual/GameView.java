@@ -24,6 +24,9 @@ public class GameView extends JFrame implements ActionListener {
 	public GameView() throws HeadlessException {
 		super("JUEGO");
 		setResizable(false);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		//setUndecorated(true);
+		//PANTALLA COMPLETA!
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 650);
 		getContentPane().setLayout(null);

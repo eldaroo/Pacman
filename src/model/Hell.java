@@ -8,7 +8,8 @@ public class Hell extends Square {
 
 	@Override
 	public boolean isNavegable(Creature creature) {
-		return creature.isDead();
+		//return creature.isDead();
+		return true;
 	}
 
 }
