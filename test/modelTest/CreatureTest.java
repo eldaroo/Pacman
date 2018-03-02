@@ -11,7 +11,7 @@ import model.Board;
 import model.BoardConfiguration;
 import model.Ghost;
 import model.Pacman;
-
+/*
 public class CreatureTest {
 	Board board;
 	Ghost ghost;
@@ -40,4 +40,4 @@ public class CreatureTest {
 		assertEquals(pacman.getPosition().isNavegable(pacman), true);
 
 	}
-}
+}*/

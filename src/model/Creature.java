@@ -79,7 +79,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	
 	public void writeJSONString(Writer out) throws IOException {
 	
-		LinkedHashMap obj = new LinkedHashMap<>();
+		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
 		obj.put("name", String.valueOf(name));
 		obj.put("direction", String.valueOf(direction));
 		obj.put("getX", String.valueOf(position.getBoardPosition().getX()));

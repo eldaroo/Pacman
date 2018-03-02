@@ -90,7 +90,7 @@ public class Game implements KeyListener {
 
 		gameView = new GameView();
 		BoardConfiguration boardconfiguration = new BoardConfiguration();
-		board = new Board(boardconfiguration.level1BoardRecharged, boardconfiguration.level1BoardRecharged);
+		board = new Board(boardconfiguration.level1BoardRecharged);
 		boardMatrix = board.getBoard();
 		dotMatrix = board.getDots();
 		ghost1 = new Ghost("ghost1", boardMatrix[23][22]);
@@ -253,7 +253,6 @@ public class Game implements KeyListener {
 
 		while (gameState.equals(GameState.NORMALMODE)) {
 			// gameView.requestFocus();
-
 			Thread.sleep(80);
 
 			ghost1.pathFinder(pacman, 1);
@@ -338,9 +337,11 @@ public class Game implements KeyListener {
 	}
 
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
-
-		serializator.recover(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-		
+		Dot[][] dotsArraySaved = serializator.recover(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
+		board.setDots(dotsArraySaved); 
+		recoveryMenu.dispose();
+		setGameState(GameState.NORMALMODE);
+		setFirstTime(true);
 	}
 
 	public static void respawn() {

@@ -21,13 +21,13 @@ public class Board extends Observable implements Serializable {
 
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	public int lifes= 3;
+	public long lifes= 3;
 
-	public int score = 0;
+	public long score = 0;
 
-	public Board(int[][] levelBoard, int[][] levelDots) {
-		makeBoard(levelBoard);
-		makeDots(levelDots);
+	public Board(int[][] level1) {
+		makeBoard(level1);
+		makeDots(level1);
 	}
 
 	public void eatingDot(Pacman pacman) {

@@ -18,8 +18,9 @@ public class Dot extends Observable {
 
 	public void writeJSONString(Writer out) throws IOException {
 		
-		LinkedHashMap obj = new LinkedHashMap<>();
-		obj.put("position", String.valueOf(position));
+		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
+		obj.put("xPosition", String.valueOf(position.getBoardPosition().getX()));
+		obj.put("yPosition", String.valueOf(position.getBoardPosition().getY()));
 		obj.put("superDot", String.valueOf(superDot));
 		JSONValue.writeJSONString(obj, out);
 	}
