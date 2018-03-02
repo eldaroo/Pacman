@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import controller.Game;
 
 import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import model.Direction;
@@ -18,8 +19,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JButton;
 
-public class RecoveryMenu extends JPanel{
-	public RecoveryMenu() {
+public class RecoveryMenu extends JInternalFrame{
+	Game game = new Game();
+	public RecoveryMenu(Game game, GameView gameView) {
+		this.game= game;
 		setBounds(200, 200, 600, 650);
 
 		setLayout(null);
@@ -42,7 +45,8 @@ public class RecoveryMenu extends JPanel{
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					Game.setGameState(GameState.LOAD);
-					
+					Game.setFirstTime(true);
+					dispose();
 			}
 		});
 		

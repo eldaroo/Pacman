@@ -1,8 +1,13 @@
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Observable;
+
+import org.json.simple.JSONValue;
 
 public class Board extends Observable implements Serializable {
 
@@ -16,6 +21,10 @@ public class Board extends Observable implements Serializable {
 
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
+	public int lifes= 3;
+
+	public int score = 0;
+
 	public Board(int[][] levelBoard, int[][] levelDots) {
 		makeBoard(levelBoard);
 		makeDots(levelDots);
@@ -25,11 +34,11 @@ public class Board extends Observable implements Serializable {
 
 		pacmanEatNewDot = false;
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
-			pacman.score += 10;
+			score += 10;
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
 			if (dotRemoved.superDot == true) {
 				superMode = true;
-				pacman.score += 20;
+				score += 20;
 			}
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
 			pacmanEatNewDot = true;
@@ -152,5 +161,13 @@ public class Board extends Observable implements Serializable {
 	public boolean pacmanEatNewDot() {
 		// TODO Auto-generated method stub
 		return pacmanEatNewDot;
+	}
+	
+	public void writeJSONString(Writer out) throws IOException {
+		
+		LinkedHashMap obj = new LinkedHashMap<>();
+		obj.put("score", score);
+		obj.put("lifes", lifes);
+		JSONValue.writeJSONString(obj, out);
 	}
 }

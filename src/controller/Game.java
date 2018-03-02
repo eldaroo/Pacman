@@ -64,6 +64,14 @@ public class Game implements KeyListener {
 
 	static Serializator serializator = new Serializator();
 	static GameState gameState;
+	public static boolean isFirstTime() {
+		return firstTime;
+	}
+
+	public static void setFirstTime(boolean firstTime) {
+		Game.firstTime = firstTime;
+	}
+
 	static BeginMenu beginMenu;
 	static int superTime = 0;
 	static int hellTime = 0;
@@ -81,7 +89,6 @@ public class Game implements KeyListener {
 	private static void initGame() {
 
 		gameView = new GameView();
-		recoveryMenu = new RecoveryMenu();
 		BoardConfiguration boardconfiguration = new BoardConfiguration();
 		board = new Board(boardconfiguration.level1BoardRecharged, boardconfiguration.level1BoardRecharged);
 		boardMatrix = board.getBoard();
@@ -126,8 +133,6 @@ public class Game implements KeyListener {
 		while (ever) {
 			gameView.requestFocus();
 
-			// System.out.println(gameState);
-
 			switch (gameState) {
 			case LOAD:
 				load();
@@ -136,7 +141,7 @@ public class Game implements KeyListener {
 			case RECOVERY:
 				if (firstTime) {
 
-					recoveryMenu = new RecoveryMenu();
+					recoveryMenu = new RecoveryMenu(game, gameView);
 					gameView.setContentPane(recoveryMenu);
 					firstTime = false;
 				}
@@ -193,9 +198,9 @@ public class Game implements KeyListener {
 	}
 
 	private static void postGame() {
-		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+pacman.score);
+		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
 		firstTime = true;
-		pacman.lifes = 3;
+		board.lifes = 3;
 		gameState = GameState.LOAD;
 	}
 
@@ -217,7 +222,7 @@ public class Game implements KeyListener {
 			ghost.pathFinder(pacman, 10);
 			ghost.move();
 			pacman.move();
-			pacman.eatingGhosts(ghost, pacman);
+			pacman.eatingGhosts(ghost, pacman, board);
 			board.eatingDot(pacman);
 
 			superTime++;
@@ -268,15 +273,15 @@ public class Game implements KeyListener {
 				hellTime++;
 			}
 
-			ghost1.eatPacman(pacman);
-			ghost2.eatPacman(pacman);
-			ghost3.eatPacman(pacman);
-			ghost4.eatPacman(pacman);
-			ghost5.eatPacman(pacman);
+			ghost1.eatPacman(pacman,board);
+			ghost2.eatPacman(pacman,board);
+			ghost3.eatPacman(pacman,board);
+			ghost4.eatPacman(pacman,board);
+			ghost5.eatPacman(pacman,board);
 
 			if (!pacman.alive) {
 				gameState = GameState.RESPAWN;
-				if (pacman.lifes <= 0) {
+				if (board.lifes <= 0) {
 					gameState = GameState.POSTGAME;
 				}
 			} else {
@@ -325,7 +330,7 @@ public class Game implements KeyListener {
 	public static void save() {
 		try {
 
-			serializator.toPersist(pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
+			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
 		} catch (IOException e) {
 			System.out.println("error " + e);
 			e.printStackTrace();
@@ -334,22 +339,12 @@ public class Game implements KeyListener {
 
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
 
-		JSONArray Data = serializator.recover();
-		JSONObject jObj;
-		for (int i = 0; i < Data.size(); i++) {
-
-			jObj = (JSONObject) Data.get(i);
-			String name = jObj.get("name").toString();
-			String direction = jObj.get("direction").toString();
-			String x = jObj.get("getX").toString();
-			String y = jObj.get("getY").toString();
-
-			System.out.println(name + " va para la " + direction + " y esta en la posición:" + x + " , " + y);
-		} // Agarra cada objeto JSON y le extrae sus variables
+		serializator.recover(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
+		
 	}
 
 	public static void respawn() {
-		System.out.println("Te quedan " + pacman.lifes + " vidas.");
+		System.out.println("Te quedan " + board.lifes + " vidas.");
 		pacman.alive = true;
 		gameState = GameState.NORMALMODE;
 	}
