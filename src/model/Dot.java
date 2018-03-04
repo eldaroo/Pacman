@@ -22,7 +22,7 @@ public class Dot extends Observable implements JSONStreamAware{
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
 		obj.put("xPosition", String.valueOf(getBoardPosition().getX()));
 		obj.put("yPosition", String.valueOf(getBoardPosition().getY()));
-		//obj.put("superDot", String.valueOf(superDot));
+		obj.put("superDot", String.valueOf(superDot));
 		JSONValue.writeJSONString(obj, out);
 	}
 

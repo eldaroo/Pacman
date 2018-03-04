@@ -32,33 +32,32 @@ public class Serializator {
 	
 		try (FileReader file = new FileReader("pacman.Json");){
 			jObj = (JSONObject) parser.parse(file);//Agarra el archivo y LO GUARDA EN UN objeto lleno de arrays que dentro tienen objetos JSON
-			//Iterator<String> iterator = game.Data.iterator(); // (otra forma de recorrer el JSON Array) 
 		} catch (ParseException e) {
 			System.out.println("error "+e);
 		} 
 		
+		board.score = (long) jObj.get("score");
+		board.lifes = (long) jObj.get("lifes");
+		
 		jCreatures = (JSONArray) jObj.get("Creatures") ;
-		//jDots=(JSONArray) jObj.get("Dots");
+		jDots=(JSONArray) jObj.get("Dots");
 		System.out.println(jDots.isEmpty());
 		for (int i = 0; i < jDots.size(); i++) {
 
 				jObj = (JSONObject)jDots.get(i);
-				long x = (long) jObj.get("xPosition");
-				long y = (long) jObj.get("yPosition");
+				int x = Integer.parseInt((String) jObj.get("xPosition")) ;
+				int y =Integer.parseInt((String)  jObj.get("yPosition"));
 
-				if ((boolean) jObj.get("superDot")) {
+				if (Boolean.parseBoolean((String) jObj.get("superDot"))) {
 					dotsArraySaved[(int) x][(int) y]= new SuperDot();
 
-				} else if(!(boolean) jObj.get("superDot")){
+				} else if(!Boolean.parseBoolean((String) jObj.get("superDot"))){
 					dotsArraySaved[(int) x][(int) y]= new Dot();
 				}
 				dotsArraySaved[(int) x][(int) y].position = board.board[(int) x][(int) y];
 
 		} // Agarra cada objeto JSON y le extrae sus variables
-		
-		board.score = (long) jObj.get("score");
-		board.lifes = (long) jObj.get("lifes");
-		
+				
 		return dotsArraySaved;
 
 	}
