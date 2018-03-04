@@ -64,13 +64,7 @@ public class Game implements KeyListener {
 
 	static Serializator serializator = new Serializator();
 	static GameState gameState;
-	public static boolean isFirstTime() {
-		return firstTime;
-	}
 
-	public static void setFirstTime(boolean firstTime) {
-		Game.firstTime = firstTime;
-	}
 
 	static BeginMenu beginMenu;
 	static int superTime = 0;
@@ -82,30 +76,34 @@ public class Game implements KeyListener {
 	static RecoveryMenu recoveryMenu;
 
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+		
+		
 		initGame();
 		play();
+
+
 	}
 
 	private static void initGame() {
-
+		game = new Game();
+		gameState = GameState.LOAD;
 		gameView = new GameView();
 		BoardConfiguration boardconfiguration = new BoardConfiguration();
 		board = new Board(boardconfiguration.level1BoardRecharged);
 		boardMatrix = board.getBoard();
-		dotMatrix = board.getDots();
 		ghost1 = new Ghost("ghost1", boardMatrix[23][22]);
 		ghost2 = new Ghost("ghost2", boardMatrix[23][22]);
 		ghost3 = new Ghost("ghost3", boardMatrix[23][22]);
 		ghost4 = new Ghost("ghost4", boardMatrix[23][22]);
 		ghost5 = new Ghost("ghost5", boardMatrix[23][22]);
 		pacman = new Pacman("pacman", boardMatrix[27][43]);
-		gameState = GameState.LOAD;
 
 	}
 
 	private static void initVisual() {
 
-		game = new Game();
+		dotMatrix = board.getDots();
+		System.out.println(dotMatrix.length);
 		gameView.addKeyListener(game);
 		layers = new JLayeredPane();
 		dotsView = new DotsView(dotMatrix, layers);
@@ -118,6 +116,7 @@ public class Game implements KeyListener {
 		ghostView4 = new CreaturesView(ghost4, layers);
 		ghostView5 = new CreaturesView(ghost5, layers);
 		gameView.setContentPane(layers);
+		gameView.setVisible(true);
 		pacman.addObserver(pacmanView);
 		ghost1.addObserver(ghostView1);
 		ghost2.addObserver(ghostView2);
@@ -252,7 +251,7 @@ public class Game implements KeyListener {
 	private static void normalMode() throws InterruptedException {
 
 		while (gameState.equals(GameState.NORMALMODE)) {
-			// gameView.requestFocus();
+
 			Thread.sleep(80);
 
 			ghost1.pathFinder(pacman, 1);
@@ -326,10 +325,20 @@ public class Game implements KeyListener {
 		}
 	}
 
+	public static boolean isFirstTime() {
+		return firstTime;
+	}
+
+	public static void setFirstTime(boolean firstTime) {
+		Game.firstTime = firstTime;
+	}
+	
 	public static void save() {
 		try {
 
 			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
+			gameView.requestFocus();
+
 		} catch (IOException e) {
 			System.out.println("error " + e);
 			e.printStackTrace();
@@ -338,7 +347,7 @@ public class Game implements KeyListener {
 
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
 		Dot[][] dotsArraySaved = serializator.recover(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-		board.setDots(dotsArraySaved); 
+		board.setDots(dotsArraySaved);
 		recoveryMenu.dispose();
 		setGameState(GameState.NORMALMODE);
 		setFirstTime(true);

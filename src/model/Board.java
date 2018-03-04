@@ -25,15 +25,17 @@ public class Board extends Observable implements Serializable {
 
 	public long score = 0;
 
+
 	public Board(int[][] level1) {
 		makeBoard(level1);
 		makeDots(level1);
 	}
 
 	public void eatingDot(Pacman pacman) {
-
 		pacmanEatNewDot = false;
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
+			System.out.println("se esta comiendo un dot");
+
 			score += 10;
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
 			if (dotRemoved.superDot == true) {
@@ -133,7 +135,9 @@ public class Board extends Observable implements Serializable {
 				case 4:
 
 					dots[i][j] = new Dot();
+					//System.out.println("dot x: "+i +" , y: "+ j);
 					break;
+					
 				case 5:
 					dots[i][j] = new SuperDot();
 					break;

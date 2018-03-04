@@ -1,5 +1,11 @@
 package model;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashMap;
+
+import org.json.simple.JSONValue;
+
 public abstract class Square {
 	private Square down = null;
 	private Square left = null;
@@ -7,6 +13,10 @@ public abstract class Square {
 	private Square up = null;
 	private Position boardPosition = null;
 
+
+	public Square() {
+		super();
+	}
 
 	public Square get(Direction direction) {
 
@@ -65,5 +75,5 @@ public abstract class Square {
 	public void setUp(Square up) {
 		this.up = up;
 	}
-
+	
 }
