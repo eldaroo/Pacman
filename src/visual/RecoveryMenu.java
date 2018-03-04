@@ -25,21 +25,17 @@ public class RecoveryMenu extends JInternalFrame{
 		this.game= game;
 		setBounds(200, 200, 600, 650);
 
-		setLayout(null);
+		getContentPane().setLayout(null);
 		setVisible(true);
 		System.out.println("hola");
 		
-		JLabel lblSeleccioneUnaPartida = new JLabel("Seleccione una partida:");
-		lblSeleccioneUnaPartida.setBounds(127, 54, 134, 19);
-		add(lblSeleccioneUnaPartida);
+		JLabel lblSeleccioneUnaPartida = new JLabel("Tiene una partida guardada del dia ");
+		lblSeleccioneUnaPartida.setBounds(144, 243, 233, 23);
+		getContentPane().add(lblSeleccioneUnaPartida);
 		
 		JList list = new JList();
 		list.setBounds(93, 229, 1, 1);
-		add(list);
-		
-		JList list_1 = new JList();
-		list_1.setBounds(207, 98, 127, 191);
-		add(list_1);
+		getContentPane().add(list);
 		
 		JButton btnBack = new JButton("Atras");
 		btnBack.addActionListener(new ActionListener() {
@@ -51,11 +47,11 @@ public class RecoveryMenu extends JInternalFrame{
 		});
 		
 		btnBack.setBounds(112, 324, 89, 23);
-		add(btnBack);
+		getContentPane().add(btnBack);
 		
 		JButton btnBegin = new JButton("Comenzar");
 		btnBegin.setBounds(269, 324, 89, 23);
-		add(btnBegin);
+		getContentPane().add(btnBegin);
 		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {

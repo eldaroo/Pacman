@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,7 +34,7 @@ public class Serializator {
 		try (FileReader file = new FileReader("pacman.Json");){
 			jObj = (JSONObject) parser.parse(file);//Agarra el archivo y LO GUARDA EN UN objeto lleno de arrays que dentro tienen objetos JSON
 		} catch (ParseException e) {
-			System.out.println("error "+e);
+			JOptionPane.showMessageDialog(null, "Usted no tiene partidas guardadas");
 		} 
 		
 		board.score = (long) jObj.get("score");

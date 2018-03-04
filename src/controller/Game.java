@@ -124,6 +124,7 @@ public class Game implements KeyListener {
 		ghost4.addObserver(ghostView4);
 		ghost5.addObserver(ghostView5);
 		board.addObserver(dotsView);
+		board.addObserver(gameView);
 
 	}
 
