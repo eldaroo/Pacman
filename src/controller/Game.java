@@ -48,7 +48,7 @@ public class Game implements KeyListener, Runnable {
 	static Dot[][] dotMatrix;
 	static DotsView dotsView;
 	static Game game;
-	static BoardView boardView;
+	static Thread boardView;
 	static Pacman pacman;
 
 	static Ghost ghost1;
@@ -78,11 +78,13 @@ public class Game implements KeyListener, Runnable {
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
 
-	public Game(Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
+	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
+		this.beginMenu = beginMenu;
 		this.layers = layers;
 		this.board= board;
 		this.boardConfiguration = boardConfiguration;
+		this.boardView= boardView;
 
 	}
 	public void run () {
@@ -92,7 +94,6 @@ public class Game implements KeyListener, Runnable {
 		try {
 			play();
 		} catch (IOException | ParseException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -100,7 +101,7 @@ public class Game implements KeyListener, Runnable {
 	}
 
 
-	private static void initGame() {
+	private void initGame() {
 		//game = new Game();
 		gameState = GameState.LOAD;
 		gameView = new GameView();
@@ -114,14 +115,13 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-	private static void initVisual() {
+	private void initVisual() {
 
+		gameView.setContentPane(layers);
+
+		gameView.addKeyListener(this);
 		dotMatrix = board.getDots();
-		System.out.println(dotMatrix.length);
-		gameView.addKeyListener(game);
-		layers = new JLayeredPane();
 		dotsView = new DotsView(dotMatrix, layers);
-		//boardView =new BoardView(boardMatrix, layers);
 		playerView = new PlayerView(layers);
 		pacmanView = new CreaturesView(pacman, layers);
 		ghostView1 = new CreaturesView(ghost1, layers);
@@ -129,7 +129,6 @@ public class Game implements KeyListener, Runnable {
 		ghostView3 = new CreaturesView(ghost3, layers);
 		ghostView4 = new CreaturesView(ghost4, layers);
 		ghostView5 = new CreaturesView(ghost5, layers);
-		gameView.setContentPane(layers);
 		gameView.setVisible(true);
 		pacman.addObserver(pacmanView);
 		ghost1.addObserver(ghostView1);
@@ -142,7 +141,7 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-	private static void play() throws IOException, ParseException, InterruptedException {
+	private void play() throws IOException, ParseException, InterruptedException {
 		boolean ever = true;
 		while (ever) {
 			gameView.requestFocus();
@@ -188,7 +187,7 @@ public class Game implements KeyListener, Runnable {
 
 	private static void load() {
 		if (firstTime) {
-			beginMenu = new BeginMenu();
+
 			gameView.setContentPane(beginMenu);
 			firstTime = false;
 		}

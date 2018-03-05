@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
 
 public class BeginMenu extends JInternalFrame implements ActionListener {
 
@@ -25,33 +26,31 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 	JLayeredPane layers = new JLayeredPane();
 	JButton btnRecovery;
 	JButton btnBegin;
+	JLabel lblLoading;
 	public BeginMenu() {
 		setBorder(new TitledBorder(null, "Menu de Arranque", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().setLayout(null);
 		
+		JLabel lblPacMan = new JLabel();
+		lblPacMan.setIcon(ResourceBinding.getImageIcon(this));
+		lblPacMan.setBounds(10, -268, 800,900);
+	
+		btnRecovery = new JButton("Recuperar partida");
+		btnRecovery.setBounds(200, 440, 137, 29);
+		btnRecovery.addActionListener(this);
+		
+		lblLoading = new JLabel("Loading");
+		lblLoading.setIcon(new ImageIcon("resources/62157.gif"));
+		lblLoading.setBounds(212, 380, 114, 94);
+
 		btnBegin = new JButton("Comenzar");
 		btnBegin.setBounds(200, 400, 137, 29);
 		btnBegin.addActionListener(this );
 		
+		layers.add(lblLoading);
 
-		
-		JLabel lblPacMan = new JLabel();
-		lblPacMan.setIcon(ResourceBinding.getImageIcon(this));
-		lblPacMan.setBounds(10, -268, 800,900);
-		
-		layers.add(btnBegin);
 		layers.add(lblPacMan);
-		
-		
 		setContentPane(layers);
-		
-		btnRecovery = new JButton("Recuperar partida");
-		btnRecovery.setBounds(200, 440, 137, 29);
-		layers.add(btnRecovery);
-		
-		
-		btnRecovery.addActionListener(this);
-		
 		setVisible(true);
 		setBounds(200, 200, 600, 650);
 	}
@@ -78,5 +77,4 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 	public boolean wasPressBtnRecovery() {
 		return pressRecovery;
 	}
-
 }

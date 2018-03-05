@@ -14,17 +14,19 @@ import controller.Game;
 import model.Board;
 import model.Square;
 
-public class BoardView  implements ActionListener, Observer, Runnable{
+public class BoardView extends Thread implements ActionListener, Observer{
 
 	JLabel lblScore;
 	JLabel lblLifes;
 	JButton  btnSave ;
 	Square[][] squareArray;
 	JLayeredPane layers;
-	public BoardView(Square[][] squareArray, JLayeredPane layers)
+	BeginMenu beginMenu;
+	public BoardView(BeginMenu beginMenu, Square[][] squareArray, JLayeredPane layers)
 	{
 		this.squareArray= squareArray;
 		this.layers = layers;
+		this.beginMenu = beginMenu;
 	}
 	
 	@Override
@@ -45,7 +47,7 @@ public class BoardView  implements ActionListener, Observer, Runnable{
 		layers.add(btnSave, 0);
 		btnSave.addActionListener((ActionListener) this);
 		
-		int capa = 1000;
+		int capa = 10000;
 		JLabel[][] Fondo = new JLabel[60][60];
 		for (int i = 0; i < squareArray.length; i++) {
 			capa++;
@@ -57,7 +59,12 @@ public class BoardView  implements ActionListener, Observer, Runnable{
 				layers.add(Fondo[i][j], capa);
 			}
 		}
-		System.out.println("termino de cargar el boardView");
+		
+		//Cuando se termina de cargar muestra los botones para comenzar
+		beginMenu.layers.remove(beginMenu.lblLoading);
+		beginMenu.repaint();
+		beginMenu.layers.add(beginMenu.btnBegin);
+		beginMenu.layers.add(beginMenu.btnRecovery);
 
 	}
 	@Override

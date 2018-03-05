@@ -9,6 +9,7 @@ import org.json.simple.parser.ParseException;
 
 import model.Board;
 import model.BoardConfiguration;
+import visual.BeginMenu;
 import visual.BoardView;
 
 public class Controller {
@@ -18,18 +19,18 @@ public class Controller {
 	static JLayeredPane layers;
 	static Board board;
 	static BoardConfiguration boardConfiguration;
+	static BeginMenu beginMenu = new BeginMenu();
 	
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 		boardConfiguration = new BoardConfiguration();
 		board= new Board(boardConfiguration.level1BoardRecharged);
 		layers = new JLayeredPane();
 		
-		game = new Thread( new Game(board, layers, boardConfiguration),"game");
-		boardView= new Thread ( new BoardView(board.getBoard(), layers), "boardView");
+		game = new Thread( new Game(beginMenu, boardView, board, layers, boardConfiguration),"game");
+		boardView= new BoardView(beginMenu, board.getBoard(), layers);
 	
 		game.start();
 		boardView.start();
-		boardView.join();
 		board.addObserver((Observer) boardView);
 	}
 }
