@@ -33,13 +33,14 @@ import model.Pacman;
 import model.Serializator;
 import model.Square;
 import visual.BeginMenu;
+import visual.BoardView;
 import visual.GameView;
 import visual.PlayerView;
 import visual.RecoveryMenu;
 import visual.CreaturesView;
 import visual.DotsView;
 
-public class Game implements KeyListener {
+public class Game implements KeyListener, Runnable {
 
 	static Board board;
 	static Square[][] boardMatrix;
@@ -47,6 +48,7 @@ public class Game implements KeyListener {
 	static Dot[][] dotMatrix;
 	static DotsView dotsView;
 	static Game game;
+	static BoardView boardView;
 	static Pacman pacman;
 
 	static Ghost ghost1;
@@ -61,6 +63,7 @@ public class Game implements KeyListener {
 	static CreaturesView ghostView4;
 	static CreaturesView ghostView5;
 	static CreaturesView pacmanView;
+	BoardConfiguration boardConfiguration ;
 
 	static Serializator serializator = new Serializator();
 	static GameState gameState;
@@ -75,22 +78,33 @@ public class Game implements KeyListener {
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
 
-	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+	public Game(Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
+	{
+		this.layers = layers;
+		this.board= board;
+		this.boardConfiguration = boardConfiguration;
+
+	}
+	public void run () {
 		
 		
 		initGame();
-		play();
+		try {
+			play();
+		} catch (IOException | ParseException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 	}
 
+
 	private static void initGame() {
-		game = new Game();
+		//game = new Game();
 		gameState = GameState.LOAD;
 		gameView = new GameView();
-		BoardConfiguration boardconfiguration = new BoardConfiguration();
-		board = new Board(boardconfiguration.level1BoardRecharged);
-		boardMatrix = board.getBoard();
+	    boardMatrix = board.getBoard();
 		ghost1 = new Ghost("ghost1", boardMatrix[23][22]);
 		ghost2 = new Ghost("ghost2", boardMatrix[23][22]);
 		ghost3 = new Ghost("ghost3", boardMatrix[23][22]);
@@ -107,7 +121,7 @@ public class Game implements KeyListener {
 		gameView.addKeyListener(game);
 		layers = new JLayeredPane();
 		dotsView = new DotsView(dotMatrix, layers);
-		gameView.createBoardView(boardMatrix, layers);
+		//boardView =new BoardView(boardMatrix, layers);
 		playerView = new PlayerView(layers);
 		pacmanView = new CreaturesView(pacman, layers);
 		ghostView1 = new CreaturesView(ghost1, layers);
@@ -124,7 +138,7 @@ public class Game implements KeyListener {
 		ghost4.addObserver(ghostView4);
 		ghost5.addObserver(ghostView5);
 		board.addObserver(dotsView);
-		board.addObserver(gameView);
+		//board.addObserver(boardView);
 
 	}
 
@@ -141,7 +155,7 @@ public class Game implements KeyListener {
 			case RECOVERY:
 				if (firstTime) {
 
-					recoveryMenu = new RecoveryMenu(game, gameView);
+					recoveryMenu = new RecoveryMenu(gameView);
 					gameView.setContentPane(recoveryMenu);
 					firstTime = false;
 				}
@@ -386,5 +400,15 @@ public class Game implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
+	
+
+	public static Square[][] getBoardMatrix() {
+		return boardMatrix;
+	}
+
+	public static JLayeredPane getLayers() {
+		return layers;
+	}
+
 
 }

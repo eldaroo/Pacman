@@ -20,9 +20,8 @@ import javax.swing.JList;
 import javax.swing.JButton;
 
 public class RecoveryMenu extends JInternalFrame{
-	Game game = new Game();
-	public RecoveryMenu(Game game, GameView gameView) {
-		this.game= game;
+	
+	public RecoveryMenu(GameView gameView) {
 		setBounds(200, 200, 600, 650);
 
 		getContentPane().setLayout(null);
