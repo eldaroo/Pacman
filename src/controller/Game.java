@@ -5,14 +5,17 @@ import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.print.DocFlavor.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -38,6 +41,7 @@ import model.Ghost;
 import model.Pacman;
 import model.Serializator;
 import model.Square;
+import sounds.beginning;
 import visual.BeginMenu;
 import visual.BoardView;
 import visual.GameView;
@@ -414,12 +418,30 @@ public class Game implements KeyListener, Runnable {
 
 	public void audioBeginning() throws LineUnavailableException, IOException, UnsupportedAudioFileException
 	{
-		//Sonidos
-		BufferedInputStream bis = new BufferedInputStream(getClass().getResourceAsStream("Sonidos/pacman_beginning.wav"));
+		/*
+		BufferedInputStream bis = new BufferedInputStream(getClass().getResourceAsStream("C:\\Users\\Alma\\Documents\\GitHub\\Pacman\\Sounds\\beginning.wav"));
 		AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
 	 Clip audioBeginning = AudioSystem.getClip();
 		audioBeginning.open(ais);
-		audioBeginning.start();
+		audioBeginning.start();*/
+	/*	
+	InputStream in = new FileInputStream("\\Sounds\\pacman-beginning\\pacman-beginning.wav"); 
+			
+			AudioStream audioBeginning = new AudioStream(in);
+	*/
+		/*
+		 java.net.URL url = this.getClass().getClassLoader().getResource("C:\\Users\\Alma\\Documents\\GitHub\\Pacman\\Sounds\\beginning.wav");
+         //System.out.println(url.getContent());
+		AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+         // Get a sound clip resource.
+         Clip clip = AudioSystem.getClip();
+         // Open audio clip and load samples from the audio input stream.
+         clip.open(audioIn);
+         clip.start();*/
+		
+		beginning sound = new beginning();
+		sound.play();
+		
 	}
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
