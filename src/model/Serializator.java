@@ -87,6 +87,7 @@ public class Serializator {
 		jObj.put("score", board.score);
 		jObj.put("lifes", board.lifes);
 		
+		
 		StringWriter out = new StringWriter();
 		jObj.writeJSONString(out);
 		try(FileWriter file = new FileWriter("pacman.Json");){

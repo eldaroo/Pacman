@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,6 +13,11 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -42,6 +48,8 @@ import visual.DotsView;
 
 public class Game implements KeyListener, Runnable {
 
+
+	
 	static Board board;
 	static Square[][] boardMatrix;
 	static GameView gameView;
@@ -77,6 +85,9 @@ public class Game implements KeyListener, Runnable {
 	static boolean firstTime = true;
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
+	static Square originalPositionPacman ; 
+	static Square originalPositionGhost ; 
+
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
@@ -93,7 +104,7 @@ public class Game implements KeyListener, Runnable {
 		initGame();
 		try {
 			play();
-		} catch (IOException | ParseException | InterruptedException e) {
+		} catch (IOException | ParseException | InterruptedException | LineUnavailableException | UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		}
 
@@ -102,16 +113,17 @@ public class Game implements KeyListener, Runnable {
 
 
 	private void initGame() {
-		//game = new Game();
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
-		ghost1 = new Ghost("ghost1", boardMatrix[23][22]);
-		ghost2 = new Ghost("ghost2", boardMatrix[23][22]);
-		ghost3 = new Ghost("ghost3", boardMatrix[23][22]);
-		ghost4 = new Ghost("ghost4", boardMatrix[23][22]);
-		ghost5 = new Ghost("ghost5", boardMatrix[23][22]);
-		pacman = new Pacman("pacman", boardMatrix[27][43]);
+	    originalPositionGhost =boardMatrix[23][22];
+	    originalPositionPacman =boardMatrix[27][43];
+		ghost1 = new Ghost("ghost1", originalPositionGhost);
+		ghost2 = new Ghost("ghost2", originalPositionGhost);
+		ghost3 = new Ghost("ghost3", originalPositionGhost);
+		ghost4 = new Ghost("ghost4", originalPositionGhost);
+		ghost5 = new Ghost("ghost5", originalPositionGhost);
+		pacman = new Pacman("pacman", originalPositionPacman);
 
 	}
 
@@ -141,7 +153,7 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-	private void play() throws IOException, ParseException, InterruptedException {
+	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 		boolean ever = true;
 		while (ever) {
 			gameView.requestFocus();
@@ -214,7 +226,9 @@ public class Game implements KeyListener, Runnable {
 		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
 		firstTime = true;
 		board.lifes = 3;
+		board.score = 0;
 		gameState = GameState.LOAD;
+		//gameView.dispose(boardView); Hay q buscar el equivalente a esto
 	}
 
 	private static void superMode(Ghost ghost, Pacman pacman) {
@@ -262,19 +276,21 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-	private static void normalMode() throws InterruptedException {
-
+	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
+		hellTime = 0;
+		audioBeginning();
+		Thread.sleep(1000);
 		while (gameState.equals(GameState.NORMALMODE)) {
 
 			Thread.sleep(80);
 
-			ghost1.pathFinder(pacman, 1);
-			ghost2.pathFinder(pacman, 3);
-			ghost3.pathFinder(pacman, 5);
-			ghost4.pathFinder(pacman, 7);
-			ghost5.pathFinder(pacman, 9);
-
 			if (hellTime == 100) {
+				ghost1.pathFinder(pacman, 1);
+				ghost2.pathFinder(pacman, 3);
+				ghost3.pathFinder(pacman, 5);
+				ghost4.pathFinder(pacman, 7);
+				ghost5.pathFinder(pacman, 9);
+
 				//EL HELLTIME LO DEBE TENER CADA GHOST EN FUNCION DE LA INTELIGENCIA
 				ghost1.move();
 				ghost2.move();
@@ -368,8 +384,15 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	public static void respawn() {
-		System.out.println("Te quedan " + board.lifes + " vidas.");
-		pacman.alive = true;
+		pacman.setPosition(originalPositionPacman);
+		ghost1.setPosition(originalPositionGhost);
+		ghost2.setPosition(originalPositionGhost);
+		ghost3.setPosition(originalPositionGhost);
+		ghost4.setPosition(originalPositionGhost);
+		ghost5.setPosition(originalPositionGhost);
+		
+		pacman.alive=true;
+		firstTime = true;
 		gameState = GameState.NORMALMODE;
 	}
 
@@ -389,6 +412,15 @@ public class Game implements KeyListener, Runnable {
 		Game.run = !run;
 	}
 
+	public void audioBeginning() throws LineUnavailableException, IOException, UnsupportedAudioFileException
+	{
+		//Sonidos
+		BufferedInputStream bis = new BufferedInputStream(getClass().getResourceAsStream("Sonidos/pacman_beginning.wav"));
+		AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
+	 Clip audioBeginning = AudioSystem.getClip();
+		audioBeginning.open(ais);
+		audioBeginning.start();
+	}
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
