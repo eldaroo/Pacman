@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -15,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.print.DocFlavor.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -40,6 +42,7 @@ import model.Ghost;
 import model.Pacman;
 import model.Serializator;
 import model.Square;
+import sounds.beginning;
 import visual.BeginMenu;
 import visual.BoardView;
 import visual.GameView;
@@ -416,22 +419,9 @@ public class Game implements KeyListener, Runnable {
 
 	public void audioBeginning() throws LineUnavailableException, UnsupportedAudioFileException, FileNotFoundException, InterruptedException
 	{
-		//Sonidos
-		//bis = new BufferedInputStream(getClass().getResourceAsStream("pacman_beginning.wav"));
-		try {
-		AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("pacman_beginning.wav")));
 
-
-		//AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
-		
-		Clip audioBeginning = AudioSystem.getClip();
-		audioBeginning.open(ais);
-		audioBeginning.start();
-		
-		}catch(IOException e){
-			System.err.println("CAGASTE LA WASKA");
-		}
-
+		beginning sound = new beginning();
+		sound.play();
 		
 	}
 	
