@@ -10,6 +10,9 @@ public class Ghost extends Creature {
 		this.position = position;
 	}
 
+	//public isDeath()
+	
+	
 	public void eatPacman(Pacman pacman, Board board) {
 		if (getBoardPosition() == pacman.getBoardPosition()) {
 			board.lifes--;
