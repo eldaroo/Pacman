@@ -25,7 +25,7 @@ public class Serializator {
 	static JSONParser parser = new JSONParser();
 
 	
-	public Dot[][] recover(Board board, Pacman pacman, Ghost ghost1, Ghost ghost2, Ghost ghost3, Ghost ghost4, Ghost ghost5) throws FileNotFoundException, IOException, ParseException,NullPointerException {
+	public Dot[][] recover(Board board, Pacman pacman) throws FileNotFoundException, IOException, ParseException,NullPointerException {
 		jCreatures.clear();
 		jObj.clear();
 		jDots.clear();
@@ -65,16 +65,12 @@ public class Serializator {
 	
 	
 	
-	public void toPersist(Board board,Creature pacman, Creature ghost1, Creature ghost2, Creature ghost3, Creature ghost4, Creature ghost5) throws IOException {
+	public void toPersist(Board board,Creature pacman) throws IOException {
 		Dot[][] dots = board.dots;
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
 		jCreatures.add(pacman);
-		jCreatures.add(ghost1);
-		jCreatures.add(ghost2);
-		jCreatures.add(ghost3);
-		jCreatures.add(ghost4);
-		jCreatures.add(ghost5);
+
 		jObj.put("Creatures", jCreatures);
 		
 		for (Dot[] dots2 : dots) {
