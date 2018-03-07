@@ -10,8 +10,11 @@ public class Ghost extends Creature {
 		this.position = position;
 	}
 
-	//public isDeath()
-	
+	//@Override
+	public  void isDead(Square target, Square[] hellZone)
+	{
+		target = hellZone.get(10);
+	}
 	
 	public void eatPacman(Pacman pacman, Board board) {
 		if (getBoardPosition() == pacman.getBoardPosition()) {
@@ -20,12 +23,12 @@ public class Ghost extends Creature {
 		}
 	}
 
-	public void pathFinder(Pacman pacman, int inteligence) {
+	public void pathFinder(Square target, int inteligence) {
 		Random random = new Random();
 		ArrayList<Direction> directionsAvailables = new ArrayList<Direction>();
 		int stupidity = 10 - inteligence;
 		Direction randomChoise = randomPotentialDirection();
-		Direction smartChoise = smartPotentialDirection(pacman);
+		Direction smartChoise = smartPotentialDirection(target);
 
 		for (int i = 0; i < inteligence; i++) {
 			directionsAvailables.add(smartChoise);
@@ -60,28 +63,28 @@ public class Ghost extends Creature {
 		return directionsAvailables.get(aux);
 	}
 
-	public Direction smartPotentialDirection(Pacman pacman) {
+	public Direction smartPotentialDirection(Square target) {
 
-		Position pacmanPosition = pacman.position.getBoardPosition();
+		Position targetPosition = target.getBoardPosition();
 		Position ghostPosition = position.getBoardPosition();
 		Random random = new Random();
 		ArrayList<Direction> smartDirectionsAvailables = new ArrayList<Direction>();
 		int aux = 0;
 
 		if ((position.getDown().isNavegable(this)) && (direction != Direction.UP)
-				&& (pacmanPosition.getY() >= ghostPosition.getY())) {
+				&& (targetPosition.getY() >= ghostPosition.getY())) {
 			smartDirectionsAvailables.add(Direction.DOWN);
 		}
 		if ((position.getLeft().isNavegable(this)) && (direction != Direction.RIGHT)
-				&& (pacmanPosition.getX() <= ghostPosition.getX())) {
+				&& (targetPosition.getX() <= ghostPosition.getX())) {
 			smartDirectionsAvailables.add(Direction.LEFT);
 		}
 		if ((position.getRight().isNavegable(this)) && (direction != Direction.LEFT)
-				&& (pacmanPosition.getX() >= ghostPosition.getX())) {
+				&& (targetPosition.getX() >= ghostPosition.getX())) {
 			smartDirectionsAvailables.add(Direction.RIGHT);
 		}
 		if ((position.getUp().isNavegable(this)) && (direction != Direction.DOWN)
-				&& (pacmanPosition.getY() <= ghostPosition.getY())) {
+				&& (targetPosition.getY() <= ghostPosition.getY())) {
 			smartDirectionsAvailables.add(Direction.UP);
 		}
 

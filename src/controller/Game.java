@@ -83,7 +83,8 @@ public class Game implements KeyListener, Runnable {
 	static Square originalPositionPacman ; 
 	static Square originalPositionGhost ; 
 	static int ghostQuantity = 5;
-
+	static Square target;
+	
 	static BufferedInputStream bis = null;
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
@@ -113,6 +114,7 @@ public class Game implements KeyListener, Runnable {
 	    originalPositionGhost =boardMatrix[23][22];
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
+	    target = pacman.getPosition();
 		pacman = new Pacman("pacman", originalPositionPacman);
 
 	}
@@ -230,7 +232,7 @@ public class Game implements KeyListener, Runnable {
 			 * creature.eateable = true; } } <<<CUANDO SEAN VARIAS CRIATURAS>>>
 			 */
 			pacman.move();
-			pacman.eatingGhosts(ghostsArray, pacman, board);
+			//pacman.eatingGhosts(ghostsArray, pacman, board, hellZone, target);
 			board.eatingDot(pacman);
 
 			superTime++;
@@ -266,7 +268,7 @@ public class Game implements KeyListener, Runnable {
 			Thread.sleep(80);
 
 			if (hellTime == 20) {
-				moveGhosts(pacman);
+				//moveGhosts(target);
 				//EL HELLTIME LO DEBE TENER CADA GHOST EN FUNCION DE LA INTELIGENCIA			
 			} else {
 				hellTime++;
@@ -295,7 +297,7 @@ public class Game implements KeyListener, Runnable {
 		int intelligence = 1;
 		for (Ghost ghost : ghostsArray) {
 			
-			ghost.pathFinder(pacman, intelligence);
+			ghost.pathFinder(pacman.getPosition(), intelligence);
 			ghost.move();
 			ghost.eatPacman(pacman, board);
 			//intelligence+=2;
