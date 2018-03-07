@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Observable;
+import java.util.Random;
 
 import org.json.simple.JSONValue;
 
@@ -18,7 +19,9 @@ public class Board extends Observable implements Serializable {
 	boolean pacmanEatNewDot;
 	public boolean superMode = false;
 	Dot[][] dots;
+	
 
+	public ArrayList<Square> hellZone = new ArrayList<Square>();
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
 	public long lifes= 3;
@@ -73,30 +76,36 @@ public class Board extends Observable implements Serializable {
 	}
 
 	private void makeBoard(int[][] levelBoard) {
+
+		Random randomHellZoneSquare = new Random();
 		board = new Square[levelBoard.length][levelBoard.length];
 		for (int i = 0; i < levelBoard.length; i++) {
 			for (int j = 0; j < levelBoard.length; j++) {
+				int hellIndex=randomHellZoneSquare.nextInt(30);
 				switch (levelBoard[i][j]) {
 				case 1:
-
 					board[i][j] = new Path();
 					break;
 				case 0:
 					board[i][j] = new Wall();
+					hellZone.set( hellIndex,board[i][j]);
 					break;
 				case 2:
 					board[i][j] = new FalsePath();
 					break;
 				case 4:
+					//WITH DOT
 					board[i][j] = new Path();
 					break;
 				case 5:
+					//WITH SUPER DOT
 					board[i][j] = new Path();
 					break;
 				case 6:
 					board[i][j] = new Hell();
 					break;
 				case 9:
+					//WITH TELEPORT
 					board[i][j] = new Path();
 					teleportList.add(board[i][j]);
 

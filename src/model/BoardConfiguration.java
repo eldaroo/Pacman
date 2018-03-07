@@ -108,7 +108,14 @@ public class BoardConfiguration {
 			{ 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 2,9,2, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, },
 			
 			};
-
+	//0 WALL
+	//1 ONLY PATH
+	//2 FALSE PATH
+	//4 PATH WITH DOT
+	//5 PATH WITH SUPER DOT
+	//6 HELL
+	//9 PATH WITH TELEPORT
+	
 	public BoardConfiguration() {
 
 	}

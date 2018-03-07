@@ -3,7 +3,7 @@ package model;
 public class Hell extends Square {
 
 	public Hell() {
-	
+		
 	}
 
 	@Override

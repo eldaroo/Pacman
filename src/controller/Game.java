@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.print.DocFlavor.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -82,6 +81,9 @@ public class Game implements KeyListener, Runnable {
 
 
 	static BeginMenu beginMenu;
+	static int velocity = 66;
+	static int distance = 0;
+	static int pacmanState = 1;
 	static int superTime = 0;
 	static int hellTime = 0;
 	static JLayeredPane layers;
@@ -197,7 +199,20 @@ public class Game implements KeyListener, Runnable {
 				postGame();
 				break;
 			}
-
+			//CHIMPAAAAAA
+			distance++;
+			switch (distance) {
+			case 22: {
+				pacmanState = 1;
+			}
+			case 44: {
+				pacmanState = 2;
+			}
+			case 66: {
+				pacmanState = 3;
+				distance = 0;
+			}
+			}
 		}
 
 	}
@@ -240,7 +255,7 @@ public class Game implements KeyListener, Runnable {
 
 		while (board.superMode) {
 			try {
-				Thread.sleep(80);
+				Thread.sleep(velocity);
 
 			} catch (InterruptedException time) {
 
@@ -287,7 +302,7 @@ public class Game implements KeyListener, Runnable {
 		Thread.sleep(1000);
 		while (gameState.equals(GameState.NORMALMODE)) {
 
-			Thread.sleep(80);
+			Thread.sleep(velocity);
 
 			if (hellTime == 100) {
 				ghost1.pathFinder(pacman, 1);
@@ -419,9 +434,9 @@ public class Game implements KeyListener, Runnable {
 
 	public void audioBeginning() throws LineUnavailableException, UnsupportedAudioFileException, FileNotFoundException, InterruptedException
 	{
-
 		beginning sound = new beginning();
 		sound.play();
+		Thread.sleep(3795);
 		
 	}
 	
