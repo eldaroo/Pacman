@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -73,6 +74,9 @@ public class Game implements KeyListener, Runnable {
 
 
 	static BeginMenu beginMenu;
+	static int velocity = 66;
+	static int distance = 0;
+	static int pacmanState = 1;
 	static int superTime = 0;
 	static int hellTime = 0;
 	static JLayeredPane layers;
@@ -81,10 +85,17 @@ public class Game implements KeyListener, Runnable {
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
 	static Square originalPositionPacman ; 
-	static Square originalPositionGhost ; 
+	//static Square originalPositionGhost ; 
 	static int ghostQuantity = 5;
+<<<<<<< HEAD
 	static Square target;
 	
+=======
+	static int hellIndex=0;
+
+
+	static Random randomHellZoneSquare = new Random();
+>>>>>>> 08912d09a9e8f36737bdf74b97d7f0d2abb2fadf
 	static BufferedInputStream bis = null;
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
@@ -94,6 +105,7 @@ public class Game implements KeyListener, Runnable {
 		this.board= board;
 		this.boardConfiguration = boardConfiguration;
 		this.boardView= boardView;
+		
 
 	}
 	public void run () {
@@ -111,7 +123,7 @@ public class Game implements KeyListener, Runnable {
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
-	    originalPositionGhost =boardMatrix[23][22];
+	    //originalPositionGhost =boardMatrix[23][22];
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
 	    target = pacman.getPosition();
@@ -177,7 +189,20 @@ public class Game implements KeyListener, Runnable {
 				postGame();
 				break;
 			}
-
+			//CHIMPAAAAAA
+			distance++;
+			switch (distance) {
+			case 22: {
+				pacmanState = 1;
+			}
+			case 44: {
+				pacmanState = 2;
+			}
+			case 66: {
+				pacmanState = 3;
+				distance = 0;
+			}
+			}
 		}
 
 	}
@@ -220,7 +245,7 @@ public class Game implements KeyListener, Runnable {
 
 		while (board.superMode) {
 			try {
-				Thread.sleep(80);
+				Thread.sleep(velocity);
 
 			} catch (InterruptedException time) {
 
@@ -236,25 +261,14 @@ public class Game implements KeyListener, Runnable {
 			board.eatingDot(pacman);
 
 			superTime++;
-			/*
-			 * //32 segundos?? if (superTime/12==30) { System.out.println("caca");
-			 */
 			if (board.dotRemoved.superDot) {
 				superTime = 0;
 			}
 			if (superTime == 100) {
-				superTime = 0;
-				/*
-				 * for (Creature creature : creatures) { if (creature.identy!="Pacman") {
-				 * creature.eateable = false; }else creature.eateable = true; } <<<CUANDO SEAN
-				 * VARIAS CRIATURAS>>>
-				 */
 				board.superMode = false;
 			}
 
-			// creatures.get(indexPacman).eatingGhosts(creatures, indexPacman);
-			// <<<CUANDO SEAN VARIAS CRIATURAS>>>
-
+			superTime = 0;
 		}
 
 	}
@@ -262,8 +276,10 @@ public class Game implements KeyListener, Runnable {
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		hellTime = 0;
 		audioBeginning();
-		Thread.sleep(4842);
+		Thread.sleep(3500);
+		
 		while (gameState.equals(GameState.NORMALMODE)) {
+<<<<<<< HEAD
 
 			Thread.sleep(80);
 
@@ -273,22 +289,28 @@ public class Game implements KeyListener, Runnable {
 			} else {
 				hellTime++;
 			}
+=======
+			//pacmanThemeBeginning();
 			
-			if (!pacman.alive) {
-				gameState = GameState.RESPAWN;
-				if (board.lifes <= 0) {
-					gameState = GameState.POSTGAME;
-				}
-			} else {
-				pacman.move();
-				board.eatingDot(pacman);
-			}
-
+			Thread.sleep(velocity);
+>>>>>>> 08912d09a9e8f36737bdf74b97d7f0d2abb2fadf
+			
+			moveGhosts(pacman);
+			pacman.move();
+			board.eatingDot(pacman);
+			
+			//ACTIVE SUEPERMODE
 			if (board.superMode) {
 				gameState = GameState.SUPERMODE;
 			}
-			// SUPERMODE(ghost1, pacman);
-
+			//RESPAWN GAME 
+			if (!pacman.alive) {
+				gameState = GameState.RESPAWN;
+				//END GAME
+				if (board.lifes <= 0) {
+					gameState = GameState.POSTGAME;
+				}
+			}
 		}
 
 	}
@@ -364,7 +386,10 @@ public class Game implements KeyListener, Runnable {
 		pacman.setPosition(originalPositionPacman);
 
 		for (Ghost ghost : ghostsArray) {
-			ghost.setPosition(originalPositionGhost);
+
+			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
+			ghost.setPosition( 
+					board.hellZone.get(hellIndex));
 		}
 		
 		pacman.alive=true;
@@ -377,10 +402,14 @@ public class Game implements KeyListener, Runnable {
 		
 		int aux=1;
 		while (aux<= ghostQuantity) {
-			ghostsArray.add(new Ghost("ghost"+aux, originalPositionGhost));
+			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
+			ghostsArray.add(new Ghost("ghost"+aux, 
+					board.hellZone.get(hellIndex)));
 			aux++;
 		}
 	}
+	
+	
 	public static GameState getGameState() {
 		return gameState;
 	}
@@ -408,9 +437,9 @@ public class Game implements KeyListener, Runnable {
 
 	public void audioBeginning() throws LineUnavailableException, UnsupportedAudioFileException, FileNotFoundException, InterruptedException
 	{
-
 		beginning sound = new beginning();
 		sound.play();
+		Thread.sleep(3795);
 		
 	}
 	

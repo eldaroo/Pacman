@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Observable;
+import java.util.Random;
 
 import org.json.simple.JSONValue;
 
@@ -19,12 +20,12 @@ public class Board extends Observable implements Serializable {
 	public boolean superMode = false;
 	Dot[][] dots;
 
+	public ArrayList<Square> hellZone = new ArrayList<Square>();
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	public long lifes= 3;
+	public long lifes = 3;
 
 	public long score = 0;
-
 
 	public Board(int[][] level1) {
 		makeBoard(level1);
@@ -73,12 +74,12 @@ public class Board extends Observable implements Serializable {
 	}
 
 	private void makeBoard(int[][] levelBoard) {
+
 		board = new Square[levelBoard.length][levelBoard.length];
 		for (int i = 0; i < levelBoard.length; i++) {
 			for (int j = 0; j < levelBoard.length; j++) {
 				switch (levelBoard[i][j]) {
 				case 1:
-
 					board[i][j] = new Path();
 					break;
 				case 0:
@@ -88,15 +89,19 @@ public class Board extends Observable implements Serializable {
 					board[i][j] = new FalsePath();
 					break;
 				case 4:
+					// WITH DOT
 					board[i][j] = new Path();
 					break;
 				case 5:
+					// WITH SUPER DOT
 					board[i][j] = new Path();
 					break;
 				case 6:
 					board[i][j] = new Hell();
+					hellZone.add(board[i][j]);
 					break;
 				case 9:
+					// WITH TELEPORT
 					board[i][j] = new Path();
 					teleportList.add(board[i][j]);
 
@@ -110,7 +115,6 @@ public class Board extends Observable implements Serializable {
 
 				if (j + 1 < board.length) {
 					board[i][j].setDown(board[i][j + 1]);
-
 				}
 				if (j - 1 >= 0) {
 					board[i][j].setUp(board[i][j - 1]);
@@ -135,9 +139,9 @@ public class Board extends Observable implements Serializable {
 				case 4:
 
 					dots[i][j] = new Dot();
-					//System.out.println("dot x: "+i +" , y: "+ j);
+					// System.out.println("dot x: "+i +" , y: "+ j);
 					break;
-					
+
 				case 5:
 					dots[i][j] = new SuperDot();
 					break;
@@ -166,9 +170,9 @@ public class Board extends Observable implements Serializable {
 		// TODO Auto-generated method stub
 		return pacmanEatNewDot;
 	}
-	
+
 	public void writeJSONString(Writer out) throws IOException {
-		
+
 		LinkedHashMap obj = new LinkedHashMap<>();
 		obj.put("score", score);
 		obj.put("lifes", lifes);

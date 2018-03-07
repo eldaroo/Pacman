@@ -1,7 +1,12 @@
 
-		Map<Direction, ImageIcon> pacmanWithDirection = new HashMap<Direction, ImageIcon>();
+		Map <Direction, ImageIcon> pacmanWithDirection = new HashMap <Direction, ImageIcon>( );
+		
 		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/CRIATURA.png"));
 		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/CRIATURA.png"));
 		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/CRIATURA.png"));
 		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/CRIATURA.png"));
+		
 		images.put(Pacman.class, pacmanWithDirection)
+		
+		getImage
+		images.get (Obj, Direction)

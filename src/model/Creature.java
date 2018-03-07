@@ -39,8 +39,8 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		return potentialDirection;
 	}
 
-	public void isDead() {
-		System.out.println("muere");
+	public void isDead(Creature c) {
+		System.out.println("muere"+c.getClass().toString());
 		alive = false;
 	}
 
@@ -50,6 +50,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	public void move() {
 
+		
 		Square nextPotentialPosition = position.get(potentialDirection);
 		Square nextPosition = position.get(direction);
 		if (nextPotentialPosition.isNavegable(this)) {
