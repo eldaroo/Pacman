@@ -87,16 +87,13 @@ public class Game implements KeyListener, Runnable {
 	static Square originalPositionPacman ; 
 	//static Square originalPositionGhost ; 
 	static int ghostQuantity = 5;
-<<<<<<< HEAD
 	static Square target;
 	
-=======
 	static int hellIndex=0;
 
 
 	static Random randomHellZoneSquare = new Random();
->>>>>>> 08912d09a9e8f36737bdf74b97d7f0d2abb2fadf
-	static BufferedInputStream bis = null;
+
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
@@ -279,7 +276,6 @@ public class Game implements KeyListener, Runnable {
 		Thread.sleep(3500);
 		
 		while (gameState.equals(GameState.NORMALMODE)) {
-<<<<<<< HEAD
 
 			Thread.sleep(80);
 
@@ -289,11 +285,10 @@ public class Game implements KeyListener, Runnable {
 			} else {
 				hellTime++;
 			}
-=======
+
 			//pacmanThemeBeginning();
 			
 			Thread.sleep(velocity);
->>>>>>> 08912d09a9e8f36737bdf74b97d7f0d2abb2fadf
 			
 			moveGhosts(pacman);
 			pacman.move();
