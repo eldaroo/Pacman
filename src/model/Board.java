@@ -35,7 +35,6 @@ public class Board extends Observable implements Serializable {
 	public void eatingDot(Pacman pacman) {
 		pacmanEatNewDot = false;
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
-			System.out.println("se esta comiendo un dot");
 
 			score += 10;
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
@@ -49,6 +48,10 @@ public class Board extends Observable implements Serializable {
 
 		setChanged();
 		notifyObservers();
+	}
+
+	public ArrayList<Square> getHellZone() {
+		return hellZone;
 	}
 
 	public Square[][] getBoard() {
@@ -99,6 +102,10 @@ public class Board extends Observable implements Serializable {
 				case 6:
 					board[i][j] = new Hell();
 					hellZone.add(board[i][j]);
+					break;
+				case 7:
+					board[i][j] = new HellGate();
+					
 					break;
 				case 9:
 					// WITH TELEPORT

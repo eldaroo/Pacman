@@ -16,7 +16,7 @@ public class Pacman extends Creature {
 		this.position = position;
 	}
 
-	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, Square[] hellZone, Square target) {
+	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone, Square target) {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
 				board.score += 50;

@@ -39,8 +39,8 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		return potentialDirection;
 	}
 
-	public void isDead(Creature c) {
-		System.out.println("muere"+c.getClass().toString());
+	public void isDead() {
+		System.out.println("muere"+ this.name);
 		alive = false;
 	}
 

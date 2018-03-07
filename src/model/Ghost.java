@@ -11,15 +11,15 @@ public class Ghost extends Creature {
 	}
 
 	//@Override
-	public  void isDead(Square target, Square[] hellZone)
+	public  void isDead(Square target, ArrayList<Square> hellZone)
 	{
-		//target = hellZone.get(10);
+		target = hellZone.get(10);
 	}
 	
 	public void eatPacman(Pacman pacman, Board board) {
 		if (getBoardPosition() == pacman.getBoardPosition()) {
 			board.lifes--;
-			pacman.isDead(pacman);
+			pacman.isDead();
 		}
 	}
 
