@@ -16,6 +16,12 @@ public class Ghost extends Creature {
 		//target = hellZone.get(10);
 	}
 	
+	//@Override
+		public  void move()
+		{
+			//target = hellZone.get(10);
+		}
+	
 	public void eatPacman(Pacman pacman, Board board) {
 		if (getBoardPosition() == pacman.getBoardPosition()) {
 			board.lifes--;
@@ -96,5 +102,9 @@ public class Ghost extends Creature {
 		return Direction.LEFT;
 	}
 	
+	public void inHell () {
+		//boolean
+	}
+	//for (Creatures ghost : Creatures)
 	
 }

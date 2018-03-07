@@ -20,6 +20,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	}
 
 	Square position = null;
+	Square positionType = null;
 
 	Direction potentialDirection = Direction.LEFT;
 
@@ -59,7 +60,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 		} else if ((potentialDirection != direction) && (nextPosition.isNavegable(this))) {
 			setPosition(nextPosition);
-
+			
 		}
 	}
 

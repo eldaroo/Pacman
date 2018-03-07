@@ -20,11 +20,7 @@ public class Pacman extends Creature {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
 				board.score += 50;
-<<<<<<< HEAD
 				ghost.isDead(target, hellZone);
-=======
-				ghost.isDead(ghost);
->>>>>>> 08912d09a9e8f36737bdf74b97d7f0d2abb2fadf
 			}
 			// creatures.remove(indexPacman); <<<CUANDO SEAN VARIAS CRIATURAS>>>
 	

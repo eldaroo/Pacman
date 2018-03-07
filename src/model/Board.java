@@ -100,6 +100,14 @@ public class Board extends Observable implements Serializable {
 					board[i][j] = new Hell();
 					hellZone.add(board[i][j]);
 					break;
+				case 7:
+					board[i][j] = new HellGate();
+					hellZone.add(board[i][j]);
+					break;
+				case 8:
+					board[i][j] = new Hell();
+					hellZone.add(board[i][j]);
+					break;
 				case 9:
 					// WITH TELEPORT
 					board[i][j] = new Path();
