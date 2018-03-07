@@ -1,11 +1,13 @@
 package model;
 
-public class HellGate extends Square{
+
+public class HellGate extends Square {
 
 	@Override
-	public boolean isNavegable (Creature creature) {
-		if (creature.name=="pacman")
+	public boolean isNavegable(Creature creature) {
+		if (creature.name!="pacman")
 		return true;
 		else return false;
 	}
+
 }

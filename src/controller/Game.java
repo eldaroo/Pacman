@@ -87,12 +87,11 @@ public class Game implements KeyListener, Runnable {
 	static Square originalPositionPacman ; 
 	//static Square originalPositionGhost ; 
 	static int ghostQuantity = 5;
-
 	static Square target;
 	
 	static int hellIndex=0;
 	static Random randomHellZoneSquare = new Random();
-	static BufferedInputStream bis = null;
+
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
@@ -243,17 +242,9 @@ public class Game implements KeyListener, Runnable {
 			try {
 				Thread.sleep(velocity);
 
-			} catch (InterruptedException time) {
-
-			}
-
-			/*
-			 * creatures.get(indexPacman).eateable = false; for (Creature creature :
-			 * creatures) { if ((creature.identy=="Ghost")&&(creature.alive)) {
-			 * creature.eateable = true; } } <<<CUANDO SEAN VARIAS CRIATURAS>>>
-			 */
+			} catch (InterruptedException time) {}
 			pacman.move();
-			//pacman.eatingGhosts(ghostsArray, pacman, board, hellZone, target);
+			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone, target);
 			board.eatingDot(pacman);
 			superTime++;
 			if (board.dotRemoved.superDot) {
@@ -283,10 +274,8 @@ public class Game implements KeyListener, Runnable {
 			} else {
 				hellTime++;
 			}
-			//pacmanThemeBeginning();
 			
-			
-			moveGhosts(pacman);
+			moveGhosts(target, pacman);
 			pacman.move();
 			board.eatingDot(pacman);
 			
@@ -306,14 +295,14 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-	private void moveGhosts(Pacman pacman) {
+	private void moveGhosts(Square target, Pacman pacman) {
 		int intelligence = 1;
 		for (Ghost ghost : ghostsArray) {
 			
-			ghost.pathFinder(pacman.getPosition(), intelligence);
+			ghost.pathFinder(target, intelligence);
 			ghost.move();
 			ghost.eatPacman(pacman, board);
-			//intelligence+=2;
+			intelligence+=2;
 		}
 	}
 	@Override
