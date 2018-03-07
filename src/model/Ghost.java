@@ -13,7 +13,7 @@ public class Ghost extends Creature {
 	//@Override
 	public  void isDead(Square target, Square[] hellZone)
 	{
-		target = hellZone.get(10);
+		//target = hellZone.get(10);
 	}
 	
 	public void eatPacman(Pacman pacman, Board board) {
