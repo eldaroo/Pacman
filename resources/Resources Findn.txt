@@ -7,3 +7,6 @@
 		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/CRIATURA.png"));
 		
 		images.put(Pacman.class, pacmanWithDirection)
+		
+		getImage
+		images.get (Obj, Direction)

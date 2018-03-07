@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -84,9 +85,12 @@ public class Game implements KeyListener, Runnable {
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
 	static Square originalPositionPacman ; 
-	static Square originalPositionGhost ; 
+	//static Square originalPositionGhost ; 
 	static int ghostQuantity = 5;
+	static int hellIndex=0;
 
+
+	static Random randomHellZoneSquare = new Random();
 	static BufferedInputStream bis = null;
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
@@ -96,6 +100,7 @@ public class Game implements KeyListener, Runnable {
 		this.board= board;
 		this.boardConfiguration = boardConfiguration;
 		this.boardView= boardView;
+		
 
 	}
 	public void run () {
@@ -113,7 +118,7 @@ public class Game implements KeyListener, Runnable {
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
-	    originalPositionGhost =boardMatrix[23][22];
+	    //originalPositionGhost =boardMatrix[23][22];
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
 		pacman = new Pacman("pacman", originalPositionPacman);
@@ -250,25 +255,14 @@ public class Game implements KeyListener, Runnable {
 			board.eatingDot(pacman);
 
 			superTime++;
-			/*
-			 * //32 segundos?? if (superTime/12==30) { System.out.println("caca");
-			 */
 			if (board.dotRemoved.superDot) {
 				superTime = 0;
 			}
 			if (superTime == 100) {
-				superTime = 0;
-				/*
-				 * for (Creature creature : creatures) { if (creature.identy!="Pacman") {
-				 * creature.eateable = false; }else creature.eateable = true; } <<<CUANDO SEAN
-				 * VARIAS CRIATURAS>>>
-				 */
 				board.superMode = false;
 			}
 
-			// creatures.get(indexPacman).eatingGhosts(creatures, indexPacman);
-			// <<<CUANDO SEAN VARIAS CRIATURAS>>>
-
+			superTime = 0;
 		}
 
 	}
@@ -276,33 +270,29 @@ public class Game implements KeyListener, Runnable {
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		hellTime = 0;
 		audioBeginning();
-		Thread.sleep(4842);
+		Thread.sleep(3500);
+		
 		while (gameState.equals(GameState.NORMALMODE)) {
-
-			Thread.sleep(velocity);
-
-			if (hellTime == 20) {
-				moveGhosts(pacman);
-				//EL HELLTIME LO DEBE TENER CADA GHOST EN FUNCION DE LA INTELIGENCIA			
-			} else {
-				hellTime++;
-			}
+			//pacmanThemeBeginning();
 			
-			if (!pacman.alive) {
-				gameState = GameState.RESPAWN;
-				if (board.lifes <= 0) {
-					gameState = GameState.POSTGAME;
-				}
-			} else {
-				pacman.move();
-				board.eatingDot(pacman);
-			}
-
+			Thread.sleep(velocity);
+			
+			moveGhosts(pacman);
+			pacman.move();
+			board.eatingDot(pacman);
+			
+			//ACTIVE SUEPERMODE
 			if (board.superMode) {
 				gameState = GameState.SUPERMODE;
 			}
-			// SUPERMODE(ghost1, pacman);
-
+			//RESPAWN GAME 
+			if (!pacman.alive) {
+				gameState = GameState.RESPAWN;
+				//END GAME
+				if (board.lifes <= 0) {
+					gameState = GameState.POSTGAME;
+				}
+			}
 		}
 
 	}
@@ -378,7 +368,10 @@ public class Game implements KeyListener, Runnable {
 		pacman.setPosition(originalPositionPacman);
 
 		for (Ghost ghost : ghostsArray) {
-			ghost.setPosition(originalPositionGhost);
+
+			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
+			ghost.setPosition( 
+					board.hellZone.get(hellIndex));
 		}
 		
 		pacman.alive=true;
@@ -391,10 +384,14 @@ public class Game implements KeyListener, Runnable {
 		
 		int aux=1;
 		while (aux<= ghostQuantity) {
-			ghostsArray.add(new Ghost("ghost"+aux, originalPositionGhost));
+			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
+			ghostsArray.add(new Ghost("ghost"+aux, 
+					board.hellZone.get(hellIndex)));
 			aux++;
 		}
 	}
+	
+	
 	public static GameState getGameState() {
 		return gameState;
 	}

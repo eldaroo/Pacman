@@ -16,7 +16,7 @@ public class Ghost extends Creature {
 	public void eatPacman(Pacman pacman, Board board) {
 		if (getBoardPosition() == pacman.getBoardPosition()) {
 			board.lifes--;
-			pacman.isDead();
+			pacman.isDead(pacman);
 		}
 	}
 
@@ -92,6 +92,6 @@ public class Ghost extends Creature {
 		}
 		return Direction.LEFT;
 	}
-
+	
 	
 }
