@@ -21,7 +21,6 @@ public abstract class ResourceBinding {
 	private static Map<Class<? extends Object>, ImageIcon> images = new HashMap<Class<? extends Object>, ImageIcon>();
 	
 	
-	
 	static {
 		images.put(Path.class, new ImageIcon("resources/1.png"));
 		images.put(Wall.class, new ImageIcon("resources/0.png"));

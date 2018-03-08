@@ -21,11 +21,8 @@ public class Pacman extends Creature {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
 				board.score += 50;
 				ghost.isDead(target, hellZone);
-			}
-			// creatures.remove(indexPacman); <<<CUANDO SEAN VARIAS CRIATURAS>>>
-	
-		}
-		
+			}	
+		}		
 	}
 	
 }

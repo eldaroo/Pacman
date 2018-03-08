@@ -22,7 +22,7 @@ public class Ghost extends Creature {
 			//target = hellZone.get(10);
 		}
 	
-	public void eatPacman(Pacman pacman, Board board) {
+	public void eatingPacman(Pacman pacman, Board board) {
 		if (getBoardPosition() == pacman.getBoardPosition()) {
 			board.lifes--;
 			pacman.isDead();
