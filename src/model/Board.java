@@ -23,7 +23,7 @@ public class Board extends Observable implements Serializable {
 	public ArrayList<Square> hellZone = new ArrayList<Square>();
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	public long lifes = 3;
+	public long lifes = 1;
 
 	public long score = 0;
 
@@ -32,22 +32,24 @@ public class Board extends Observable implements Serializable {
 		makeDots(level1);
 	}
 
-	public void eatingDot(Pacman pacman) {
+	public GameState eatingDot(Pacman pacman, GameState gameState) {
 		pacmanEatNewDot = false;
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
 
 			score += 10;
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
 			if (dotRemoved.superDot == true) {
-				superMode = true;
+				System.out.println("se comio un superDot!");
+				gameState = GameState.SUPERMODE;
 				score += 20;
 			}
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
 			pacmanEatNewDot = true;
-		}
 
+		}
 		setChanged();
 		notifyObservers();
+		return gameState;
 	}
 
 	public ArrayList<Square> getHellZone() {
@@ -106,9 +108,9 @@ public class Board extends Observable implements Serializable {
 				case 7:
 					board[i][j] = new HellGate();
 					break;
-				case 8:
+				case 8: 
 					//board[i][j].isNavegable()=false;
-					board[i][j] = new Hell();
+					board[i][j] = new FalseHell();
 					break;
 				case 9:
 					// WITH TELEPORT

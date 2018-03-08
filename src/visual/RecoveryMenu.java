@@ -22,11 +22,10 @@ import javax.swing.JButton;
 public class RecoveryMenu extends JInternalFrame{
 	
 	public RecoveryMenu(GameView gameView) {
-		setBounds(200, 200, 600, 650);
+
 
 		getContentPane().setLayout(null);
 		setVisible(true);
-		System.out.println("hola");
 		
 		JLabel lblSeleccioneUnaPartida = new JLabel("Tiene una partida guardada del dia ");
 		lblSeleccioneUnaPartida.setBounds(144, 243, 233, 23);

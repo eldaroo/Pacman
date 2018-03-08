@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Observable;
 
@@ -41,7 +42,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	}
 
 	public void isDead() {
-		System.out.println("muere"+ this.name);
+		System.out.println("muere "+ this.name);
 		alive = false;
 	}
 

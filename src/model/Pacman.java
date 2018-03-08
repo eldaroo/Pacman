@@ -16,13 +16,13 @@ public class Pacman extends Creature {
 		this.position = position;
 	}
 
-	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone, Square target) {
+	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
 				board.score += 50;
-				ghost.isDead(target, hellZone);
+				ghost.isDead(hellZone);
+				System.out.println("muere ghost");
 			}
-			// creatures.remove(indexPacman); <<<CUANDO SEAN VARIAS CRIATURAS>>>
 	
 		}
 		

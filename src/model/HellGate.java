@@ -9,5 +9,6 @@ public class HellGate extends Square {
 		return true;
 		else return false;
 	}
+	
 
 }
