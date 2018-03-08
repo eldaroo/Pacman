@@ -10,7 +10,7 @@ import org.json.simple.JSONValue;
 
 public class Dot extends Observable implements JSONStreamAware{
 
-	public boolean superDot=false;
+	boolean superDot=false;
 	Square position;
 
 	public Position getBoardPosition() {

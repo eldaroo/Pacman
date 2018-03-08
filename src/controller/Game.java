@@ -54,48 +54,53 @@ import visual.DotsView;
 
 public class Game implements KeyListener, Runnable {
 
-	
-	static Board board;
-	static Square[][] boardMatrix;
-	static GameView gameView;
-	static Dot[][] dotMatrix;
-	static DotsView dotsView;
-	static PostGameView postGameView;
+	//HILOS
 	static Game game;
 	static Thread boardView;
-	static Pacman pacman;
 
-	static CreaturesView pacmanView;
-	static ArrayList<Ghost> ghostsArray;
-	static ArrayList<CreaturesView> ghostViewsArray;
-
+	//MODELO
+	static Board board;
+	static Square[][] boardMatrix;
+	static Dot[][] dotMatrix;
 	BoardConfiguration boardConfiguration ;
 
-	static Serializator serializator = new Serializator();
-	static GameState gameState;
-
-
+	//VISUAL
+	static DotsView dotsView;
+	static PostGameView postGameView;
+	static GameView gameView; //JFRAME
+	static CreaturesView pacmanView;
+	static ArrayList<CreaturesView> ghostViewsArray;
 	static BeginMenu beginMenu;
+	static JLayeredPane layers;
+	static PlayerView playerView;
+	static RecoveryMenu recoveryMenu;
+	
+	//CRIATURAS
+	static Pacman pacman;
+	static ArrayList<Ghost> ghostsArray;
+
+	//SERIALIZADOR
+	static Serializator serializator = new Serializator();
+
+	//ESTRUCTURA
+	static GameState gameState;
+	static boolean run = true;
+	static boolean firstTime = true;
+	static Square originalPositionPacman ; 
+	static int hellIndex=0;
+	static Random randomHellZoneSquare = new Random();
+
+	//DATOS
 	static int velocity = 66;
 	static int distance = 0;
 	static int pacmanState = 1;
 	static int superTime = 0;
 	static int hellTime = 0;
-	static JLayeredPane layers;
-	static boolean run = true;
-	static boolean firstTime = true;
-	static PlayerView playerView;
-	static RecoveryMenu recoveryMenu;
-	static Square originalPositionPacman ; 
-	//static Square originalPositionGhost ; 
 	static int ghostQuantity = 5;
 	
-	static int hellIndex=0;
-	static Random randomHellZoneSquare = new Random();
-
-
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
+		//CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
 		this.beginMenu = beginMenu;
 		this.layers = layers;
 		this.board= board;
@@ -105,8 +110,7 @@ public class Game implements KeyListener, Runnable {
 
 	}
 	public void run () {
-		
-		
+		//EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
 		initGame();
 		try {
 			play();
@@ -116,21 +120,21 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	private void initGame() {
+		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
+		
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
-	    //originalPositionGhost =boardMatrix[23][22];
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
 		pacman = new Pacman("pacman", originalPositionPacman);
 
 	}
 
-
 	private void initVisual() {
-
+		//INICIALIZAMOS MAS VARIABLES, ESTA VEZ ORIENTADO A LO VISUAL
+		
 		gameView.setContentPane(layers);
-
 		gameView.addKeyListener(this);
 		dotMatrix = board.getDots();
 		dotsView = new DotsView(dotMatrix, layers);
@@ -144,7 +148,7 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-
+	// ARRANCA EL JUEGO
 	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 		boolean ever = true;
 		while (ever) {
@@ -158,7 +162,6 @@ public class Game implements KeyListener, Runnable {
 				break;
 			case RECOVERY:
 				if (firstTime) {
-
 					recoveryMenu = new RecoveryMenu(gameView);
 					gameView.setContentPane(recoveryMenu);
 					firstTime = false;
@@ -206,19 +209,22 @@ public class Game implements KeyListener, Runnable {
 		}
 
 	}
-
+	
 	private static void load() {
-		if (firstTime) {
+		//LA PANTALLA PRE-JUEGO
 
+		if (firstTime) {
 			gameView.setContentPane(beginMenu);
 			firstTime = false;
 		}
-
-		if (beginMenu.wasPressbtnBegin()) {
+		
+		if (beginMenu.wasPressbtnBegin()) {			
+			// CAMBIA A MODO NORMAL (CIERRA PANTALLA DE INICIO)
 			gameState = GameState.NORMALMODE;
 			firstTime = true;
 			beginMenu.dispose();
-		} else if (beginMenu.wasPressBtnRecovery()) {
+		} else if (beginMenu.wasPressBtnRecovery()) { 
+			// CAMBIA A MODO CARGAR (CIERRA PANTALLA DE INICIO)
 			gameState = GameState.RECOVERY;
 			beginMenu.dispose();
 			firstTime = true;
@@ -232,32 +238,32 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
-	private static void postGame() {
+	private static void postGame() { //TERMINO LA PARTIDA
 		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
 		firstTime = true;		
 		gameView.remove(layers);
 		postGameView= new PostGameView(gameView);
 		layers.add(postGameView);
-
 		gameView.setContentPane(postGameView);
 		gameView.repaint();
 		firstTime = false;
 	}
 
 	private static void superMode(Pacman pacman) throws InterruptedException {
+		
 		superTime = 0;
 		while (gameState.equals(GameState.SUPERMODE)) {
-			Thread.sleep(velocity);
 			
+			Thread.sleep(velocity);	
 			moveGhosts(board.hellZone, pacman);
 			pacman.move();
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone);
 			board.eatingDot(pacman, gameState);
 			superTime++;
-			if (board.dotRemoved.superDot) {
+			if (board.dotRemoved.getSuper()) {
 				superTime = 0;
 			}
-			if (superTime == 20) {
+			if (superTime == 111) {
 				gameState = GameState.NORMALMODE;
 			}
 
@@ -296,15 +302,17 @@ public class Game implements KeyListener, Runnable {
 	private static void moveGhosts(ArrayList<Square> hellZone, Pacman pacman) {
 		int intelligence = 1;
 		for (Ghost ghost : ghostsArray) {
-			
+			// GHOSTS: BUSCAN, MUEVEN Y SI ESTAN EN MODO NORMAL COMEN.
+
 			ghost.pathFinder(pacman, intelligence, gameState);
 			ghost.move();
 			if (gameState.equals(GameState.NORMALMODE)) 
-			{gameState = ghost.eatPacman(pacman, board, gameState);}
-			//System.out.println(gameState);
+			{gameState = ghost.eatingPacman(pacman, board, gameState);}
 			intelligence+=2;
 		}
 	}
+
+	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
@@ -341,7 +349,8 @@ public class Game implements KeyListener, Runnable {
 	public static void setFirstTime(boolean firstTime) {
 		Game.firstTime = firstTime;
 	}
-	
+	// GUARDA PARTIDA
+
 	public static void save() {
 		try {
 
@@ -353,29 +362,35 @@ public class Game implements KeyListener, Runnable {
 			e.printStackTrace();
 		}
 	}
+	// CARGA PARTIDA
 
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
+		// RECUPER LOS DATOS GUARDADOS DE LOS DOTS Y LOS VUELCA AL TABLERO
+
 		Dot[][] dotsArraySaved = serializator.recover(board, pacman);
 		board.setDots(dotsArraySaved);
 		recoveryMenu.dispose();
 		setGameState(GameState.NORMALMODE);
 		setFirstTime(true);
 	}
+	// REINICIA POSICIONES EN EL TABLERO
+	public static void respawn() {	
 
-	public static void respawn() {
 		pacman.setPosition(originalPositionPacman);
 
 		for (Ghost ghost : ghostsArray) {
-
+			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
 			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
 			ghost.setPosition( board.hellZone.get(hellIndex));
 		}
-		
+		// REINICIA PARTIDA
+
 		pacman.alive=true;
 		firstTime = true;
 		gameState = GameState.NORMALMODE;
 	}
-
+	
+	// CREA MODELO DE GHOSTS
 	private void createGhosts(int ghostQuantity) {
 	    ghostsArray = new ArrayList <Ghost>();
 		
@@ -392,7 +407,8 @@ public class Game implements KeyListener, Runnable {
 	public static GameState getGameState() {
 		return gameState;
 	}
-
+	
+	// CREA VISUAL DE GHOSTS Y COMIENZA A OBSERVAR MODELO DE GHOSTS
 	private void createGhostViews(int ghostQuantity) {
 	    ghostViewsArray = new ArrayList <CreaturesView>();
 		int aux=1;
@@ -416,12 +432,15 @@ public class Game implements KeyListener, Runnable {
 
 	public void audioBeginning() throws LineUnavailableException, UnsupportedAudioFileException, FileNotFoundException, InterruptedException
 	{
+		// MUSICA DE INICIO DE PARTIDA
+
 		beginning sound = new beginning();
 		sound.play();
 		Thread.sleep(3795);
 		
 	}
 	
+	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 

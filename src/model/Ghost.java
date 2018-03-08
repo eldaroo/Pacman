@@ -18,7 +18,7 @@ public class Ghost extends Creature {
 		return target;
 	}
 	
-	public GameState eatPacman(Pacman pacman, Board board, GameState gameState) {
+	public GameState eatingPacman(Pacman pacman, Board board, GameState gameState) {
 		if (getPosition().equals(pacman.getPosition()) ) {
 			board.lifes--;
 			pacman.isDead();
