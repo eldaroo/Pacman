@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import model.Direction;
 import model.Dot;
 import model.FalseHell;
 import model.FalsePath;
@@ -37,7 +38,14 @@ public abstract class ResourceBinding {
 		
 	}
 	
+	/*private static Map <Direction, ImageIcon> pacmanWithDirection = new HashMap <Direction, ImageIcon>( );
 	
+	static {
+		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/CRIATURA.png"));
+		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/CRIATURA.png"));
+		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/CRIATURA.png"));
+		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/CRIATURA.png"));
+	}*/
 	//HAY QUE VER COMO RESOLVER LOS RECURSOS PARA LAS ANIMACIONES Y LOS CAMBIOS DE SENTIDO
 	
 	static public ImageIcon getImageIcon(Object object) {

@@ -22,31 +22,33 @@ public class BoardView extends Thread implements ActionListener, Observer{
 	Square[][] squareArray;
 	JLayeredPane layers;
 	BeginMenu beginMenu;
+	
 	public BoardView(BeginMenu beginMenu, Square[][] squareArray, JLayeredPane layers)
 	{
 		this.squareArray= squareArray;
 		this.layers = layers;
 		this.beginMenu = beginMenu;
 	}
-	
+	//SE CARGRA EN EL HILO EL DIBUJO DEL TABLERO
 	@Override
 	public void run() {
-		System.out.println("thread boardView");
+		System.out.print("Charging BoardView Thread");
+		//ETIQUETA DE PUNTAJE
 		lblScore = new JLabel("Score: ");
 		lblScore.setFont(new Font("Tekton Pro", Font.PLAIN, 14));
 		lblScore.setBounds(130, 3, 80, 21);
 		layers.add(lblScore);
-		
+		//ETIQUETA DE VIDAS
 		lblLifes = new JLabel("Vidas:");
 		lblLifes.setFont(new Font("Tekton Pro", Font.PLAIN, 14));
 		lblLifes.setBounds(30, 3, 80, 21);
 		layers.add(lblLifes);
-		
+		//BOTON PARA GUARDAR PARTIDA
 		btnSave = new JButton("Save");
 		btnSave.setBounds(450, 0, 89, 23);
 		layers.add(btnSave, 0);
 		btnSave.addActionListener((ActionListener) this);
-		
+		//TABLERO DE JUEGO
 		int capa = 10000;
 		JLabel[][] Fondo = new JLabel[60][60];
 		for (int i = 0; i < squareArray.length; i++) {
@@ -58,15 +60,18 @@ public class BoardView extends Thread implements ActionListener, Observer{
 				Fondo[i][j].setBounds(i * 10, (j * 10)+25, 10, 10);
 				layers.add(Fondo[i][j], capa);
 			}
+			if(i%11==3)System.out.print('.');
 		}
-		
-		//Cuando se termina de cargar muestra los botones para comenzar
+		System.out.println(' ');
+		//QUITA LA ANIMACIÓN DE CARGA DE JUEGO EN EL MENU DE INICIO
 		beginMenu.layers.remove(beginMenu.lblLoading);
+		System.out.println("BoardView Thread Succefully Charged.");
+		//SE ACTUALIZA EL MENU DE INICIO Y SE AGREGAN LAS CAPAS DE INICIO Y CARGA DE PARTIDA
 		beginMenu.repaint();
 		beginMenu.layers.add(beginMenu.btnBegin);
 		beginMenu.layers.add(beginMenu.btnRecovery);
-
 	}
+	//EJECUTAR SALVADO AL PRESIONAR BOTON PARA SALVAR JUEGO
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btnSave)
@@ -75,6 +80,7 @@ public class BoardView extends Thread implements ActionListener, Observer{
 		}
 		
 	}
+	//OBSERVA Y DIBUJA CUANDO SE ALTERAN EL PUNTAJE Y LAS VIDAS
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Board board = (Board) arg0;
