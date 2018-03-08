@@ -11,9 +11,10 @@ import model.Board;
 import model.Dot;
 
 public class DotsView extends JPanel implements Observer {
-
+	
+	//DIBUJA LA MATRIZ CON TODOS LOS DOTS
 	JLabel[][] dotMatrix = new JLabel[60][60];
-
+	//SE DIBUJAN DOTS
 	public DotsView(Dot[][] dots, JLayeredPane layers) {
 		for (int i = 0; i < dots.length; i++) {
 			for (int j = 0; j < dots.length; j++) {
@@ -27,15 +28,15 @@ public class DotsView extends JPanel implements Observer {
 				}
 			}
 		}
-
 	}
-
+	
+	//RECIBE AVISO DEL DOT COMIDO Y LO DESAPARECE
 	@Override
 	public void update(Observable observable, Object arg) {
 		Board board = (Board) observable;
 		Dot dotRemoved = board.getDotRemoved();
 
-		if (board.pacmanEatNewDot())
+		if (board.getPacmanEatNewDot())
 			dotMatrix[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()].setVisible(false);
 	}
 }

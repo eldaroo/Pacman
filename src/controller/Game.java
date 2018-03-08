@@ -238,7 +238,7 @@ public class Game implements KeyListener, Runnable {
 
 	private static void superMode(Pacman pacman) {
 
-		while (board.superMode) {
+		while (board.getSuperMode()) {
 			try {
 				Thread.sleep(velocity);
 
@@ -247,11 +247,11 @@ public class Game implements KeyListener, Runnable {
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone, target);
 			board.eatingDot(pacman);
 			superTime++;
-			if (board.dotRemoved.superDot) {
+			if (board.dotRemoved.getSuper()) {
 				superTime = 0;
 			}
 			if (superTime == 100) {
-				board.superMode = false;
+				board.setSuperMode(false);
 			}
 
 			superTime = 0;
@@ -275,12 +275,12 @@ public class Game implements KeyListener, Runnable {
 				hellTime++;
 			}
 			
-			moveGhosts(target, pacman);
+			//moveGhosts(target, pacman);
 			pacman.move();
 			board.eatingDot(pacman);
 			
 			//ACTIVE SUEPERMODE
-			if (board.superMode) {
+			if (board.getSuperMode()) {
 				gameState = GameState.SUPERMODE;
 			}
 			//RESPAWN GAME 
@@ -355,6 +355,7 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
+		//RECUPER LOS DATOS GUARDADOS DE LOS DOTS Y LOS VUELCA AL TABLERO
 		Dot[][] dotsArraySaved = serializator.recover(board, pacman);
 		board.setDots(dotsArraySaved);
 		recoveryMenu.dispose();
