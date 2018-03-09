@@ -15,8 +15,6 @@ public class CreaturesView extends JLabel implements Observer {
 	public CreaturesView(Creature obj, JLayeredPane layers) {
 
 		this.setBounds((obj.getBoardPosition().getX() * 10) - 10, (obj.getBoardPosition().getY() * 10) - 10+25, 30, 30);
-		setIcon(ResourceBinding.getImageIcon(obj));
-		layers.add(this, 6);
 
 	}
 

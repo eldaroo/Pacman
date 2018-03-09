@@ -50,6 +50,8 @@ import sounds.Sounds;
 import visual.BeginMenu;
 import visual.BoardView;
 import visual.GameView;
+import visual.GhostView;
+import visual.PacmanView;
 import visual.PlayerView;
 import visual.PostGameView;
 import visual.RecoveryMenu;
@@ -143,7 +145,7 @@ public class Game implements KeyListener, Runnable {
 		dotMatrix = board.getDots();
 		dotsView = new DotsView(dotMatrix, layers);
 		playerView = new PlayerView(layers);
-		pacmanView = new CreaturesView(pacman, layers);
+		pacmanView = new PacmanView(pacman, layers);
 		createGhostViews(ghostQuantity);
 		gameView.setVisible(true);
 		
@@ -195,11 +197,7 @@ public class Game implements KeyListener, Runnable {
 				break;
 			}
 			
-			//END GAME
-			if (board.lifes <= 0) {
-					gameState = GameState.POSTGAME;
-					firstTime = true;
-			}
+
 			
 			//CHIMPAAAAAA
 			distance++;
@@ -311,6 +309,12 @@ public class Game implements KeyListener, Runnable {
 			pacman.move();
 			gameState=board.eatingDot(pacman, gameState);
 			
+			//END GAME
+			if (board.lifes <= 0) {
+					gameState = GameState.POSTGAME;
+					firstTime = true;
+			}
+			
 		}
 				
 		}
@@ -414,7 +418,7 @@ public class Game implements KeyListener, Runnable {
 	    ghostViewsArray = new ArrayList <CreaturesView>();
 		int aux=1;
 		while (aux<= ghostQuantity) {
-			ghostViewsArray.add(new CreaturesView(ghostsArray.get(aux-1), layers));
+			ghostViewsArray.add(new GhostView(ghostsArray.get(aux-1), layers));
 			ghostsArray.get(aux-1).addObserver(ghostViewsArray.get(aux-1));
 			aux++;
 		}		

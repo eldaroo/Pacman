@@ -152,6 +152,14 @@ public class Ghost extends Creature {
 		Direction BestChoise = null;
 		return BestChoise;
 	}
+	public int getIntelligence() {
+		return intelligence;
+	}
+
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+
 	public void inHell () {
 		//boolean
 	}
