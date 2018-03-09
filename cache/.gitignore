@@ -23,20 +23,3 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-<<<<<<< HEAD
-/.metadata/
-/.project
-/.settings/
-/AffineTransform.docx
-/Gráficos en Java.docx
-/RemoteSystemsTempFiles/
-/ToDo.txt
-/controller/
-/modelTest/
-/pacman.Json
-/sounds/
-/model/
-/visual/
-/Sonidos/
-=======
->>>>>>> f70e704633581e955ab47b9bc58b741b2d1b732e
