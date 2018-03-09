@@ -26,11 +26,11 @@ hs_err_pid*
 /AffineTransform.docx
 /Gráficos en Java.docx
 /RemoteSystemsTempFiles/
-/Sonidos/
 /ToDo.txt
 /controller/
-/model/
 /modelTest/
 /pacman.Json
 /sounds/
+/model/
 /visual/
+/Sonidos/

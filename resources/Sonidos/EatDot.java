@@ -4,10 +4,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
-/** <p>An object implementing {@link java.applet.AudioClip java.applet.AudioClip} with the data from pacman_chomp.wav hard-coded into it.</p>
+/** <p>An object implementing {@link java.applet.AudioClip java.applet.AudioClip} with the data from EatDot.wav hard-coded into it.</p>
  * <p>Created with the <a href="http://stephengware.com/projects/soundtoclass">SoundToClass tool</a>, by Stephen G. Ware.</p>
  * @author Stephen G. Ware */
-public class pacman_chomp implements AudioClip {
+public class EatDot implements AudioClip {
 	private byte[] data;
 	private AudioFormat format;
 	private DataLine.Info lineInfo = null;
@@ -54,8 +54,8 @@ public class pacman_chomp implements AudioClip {
 		System.arraycopy(data17(), 0, data, 17408, 68);
 		return data;
 	}
-	/** Constructs a new AudioClip with the data from pacman_chomp.wav. */
-	public pacman_chomp(){
+	/** Constructs a new AudioClip with the data from EatDot.wav. */
+	public EatDot(){
 		data = getData();
 		format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED, (float)(22050.0), 16, 1, 2, (float)(22050.0), false);
 		lineInfo = new DataLine.Info(SourceDataLine.class, format, AudioSystem.NOT_SPECIFIED);
@@ -63,7 +63,7 @@ public class pacman_chomp implements AudioClip {
 		catch(IllegalArgumentException ex){ lineInfo = null; }
 		catch(LineUnavailableException e){}
 	}
-	/** A separate thread for playing pacman_chomp.wav. */
+	/** A separate thread for playing EatDot.wav. */
 	private class PlayThread extends Thread {
 		private byte[] data;
 		private AudioFormat format;
@@ -94,11 +94,11 @@ public class pacman_chomp implements AudioClip {
 		public void interrupt(){ playing = false; }
 		public boolean isPlaying(){ return playing; }
 	}
-	/** A separate thread for looping play of pacman_chomp.wav. */
+	/** A separate thread for looping play of EatDot.wav. */
 	private class LoopThread extends Thread {
-		private pacman_chomp clip;
+		private EatDot clip;
 		private boolean looping = true;
-		public LoopThread(pacman_chomp c){ clip = c; }
+		public LoopThread(EatDot c){ clip = c; }
 		public void run(){
 			while(looping){
 				clip.play();
@@ -112,21 +112,21 @@ public class pacman_chomp implements AudioClip {
 		public void interrupt(){ looping = false; }
 		public boolean isLooping(){ return looping; }
 	}
-	/** Plays pacman_chomp.wav from the beginning, even if it is already playing or looping. */
+	/** Plays EatDot.wav from the beginning, even if it is already playing or looping. */
 	public void play(){ if(lineInfo == null) return; doPlay(); }
 	private synchronized void doPlay(){
 		doStopPlay();
 		playThread = new PlayThread(data, format, lineInfo);
 		playThread.start();
 	}
-	/** Plays pacman_chomp.wav continuously until stopped. */
+	/** Plays EatDot.wav continuously until stopped. */
 	public void loop(){ if(lineInfo == null) return; doLoop(); }
 	private synchronized void doLoop(){
 		doStopLoop();
 		loopThread = new LoopThread(this);
 		loopThread.start();
 	}
-	/** Stops play and looping of pacman_chomp.wav. */
+	/** Stops play and looping of EatDot.wav. */
 	public void stop(){ if(lineInfo == null) return; doStop(); }
 	private synchronized void doStop(){
 		doStopPlay();
@@ -142,7 +142,7 @@ public class pacman_chomp implements AudioClip {
 		if(loopThread.isLooping()) loopThread.interrupt();
 		loopThread = null;
 	}
-	/** Tests if pacman_chomp.wav is currently playing or looping.
+	/** Tests if EatDot.wav is currently playing or looping.
 	 * @return <tt>true</tt> if playing or looping, <tt>false</tt> otherwise */
 	public boolean isPlaying(){ if(lineInfo == null) return false; return doIsPlaying(); }
 	private synchronized boolean doIsPlaying(){
@@ -151,7 +151,7 @@ public class pacman_chomp implements AudioClip {
 		else if(playThread == null) return loopThread.isLooping();
 		else return loopThread.isLooping() && playThread.isPlaying();
 	}
-	/** Tests if pacman_chomp.wav is currently looping.
+	/** Tests if EatDot.wav is currently looping.
 	 * @return <tt>true</tt> if looping, <tt>false</tt> otherwise */
 	public boolean isLooping(){ if(lineInfo == null) return false; return doIsLooping(); }
 	private synchronized boolean doIsLooping(){
