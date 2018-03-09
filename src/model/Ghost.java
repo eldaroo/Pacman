@@ -28,7 +28,7 @@ public class Ghost extends Creature {
 			sounds.reproduceDeath();
 			
 			board.lifes--;
-			pacman.isDead();
+			pacman.setAlive(false);
 			gameState = gameState.RESPAWN;
 		}
 		return gameState;
@@ -40,20 +40,21 @@ public class Ghost extends Creature {
 		//el objetivo cambia en funcion al estado del juego
 	
 		Random random = new Random();
-		ArrayList<Direction> directionsAvailables = new ArrayList<Direction>();
+		ArrayList<Direction> potentialDirectionsList = new ArrayList<Direction>();
 		int stupidity = 2;
 		Direction randomChoise = randomPotentialDirection(); //seteamos la estupides
 		Direction smartChoise = smartPotentialDirection(target, gameState); // seteamos la inteligencia
 
 		//y las agregamos a un array, en proporciones dadas por la inteligencia de cada ghost
 		for (int i = 0; i < intelligence; i++) {
-			directionsAvailables.add(smartChoise);
+			potentialDirectionsList.add(smartChoise);
 		}
-		for (int i = 0; i < stupidity; i++) {
+		/*for (int i = 0; i < stupidity; i++) {
 			directionsAvailables.add(randomChoise);
-		}
-		int aux = random.nextInt(directionsAvailables.size());
-		setPotentialDirection(directionsAvailables.get(aux));
+		}*/
+		int aux = random.nextInt(potentialDirectionsList.size());
+		System.out.println(potentialDirectionsList.get(aux));
+		setPotentialDirection(potentialDirectionsList.get(aux));
 		if (gameState.equals(GameState.SUPERMODE))
 		{
 			setPotentialDirection(randomChoise);
@@ -101,7 +102,7 @@ public class Ghost extends Creature {
 		ArrayList<Direction> smartDirectionsAvailables = new ArrayList<Direction>();
 		int aux = 0;
 
-		if ((position.getDown().isNavegable(this)) && (direction != Direction.UP)
+		if ((position.getDown().isNavegable(this))/* && (direction != Direction.UP)*/
 				&& (targetPosition.getY() >= ghostPosition.getY())) {
 			
 			//Si esta en supermode que huya del pacman!
@@ -110,7 +111,7 @@ public class Ghost extends Creature {
 			}else*/ 
 				smartDirectionsAvailables.add(Direction.DOWN); //sino le agregamos la opcion inteligente
 		}
-		if ((position.getLeft().isNavegable(this)) && (direction != Direction.RIGHT)
+		if ((position.getLeft().isNavegable(this))/* && (direction != Direction.RIGHT)*/
 				&& (targetPosition.getX() <= ghostPosition.getX())) {
 			
 			//Si esta en supermode que huya del pacman!
@@ -118,7 +119,8 @@ public class Ghost extends Creature {
 				smartDirectionsAvailables.add(Direction.RIGHT);
 			}else*/ smartDirectionsAvailables.add(Direction.LEFT); //sino le agregamos la opcion inteligente
 		}
-		if ((position.getRight().isNavegable(this)) && (direction != Direction.LEFT)
+	
+		if ((position.getRight().isNavegable(this)) /*&& (direction != Direction.LEFT)*/
 				&& (targetPosition.getX() >= ghostPosition.getX())) {
 
 			//Si esta en supermode que huya del pacman!
@@ -126,7 +128,7 @@ public class Ghost extends Creature {
 				smartDirectionsAvailables.add(Direction.LEFT);
 			}else*/ smartDirectionsAvailables.add(Direction.RIGHT); //sino le agregamos la opcion inteligente
 		}
-		if ((position.getUp().isNavegable(this)) && (direction != Direction.DOWN)
+		if ((position.getUp().isNavegable(this)) /*&& (direction != Direction.DOWN)*/
 				&& (targetPosition.getY() <= ghostPosition.getY())) {
 
 			//Si esta en supermode que huya del pacman!
@@ -142,7 +144,14 @@ public class Ghost extends Creature {
 		}
 		return Direction.LEFT;
 	}
-	
+
+	//EN PROCESO
+	public Direction newSmartPotentialDirection()
+	{
+		ArrayList<Direction> SmartDirectionAvailables = new ArrayList<Direction>(); 
+		Direction BestChoise = null;
+		return BestChoise;
+	}
 	public void inHell () {
 		//boolean
 	}

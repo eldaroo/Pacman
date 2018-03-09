@@ -157,7 +157,7 @@ public class Game implements KeyListener, Runnable {
 		boolean ever = true;
 		while (ever) {
 			gameView.requestFocus();
-			System.out.println(gameState);
+			//System.out.println(gameState);
 
 			switch (gameState) {
 			case LOAD:
@@ -271,7 +271,6 @@ public class Game implements KeyListener, Runnable {
 			slowGhosts++;
 			if(slowGhosts==2) {
 				moveGhosts();
-				eatingPacman();
 				slowGhosts=0;
 			}
 
@@ -318,7 +317,9 @@ public class Game implements KeyListener, Runnable {
 
 	private static void setghostTarget(Square target) {
 		//el objetivo cambia en funcion al estado del juego
+		
 		for (Ghost ghost : ghostsArray) {
+			if (ghost.isAlive())
 			ghost.setTarget(target);
 		}
 		
@@ -384,7 +385,7 @@ public class Game implements KeyListener, Runnable {
 		}
 		// REINICIA PARTIDA
 
-		pacman.alive=true;
+		pacman.setAlive(true);
 		firstTime = true;
 		gameState = GameState.NORMALMODE;
 	}
