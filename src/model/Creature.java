@@ -9,11 +9,15 @@ import java.util.Observable;
 import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
+import sounds.Sounds;
+
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	public boolean alive = true;
 	Direction direction = Direction.LEFT;
 	String name = null;
+	Sounds sounds = new Sounds();
+
 
 	public Creature(String name) {
 		super();

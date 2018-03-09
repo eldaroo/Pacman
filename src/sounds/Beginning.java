@@ -8,7 +8,7 @@ import javax.sound.sampled.SourceDataLine;
 /** <p>An object implementing {@link java.applet.AudioClip java.applet.AudioClip} with the data from beginning.wav hard-coded into it.</p>
  * <p>Created with the <a href="http://stephengware.com/projects/soundtoclass">SoundToClass tool</a>, by Stephen G. Ware.</p>
  * @author Stephen G. Ware */
-public class beginning implements AudioClip {
+public class Beginning implements AudioClip {
 	private byte[] data;
 	private AudioFormat format;
 	private DataLine.Info lineInfo = null;
@@ -111,8 +111,9 @@ public class beginning implements AudioClip {
 		System.arraycopy(data45(), 0, data, 46080, 410);
 		return data;
 	}
-	/** Constructs a new AudioClip with the data from beginning.wav. */
-	public beginning(){
+	/** Constructs a new AudioClip with the data from beginning.wav. 
+	 * @return */
+	public Beginning(){
 		data = getData();
 		format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED, (float)(11025.0), 8, 1, 1, (float)(11025.0), false);
 		lineInfo = new DataLine.Info(SourceDataLine.class, format, AudioSystem.NOT_SPECIFIED);
@@ -153,9 +154,9 @@ public class beginning implements AudioClip {
 	}
 	/** A separate thread for looping play of beginning.wav. */
 	private class LoopThread extends Thread {
-		private beginning clip;
+		private Beginning clip;
 		private boolean looping = true;
-		public LoopThread(beginning c){ clip = c; }
+		public LoopThread(Beginning c){ clip = c; }
 		public void run(){
 			while(looping){
 				clip.play();

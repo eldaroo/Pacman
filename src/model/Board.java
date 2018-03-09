@@ -10,6 +10,8 @@ import java.util.Random;
 
 import org.json.simple.JSONValue;
 
+import sounds.Sounds;
+
 public class Board extends Observable implements Serializable {
 
 	private static final long serialVersionUID = -6472116531941544087L;
@@ -19,12 +21,14 @@ public class Board extends Observable implements Serializable {
 	public Dot dotRemoved;
 	boolean pacmanEatNewDot;
 	boolean superMode = false;
+	Sounds sounds = new Sounds();
+
 
 	public ArrayList<Square> hellZone = new ArrayList<Square>();
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
 
-	public long lifes = 3;
+	public long lifes = 1;
 	public long score = 0;
 
 	public Board(int[][] level1) {
@@ -35,7 +39,7 @@ public class Board extends Observable implements Serializable {
 	public GameState eatingDot(Pacman pacman, GameState gameState) {
 		pacmanEatNewDot = false;
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
-
+			sounds.reproduceEatDot();
 			score += 10;
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
 			if (dotRemoved.superDot == true) {

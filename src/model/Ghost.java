@@ -3,12 +3,16 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import sounds.Sounds;
+
 public class Ghost extends Creature {
 
 	Square target ;
-	public Ghost(String name, Square position) {
+	int intelligence;
+	public Ghost(String name, Square position, int intelligence) {
 		super(name);
 		this.position = position;
+		this.intelligence=intelligence;
 	}
 
 	//@Override
@@ -20,6 +24,9 @@ public class Ghost extends Creature {
 	
 	public GameState eatingPacman(Pacman pacman, Board board, GameState gameState) {
 		if (getPosition().equals(pacman.getPosition()) ) {
+			
+			sounds.reproduceDeath();
+			
 			board.lifes--;
 			pacman.isDead();
 			gameState = gameState.RESPAWN;
@@ -28,21 +35,18 @@ public class Ghost extends Creature {
 
 	}
 
-	public void pathFinder(Creature pacman, int inteligence, GameState gameState) {
+	//DECIDE LA DIRECCION
+	public void pathFinder(Creature pacman, GameState gameState) {
 		//el objetivo cambia en funcion al estado del juego
-		if ((gameState.equals(GameState.NORMALMODE))&&(this.alive))
-		{
-			target= pacman.position;
-		}
-		
+	
 		Random random = new Random();
 		ArrayList<Direction> directionsAvailables = new ArrayList<Direction>();
-		int stupidity = 10 - inteligence;
+		int stupidity = 2;
 		Direction randomChoise = randomPotentialDirection(); //seteamos la estupides
 		Direction smartChoise = smartPotentialDirection(target, gameState); // seteamos la inteligencia
 
 		//y las agregamos a un array, en proporciones dadas por la inteligencia de cada ghost
-		for (int i = 0; i < inteligence; i++) {
+		for (int i = 0; i < intelligence; i++) {
 			directionsAvailables.add(smartChoise);
 		}
 		for (int i = 0; i < stupidity; i++) {
@@ -57,6 +61,15 @@ public class Ghost extends Creature {
 
 	}
 
+	public Square getTarget() {
+		return target;
+	}
+
+	public void setTarget(Square target) {
+		this.target = target;
+	}
+
+	//CREA UNA POSIBILIDAD COMPLETAMENTE ALEATORIA
 	public Direction randomPotentialDirection() {
 		Random random = new Random();
 		ArrayList<Direction> directionsAvailables = new ArrayList<Direction>();
@@ -79,6 +92,7 @@ public class Ghost extends Creature {
 		return directionsAvailables.get(aux);
 	}
 
+	//CREA UNA POSIBILIDAD DE DIRECCION EN FUNCION AL OBJETIVO
 	public Direction smartPotentialDirection(Square target, GameState gameState) {
 
 		Position targetPosition = target.getBoardPosition();

@@ -42,7 +42,11 @@ import model.Ghost;
 import model.Pacman;
 import model.Serializator;
 import model.Square;
-import sounds.beginning;
+import sounds.Beginning;
+import sounds.Death;
+import sounds.EatDot;
+import sounds.EatGhost;
+import sounds.Sounds;
 import visual.BeginMenu;
 import visual.BoardView;
 import visual.GameView;
@@ -89,7 +93,7 @@ public class Game implements KeyListener, Runnable {
 	static Square originalPositionPacman ; 
 	static int hellIndex=0;
 	static Random randomHellZoneSquare = new Random();
-
+	static Sounds sound = new Sounds();
 	//DATOS
 	static int velocity = 66;
 	static int distance = 0;
@@ -171,7 +175,7 @@ public class Game implements KeyListener, Runnable {
 			case NORMALMODE:
 				if (firstTime) {
 					initVisual();
-					audioBeginning();
+					sound.reproduceBeginning();
 					firstTime = false;
 				}
 				normalMode();
@@ -186,12 +190,17 @@ public class Game implements KeyListener, Runnable {
 				superMode(pacman);
 				break;
 			case POSTGAME:
-				if (firstTime)
-				{
+
 					postGame();
-				}
 				break;
 			}
+			
+			//END GAME
+			if (board.lifes <= 0) {
+					gameState = GameState.POSTGAME;
+					firstTime = true;
+			}
+			
 			//CHIMPAAAAAA
 			distance++;
 			switch (distance) {
@@ -237,25 +246,35 @@ public class Game implements KeyListener, Runnable {
 		gameState = GameState.NORMALMODE;
 
 	}
-
-	private static void postGame() { //TERMINO LA PARTIDA
-		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
-		firstTime = true;		
-		gameView.remove(layers);
-		postGameView= new PostGameView(gameView);
-		layers.add(postGameView);
-		gameView.setContentPane(postGameView);
-		gameView.repaint();
-		firstTime = false;
+	//TERMINO LA PARTIDA
+	private static void postGame() { 
+		if (firstTime) {
+			JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
+			gameView.remove(layers);
+			postGameView= new PostGameView(gameView);
+			layers.add(postGameView);
+			gameView.setContentPane(postGameView);
+			gameView.repaint();
+			firstTime=false;
+		}
 	}
 
 	private static void superMode(Pacman pacman) throws InterruptedException {
-		
+		int slowGhosts=0;
 		superTime = 0;
+	
 		while (gameState.equals(GameState.SUPERMODE)) {
 			
 			Thread.sleep(velocity);	
-			moveGhosts(board.hellZone, pacman);
+			
+			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
+			slowGhosts++;
+			if(slowGhosts==2) {
+				moveGhosts();
+				eatingPacman();
+				slowGhosts=0;
+			}
+
 			pacman.move();
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone);
 			board.eatingDot(pacman, gameState);
@@ -274,8 +293,9 @@ public class Game implements KeyListener, Runnable {
 
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		hellTime = 0;
-		//Thread.sleep(3500);
 		
+		//GHOST: EL PACMAN ES EL NUEVO OBJETIVO
+		setghostTarget(pacman.getPosition());
 		while (gameState.equals(GameState.NORMALMODE)) {
 
 			Thread.sleep(velocity);
@@ -287,60 +307,39 @@ public class Game implements KeyListener, Runnable {
 				hellTime++;
 			}*/
 			
-			moveGhosts(board.hellZone, pacman);
+			moveGhosts();
+			eatingPacman();
 			pacman.move();
 			gameState=board.eatingDot(pacman, gameState);
-		
+			
 		}
-				//END GAME
-			if (board.lifes <= 0) {
-					gameState = GameState.POSTGAME;
-					firstTime = true;
-			}
+				
 		}
-	
-	private static void moveGhosts(ArrayList<Square> hellZone, Pacman pacman) {
-		int intelligence = 1;
+
+	private static void setghostTarget(Square target) {
+		//el objetivo cambia en funcion al estado del juego
 		for (Ghost ghost : ghostsArray) {
-			// GHOSTS: BUSCAN, MUEVEN Y SI ESTAN EN MODO NORMAL COMEN.
+			ghost.setTarget(target);
+		}
+		
+	}
+	private static void moveGhosts() {
 
-			ghost.pathFinder(pacman, intelligence, gameState);
+		for (Ghost ghost : ghostsArray) {
+			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
+			ghost.pathFinder(pacman, gameState);
 			ghost.move();
-			if (gameState.equals(GameState.NORMALMODE)) 
-			{gameState = ghost.eatingPacman(pacman, board, gameState);}
-			intelligence+=2;
+		}
+	}
+	private static void eatingPacman()
+	{
+		for (Ghost ghost : ghostsArray) {
+			// GHOSTS: SI ENCUENTRAN AL PACMAN LO COMEN
+			gameState = ghost.eatingPacman(pacman, board, gameState);
+
 		}
 	}
 
-	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-
-		switch (arg0.getKeyCode()) {
-		case KeyEvent.VK_LEFT: {
-			pacman.setPotentialDirection(Direction.LEFT);
-			break;
-		}
-		case KeyEvent.VK_UP: {
-			pacman.setPotentialDirection(Direction.UP);
-			break;
-		}
-		case KeyEvent.VK_RIGHT: {
-			pacman.setPotentialDirection(Direction.RIGHT);
-			break;
-		}
-		case KeyEvent.VK_DOWN: {
-			pacman.setPotentialDirection(Direction.DOWN);
-			break;
-		}
-		case KeyEvent.VK_P: {
-			gameState = GameState.PAUSA;
-			// Pause(!isPaused());
-			break;
-		}
-
-		}
-	}
 
 	public static boolean isFirstTime() {
 		return firstTime;
@@ -395,11 +394,12 @@ public class Game implements KeyListener, Runnable {
 	    ghostsArray = new ArrayList <Ghost>();
 		
 		int aux=1;
+		int intelligence = 1;
 		while (aux<= ghostQuantity) {
 			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
-			ghostsArray.add(new Ghost("ghost"+aux, 
-					board.hellZone.get(hellIndex)));
+			ghostsArray.add(new Ghost("ghost"+aux,board.hellZone.get(hellIndex), intelligence));
 			aux++;
+			intelligence +=2;
 		}
 	}
 	
@@ -430,15 +430,38 @@ public class Game implements KeyListener, Runnable {
 		Game.run = !run;
 	}
 
-	public void audioBeginning() throws LineUnavailableException, UnsupportedAudioFileException, FileNotFoundException, InterruptedException
-	{
-		// MUSICA DE INICIO DE PARTIDA
 
-		beginning sound = new beginning();
-		sound.play();
-		Thread.sleep(3795);
-		
+
+	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+
+		switch (arg0.getKeyCode()) {
+		case KeyEvent.VK_LEFT: {
+			pacman.setPotentialDirection(Direction.LEFT);
+			break;
+		}
+		case KeyEvent.VK_UP: {
+			pacman.setPotentialDirection(Direction.UP);
+			break;
+		}
+		case KeyEvent.VK_RIGHT: {
+			pacman.setPotentialDirection(Direction.RIGHT);
+			break;
+		}
+		case KeyEvent.VK_DOWN: {
+			pacman.setPotentialDirection(Direction.DOWN);
+			break;
+		}
+		case KeyEvent.VK_P: {
+			gameState = GameState.PAUSA;
+			// Pause(!isPaused());
+			break;
+		}
+
+		}
 	}
+
 	
 	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
