@@ -12,11 +12,12 @@ public abstract class Square {
 	private Square right = null;
 	private Square up = null;
 	private Position boardPosition = null;
-	
 
 	public Square() {
 		super();
+
 	}
+
 
 	public Square get(Direction direction) {
 

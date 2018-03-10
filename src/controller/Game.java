@@ -40,6 +40,7 @@ import model.Dot;
 import model.GameState;
 import model.Ghost;
 import model.Pacman;
+import model.Position;
 import model.Serializator;
 import model.Square;
 import sounds.Beginning;
@@ -159,8 +160,7 @@ public class Game implements KeyListener, Runnable {
 		boolean ever = true;
 		while (ever) {
 			gameView.requestFocus();
-			//System.out.println(gameState);
-
+			
 			switch (gameState) {
 			case LOAD:
 				load();
@@ -276,9 +276,9 @@ public class Game implements KeyListener, Runnable {
 
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		hellTime = 0;
-		
+
 		//GHOST: EL PACMAN ES EL NUEVO OBJETIVO
-		setghostTarget(pacman.getPosition());
+		
 		while (gameState.equals(GameState.NORMALMODE)) {
 
 			Thread.sleep(velocity);
@@ -289,10 +289,12 @@ public class Game implements KeyListener, Runnable {
 			} else {
 				hellTime++;
 			}*/
-			
+			setghostTarget(pacman.getBoardPosition());
+
 			moveGhosts();
-			eatingPacman();
 			pacman.move();
+			eatingPacman();
+
 			gameState=board.eatingDot(pacman, gameState);
 			
 			//END GAME
@@ -305,12 +307,12 @@ public class Game implements KeyListener, Runnable {
 				
 		}
 
-	private static void setghostTarget(Square target) {
+	private static void setghostTarget(Position position) {
 		//el objetivo cambia en funcion al estado del juego
 		
 		for (Ghost ghost : ghostsArray) {
-			if (ghost.isAlive())
-			ghost.setTarget(target);
+			//if (ghost.isAlive())
+			ghost.setTarget(position);
 		}
 		
 	}
