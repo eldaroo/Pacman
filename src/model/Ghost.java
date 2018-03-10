@@ -7,7 +7,7 @@ import sounds.Sounds;
 
 public class Ghost extends Creature {
 
-	private Square target ;
+	private Position target ;
 	private int intelligence;
 	public static enum GhostState {ALIVE,DEATH,PUSSY,EATED};
 	Intelligence ArtificialIntelligence;

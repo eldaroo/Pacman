@@ -39,7 +39,7 @@ public class Intelligence {
 			
 			Random random = new Random();
 			ArrayList<Direction> potentialDirectionsList = new ArrayList<Direction>();
-			int stupidity = 10 - ghost.intelligence;
+			int stupidity = 10 - ghost.getIntelligence();
 			smartChoise = getSmartPotentialDirection(DirectionMap, smartDirectionAvailables,targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
 			
 			directionAvailables.clear();
@@ -48,7 +48,7 @@ public class Intelligence {
 			randomChoise =getRandomChoise(DirectionMap, targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
 
 			//y las agregamos a un array, en proporciones dadas por la inteligencia de cada ghost
-			for (int i = 0; i < ghost.intelligence; i++) {
+			for (int i = 0; i < ghost.getIntelligence(); i++) {
 				potentialDirectionsList.add(smartChoise);
 			}
 			for (int i = 0; i < stupidity; i++) {
