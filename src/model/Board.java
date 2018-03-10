@@ -28,7 +28,7 @@ public class Board extends Observable implements Serializable {
 	ArrayList<Square> teleportList = new ArrayList<Square>();
 
 
-	public long lifes = 1;
+	public long lifes = 3;
 	public long score = 0;
 
 	public Board(int[][] level1) {

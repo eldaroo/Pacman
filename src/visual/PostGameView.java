@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
 
 public class PostGameView extends JPanel {
 	private JTextField textField;
@@ -24,6 +25,7 @@ public class PostGameView extends JPanel {
 		add(lblNombre);
 		
 		textField = new JTextField();
+		textField.setBorder(new EmptyBorder(0, 0, 0, 0));
 		textField.setBounds(112, 84, 86, 20);
 		add(textField);
 		textField.setColumns(10);
