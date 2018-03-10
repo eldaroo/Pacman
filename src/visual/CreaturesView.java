@@ -21,11 +21,7 @@ public class CreaturesView extends JLabel implements Observer {
 	@Override
 	public void update(Observable observable, Object object) {
 
-		Creature creature = (Creature) observable;
-		Position boardPosition = creature.getBoardPosition();
-		Direction direction = creature.getDirection();
-		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10+25, 30, 30);
-
+		
 	}
 	
 	

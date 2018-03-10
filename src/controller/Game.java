@@ -196,23 +196,6 @@ public class Game implements KeyListener, Runnable {
 					postGame();
 				break;
 			}
-			
-
-			
-			//CHIMPAAAAAA
-			distance++;
-			switch (distance) {
-			case 22: {
-				pacmanState = 1;
-			}
-			case 44: {
-				pacmanState = 2;
-			}
-			case 66: {
-				pacmanState = 3;
-				distance = 0;
-			}
-			}
 		}
 
 	}
@@ -235,6 +218,9 @@ public class Game implements KeyListener, Runnable {
 			gameState = GameState.RECOVERY;
 			beginMenu.dispose();
 			firstTime = true;
+		} else if (beginMenu.wasPressBtnExit()) { 
+			// CIERRA EL JUEGO
+			System.exit(0);
 
 		}
 	}

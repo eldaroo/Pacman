@@ -28,7 +28,7 @@ public class PostGameView extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		JButton btnSalvarPartida = new JButton("Salvar Partida");
+		JButton btnSalvarPartida = new JButton("Salvar Puntaje");
 		btnSalvarPartida.setBounds(190, 152, 124, 23);
 		add(btnSalvarPartida);
 		

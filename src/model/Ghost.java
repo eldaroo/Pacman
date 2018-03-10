@@ -7,8 +7,10 @@ import sounds.Sounds;
 
 public class Ghost extends Creature {
 
-	Square target ;
-	int intelligence;
+	private Square target ;
+	private int intelligence;
+	public static enum GhostState {ALIVE,DEATH,PUSSY,EATED};
+	
 	public Ghost(String name, Square position, int intelligence) {
 		super(name);
 		this.position = position;

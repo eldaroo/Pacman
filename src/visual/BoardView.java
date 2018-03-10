@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -70,6 +71,7 @@ public class BoardView extends Thread implements ActionListener, Observer{
 		beginMenu.repaint();
 		beginMenu.layers.add(beginMenu.btnBegin);
 		beginMenu.layers.add(beginMenu.btnRecovery);
+		beginMenu.layers.add(beginMenu.btnExit);
 	}
 	//EJECUTAR SALVADO AL PRESIONAR BOTON PARA SALVAR JUEGO
 	@Override
