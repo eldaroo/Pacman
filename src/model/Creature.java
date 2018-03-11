@@ -2,17 +2,31 @@ package model;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Observable;
 
 import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
+import sounds.Sounds;
+
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
-	public boolean alive = true;
-	Direction direction = Direction.LEFT;
+	boolean alive = true;
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		System.out.println("muere "+ this.name);
+		this.alive = alive;
+	}
+
+	Direction direction = Direction.RIGHT;
 	String name = null;
+	Sounds sounds = new Sounds();
+
 
 	public Creature(String name) {
 		super();
@@ -20,12 +34,14 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	}
 
 	Square position = null;
+	Square positionType = null;
 
 	Direction potentialDirection = Direction.LEFT;
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
 	}
+
 
 	public Direction getDirection() {
 		return direction;
@@ -39,17 +55,13 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		return potentialDirection;
 	}
 
-	public void isDead() {
-		System.out.println("muere");
-		alive = false;
-	}
-
 	public void kill() {
 		alive = false;
 	}
 
 	public void move() {
 
+		
 		Square nextPotentialPosition = position.get(potentialDirection);
 		Square nextPosition = position.get(direction);
 		if (nextPotentialPosition.isNavegable(this)) {
@@ -58,7 +70,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 		} else if ((potentialDirection != direction) && (nextPosition.isNavegable(this))) {
 			setPosition(nextPosition);
-
+			
 		}
 	}
 
