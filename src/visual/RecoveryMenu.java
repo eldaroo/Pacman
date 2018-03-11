@@ -26,11 +26,10 @@ public class RecoveryMenu extends JInternalFrame{
 
 		getContentPane().setLayout(null);
 		setVisible(true);
-		System.out.println("hola");
 		
-		JLabel lblSeleccioneUnaPartida = new JLabel("Tiene una partida guardada del dia ");
-		lblSeleccioneUnaPartida.setBounds(144, 243, 233, 23);
-		getContentPane().add(lblSeleccioneUnaPartida);
+		JLabel lblSelect = new JLabel("Tiene una partida guardada del dia ");
+		lblSelect.setBounds(144, 243, 233, 23);
+		getContentPane().add(lblSelect);
 		
 		JList list = new JList();
 		list.setBounds(93, 229, 1, 1);

@@ -28,9 +28,11 @@ public class Controller {
 		
 		game = new Thread( new Game(beginMenu, boardView, board, layers, boardConfiguration),"game");
 		boardView= new BoardView(beginMenu, board.getBoard(), layers);
+		
 	
 		game.start();
 		boardView.start();
+		
 		board.addObserver((Observer) boardView);
 	}
 }

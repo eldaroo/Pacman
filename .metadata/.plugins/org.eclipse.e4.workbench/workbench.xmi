@@ -9,8 +9,9 @@
     <persistedState key="isRestored" value="true"/>
     <persistedState key="show_in_time" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;show_in_time/>"/>
     <persistedState key="workingSets" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;workingSets/>"/>
-    <persistedState key="aggregateWorkingSetId"/>
+    <persistedState key="aggregateWorkingSetId" value="Aggregate for window 1520277429969"/>
     <tags>topLevel</tags>
+    <tags>shellMaximized</tags>
     <children xsi:type="basic:PartSashContainer" xmi:id="_iPbAwQw2Eei7XcvsEyAUJA" selectedElement="_iPbAwgw2Eei7XcvsEyAUJA" horizontal="true">
       <children xsi:type="advanced:PerspectiveStack" xmi:id="_iPbAwgw2Eei7XcvsEyAUJA" elementId="org.eclipse.ui.ide.perspectivestack" containerData="7500" selectedElement="_i94CMAw2Eei7XcvsEyAUJA">
         <children xsi:type="advanced:Perspective" xmi:id="_i94CMAw2Eei7XcvsEyAUJA" elementId="org.eclipse.jst.j2ee.J2EEPerspective" selectedElement="_i94CMQw2Eei7XcvsEyAUJA" label="Java EE" iconURI="platform:/plugin/org.eclipse.jst.j2ee.ui/icons/full/cview16/j2ee_perspective.gif">
@@ -133,7 +134,7 @@
       </children>
     </sharedElements>
     <sharedElements xsi:type="basic:Part" xmi:id="_i8PDcAw2Eei7XcvsEyAUJA" elementId="org.eclipse.ui.navigator.ProjectExplorer" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Project Explorer" iconURI="platform:/plugin/org.eclipse.ui.navigator.resources/icons/full/eview16/resource_persp.gif" tooltip="" closeable="true">
-      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view CommonNavigator.LINKING_ENABLED=&quot;0&quot; org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets=&quot;0&quot;/>"/>
+      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view CommonNavigator.LINKING_ENABLED=&quot;0&quot; currentWorkingSetName=&quot;Aggregate for window 1520277429969&quot; org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets=&quot;0&quot;/>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
       <tags>active</tags>
@@ -227,7 +228,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ivCU8Aw2Eei7XcvsEyAUJA" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_ivNUEAw2Eei7XcvsEyAUJA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" enabled="false" command="_h6eEnQw2Eei7XcvsEyAUJA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_54SdsCCpEei2jZmz-Yt3bA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_h6eEnQw2Eei7XcvsEyAUJA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ivCU8Qw2Eei7XcvsEyAUJA" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -254,7 +255,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ivC8Agw2Eei7XcvsEyAUJA" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_ivPwUAw2Eei7XcvsEyAUJA" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_h6ddaww2Eei7XcvsEyAUJA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_54YkUiCpEei2jZmz-Yt3bA" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_h6ddaww2Eei7XcvsEyAUJA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ivC8Aww2Eei7XcvsEyAUJA" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>

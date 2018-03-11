@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -65,7 +66,7 @@ public class Serializator {
 	
 	
 	
-	public void toPersist(Board board,Creature pacman, Creature ghost1, Creature ghost2, Creature ghost3, Creature ghost4, Creature ghost5) throws IOException {
+	public void toPersist(Board board,Creature pacman, Creature ghost1, Creature ghost2, Creature ghost3, Creature ghost4, Creature ghost5, LocalDateTime ldt) throws IOException {
 		Dot[][] dots = board.dots;
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
