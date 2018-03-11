@@ -64,8 +64,15 @@ public class Serializator {
 
 	}
 	
+	
+	
+<<<<<<< HEAD
+	public void toPersist(Board board,Creature pacman, Creature ghost1, Creature ghost2, Creature ghost3, Creature ghost4, Creature ghost5, LocalDateTime ldt) throws IOException {
+||||||| merged common ancestors
+	public void toPersist(Board board,Creature pacman, Creature ghost1, Creature ghost2, Creature ghost3, Creature ghost4, Creature ghost5) throws IOException {
+=======
 	public void toPersist(Board board,Creature pacman) throws IOException {
-
+>>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
 		Dot[][] dots = board.dots;
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
