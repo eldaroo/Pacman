@@ -4,14 +4,36 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
+<<<<<<< HEAD
+||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+import java.sql.Date;
+import java.time.LocalDateTime;
+=======
+<<<<<<< HEAD
+import java.sql.Date;
+import java.time.LocalDateTime;
+||||||| merged common ancestors
+=======
+import java.net.URL;
+>>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+>>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -30,122 +52,137 @@ import model.Dot;
 import model.GameState;
 import model.Ghost;
 import model.Pacman;
+import model.Position;
 import model.Serializator;
 import model.Square;
+import sounds.Beginning;
+import sounds.Death;
+import sounds.EatDot;
+import sounds.EatGhost;
+import sounds.Sounds;
 import visual.BeginMenu;
 import visual.BoardView;
 import visual.GameView;
+import visual.GhostView;
+import visual.PacmanView;
 import visual.PlayerView;
+import visual.PostGameView;
 import visual.RecoveryMenu;
 import visual.CreaturesView;
 import visual.DotsView;
 
 public class Game implements KeyListener, Runnable {
 
-	static Board board;
-	static Square[][] boardMatrix;
-	static GameView gameView;
-	static Dot[][] dotMatrix;
-	static DotsView dotsView;
+	//HILOS
 	static Game game;
 	static Thread boardView;
-	static Pacman pacman;
 
-	static Ghost ghost1;
-	static Ghost ghost2;
-	static Ghost ghost3;
-	static Ghost ghost4;
-	static Ghost ghost5;
-
-	static CreaturesView ghostView1;
-	static CreaturesView ghostView2;
-	static CreaturesView ghostView3;
-	static CreaturesView ghostView4;
-	static CreaturesView ghostView5;
-	static CreaturesView pacmanView;
+	//MODELO
+	static Board board;
+	static Square[][] boardMatrix;
+	static Dot[][] dotMatrix;
 	BoardConfiguration boardConfiguration ;
 
-	static Serializator serializator = new Serializator();
-	static GameState gameState;
-
-
+	//VISUAL
+	static DotsView dotsView;
+	static PostGameView postGameView;
+	static GameView gameView; //JFRAME
+	static CreaturesView pacmanView;
+	static ArrayList<CreaturesView> ghostViewsArray;
 	static BeginMenu beginMenu;
-	static int superTime = 0;
-	static int hellTime = 0;
 	static JLayeredPane layers;
-	static boolean run = true;
-	static boolean firstTime = true;
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
+<<<<<<< HEAD
+||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+	static LocalDateTime date = LocalDateTime.now();
+=======
+<<<<<<< HEAD
+	static LocalDateTime date = LocalDateTime.now();
+||||||| merged common ancestors
+=======
+	
+	//CRIATURAS
+	static Pacman pacman;
+	static ArrayList<Ghost> ghostsArray;
 
+	//SERIALIZADOR
+	static Serializator serializator = new Serializator();
+>>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+>>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+
+	//ESTRUCTURA
+	static GameState gameState;
+	static boolean run = true;
+	static boolean firstTime = true;
+	static Square originalPositionPacman ; 
+	static int hellIndex=0;
+	static Random randomHellZoneSquare = new Random();
+	static Sounds sound = new Sounds();
+	//DATOS
+	static int velocity = 66;
+	static int distance = 0;
+	static int pacmanState = 1;
+	static int superTime = 0;
+	static int hellTime = 0;
+	static int ghostQuantity = 5;
+	
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
+		//CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
 		this.beginMenu = beginMenu;
 		this.layers = layers;
 		this.board= board;
 		this.boardConfiguration = boardConfiguration;
 		this.boardView= boardView;
+		
 
 	}
 	public void run () {
-		
-		
+		//EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
 		initGame();
 		try {
 			play();
-		} catch (IOException | ParseException | InterruptedException e) {
+		} catch (IOException | ParseException | InterruptedException | LineUnavailableException | UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
-
 	private void initGame() {
-		//game = new Game();
+		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
+		
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
-		ghost1 = new Ghost("ghost1", boardMatrix[23][22]);
-		ghost2 = new Ghost("ghost2", boardMatrix[23][22]);
-		ghost3 = new Ghost("ghost3", boardMatrix[23][22]);
-		ghost4 = new Ghost("ghost4", boardMatrix[23][22]);
-		ghost5 = new Ghost("ghost5", boardMatrix[23][22]);
-		pacman = new Pacman("pacman", boardMatrix[27][43]);
+	    originalPositionPacman =boardMatrix[27][43];
+	    createGhosts(ghostQuantity);
+		pacman = new Pacman("pacman", originalPositionPacman);
 
 	}
 
 	private void initVisual() {
-
+		//INICIALIZAMOS MAS VARIABLES, ESTA VEZ ORIENTADO A LO VISUAL
+		
 		gameView.setContentPane(layers);
-
 		gameView.addKeyListener(this);
 		dotMatrix = board.getDots();
 		dotsView = new DotsView(dotMatrix, layers);
 		playerView = new PlayerView(layers);
-		pacmanView = new CreaturesView(pacman, layers);
-		ghostView1 = new CreaturesView(ghost1, layers);
-		ghostView2 = new CreaturesView(ghost2, layers);
-		ghostView3 = new CreaturesView(ghost3, layers);
-		ghostView4 = new CreaturesView(ghost4, layers);
-		ghostView5 = new CreaturesView(ghost5, layers);
+		pacmanView = new PacmanView(pacman, layers);
+		createGhostViews(ghostQuantity);
 		gameView.setVisible(true);
+		
 		pacman.addObserver(pacmanView);
-		ghost1.addObserver(ghostView1);
-		ghost2.addObserver(ghostView2);
-		ghost3.addObserver(ghostView3);
-		ghost4.addObserver(ghostView4);
-		ghost5.addObserver(ghostView5);
 		board.addObserver(dotsView);
-		//board.addObserver(boardView);
 
 	}
 
-	private void play() throws IOException, ParseException, InterruptedException {
+	// ARRANCA EL JUEGO
+	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 		boolean ever = true;
 		while (ever) {
 			gameView.requestFocus();
-
+			
 			switch (gameState) {
 			case LOAD:
 				load();
@@ -153,7 +190,6 @@ public class Game implements KeyListener, Runnable {
 				break;
 			case RECOVERY:
 				if (firstTime) {
-
 					recoveryMenu = new RecoveryMenu(gameView);
 					gameView.setContentPane(recoveryMenu);
 					firstTime = false;
@@ -163,6 +199,7 @@ public class Game implements KeyListener, Runnable {
 			case NORMALMODE:
 				if (firstTime) {
 					initVisual();
+					sound.reproduceBeginning();
 					firstTime = false;
 				}
 				normalMode();
@@ -174,32 +211,38 @@ public class Game implements KeyListener, Runnable {
 				pausa();
 				break;
 			case SUPERMODE:
-				superMode(ghost1, pacman);
+				superMode(pacman);
 				break;
 			case POSTGAME:
-				postGame();
+
+					postGame();
 				break;
 			}
-
 		}
 
 	}
-
+	
 	private static void load() {
-		if (firstTime) {
+		//LA PANTALLA PRE-JUEGO
 
+		if (firstTime) {
 			gameView.setContentPane(beginMenu);
 			firstTime = false;
 		}
-
-		if (beginMenu.wasPressbtnBegin()) {
+		
+		if (beginMenu.wasPressbtnBegin()) {			
+			// CAMBIA A MODO NORMAL (CIERRA PANTALLA DE INICIO)
 			gameState = GameState.NORMALMODE;
 			firstTime = true;
 			beginMenu.dispose();
-		} else if (beginMenu.wasPressBtnRecovery()) {
+		} else if (beginMenu.wasPressBtnRecovery()) { 
+			// CAMBIA A MODO CARGAR (CIERRA PANTALLA DE INICIO)
 			gameState = GameState.RECOVERY;
 			beginMenu.dispose();
 			firstTime = true;
+		} else if (beginMenu.wasPressBtnExit()) { 
+			// CIERRA EL JUEGO
+			System.exit(0);
 
 		}
 	}
@@ -209,107 +252,220 @@ public class Game implements KeyListener, Runnable {
 		gameState = GameState.NORMALMODE;
 
 	}
-
-	private static void postGame() {
-		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
-		firstTime = true;
-		board.lifes = 3;
-		gameState = GameState.LOAD;
+	//TERMINO LA PARTIDA
+	private static void postGame() { 
+		if (firstTime) {
+			JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
+			gameView.remove(layers);
+			postGameView= new PostGameView(gameView);
+			layers.add(postGameView);
+			gameView.setContentPane(postGameView);
+			gameView.repaint();
+			firstTime=false;
+		}
 	}
 
-	private static void superMode(Ghost ghost, Pacman pacman) {
-
-		while (board.superMode) {
-			try {
-				Thread.sleep(80);
-
-			} catch (InterruptedException time) {
-
+	private static void superMode(Pacman pacman) throws InterruptedException {
+		int slowGhosts=0;
+		superTime = 0;
+	
+		while (gameState.equals(GameState.SUPERMODE)) {
+			
+			Thread.sleep(velocity);	
+			
+			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
+			slowGhosts++;
+			if(slowGhosts==2) {
+				moveGhosts();
+				slowGhosts=0;
 			}
 
-			/*
-			 * creatures.get(indexPacman).eateable = false; for (Creature creature :
-			 * creatures) { if ((creature.identy=="Ghost")&&(creature.alive)) {
-			 * creature.eateable = true; } } <<<CUANDO SEAN VARIAS CRIATURAS>>>
-			 */
-			ghost.pathFinder(pacman, 10);
-			ghost.move();
 			pacman.move();
-			pacman.eatingGhosts(ghost, pacman, board);
-			board.eatingDot(pacman);
-
+			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone);
+			board.eatingDot(pacman, gameState);
 			superTime++;
-			/*
-			 * //32 segundos?? if (superTime/12==30) { System.out.println("caca");
-			 */
-			if (board.dotRemoved.superDot) {
+			if (board.dotRemoved.getSuper()) {
 				superTime = 0;
 			}
-			if (superTime == 100) {
-				superTime = 0;
-				/*
-				 * for (Creature creature : creatures) { if (creature.identy!="Pacman") {
-				 * creature.eateable = false; }else creature.eateable = true; } <<<CUANDO SEAN
-				 * VARIAS CRIATURAS>>>
-				 */
-				board.superMode = false;
+			if (superTime == 111) {
+				gameState = GameState.NORMALMODE;
 			}
 
-			// creatures.get(indexPacman).eatingGhosts(creatures, indexPacman);
-			// <<<CUANDO SEAN VARIAS CRIATURAS>>>
-
+			
 		}
 
 	}
 
-	private static void normalMode() throws InterruptedException {
+	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
+		hellTime = 0;
 
+		//GHOST: EL PACMAN ES EL NUEVO OBJETIVO
+		
 		while (gameState.equals(GameState.NORMALMODE)) {
 
-			Thread.sleep(80);
+			Thread.sleep(velocity);
 
-			ghost1.pathFinder(pacman, 1);
-			ghost2.pathFinder(pacman, 3);
-			ghost3.pathFinder(pacman, 5);
-			ghost4.pathFinder(pacman, 7);
-			ghost5.pathFinder(pacman, 9);
-
-			if (hellTime == 100) {
-				//EL HELLTIME LO DEBE TENER CADA GHOST EN FUNCION DE LA INTELIGENCIA
-				ghost1.move();
-				ghost2.move();
-				ghost3.move();
-				ghost4.move();
-				ghost5.move();
+			/*if (hellTime == 20) {
+				//moveGhosts(target);
+				//EL HELLTIME LO DEBE TENER CADA GHOST EN FUNCION DE LA INTELIGENCIA			
 			} else {
 				hellTime++;
-			}
+			}*/
+			setghostTarget(pacman.getBoardPosition());
 
-			ghost1.eatPacman(pacman,board);
-			ghost2.eatPacman(pacman,board);
-			ghost3.eatPacman(pacman,board);
-			ghost4.eatPacman(pacman,board);
-			ghost5.eatPacman(pacman,board);
+			moveGhosts();
+			pacman.move();
+			eatingPacman();
 
-			if (!pacman.alive) {
-				gameState = GameState.RESPAWN;
-				if (board.lifes <= 0) {
+			gameState=board.eatingDot(pacman, gameState);
+			
+			//END GAME
+			if (board.lifes <= 0) {
 					gameState = GameState.POSTGAME;
-				}
-			} else {
-				pacman.move();
-				board.eatingDot(pacman);
+					firstTime = true;
 			}
-
-			if (board.superMode) {
-				gameState = GameState.SUPERMODE;
-			}
-			// SUPERMODE(ghost1, pacman);
-
+			
+		}
+				
 		}
 
+	private static void setghostTarget(Position position) {
+		//el objetivo cambia en funcion al estado del juego
+		
+		for (Ghost ghost : ghostsArray) {
+			//if (ghost.isAlive())
+			ghost.setTarget(position);
+		}
+		
+	}
+	private static void moveGhosts() {
+
+		for (Ghost ghost : ghostsArray) {
+			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
+			ghost.pathFinder(pacman, gameState);
+			ghost.move();
+		}
+	}
+	private static void eatingPacman()
+	{
+		for (Ghost ghost : ghostsArray) {
+			// GHOSTS: SI ENCUENTRAN AL PACMAN LO COMEN
+			gameState = ghost.eatingPacman(pacman, board, gameState);
+
+		}
 	}
 
+
+	public static boolean isFirstTime() {
+		return firstTime;
+	}
+
+	public static void setFirstTime(boolean firstTime) {
+		Game.firstTime = firstTime;
+	}
+	// GUARDA PARTIDA
+
+	public static void save() {
+		try {
+<<<<<<< HEAD
+
+			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
+||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+			date.toLocalDate();
+			System.out.println(date);
+			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5,date);
+=======
+<<<<<<< HEAD
+			date.toLocalDate();
+			System.out.println(date);
+			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5,date);
+||||||| merged common ancestors
+
+			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
+=======
+
+			serializator.toPersist(board, pacman);
+>>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+>>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+			gameView.requestFocus();
+
+		} catch (IOException e) {
+			System.out.println("error " + e);
+			e.printStackTrace();
+		}
+	}
+	// CARGA PARTIDA
+
+	public static void recovery() throws FileNotFoundException, IOException, ParseException {
+		// RECUPER LOS DATOS GUARDADOS DE LOS DOTS Y LOS VUELCA AL TABLERO
+
+		Dot[][] dotsArraySaved = serializator.recover(board, pacman);
+		board.setDots(dotsArraySaved);
+		recoveryMenu.dispose();
+		setGameState(GameState.NORMALMODE);
+		setFirstTime(true);
+	}
+	// REINICIA POSICIONES EN EL TABLERO
+	public static void respawn() {	
+
+		pacman.setPosition(originalPositionPacman);
+
+		for (Ghost ghost : ghostsArray) {
+			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
+			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
+			ghost.setPosition( board.hellZone.get(hellIndex));
+		}
+		// REINICIA PARTIDA
+
+		pacman.setAlive(true);
+		firstTime = true;
+		gameState = GameState.NORMALMODE;
+	}
+	
+	// CREA MODELO DE GHOSTS
+	private void createGhosts(int ghostQuantity) {
+	    ghostsArray = new ArrayList <Ghost>();
+		
+		int aux=1;
+		int intelligence = 1;
+		while (aux<= ghostQuantity) {
+			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
+			ghostsArray.add(new Ghost("ghost"+aux,board.hellZone.get(hellIndex), intelligence));
+			aux++;
+			intelligence +=2;
+		}
+	}
+	
+	
+	public static GameState getGameState() {
+		return gameState;
+	}
+	
+	// CREA VISUAL DE GHOSTS Y COMIENZA A OBSERVAR MODELO DE GHOSTS
+	private void createGhostViews(int ghostQuantity) {
+	    ghostViewsArray = new ArrayList <CreaturesView>();
+		int aux=1;
+		while (aux<= ghostQuantity) {
+			ghostViewsArray.add(new GhostView(ghostsArray.get(aux-1), layers));
+			ghostsArray.get(aux-1).addObserver(ghostViewsArray.get(aux-1));
+			aux++;
+		}		
+	}
+	public static void setGameState(GameState gameState) {
+		Game.gameState = gameState;
+	}
+
+	public static boolean isPaused() {
+		return !run;
+	}
+
+	public void Pause(boolean run) {
+		Game.run = !run;
+	}
+
+
+
+	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 
@@ -339,56 +495,8 @@ public class Game implements KeyListener, Runnable {
 		}
 	}
 
-	public static boolean isFirstTime() {
-		return firstTime;
-	}
-
-	public static void setFirstTime(boolean firstTime) {
-		Game.firstTime = firstTime;
-	}
 	
-	public static void save() {
-		try {
-
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-			gameView.requestFocus();
-
-		} catch (IOException e) {
-			System.out.println("error " + e);
-			e.printStackTrace();
-		}
-	}
-
-	public static void recovery() throws FileNotFoundException, IOException, ParseException {
-		Dot[][] dotsArraySaved = serializator.recover(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-		board.setDots(dotsArraySaved);
-		recoveryMenu.dispose();
-		setGameState(GameState.NORMALMODE);
-		setFirstTime(true);
-	}
-
-	public static void respawn() {
-		System.out.println("Te quedan " + board.lifes + " vidas.");
-		pacman.alive = true;
-		gameState = GameState.NORMALMODE;
-	}
-
-	public static GameState getGameState() {
-		return gameState;
-	}
-
-	public static void setGameState(GameState gameState) {
-		Game.gameState = gameState;
-	}
-
-	public static boolean isPaused() {
-		return !run;
-	}
-
-	public void Pause(boolean run) {
-		Game.run = !run;
-	}
-
+	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
