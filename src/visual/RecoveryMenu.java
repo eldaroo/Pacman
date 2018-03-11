@@ -26,30 +26,11 @@ public class RecoveryMenu extends JInternalFrame {
 
 		getContentPane().setLayout(null);
 		setVisible(true);
-<<<<<<< HEAD
-		System.out.println("hola");
-||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
-=======
-<<<<<<< HEAD
->>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
-		
-		JLabel lblSeleccioneUnaPartida = new JLabel("Tiene una partida guardada del dia ");
-		lblSeleccioneUnaPartida.setBounds(144, 243, 233, 23);
-		getContentPane().add(lblSeleccioneUnaPartida);
-		
-||||||| merged common ancestors
-		System.out.println("hola");
-		
-		JLabel lblSeleccioneUnaPartida = new JLabel("Tiene una partida guardada del dia ");
-		lblSeleccioneUnaPartida.setBounds(144, 243, 233, 23);
-		getContentPane().add(lblSeleccioneUnaPartida);
-		
-=======
-		JLabel lblSeleccioneUnaPartida = new JLabel("Tiene una partida guardada del dia ");
-		lblSeleccioneUnaPartida.setBounds(144, 243, 233, 23);
-		getContentPane().add(lblSeleccioneUnaPartida);
 
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+		JLabel lblSelect = new JLabel("Tiene una partida guardada del dia ");
+		lblSelect.setBounds(144, 243, 233, 23);
+		getContentPane().add(lblSelect);
+
 		JList list = new JList();
 		list.setBounds(93, 229, 1, 1);
 		getContentPane().add(list);

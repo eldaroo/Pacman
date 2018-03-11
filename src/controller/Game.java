@@ -12,19 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-<<<<<<< HEAD
-||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+
 import java.sql.Date;
 import java.time.LocalDateTime;
-=======
-<<<<<<< HEAD
-import java.sql.Date;
-import java.time.LocalDateTime;
-||||||| merged common ancestors
-=======
-import java.net.URL;
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
->>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -93,23 +84,16 @@ public class Game implements KeyListener, Runnable {
 	static JLayeredPane layers;
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
-<<<<<<< HEAD
-||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+
 	static LocalDateTime date = LocalDateTime.now();
-=======
-<<<<<<< HEAD
-	static LocalDateTime date = LocalDateTime.now();
-||||||| merged common ancestors
-=======
-	
+
 	//CRIATURAS
 	static Pacman pacman;
 	static ArrayList<Ghost> ghostsArray;
 
 	//SERIALIZADOR
 	static Serializator serializator = new Serializator();
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
->>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+
 
 	//ESTRUCTURA
 	static GameState gameState;
@@ -367,26 +351,9 @@ public class Game implements KeyListener, Runnable {
 
 	public static void save() {
 		try {
-<<<<<<< HEAD
-
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-||||||| ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
-			date.toLocalDate();
-			System.out.println(date);
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5,date);
-=======
-<<<<<<< HEAD
-			date.toLocalDate();
-			System.out.println(date);
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5,date);
-||||||| merged common ancestors
-
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-=======
 
 			serializator.toPersist(board, pacman);
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
->>>>>>> parent of ed0a0de... Revert "Merge branch 'master' of github.com:eldaroo/Pacman"
+
 			gameView.requestFocus();
 
 		} catch (IOException e) {
