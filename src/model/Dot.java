@@ -10,23 +10,15 @@ import org.json.simple.JSONValue;
 
 public class Dot extends Observable implements JSONStreamAware{
 
-	boolean superDot=false;
+	public boolean superDot = false;
 	Square position;
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
 	}
-	
-	public void setSuper (boolean sd) {
-		superDot=sd;
-	}
-	
-	public boolean getSuper () {
-		return superDot;
-	}
-	
 	@Override
 	public void writeJSONString(Writer out) throws IOException {
+		
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
 		obj.put("xPosition", String.valueOf(getBoardPosition().getX()));
 		obj.put("yPosition", String.valueOf(getBoardPosition().getY()));

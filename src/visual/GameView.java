@@ -21,31 +21,21 @@ import javax.swing.JTextField;
 
 import controller.Game;
 import java.awt.Font;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 
 public class GameView extends JFrame {
-	GraphicsDevice grafica=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	
 	
 	public GameView() throws HeadlessException {
 		super("JUEGO");
-		setUndecorated(true);
-		setFont(new Font("Chiller", Font.BOLD, 24));
-		setTitle("PACO-MAN");
-		setBackground(new Color(32, 178, 170));
 		setResizable(false);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		//setUndecorated(true);
+		//PANTALLA COMPLETA!
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300,20,600,650);
-		setLayout(null);
-		//setSize(600, 650);
-		//grafica.setFullScreenWindow(this);
-		this.setBackground(Color.BLUE);
-		//pack();
-		//show();
+		setSize(600, 650);
+		getContentPane().setLayout(null);
+		
+		
+		
 		setVisible(true);
 	}
 	
