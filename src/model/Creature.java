@@ -13,15 +13,8 @@ import sounds.Sounds;
 
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
-	boolean alive = true;
-	public boolean isAlive() {
-		return alive;
-	}
+	private boolean alive = true;
 
-	public void setAlive(boolean alive) {
-		System.out.println("muere "+ this.name);
-		this.alive = alive;
-	}
 
 	Direction direction = Direction.RIGHT;
 	String name = null;
@@ -45,6 +38,15 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	public Direction getDirection() {
 		return direction;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		System.out.println("muere "+ this.name);
+		this.alive = alive;
 	}
 
 	public Square getPosition() {

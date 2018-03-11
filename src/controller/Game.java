@@ -103,6 +103,7 @@ public class Game implements KeyListener, Runnable {
 	static int hellIndex=0;
 	static Random randomHellZoneSquare = new Random();
 	static Sounds sound = new Sounds();
+	
 	//DATOS
 	static int velocity = 66;
 	static int distance = 0;
@@ -252,9 +253,9 @@ public class Game implements KeyListener, Runnable {
 	private static void superMode(Pacman pacman) throws InterruptedException {
 		int slowGhosts=0;
 		superTime = 0;
-	
+		setGhostState(Ghost.GhostState.PUSSY);
 		while (gameState.equals(GameState.SUPERMODE)) {
-			
+
 			Thread.sleep(velocity);	
 			
 			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
@@ -263,6 +264,7 @@ public class Game implements KeyListener, Runnable {
 				moveGhosts();
 				slowGhosts=0;
 			}
+			
 
 			pacman.move();
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone);
@@ -271,7 +273,7 @@ public class Game implements KeyListener, Runnable {
 			if (board.dotRemoved.getSuper()) {
 				superTime = 0;
 			}
-			if (superTime == 111) {
+			if (superTime == 150) {
 				gameState = GameState.NORMALMODE;
 			}
 
@@ -283,8 +285,8 @@ public class Game implements KeyListener, Runnable {
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		hellTime = 0;
 
-		//GHOST: EL PACMAN ES EL NUEVO OBJETIVO
-		
+		setGhostState(Ghost.GhostState.COURAGEOUS);
+
 		while (gameState.equals(GameState.NORMALMODE)) {
 
 			Thread.sleep(velocity);
@@ -295,7 +297,6 @@ public class Game implements KeyListener, Runnable {
 			} else {
 				hellTime++;
 			}*/
-			setghostTarget(pacman.getBoardPosition());
 
 			moveGhosts();
 			pacman.move();
@@ -313,12 +314,11 @@ public class Game implements KeyListener, Runnable {
 				
 		}
 
-	private static void setghostTarget(Position position) {
+	private static void setGhostState(Ghost.GhostState ghostState) {
 		//el objetivo cambia en funcion al estado del juego
 		
 		for (Ghost ghost : ghostsArray) {
-			//if (ghost.isAlive())
-			ghost.setTarget(position);
+			ghost.setGhostState(ghostState);
 		}
 		
 	}
@@ -326,8 +326,8 @@ public class Game implements KeyListener, Runnable {
 
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
-			ghost.pathFinder(pacman, gameState);
-			ghost.move();
+			ghost.run(pacman, gameState);
+
 		}
 	}
 	private static void eatingPacman()

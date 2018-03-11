@@ -25,7 +25,7 @@ public class Pacman extends Creature {
 				sounds.reproduceEatGhost();
 				
 				board.score += 50;
-				ghost.isDead(hellZone);
+				ghost.setGhostState(Ghost.GhostState.DEATH);
 				System.out.println("muere ghost");
 			}
 	
