@@ -9,8 +9,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -79,7 +77,6 @@ public class Game implements KeyListener, Runnable {
 	static boolean firstTime = true;
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
-	static LocalDateTime date = LocalDateTime.now();
 
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
@@ -352,9 +349,8 @@ public class Game implements KeyListener, Runnable {
 	
 	public static void save() {
 		try {
-			date.toLocalDate();
-			System.out.println(date);
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5,date);
+
+			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
 			gameView.requestFocus();
 
 		} catch (IOException e) {
