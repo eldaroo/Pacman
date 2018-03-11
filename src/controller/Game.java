@@ -12,13 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-<<<<<<< HEAD
+
 import java.sql.Date;
 import java.time.LocalDateTime;
-||||||| merged common ancestors
-=======
-import java.net.URL;
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -87,10 +84,9 @@ public class Game implements KeyListener, Runnable {
 	static JLayeredPane layers;
 	static PlayerView playerView;
 	static RecoveryMenu recoveryMenu;
-<<<<<<< HEAD
+
 	static LocalDateTime date = LocalDateTime.now();
-||||||| merged common ancestors
-=======
+
 	
 	//CRIATURAS
 	static Pacman pacman;
@@ -98,7 +94,7 @@ public class Game implements KeyListener, Runnable {
 
 	//SERIALIZADOR
 	static Serializator serializator = new Serializator();
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+
 
 	//ESTRUCTURA
 	static GameState gameState;
@@ -271,7 +267,7 @@ public class Game implements KeyListener, Runnable {
 
 			pacman.move();
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone);
-			board.eatingDot(pacman, gameState);
+			board.eatingDot(pacman);
 			superTime++;
 			if (board.dotRemoved.getSuper()) {
 				superTime = 0;
@@ -356,17 +352,12 @@ public class Game implements KeyListener, Runnable {
 
 	public static void save() {
 		try {
-<<<<<<< HEAD
+
 			date.toLocalDate();
 			System.out.println(date);
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5,date);
-||||||| merged common ancestors
-
-			serializator.toPersist(board, pacman, ghost1, ghost2, ghost3, ghost4, ghost5);
-=======
 
 			serializator.toPersist(board, pacman);
->>>>>>> 71be253946eb431bbce798684c94ce78b7f0cd5d
+
 			gameView.requestFocus();
 
 		} catch (IOException e) {
