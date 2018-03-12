@@ -16,16 +16,16 @@ public class Board extends Observable implements Serializable {
 
 	private static final long serialVersionUID = -6472116531941544087L;
 
-	Square[][] board;
-	Dot[][] dots;
-	public Dot dotRemoved;
-	boolean pacmanEatNewDot;
-	boolean superMode = false;
-	Sounds sounds = new Sounds();
+	private Square[][] board;
+	private Dot[][] dots;
+	private Dot dotRemoved;
+	private boolean pacmanEatNewDot;
+	private boolean superMode = false;
+	private Sounds sounds = new Sounds();
 
 
-	public ArrayList<Square> hellZone = new ArrayList<Square>();
-	ArrayList<Square> teleportList = new ArrayList<Square>();
+	private ArrayList<Square> hellZone = new ArrayList<Square>();
+	private ArrayList<Square> teleportList = new ArrayList<Square>();
 
 
 	public long lifes = 3;

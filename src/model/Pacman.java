@@ -16,7 +16,10 @@ public class Pacman extends Creature {
 	public Pacman(String name, Square position) {
 		super(name);
 		this.position = position;
+		setKeyOfHell(false);
 	}
+
+
 
 	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
 		for (Ghost ghost : ghostsArray) {

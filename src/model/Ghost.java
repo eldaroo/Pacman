@@ -16,6 +16,7 @@ public class Ghost extends Creature {
 	private GhostState ghostState = GhostState.COURAGEOUS;
 	private Position initialPosition ;
 	private Random random ;
+
 	private int aux;
 
 
@@ -29,9 +30,18 @@ public class Ghost extends Creature {
 		this.initialPosition = position.getBoardPosition();
 		this.intelligence=intelligence;
 		this.target = position.getBoardPosition();
+		setKeyOfHell(true);
 	}
 
-	
+	protected boolean isInHell()
+	{
+		if (position.equals(HellGate.boardPosition))
+		{
+			System.out.println("esta en el infierno");
+
+			return true;
+		} else return false;
+	}
 	public GameState eatingPacman(Pacman pacman, Board board, GameState gameState) {
 		if (getPosition().equals(pacman.getPosition()) ) {
 			
@@ -67,7 +77,7 @@ public class Ghost extends Creature {
 			break;
 		case EATED:
 			setTarget(initialPosition);
-			
+			keyOfHell = true;
 			break;
 		}
 		iA_Ghost = new Intelligence (this);

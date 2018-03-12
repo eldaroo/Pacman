@@ -29,7 +29,7 @@ public class Serializator {
 		jCreatures.clear();
 		jObj.clear();
 		jDots.clear();
-		dotsArraySaved = new Dot[board.dots.length][board.dots.length];
+		dotsArraySaved = new Dot[board.getDots().length][board.getDots().length];
 	
 		try (FileReader file = new FileReader("pacman.Json");){
 			jObj = (JSONObject) parser.parse(file);//Agarra el archivo y LO GUARDA EN UN objeto lleno de arrays que dentro tienen objetos JSON
@@ -55,7 +55,7 @@ public class Serializator {
 				} else if(!Boolean.parseBoolean((String) jObj.get("superDot"))){
 					dotsArraySaved[(int) x][(int) y]= new Dot();
 				}
-				dotsArraySaved[(int) x][(int) y].position = board.board[(int) x][(int) y];
+				dotsArraySaved[(int) x][(int) y].position = board.getBoard()[(int) x][(int) y];
 
 		} // Agarra cada objeto JSON y le extrae sus variables
 				
@@ -66,7 +66,7 @@ public class Serializator {
 
 	public void toPersist(Board board,Creature pacman) throws IOException {
 
-		Dot[][] dots = board.dots;
+		Dot[][] dots = board.getDots();
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
 		jCreatures.add(pacman);

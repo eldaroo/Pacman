@@ -11,7 +11,7 @@ public abstract class Square {
 	private Square left = null;
 	private Square right = null;
 	private Square up = null;
-	private Position boardPosition = null;
+	 Position boardPosition = null;
 
 	public Square() {
 		super();

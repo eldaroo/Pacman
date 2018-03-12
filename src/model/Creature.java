@@ -13,8 +13,16 @@ import sounds.Sounds;
 
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
-	private boolean alive = true;
+	boolean alive = true;
+	boolean keyOfHell;
+	public boolean isAlive() {
+		return alive;
+	}
 
+	public void setAlive(boolean alive) {
+		System.out.println("muere "+ this.name);
+		this.alive = alive;
+	}
 
 	Direction direction = Direction.RIGHT;
 	String name = null;
@@ -38,15 +46,6 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	public Direction getDirection() {
 		return direction;
-	}
-	
-	public boolean isAlive() {
-		return alive;
-	}
-
-	public void setAlive(boolean alive) {
-		System.out.println("muere "+ this.name);
-		this.alive = alive;
 	}
 
 	public Square getPosition() {
@@ -100,5 +99,15 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		obj.put("getY", String.valueOf(position.getBoardPosition().getY()));
 		obj.put("status", alive);
 		JSONValue.writeJSONString(obj, out);
+	}
+	
+
+	public boolean haveKeyOfHell() {
+		// TODO Auto-generated method stub
+		return keyOfHell;
+	}
+	protected void setKeyOfHell(boolean key) {
+		keyOfHell = key;
+		
 	}
 }
