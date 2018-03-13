@@ -24,7 +24,10 @@ public class Pacman extends Creature {
 	public Pacman(String name, Square position) {
 		super(name);
 		this.position = position;
+		setKeyOfHell(false);
 	}
+
+
 
 	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
 		eatingGhost = false;
@@ -34,7 +37,7 @@ public class Pacman extends Creature {
 				
 				sounds.reproduceEatGhost();
 				board.score += 50;
-				ghost.isDead(hellZone);
+				ghost.setGhostState(Ghost.GhostState.DEATH);
 				System.out.println("muere ghost");
 				eatingGhost = true;
 			}

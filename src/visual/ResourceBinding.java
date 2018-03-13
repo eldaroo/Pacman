@@ -111,7 +111,7 @@ public abstract class ResourceBinding {
 	}
 
 	static {
-		ghostState.put(Ghost.GhostState.ALIVE, ghostAlive);
+		ghostState.put(Ghost.GhostState.COURAGEOUS, ghostAlive);
 		ghostState.put(Ghost.GhostState.DEATH, ghostDeath);
 		ghostState.put(Ghost.GhostState.PUSSY, ghostPussy);
 		ghostState.put(Ghost.GhostState.PUSSY, ghostPussy);

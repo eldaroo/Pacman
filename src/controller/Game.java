@@ -65,51 +65,52 @@ import visual.DotsView;
 public class Game implements KeyListener, Runnable {
 
 	//HILOS
-	static Game game;
-	static Thread boardView;
+	private static Game game;
+	private static Thread boardView;
 
 	//MODELO
-	static Board board;
-	static Square[][] boardMatrix;
-	static Dot[][] dotMatrix;
-	BoardConfiguration boardConfiguration ;
+	private static Board board;
+	private static Square[][] boardMatrix;
+	private static Dot[][] dotMatrix;
+	private static BoardConfiguration boardConfiguration ;
 
 	//VISUAL
-	static DotsView dotsView;
-	static PostGameView postGameView;
-	static GameView gameView; //JFRAME
-	static CreaturesView pacmanView;
-	static ArrayList<CreaturesView> ghostViewsArray;
-	static BeginMenu beginMenu;
-	static JLayeredPane layers;
-	static PlayerView playerView;
-	static RecoveryMenu recoveryMenu;
+	private static DotsView dotsView;
+	private static PostGameView postGameView;
+	private static GameView gameView; //JFRAME
+	private static CreaturesView pacmanView;
+	private static ArrayList<CreaturesView> ghostViewsArray;
+	private static BeginMenu beginMenu;
+	private static JLayeredPane layers;
+	private static PlayerView playerView;
+	private static RecoveryMenu recoveryMenu;
 
-	static LocalDateTime date = LocalDateTime.now();
+	private static LocalDateTime date = LocalDateTime.now();
 
 	//CRIATURAS
-	static Pacman pacman;
-	static ArrayList<Ghost> ghostsArray;
+	private static Pacman pacman;
+	private static ArrayList<Ghost> ghostsArray;
 
 	//SERIALIZADOR
-	static Serializator serializator = new Serializator();
+	private static Serializator serializator = new Serializator();
 
 
 	//ESTRUCTURA
-	static GameState gameState;
-	static boolean run = true;
-	static boolean firstTime = true;
-	static Square originalPositionPacman ; 
-	static int hellIndex=0;
-	static Random randomHellZoneSquare = new Random();
-	static Sounds sound = new Sounds();
+	private static GameState gameState;
+	private static boolean run = true;
+	private static boolean firstTime = true;
+	private static Square originalPositionPacman ; 
+	private static int hellIndex=0;
+	private static Random randomHellZoneSquare = new Random();
+	private static Sounds sound = new Sounds();
+	
 	//DATOS
-	static int velocity = 66;
-	static int distance = 0;
-	static int pacmanState = 1;
-	static int superTime = 0;
-	static int hellTime = 0;
-	static int ghostQuantity = 5;
+	private static int velocity = 66;
+	private static int distance = 0;
+	private static int pacmanState = 1;
+	private static int superTime = 0;
+	private static int hellTime = 0;
+	private static int ghostQuantity = 5;
 	
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
@@ -252,9 +253,9 @@ public class Game implements KeyListener, Runnable {
 	private static void superMode(Pacman pacman) throws InterruptedException {
 		int slowGhosts=0;
 		superTime = 0;
-	
+		setGhostState(Ghost.GhostState.PUSSY);
 		while (gameState.equals(GameState.SUPERMODE)) {
-			
+
 			Thread.sleep(velocity);	
 			
 			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
@@ -263,15 +264,16 @@ public class Game implements KeyListener, Runnable {
 				moveGhosts();
 				slowGhosts=0;
 			}
+			
 
 			pacman.move();
-			pacman.eatingGhosts(ghostsArray, pacman, board, board.hellZone);
+			pacman.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
 			board.eatingDot(pacman, gameState);
 			superTime++;
-			if (board.dotRemoved.getSuper()) {
+			if (board.getDotRemoved().getSuper()) {
 				superTime = 0;
 			}
-			if (superTime == 111) {
+			if (superTime == 150) {
 				gameState = GameState.NORMALMODE;
 			}
 
@@ -283,19 +285,11 @@ public class Game implements KeyListener, Runnable {
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		hellTime = 0;
 
-		//GHOST: EL PACMAN ES EL NUEVO OBJETIVO
-		
+		setGhostState(Ghost.GhostState.COURAGEOUS);
+
 		while (gameState.equals(GameState.NORMALMODE)) {
 
 			Thread.sleep(velocity);
-
-			/*if (hellTime == 20) {
-				//moveGhosts(target);
-				//EL HELLTIME LO DEBE TENER CADA GHOST EN FUNCION DE LA INTELIGENCIA			
-			} else {
-				hellTime++;
-			}*/
-			setghostTarget(pacman.getBoardPosition());
 
 			moveGhosts();
 			pacman.move();
@@ -313,12 +307,11 @@ public class Game implements KeyListener, Runnable {
 				
 		}
 
-	private static void setghostTarget(Position position) {
+	private static void setGhostState(Ghost.GhostState ghostState) {
 		//el objetivo cambia en funcion al estado del juego
 		
 		for (Ghost ghost : ghostsArray) {
-			//if (ghost.isAlive())
-			ghost.setTarget(position);
+			ghost.setGhostState(ghostState);
 		}
 		
 	}
@@ -326,8 +319,8 @@ public class Game implements KeyListener, Runnable {
 
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
-			ghost.pathFinder(pacman, gameState);
-			ghost.move();
+			ghost.run(pacman, gameState);
+
 		}
 	}
 	private static void eatingPacman()
@@ -379,8 +372,8 @@ public class Game implements KeyListener, Runnable {
 
 		for (Ghost ghost : ghostsArray) {
 			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
-			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
-			ghost.setPosition( board.hellZone.get(hellIndex));
+			hellIndex=randomHellZoneSquare.nextInt(board.getHellZone().size());
+			ghost.setPosition( board.getHellZone().get(hellIndex));
 		}
 		// REINICIA PARTIDA
 
@@ -396,8 +389,8 @@ public class Game implements KeyListener, Runnable {
 		int aux=1;
 		int intelligence = 1;
 		while (aux<= ghostQuantity) {
-			hellIndex=randomHellZoneSquare.nextInt(board.hellZone.size());
-			ghostsArray.add(new Ghost("ghost"+aux,board.hellZone.get(hellIndex), intelligence));
+			hellIndex=randomHellZoneSquare.nextInt(board.getHellZone().size());
+			ghostsArray.add(new Ghost("ghost"+aux,board.getHellZone().get(hellIndex), intelligence));
 			aux++;
 			intelligence +=2;
 		}

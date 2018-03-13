@@ -14,7 +14,7 @@ import sounds.Sounds;
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	boolean alive = true;
-	
+	boolean keyOfHell;
 	public boolean isAlive() {
 		return alive;
 	}
@@ -99,5 +99,15 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		obj.put("getY", String.valueOf(position.getBoardPosition().getY()));
 		obj.put("status", alive);
 		JSONValue.writeJSONString(obj, out);
+	}
+	
+
+	public boolean haveKeyOfHell() {
+		// TODO Auto-generated method stub
+		return keyOfHell;
+	}
+	protected void setKeyOfHell(boolean key) {
+		keyOfHell = key;
+		
 	}
 }
