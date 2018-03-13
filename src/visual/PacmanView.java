@@ -17,6 +17,8 @@ public class PacmanView extends CreaturesView{
 		super(obj, layers);
 		this.setBounds((obj.getBoardPosition().getX() * 10) - 10, (obj.getBoardPosition().getY() * 10) - 10+25, 30, 30);
 		setIcon(ResourceBinding.getPacmanIcon(obj));
+		//PARA OBTENER INFO DE DOTS
+		//setIcon(ResourceBinding.getPacmanIcon(obj,board));
 		layers.add(this, 6);
 
      }

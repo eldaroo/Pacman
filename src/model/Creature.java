@@ -14,6 +14,7 @@ import sounds.Sounds;
 public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	boolean alive = true;
+	
 	public boolean isAlive() {
 		return alive;
 	}

@@ -19,7 +19,7 @@ public class Board extends Observable implements Serializable {
 	Square[][] board;
 	Dot[][] dots;
 	public Dot dotRemoved;
-	boolean pacmanEatNewDot;
+	private boolean pacmanEatNewDot;
 	boolean superMode = false;
 	Sounds sounds = new Sounds();
 
@@ -37,7 +37,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public GameState eatingDot(Pacman pacman, GameState gameState) {
-		pacmanEatNewDot = false;
+		setPacmanEatNewDot(false);
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
 			sounds.reproduceEatDot();
 			score += 10;
@@ -48,7 +48,7 @@ public class Board extends Observable implements Serializable {
 				score += 20;
 			}
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
-			pacmanEatNewDot = true;
+			setPacmanEatNewDot(true);
 
 		}
 		setChanged();
@@ -73,7 +73,7 @@ public class Board extends Observable implements Serializable {
 		return superMode;
 	}
 	public boolean getPacmanEatNewDot() {
-		return pacmanEatNewDot;
+		return isPacmanEatNewDot();
 	}
 	
 	//ESTABLECE LOS CASILLEROS SIGUIENTES A LOS TELEPORT
@@ -177,7 +177,7 @@ public class Board extends Observable implements Serializable {
 
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
 	public void eatingDot(Pacman pacman) {
-		pacmanEatNewDot = false;
+		setPacmanEatNewDot(false);
 		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
 			score += 10;
 			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
@@ -186,7 +186,7 @@ public class Board extends Observable implements Serializable {
 				score += 20;
 			}
 			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
-			pacmanEatNewDot = true;
+			setPacmanEatNewDot(true);
 		}
 		//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
 		setChanged();
@@ -213,5 +213,13 @@ public class Board extends Observable implements Serializable {
 		obj.put("score", score);
 		obj.put("lifes", lifes);
 		JSONValue.writeJSONString(obj, out);
+	}
+
+	public boolean isPacmanEatNewDot() {
+		return pacmanEatNewDot;
+	}
+
+	public void setPacmanEatNewDot(boolean pacmanEatNewDot) {
+		this.pacmanEatNewDot = pacmanEatNewDot;
 	}
 }
