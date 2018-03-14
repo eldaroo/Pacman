@@ -11,23 +11,23 @@ import org.json.simple.JSONValue;
 
 import sounds.Sounds;
 
-public abstract class Creature  extends Observable implements JSONStreamAware {
+public abstract class Creature extends Observable implements JSONStreamAware {
 
 	boolean alive = true;
 	boolean keyOfHell;
+
 	public boolean isAlive() {
 		return alive;
 	}
 
 	public void setAlive(boolean alive) {
-		System.out.println("muere "+ this.name);
+		System.out.println("muere " + this.name);
 		this.alive = alive;
 	}
 
 	Direction direction = Direction.RIGHT;
 	String name = null;
 	Sounds sounds = new Sounds();
-
 
 	public Creature(String name) {
 		super();
@@ -42,7 +42,6 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
 	}
-
 
 	public Direction getDirection() {
 		return direction;
@@ -62,7 +61,6 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 	public void move() {
 
-		
 		Square nextPotentialPosition = position.get(potentialDirection);
 		Square nextPosition = position.get(direction);
 		if (nextPotentialPosition.isNavegable(this)) {
@@ -71,7 +69,7 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 
 		} else if ((potentialDirection != direction) && (nextPosition.isNavegable(this))) {
 			setPosition(nextPosition);
-			
+
 		}
 	}
 
@@ -89,9 +87,9 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 	public void setPotentialDirection(Direction potentialDirection) {
 		this.potentialDirection = potentialDirection;
 	}
-	
+
 	public void writeJSONString(Writer out) throws IOException {
-	
+
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
 		obj.put("name", String.valueOf(name));
 		obj.put("direction", String.valueOf(direction));
@@ -100,14 +98,14 @@ public abstract class Creature  extends Observable implements JSONStreamAware {
 		obj.put("status", alive);
 		JSONValue.writeJSONString(obj, out);
 	}
-	
 
 	public boolean haveKeyOfHell() {
 		// TODO Auto-generated method stub
 		return keyOfHell;
 	}
+
 	protected void setKeyOfHell(boolean key) {
 		keyOfHell = key;
-		
+
 	}
 }

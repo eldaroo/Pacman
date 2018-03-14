@@ -40,7 +40,7 @@ public abstract class ResourceBinding {
 		images.put(Hell.class, new ImageIcon("resources/6.png"));
 		images.put(HellGate.class, new ImageIcon("resources/6.png"));
 		images.put(FalseHell.class, new ImageIcon("resources/6.png"));
-		images.put(Pacman.class, new ImageIcon("resources/pacoman"));
+		images.put(Pacman.class, new ImageIcon("resources/pacoman.png"));
 		images.put(FalsePath.class, new ImageIcon("resources/1.png"));
 		images.put(Dot.class, new ImageIcon("resources/chala.png"));
 		images.put(SuperDot.class, new ImageIcon("resources/superchala.png"));
@@ -49,10 +49,10 @@ public abstract class ResourceBinding {
 	}
 
 	static {
-		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/pacoman.png"));
-		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/pacoman.png"));
-		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/pacoman.png"));
-		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/pacoman_back.png"));
+		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/paco-man.gif"));
+		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/paco-man.gif"));
+		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/paco-man.gif"));
+		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
 	}
 	static {
 		pacmanEatingDot.put(Direction.DOWN, new ImageIcon("resources/pacoman_eating_dot.gif"));
