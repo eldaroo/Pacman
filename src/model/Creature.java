@@ -13,8 +13,12 @@ import sounds.Sounds;
 
 public abstract class Creature extends Observable implements JSONStreamAware {
 
-	boolean alive = true;
-	boolean keyOfHell;
+	private boolean alive = true;
+	protected boolean keyOfHell;
+
+	public boolean isKeyOfHell() {
+		return keyOfHell;
+	}
 
 	public boolean isAlive() {
 		return alive;
@@ -104,7 +108,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		return keyOfHell;
 	}
 
-	protected void setKeyOfHell(boolean key) {
+	public void setKeyOfHell(boolean key) {
 		keyOfHell = key;
 
 	}
