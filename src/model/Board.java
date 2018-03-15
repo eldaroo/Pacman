@@ -23,6 +23,7 @@ public class Board extends Observable implements Serializable {
 	private boolean pacmanEatNewDot;
 	private boolean superMode = false;
 	private Sounds sounds = new Sounds();
+	private HellGate hellGate = new HellGate();
 
 
 	private ArrayList<Square> hellZone = new ArrayList<Square>();
@@ -120,7 +121,10 @@ public class Board extends Observable implements Serializable {
 					break;
 				case 7:
 					//HELL ENTRANCE
-					board[i][j] = new HellGate();
+					hellGate.setBoardPosition(new Position(i, j));
+
+					board[i][j] = hellGate;
+
 					break;
 
 				case 8:
@@ -133,7 +137,7 @@ public class Board extends Observable implements Serializable {
 					teleportList.add(board[i][j]);
 				}
 				//ASIGNA AL CASILLERO EN UNA POSICION DEL TABLERO
-				board[i][j].setBoardPosition(new Position(i, j));
+					if (!board.getClass().equals(HellGate.class))board[i][j].setBoardPosition(new Position(i, j));
 			}
 		}
 		//ENLAZA CADA CASILLERO CON SU ADYACENTE
@@ -157,6 +161,14 @@ public class Board extends Observable implements Serializable {
 		//EJECUTA EL ENLACE DE CASILLEROS TELEPORT
 		linkTeleports();
 	}
+	public HellGate getHellGate() {
+		return hellGate;
+	}
+
+	public void setHellGate(HellGate hellGate) {
+		this.hellGate = hellGate;
+	}
+
 	//CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
 	private void makeDots(int[][] levelDots) {
 		dots = new Dot[levelDots.length][levelDots.length];

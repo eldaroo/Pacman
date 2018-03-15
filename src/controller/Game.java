@@ -42,6 +42,7 @@ import model.Direction;
 import model.Dot;
 import model.GameState;
 import model.Ghost;
+import model.Ghost.GhostState;
 import model.Pacman;
 import model.Position;
 import model.Serializator;
@@ -311,7 +312,9 @@ public class Game implements KeyListener, Runnable {
 		//el objetivo cambia en funcion al estado del juego
 		
 		for (Ghost ghost : ghostsArray) {
-			ghost.setGhostState(ghostState);
+			//SI LOS FANTASMAS ESTAN MUERTOS O EN EL INFIERNO NO CAMBIAN SU ESTADO, RESPETAN UN PROCESO DE CAMBIO INTERNO QUE TIENEN
+			if (!ghost.getGhostState().equals(GhostState.DEATH)&& (!ghost.getGhostState().equals(GhostState.INHELL)))
+					ghost.setGhostState(ghostState);
 		}
 		
 	}
@@ -320,8 +323,10 @@ public class Game implements KeyListener, Runnable {
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
 			ghost.run(pacman, gameState);
+			System.out.print(ghost.haveKeyOfHell()+" "+ghost.getGhostState()+" , ");
 
 		}
+		System.out.println();
 	}
 	private static void eatingPacman()
 	{
@@ -372,6 +377,7 @@ public class Game implements KeyListener, Runnable {
 
 		for (Ghost ghost : ghostsArray) {
 			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
+			ghost.setKeyOfHell(true);
 			hellIndex=randomHellZoneSquare.nextInt(board.getHellZone().size());
 			ghost.setPosition( board.getHellZone().get(hellIndex));
 		}
@@ -390,7 +396,7 @@ public class Game implements KeyListener, Runnable {
 		int intelligence = 1;
 		while (aux<= ghostQuantity) {
 			hellIndex=randomHellZoneSquare.nextInt(board.getHellZone().size());
-			ghostsArray.add(new Ghost("ghost"+aux,board.getHellZone().get(hellIndex), intelligence));
+			ghostsArray.add(new Ghost("ghost"+aux,board.getHellZone().get(hellIndex), intelligence, board));
 			aux++;
 			intelligence +=2;
 		}

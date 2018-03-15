@@ -59,6 +59,7 @@ public abstract class Square {
 
 	public void setBoardPosition(Position position) {
 		this.boardPosition = position;
+		
 	}
 
 	public void setDown(Square down) {

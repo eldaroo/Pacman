@@ -77,8 +77,9 @@ public class Intelligence {
 		}
 	
 		//GENERAMOS UNA MATRIZ CON LAS MEJORES DECISIONES
-		private void generateSmartDirectionArray(ArrayList<Direction> goAwayTargetMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables2, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
+		private void generateSmartDirectionArray(ArrayList<Direction> goAwayTargetMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{
+			smartDirectionAvailables.clear();
 			CreateDirectionAvailablesArray(DirectionMap,squaresAvailables,threeDirectionMatrix,directionAvailables);
 			localizateTarget(targetMatrix, goAwayTargetMatrix );
 			for (Direction availableDirection : directionAvailables) {
@@ -92,8 +93,11 @@ public class Intelligence {
 			}
 			if (smartDirectionAvailables.equals(null))
 			{
-				smartDirectionAvailables.add(directionAvailables.get(0));
-				System.out.println("Holis "+directionAvailables.get(0));
+				
+				int aux=0;
+				Random random = new Random();
+				aux = random.nextInt(directionAvailables.size());
+				smartDirectionAvailables.add(directionAvailables.get(aux));
 
 			}
 
@@ -124,7 +128,7 @@ public class Intelligence {
 			}else goAwayTargetMatrix.add(Direction.DOWN);
 		}
 
-
+		//GENERAMOS UNA DECISION ALEATORIA ENTRE LAS DISPONIBLES
 		private Direction getRandomChoise(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{			
 
@@ -177,7 +181,6 @@ public class Intelligence {
 				threeDirectionMatrix.add(ghost.position.getLeft());
 				DirectionMap.put(ghost.position.getLeft(), Direction.LEFT);
 			}
-			//System.out.println(threeDirectionMatrix.size());
 		}
 		
 		public Direction getGoAwayDirection() {

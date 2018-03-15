@@ -38,7 +38,7 @@ public abstract class ResourceBinding {
 		images.put(Path.class, new ImageIcon("resources/1.png"));
 		images.put(Wall.class, new ImageIcon("resources/0.png"));
 		images.put(Hell.class, new ImageIcon("resources/6.png"));
-		images.put(HellGate.class, new ImageIcon("resources/6.png"));
+		images.put(HellGate.class, new ImageIcon("resources/1.png"));
 		images.put(FalseHell.class, new ImageIcon("resources/6.png"));
 		images.put(Pacman.class, new ImageIcon("resources/pacoman.png"));
 		images.put(FalsePath.class, new ImageIcon("resources/1.png"));

@@ -11,36 +11,44 @@ public class Ghost extends Creature {
 
 	private Position target ;
 	private int intelligence;
-	public static enum GhostState {COURAGEOUS,DEATH,PUSSY,EATED};
+	public static enum GhostState {COURAGEOUS,DEATH,PUSSY,EATED, INHELL};
 	private int stupidity;
 	private GhostState ghostState = GhostState.COURAGEOUS;
 	private Position initialPosition ;
 	private Random random ;
+	private Board board;
 
 	private int aux;
 
 
 
 	Intelligence iA_Ghost;
+
+	private int hellTime;
 	
 	
-	public Ghost(String name, Square position, int intelligence) {
+	public Ghost(String name, Square position, int intelligence, Board board) {
 		super(name);
 		this.position = position;
 		this.initialPosition = position.getBoardPosition();
 		this.intelligence=intelligence;
 		this.target = position.getBoardPosition();
+		this.board =board;
 		setKeyOfHell(true);
 	}
 
-	protected boolean isInHell()
+	protected void goingThroughHellGate()
 	{
-		if (position.equals(HellGate.boardPosition))
-		{
-			System.out.println("esta en el infierno");
 
-			return true;
-		} else return false;
+		if (position.equals(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()]))
+		{
+			keyOfHell=!keyOfHell;
+
+			if(ghostState.equals(GhostState.DEATH))
+			{
+				ghostState=GhostState.INHELL;
+			}
+		}
 	}
 	public GameState eatingPacman(Pacman pacman, Board board, GameState gameState) {
 		if (getPosition().equals(pacman.getPosition()) ) {
@@ -57,7 +65,6 @@ public class Ghost extends Creature {
 
 	public void run(Creature pacman, GameState gameState) {
 		
-		//GENERA LAS BESTCHOISE PARA CADA ESTADO
 		
 		
 		switch (ghostState) {
@@ -67,22 +74,40 @@ public class Ghost extends Creature {
 			setTarget(pacman.position.getBoardPosition());
 			
 			break;
-			//CALCULA EL PATHFINDER PARA CUANDO ESTA MUERTO
+			//CALCULA EL PATHFINDER PARA CUANDO ESTA MUERTO, LO MANDA A LA HELLGATE
 		case DEATH:
-			setGhostState(GhostState.EATED);
+
+			setTarget(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()].boardPosition);
+			keyOfHell = true;
 			break;
 		case PUSSY:
 			setTarget(pacman.getBoardPosition());
 			
 			break;
 		case EATED:
-			setTarget(initialPosition);
-			keyOfHell = true;
+			setGhostState(GhostState.DEATH);
+
+			break;
+		case INHELL:
+			System.out.print(hellTime+" "+ghostState);
+			setTarget(pacman.position.getBoardPosition());
+			if (hellTime==100)
+			{
+				setKeyOfHell ( true);
+				ghostState=GhostState.COURAGEOUS;
+				hellTime=0;
+				
+			}else hellTime++;
 			break;
 		}
 		iA_Ghost = new Intelligence (this);
-		pathFinder();
+		//GENERA LAS BESTCHOISE PARA CADA ESTADO
+
+		if (ghostState.equals(GhostState.DEATH))
+			setPotentialDirection(iA_Ghost.getSmartChoise());
+		else pathFinder();
 		move();
+		goingThroughHellGate();
 		
 	}
 
