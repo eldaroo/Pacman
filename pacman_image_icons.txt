@@ -1,0 +1,80 @@
+TODO EN GIF (OPTIMIZA RECURSOS)
+____________________________
+GHOST
+
+police_alive_right
+police_alive_left
+plice_alive_up
+police_alive_down
+police_pussy_right
+police_pussy_left
+police_pussy_up
+police_pussy_down
+police_death_right
+police_death_left
+police_death_up
+police_death_down
+____________________________
+PACMAN
+
+pacoman_right
+pacoman_left
+pacoman_up
+pacoman_down
+pacoman_eat_dot_right
+pacoman_eat_dot_left
+pacoman_eat_dot_up
+pacoman_eat_dot_down
+pacoman_eat_super_right
+pacoman_eat_super_left
+pacoman_eat_super_up
+pacoman_eat_super_down
+pacoman_eat_police_right
+pacoman_eat_police_left
+pacoman_eat_police_up
+pacoman_eat_police_down
+pacoman_diyng_right
+pacoman_diyng_left
+pacoman_diyng_up
+pacoman_diyng_down
+____________________________
+DOT
+
+chala_dot
+chala_super
+____________________________
+BOARD
+
+path_center <PATH>
+path_portal <PORTAL>
+//wall_center <with WALL at all directions>
+falsepath_internal_center <FALSEPATH at all directions>
+
+falsepath_se_corner <with WALL at down and right>
+falsepath_nw_corner <with WALL at up and left>
+falsepath_sw_corner <with WALL at down and left>
+falsepath_ne_corner <with WALL at up and right>
+
+falsepath_portal <with PORTAL at right / WALL at left>
+falsepath_portal <with PORTAL at left / WALL at right>
+falsepath_portal <with PORTAL at up / WALL at down>
+falsepath_portal <with PORTAL at down / WALL at up>
+
+
+wall_se_corner <with FALSEPATH at down and right>
+wall_sw_corner <with FALSEPATH at down and left>
+wall_ne_corner <with FALSEPATH at up and right>
+wall_nw_corner <with FALSEPATH at up and left>
+
+wall_east_border <with null at right - WALL at rest>
+wall_west_border <with null at left - WALL at rest>
+wall_north_border <with null at up - WALL at rest>
+wall_soth_border <with null at down - WALL at rest>
+wall_se_border <with null at down and right - WALL at rest>
+wall_sw_border <with null at down and left - WALL at rest>
+wall_ne_border <with null at up and right - WALL at rest>
+wall_nw_border <with null at up and left - WALL at rest>
+
+hell_se_corner <with WALL at down and right>
+hell_sw_corner <with WALL at down and left>
+hell_wall <with FALSEPATH at up>

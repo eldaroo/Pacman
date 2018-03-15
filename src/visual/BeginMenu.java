@@ -51,7 +51,7 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		lblPacMan.setBounds(10, -268, 800,900);
 		//ANIMACIÓN DE CARGA DE JUEGO
 		lblLoading = new JLabel("Loading");
-		lblLoading.setIcon(new ImageIcon("resources/62157.gif"));
+		lblLoading.setIcon(new ImageIcon("resources/loading.gif"));
 		lblLoading.setBounds(212, 380, 114, 94);
 		//BOTON COMENZAR PARTIDA
 		btnBegin = new JButton("Comenzar");
