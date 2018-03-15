@@ -323,7 +323,6 @@ public class Game implements KeyListener, Runnable {
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
 			ghost.run(pacman, gameState);
-			System.out.print(ghost.haveKeyOfHell()+" "+ghost.getGhostState()+" , ");
 
 		}
 		System.out.println();

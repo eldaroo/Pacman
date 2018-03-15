@@ -65,8 +65,6 @@ public class Ghost extends Creature {
 
 	public void run(Creature pacman, GameState gameState) {
 		
-		
-		
 		switch (ghostState) {
 		
 		//CALCULA EL PATHFINDER PARA CUANDO ESTA VIVO
@@ -89,7 +87,6 @@ public class Ghost extends Creature {
 
 			break;
 		case INHELL:
-			System.out.print(hellTime+" "+ghostState);
 			setTarget(pacman.position.getBoardPosition());
 			if (hellTime==100)
 			{

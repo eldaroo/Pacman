@@ -12,16 +12,13 @@ public class Intelligence {
 	private ArrayList<Square> threeDirectionMatrix ;
 	private Map <Square, Direction > DirectionMap;
 	private ArrayList<Square> squaresAvailables;
-	private ArrayList<Direction> smartDirectionAvailables;
+	 ArrayList<Direction> smartDirectionAvailables;
 	private ArrayList<Direction> targetMatrix; 
 	private ArrayList<Direction> directionAvailables ; 
 	private ArrayList<Direction> goAwayTargetMatrix; 
 	private static Direction smartChoise;
 	private Direction randomChoise;
 	private Direction goAwayDirection;
-
-
-
 
 	public Intelligence(Ghost ghost)
 	{
@@ -40,9 +37,6 @@ public class Intelligence {
 			smartChoise = getSmartPotentialDirection(goAwayTargetMatrix,DirectionMap, smartDirectionAvailables,targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
 			generateGoAwayDirection();
 		}
-		
-
-
 
 		private void generateGoAwayDirection() {
 			int aux=0;
@@ -51,28 +45,22 @@ public class Intelligence {
 			setGoAwayDirection(goAwayTargetMatrix.get(aux));
 	}
 
-
-
-
 		public void setGoAwayDirection(Direction goAwayDirection) {
 		this.goAwayDirection = goAwayDirection;
 	}
 
-
-
-
 		//GENERAMOS LA MEJOR DECISION
-		private Direction getSmartPotentialDirection(ArrayList<Direction> goAwayDirectionMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables2, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailable2, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
+		private Direction getSmartPotentialDirection(ArrayList<Direction> goAwayDirectionMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailable2, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{
+			
 			generateSmartDirectionArray(goAwayDirectionMatrix, DirectionMap, smartDirectionAvailables,targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
 			Random random = new Random();
 			Direction bestChoise = null;
 			
-			if (smartDirectionAvailables.size()>0) {
 			int aux = random.nextInt(smartDirectionAvailables.size());
 			bestChoise= smartDirectionAvailables.get(aux);
-			}else bestChoise =Direction.LEFT;
-
+			System.out.print(smartDirectionAvailables+ " "+ ghost.getGhostState());
+			System.out.println();
 			return bestChoise;
 		}
 	
@@ -80,8 +68,8 @@ public class Intelligence {
 		private void generateSmartDirectionArray(ArrayList<Direction> goAwayTargetMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{
 			smartDirectionAvailables.clear();
-			CreateDirectionAvailablesArray(DirectionMap,squaresAvailables,threeDirectionMatrix,directionAvailables);
-			localizateTarget(targetMatrix, goAwayTargetMatrix );
+			CreateDirectionAvailablesArray();
+			localizateTarget();
 			for (Direction availableDirection : directionAvailables) {
 				for (Direction targetDirection : targetMatrix) {
 					if (availableDirection.equals(targetDirection))
@@ -91,7 +79,7 @@ public class Intelligence {
 					}
 				}
 			}
-			if (smartDirectionAvailables.equals(null))
+			if (smartDirectionAvailables.size()==0)
 			{
 				
 				int aux=0;
@@ -103,14 +91,17 @@ public class Intelligence {
 
 		}
 		//IDENTIFICAMOS DONDE ESTA EL TARGET
-		private void localizateTarget(ArrayList<Direction> targetMatrix, ArrayList<Direction> goAwayTargetMatrix) {
+		private void localizateTarget() {
+			goAwayTargetMatrix.clear();
+			targetMatrix.clear();
+
 			Position ghostPosition = ghost.getBoardPosition();
 			Position targetPosition = ghost.getTarget();
 			if(ghostPosition.getX()>targetPosition.getX())
 			{	
 				targetMatrix.add(Direction.LEFT);
 
-			} else goAwayTargetMatrix.add(Direction.LEFT);
+			} else goAwayTargetMatrix.add(Direction.LEFT);  //Llenamos la matriz opuesta para cuando estan muertos
 			if(ghostPosition.getX()<targetPosition.getX())
 			{	
 				targetMatrix.add(Direction.RIGHT);
@@ -132,7 +123,7 @@ public class Intelligence {
 		private Direction getRandomChoise(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{			
 
-			CreateDirectionAvailablesArray(directionMap, squaresAvailables,threeDirectionMatrix,directionAvailables);
+			CreateDirectionAvailablesArray();
 			int aux=0;
 			Random random = new Random();
 			aux = random.nextInt(directionAvailables.size());
@@ -140,8 +131,9 @@ public class Intelligence {
 
 		}
 		//VEMOS CUALES DE LAS DIRECCIONES ESTAN DISPONIBLES
-		private void CreateDirectionAvailablesArray(Map<Square, Direction> directionMap, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables) {
-
+		private void CreateDirectionAvailablesArray() {
+			squaresAvailables.clear();
+			directionAvailables.clear();
 			CreateThreeDirectionMatrix(threeDirectionMatrix);
 			for (Square square : threeDirectionMatrix) {
 				if (square.isNavegable(ghost))
@@ -161,6 +153,8 @@ public class Intelligence {
 		//LA QUE VIENE. 
 		//LO MAPEAMOS CON SUS RESPECTIVAS DIRECCIONES
 		private void CreateThreeDirectionMatrix(ArrayList<Square> threeDirectionMatrix) {
+			threeDirectionMatrix.clear();
+			DirectionMap.clear();
 			if(!ghost.direction.equals(Direction.UP))
 			{		
 				threeDirectionMatrix.add(ghost.position.getDown());
@@ -194,27 +188,4 @@ public class Intelligence {
 		return randomChoise;
 	}
 		
-		/*
-		//CREA UNA POSIBILIDAD COMPLETAMENTE ALEATORIA
-		public Direction randomPotentialDirection() {
-			Random random = new Random();
-			ArrayList<Direction> directionsAvailables = new ArrayList<Direction>();
-			int aux = 0;
-
-			if ((position.getDown().isNavegable(this)) && (direction != Direction.UP)) {
-				directionsAvailables.add(Direction.DOWN);
-			}
-			if ((position.getLeft().isNavegable(this)) && (direction != Direction.RIGHT)) {
-				directionsAvailables.add(Direction.LEFT);
-			}
-			if ((position.getRight().isNavegable(this)) && (direction != Direction.LEFT)) {
-				directionsAvailables.add(Direction.RIGHT);
-			}
-			if ((position.getUp().isNavegable(this)) && (direction != Direction.DOWN)) {
-				directionsAvailables.add(Direction.UP);
-			}
-
-			aux = random.nextInt(directionsAvailables.size());
-			return directionsAvailables.get(aux);
-		}*/
 }

@@ -74,7 +74,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		} else if ((potentialDirection != direction) && (nextPosition.isNavegable(this))) {
 			setPosition(nextPosition);
 
-		}
+		} else {System.out.println("SE TRABÓ");}
 	}
 
 	public void setDirection(Direction direction) {
