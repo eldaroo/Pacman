@@ -1,7 +1,6 @@
 package model;
 
 public class Path extends Square {
-
 	public Path()
 	{
 

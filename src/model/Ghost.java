@@ -11,7 +11,7 @@ public class Ghost extends Creature {
 
 	private Position target ;
 	private int intelligence;
-	public static enum GhostState {COURAGEOUS,DEATH,PUSSY,EATED, INHELL};
+	public static enum GhostState {COURAGEOUS,DEATH,PUSSY,EATED,INHELL,HURRY};
 	private int stupidity;
 	private GhostState ghostState = GhostState.COURAGEOUS;
 	private Position initialPosition ;

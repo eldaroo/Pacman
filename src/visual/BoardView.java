@@ -14,6 +14,7 @@ import javax.swing.JLayeredPane;
 import controller.Game;
 import model.Board;
 import model.Square;
+import model.Square.Corner;
 
 public class BoardView extends Thread implements ActionListener, Observer{
 
@@ -57,7 +58,10 @@ public class BoardView extends Thread implements ActionListener, Observer{
 			for (int j = 0; j < squareArray.length; j++) {
 				capa++;
 				Fondo[i][j] = new JLabel();
+				if(squareArray[i][j].corner==Corner.CENTER)
 				Fondo[i][j].setIcon(ResourceBinding.getImageIcon(squareArray[i][j]));
+				else
+				Fondo[i][j].setIcon(ResourceBinding.getCornerIcon(squareArray[i][j]));
 				Fondo[i][j].setBounds(i * 10, (j * 10)+25, 10, 10);
 				layers.add(Fondo[i][j], capa);
 			}
