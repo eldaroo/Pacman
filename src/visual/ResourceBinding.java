@@ -75,7 +75,7 @@ public abstract class ResourceBinding {
 		images.put(FalsePath.class, new ImageIcon("resources/1.png"));
 		images.put(Dot.class, new ImageIcon("resources/chala.png"));
 		images.put(SuperDot.class, new ImageIcon("resources/superchala.gif"));
-		images.put(BeginMenu.class, new ImageIcon("resources/inicio.gif"));
+		images.put(BeginMenu.class, new ImageIcon("resources/paco_inicio.gif"));
 
 	}
 
