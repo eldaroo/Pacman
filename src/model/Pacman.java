@@ -50,11 +50,12 @@ public class Pacman extends Creature {
 			{
 				sounds.reproduceEatDot();
 				board.setScore(board.getScore()+ 10);
-
+				setPacmanState(PacmanState.EATDOT);
 				board.setDotRemoved(dot);
 				if (board.getDotRemoved().getSuper() == true) {
 					Game.setGameState (GameState.SUPERMODE);
 					board.setScore(board.getScore()+20);
+					setPacmanState(PacmanState.EATSUPER);
 				}
 				dot = null;
 				board.setPacmanEatNewDot(true);

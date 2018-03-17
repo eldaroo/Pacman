@@ -50,6 +50,7 @@ public class BoardView extends Thread implements ActionListener, Observer{
 		btnSave = new JButton("Save");
 		btnSave.setBounds(450, 0, 89, 23);
 		layers.add(btnSave, 0);
+		btnSave.addActionListener((ActionListener) this);
 		//BOTON SALIR AL MENU DE INICIO
 		btnExit = new JButton("Exit");
 		btnExit.setBounds(350, 0, 89, 23);

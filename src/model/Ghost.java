@@ -3,134 +3,142 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.Pacman.PacmanState;
 import sounds.Sounds;
 
 public class Ghost extends Creature {
 
 	private static ArrayList<Direction> potentialDirectionsList;
 
-	private Position target ;
+	private Position target;
 	private int intelligence;
-	public static enum GhostState {COURAGEOUS,DEATH,PUSSY,EATED,INHELL,HURRY};
+
+	public static enum GhostState {
+		COURAGEOUS, DEATH, PUSSY, EATED, INHELL, HURRY
+	};
+
 	private int stupidity;
 	private GhostState ghostState = GhostState.COURAGEOUS;
-	private Position initialPosition ;
-	private Random random ;
+	private Position initialPosition;
+	private Random random;
 	private Board board;
 
+	private int eatGhostTime = 0;
+
 	private int aux;
-
-
 
 	Intelligence iA_Ghost;
 
 	private int hellTime;
-	
-	
+
 	public Ghost(String name, Square position, int intelligence, Board board) {
 		super(name);
 		this.position = position;
 		this.initialPosition = position.getBoardPosition();
-		this.intelligence=intelligence;
+		this.intelligence = intelligence;
 		this.target = position.getBoardPosition();
-		this.board =board;
+		this.board = board;
 		setKeyOfHell(true);
 	}
 
-	protected void goingThroughHellGate()
-	{
+	protected void goingThroughHellGate() {
 
-		if (position.equals(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()]))
-		{
-			keyOfHell=!keyOfHell;
+		if (position.equals(
+				board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()])) {
+			keyOfHell = !keyOfHell;
 
-			if(ghostState.equals(GhostState.DEATH))
-			{
-				ghostState=GhostState.INHELL;
+			if (ghostState.equals(GhostState.DEATH)) {
+				ghostState = GhostState.INHELL;
 			}
 		}
 	}
+
 	public GameState eatingPacman(Pacman pacman, Board board, GameState gameState) {
-		if (getPosition().equals(pacman.getPosition()) ) {
-			
+		if (getPosition().equals(pacman.getPosition())) {
+
 			sounds.reproduceDeath();
-			
+
 			board.lifes--;
 			pacman.setAlive(false);
+			pacman.setPacmanState(PacmanState.DEATH);
 			gameState = gameState.RESPAWN;
 		}
 		return gameState;
 
 	}
 
-	public void run(Creature pacman, GameState gameState) {
-		
+	public void run(Pacman pacman, GameState gameState) {
+
 		switch (ghostState) {
-		
-		//CALCULA EL PATHFINDER PARA CUANDO ESTA VIVO
+
+		// CALCULA EL PATHFINDER PARA CUANDO ESTA VIVO
 		case COURAGEOUS:
 			setTarget(pacman.position.getBoardPosition());
-			
+
 			break;
-			//CALCULA EL PATHFINDER PARA CUANDO ESTA MUERTO, LO MANDA A LA HELLGATE
+		// CALCULA EL PATHFINDER PARA CUANDO ESTA MUERTO, LO MANDA A LA HELLGATE
 		case DEATH:
 
-			setTarget(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()].boardPosition);
+			setTarget(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition
+					.getY()].boardPosition);
 			keyOfHell = true;
 			break;
 		case PUSSY:
 			setTarget(pacman.getBoardPosition());
-			
+
 			break;
 		case EATED:
+			pacman.setPacmanState(PacmanState.EATGHOST);
 			setGhostState(GhostState.DEATH);
+			eatGhostTime = 0;
 
 			break;
 		case INHELL:
 			setTarget(pacman.position.getBoardPosition());
-			if (hellTime==100)
-			{
-				setKeyOfHell ( true);
-				ghostState=GhostState.COURAGEOUS;
-				hellTime=0;
-				
-			}else hellTime++;
+			if (hellTime == 100) {
+				setKeyOfHell(true);
+				ghostState = GhostState.COURAGEOUS;
+				hellTime = 0;
+
+			} else
+				hellTime++;
 			break;
 		}
-		iA_Ghost = new Intelligence (this);
-		//GENERA LAS BESTCHOISE PARA CADA ESTADO
+		iA_Ghost = new Intelligence(this);
+		// GENERA LAS BESTCHOISE PARA CADA ESTADO
 
 		if (ghostState.equals(GhostState.DEATH))
 			setPotentialDirection(iA_Ghost.getSmartChoise());
-		else pathFinder();
+		else
+			pathFinder();
 		move();
 		goingThroughHellGate();
-		
+
 	}
 
-	public void pathFinder()
-	{
+	public void pathFinder() {
 		random = new Random();
 		potentialDirectionsList = new ArrayList<Direction>();
-	    stupidity = 10 - getIntelligence();
-		
-		//y las agregamos a un array, en proporciones dadas por la inteligencia de cada ghost
+		stupidity = 10 - getIntelligence();
+
+		// y las agregamos a un array, en proporciones dadas por la inteligencia de cada
+		// ghost
 		for (int i = 0; i < getIntelligence(); i++) {
-			if(getGhostState().equals(GhostState.PUSSY))
-			{
-			potentialDirectionsList.add(iA_Ghost.getGoAwayDirection());
-			}else {
+			if (getGhostState().equals(GhostState.PUSSY)) {
+				potentialDirectionsList.add(iA_Ghost.getGoAwayDirection());
+			} else {
 				potentialDirectionsList.add(iA_Ghost.getSmartChoise());
 			}
 		}
 		for (int i = 0; i < stupidity; i++) {
 			potentialDirectionsList.add(iA_Ghost.getRandomChoise());
 		}
-		
+
 		aux = random.nextInt(potentialDirectionsList.size());
 
 		setPotentialDirection(potentialDirectionsList.get(aux));
 	}
+
 	public int getIntelligence() {
 		return intelligence;
 	}
@@ -139,10 +147,11 @@ public class Ghost extends Creature {
 		this.intelligence = intelligence;
 	}
 
-	public void inHell () {
-		//boolean
+	public void inHell() {
+		// boolean
 	}
-	//for (Creatures ghost : Creatures)
+
+	// for (Creatures ghost : Creatures)
 	public Position getTarget() {
 		return target;
 	}
@@ -150,6 +159,7 @@ public class Ghost extends Creature {
 	public void setTarget(Position position) {
 		this.target = position;
 	}
+
 	public GhostState getGhostState() {
 		return ghostState;
 	}
@@ -157,5 +167,5 @@ public class Ghost extends Creature {
 	public void setGhostState(GhostState ghostState) {
 		this.ghostState = ghostState;
 	}
-	
+
 }

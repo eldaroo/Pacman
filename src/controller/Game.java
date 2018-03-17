@@ -109,7 +109,6 @@ public class Game implements KeyListener, Runnable {
 	//DATOS
 	private static int velocity = 66;
 	private static int distance = 0;
-	private static int pacmanState = 1;
 	private static int superTime = 0;
 	private static int hellTime = 0;
 	private static int ghostQuantity = 5;
@@ -253,9 +252,10 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	private void superMode(Pacman pacman) throws InterruptedException {
-		int slowGhosts=0;
+		int slowGhosts=0; 
 		superTime = 0;
 		setGhostState(Ghost.GhostState.PUSSY);
+		setPacmanState(Pacman.PacmanState.MOVE);
 		while (gameState.equals(GameState.SUPERMODE)) {
 
 			Thread.sleep(velocity);	
@@ -278,7 +278,8 @@ public class Game implements KeyListener, Runnable {
 			if (superTime == 150) {
 				gameState = GameState.NORMALMODE;
 			}
-
+			if (superTime >= 125)
+				setGhostState(GhostState.HURRY);
 			
 		}
 
@@ -323,11 +324,21 @@ public class Game implements KeyListener, Runnable {
 		
 	}
 	private static void moveGhosts() {
-
+		
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
-			ghost.run(pacman, gameState);
 
+			
+			if (ghost.getGhostState()==GhostState.DEATH) {
+				ghost.run(pacman, gameState);
+				ghost.run(pacman, gameState);
+				ghost.run(pacman, gameState);
+				ghost.run(pacman, gameState);
+			}else {
+				ghost.run(pacman, gameState);				
+			}
+			
+			
 		}
 		//System.out.println();
 	}

@@ -86,22 +86,22 @@ public abstract class ResourceBinding {
 		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
 	}
 	static {
-		pacmanEatingDot.put(Direction.DOWN, new ImageIcon("resources/pacoman_eating_dot.gif"));
-		pacmanEatingDot.put(Direction.LEFT, new ImageIcon("resources/pacoman_eating_dot.gif"));
-		pacmanEatingDot.put(Direction.UP, new ImageIcon("resources/pacoman_eating_dot.gif"));
-		pacmanEatingDot.put(Direction.RIGHT, new ImageIcon("resources/pacoman_eating_dot_back.gif"));
+		pacmanEatingDot.put(Direction.DOWN, new ImageIcon("resources/paco-man.gif"));
+		pacmanEatingDot.put(Direction.LEFT, new ImageIcon("resources/paco-man.gif"));
+		pacmanEatingDot.put(Direction.UP, new ImageIcon("resources/paco-man.gif"));
+		pacmanEatingDot.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
 	}
 	static {
-		pacmanEatingSuper.put(Direction.DOWN, new ImageIcon("resources/pacoman_eating_super.gif"));
-		pacmanEatingSuper.put(Direction.LEFT, new ImageIcon("resources/pacoman_eating_super.gif"));
-		pacmanEatingSuper.put(Direction.UP, new ImageIcon("resources/pacoman_eating_super.gif"));
-		pacmanEatingSuper.put(Direction.RIGHT, new ImageIcon("resources/pacoman_eating_super_back.gif"));
+		pacmanEatingSuper.put(Direction.DOWN, new ImageIcon("resources/paco-man.gif.gif"));
+		pacmanEatingSuper.put(Direction.LEFT, new ImageIcon("resources/paco-man.gif.gif"));
+		pacmanEatingSuper.put(Direction.UP, new ImageIcon("resources/paco-man.gif.gif"));
+		pacmanEatingSuper.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
 	}
 	static {
-		pacmanEatingGhost.put(Direction.DOWN, new ImageIcon("resources/police_eated.gif"));
-		pacmanEatingGhost.put(Direction.LEFT, new ImageIcon("resources/police_eated.gif"));
-		pacmanEatingGhost.put(Direction.UP, new ImageIcon("resources/police_eated.gif"));
-		pacmanEatingGhost.put(Direction.RIGHT, new ImageIcon("resources/police_eated.gif"));
+		pacmanEatingGhost.put(Direction.DOWN, new ImageIcon("resources/.gif"));
+		pacmanEatingGhost.put(Direction.LEFT, new ImageIcon("resources/.gif"));
+		pacmanEatingGhost.put(Direction.UP, new ImageIcon("resources/.gif"));
+		pacmanEatingGhost.put(Direction.RIGHT, new ImageIcon("resources/.gif"));
 	}
 
 	static {

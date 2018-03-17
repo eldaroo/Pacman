@@ -29,7 +29,6 @@ public class PacmanView extends CreaturesView{
 
 		Pacman pacman = (Pacman) observable;
 		setIcon(ResourceBinding.getPacmanIcon(pacman));
-		
 		Position boardPosition = pacman.getBoardPosition();
 		Direction direction = pacman.getDirection();
 		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10+25, 30, 30);
