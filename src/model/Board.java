@@ -18,7 +18,7 @@ public class Board extends Observable implements Serializable {
 	private static final long serialVersionUID = -6472116531941544087L;
 
 	private Square[][] board;
-	private Dot[][] dots;
+	private ArrayList <Dot> dots;
 	private Dot dotRemoved;
 	private boolean pacmanEatNewDot;
 	private boolean superMode = false;
@@ -35,30 +35,22 @@ public class Board extends Observable implements Serializable {
 		makeBoard(level1);
 		makeDots(level1);
 	}
+	public void Update() {
 
-	public GameState eatingDot(Pacman pacman, GameState gameState) {
-		setPacmanEatNewDot(false);
-		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
-			sounds.reproduceEatDot();
-			score += 10;
-			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
-			if (dotRemoved.superDot == true) {
-				System.out.println("se comio un superDot!");
-				gameState = GameState.SUPERMODE;
-				score += 20;
-			}
-			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
-			setPacmanEatNewDot(true);
-
-		}
 		setChanged();
 		notifyObservers();
-		return gameState;
+
 	}
 
 	// EXPORTAR DE DATOS
 	public ArrayList<Square> getHellZone() {
 		return hellZone;
+	}
+	public long getScore() {
+		return score;
+	}
+	public void setScore(long score) {
+		this.score = score;
 	}
 
 	public Square[][] getBoard() {
@@ -68,8 +60,8 @@ public class Board extends Observable implements Serializable {
 	public Dot getDotRemoved() {
 		return dotRemoved;
 	}
+	public ArrayList<Dot> getDots() {
 
-	public Dot[][] getDots() {
 		return dots;
 	}
 
@@ -230,46 +222,37 @@ public class Board extends Observable implements Serializable {
 		this.hellGate = hellGate;
 	}
 
-	// CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
+	//CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
 	private void makeDots(char[][] level1) {
-		dots = new Dot[level1.length][level1.length];
+		Dot dot;
+		SuperDot superDot;
+		dots = new ArrayList <Dot>();
 		for (int i = 0; i < level1.length; i++) {
 			for (int j = 0; j < level1.length; j++) {
 				switch (level1[i][j]) {
 				case 4:
-					dots[i][j] = new Dot();
+					dot=new Dot();
+					dot.setPosition(board[i][j]);
+					dots.add(dot);
 					break;
 				case 5:
-					dots[i][j] = new SuperDot();
+					superDot=new SuperDot();
+					superDot.setPosition(board[i][j]);
+					dots.add( superDot);
 					break;
 				}
-				if (dots[i][j] != null)
-					dots[i][j].position = board[i][j];
 			}
 		}
 
 	}
 
-	// SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL
-	// TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
-	public void eatingDot(Pacman pacman) {
-		setPacmanEatNewDot(false);
-		if (dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()] != null) {
-			score += 10;
-			dotRemoved = dots[pacman.getBoardPosition().getX()][pacman.getBoardPosition().getY()];
-			if (dotRemoved.getSuper() == true) {
-				superMode = true;
-				score += 20;
-			}
-			dots[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()] = null;
-			setPacmanEatNewDot(true);
-		}
+public void update() {
 		// AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
 		setChanged();
 		notifyObservers();
 	}
 
-	// IMPORTAR DATOS
+	
 	public void setBoard(Square[][] board) {
 		this.board = board;
 	}
@@ -277,8 +260,8 @@ public class Board extends Observable implements Serializable {
 	public void setDotRemoved(Dot dotRemoved) {
 		this.dotRemoved = dotRemoved;
 	}
+	public void setDots(ArrayList<Dot> dots) {
 
-	public void setDots(Dot[][] dots) {
 		this.dots = dots;
 	}
 

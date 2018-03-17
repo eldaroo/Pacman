@@ -59,8 +59,8 @@ public class Intelligence {
 			
 			int aux = random.nextInt(smartDirectionAvailables.size());
 			bestChoise= smartDirectionAvailables.get(aux);
-			System.out.print(smartDirectionAvailables+ " "+ ghost.getGhostState());
-			System.out.println();
+			//System.out.print(smartDirectionAvailables+ " "+ ghost.getGhostState());
+			//System.out.println();
 			return bestChoise;
 		}
 	

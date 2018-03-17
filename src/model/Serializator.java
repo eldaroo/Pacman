@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,16 +21,17 @@ public class Serializator {
 	
 	static JSONArray jCreatures = new JSONArray();
 	static JSONArray jDots = new JSONArray();
-	static Dot[][] dotsArraySaved;
+	static ArrayList<Dot> dotsArraySaved;
 	static JSONObject jObj = new JSONObject();
 	static JSONParser parser = new JSONParser();
-
+	static Dot dot;
 	
-	public Dot[][] recover(Board board, Pacman pacman) throws FileNotFoundException, IOException, ParseException,NullPointerException {
+	
+	public ArrayList<Dot> recover(Board board, Pacman pacman) throws FileNotFoundException, IOException, ParseException,NullPointerException {
 		jCreatures.clear();
 		jObj.clear();
 		jDots.clear();
-		dotsArraySaved = new Dot[board.getDots().length][board.getDots().length];
+		dotsArraySaved = new ArrayList<Dot>();
 	
 		try (FileReader file = new FileReader("pacman.Json");){
 			jObj = (JSONObject) parser.parse(file);//Agarra el archivo y LO GUARDA EN UN objeto lleno de arrays que dentro tienen objetos JSON
@@ -42,23 +44,27 @@ public class Serializator {
 		
 		jCreatures = (JSONArray) jObj.get("Creatures") ;
 		jDots=(JSONArray) jObj.get("Dots");
-		System.out.println(jDots.isEmpty());
-		for (int i = 0; i < jDots.size(); i++) {
-
-				jObj = (JSONObject)jDots.get(i);
+		//for (int i = 0; i < jDots.size(); i++) {
+			for (Object obj : jDots) {
+				
+			jObj = (JSONObject) obj;
+				//jObj = (JSONObject)jDots.get(i);
 				int x = Integer.parseInt((String) jObj.get("xPosition")) ;
 				int y =Integer.parseInt((String)  jObj.get("yPosition"));
 
 				if (Boolean.parseBoolean((String) jObj.get("superDot"))) {
-					dotsArraySaved[(int) x][(int) y]= new SuperDot();
+					dot=new SuperDot();
+					dot.setPosition(board.getBoard()[(int) x][(int) y]);
+					dotsArraySaved.add(dot);
 
 				} else if(!Boolean.parseBoolean((String) jObj.get("superDot"))){
-					dotsArraySaved[(int) x][(int) y]= new Dot();
+					dot=new Dot();
+					dot.setPosition(board.getBoard()[(int) x][(int) y]);
+					dotsArraySaved.add(dot);
 				}
-				dotsArraySaved[(int) x][(int) y].position = board.getBoard()[(int) x][(int) y];
 
-		} // Agarra cada objeto JSON y le extrae sus variables
-				
+
+		} // Agarra cada objeto JSON y le extrae sus variables	
 		return dotsArraySaved;
 
 	}
@@ -66,19 +72,18 @@ public class Serializator {
 
 	public void toPersist(Board board,Creature pacman) throws IOException {
 
-		Dot[][] dots = board.getDots();
+		ArrayList<Dot> dots = board.getDots();
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
 		jCreatures.add(pacman);
 
 		jObj.put("Creatures", jCreatures);
 		
-		for (Dot[] dots2 : dots) {
-			for (Dot dot : dots2) {
+			for (Dot dot : dots) {
 				if(dot!=null) {
 				jDots.add(dot);}
 			}
-		}
+
 		jObj.put("Dots", jDots);
 		jObj.put("score", board.score);
 		jObj.put("lifes", board.lifes);

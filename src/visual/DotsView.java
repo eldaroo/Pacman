@@ -1,5 +1,6 @@
 package visual;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,20 +14,19 @@ import model.Dot;
 public class DotsView extends JPanel implements Observer {
 	
 	//DIBUJA LA MATRIZ CON TODOS LOS DOTS
-	JLabel[][] dotMatrix = new JLabel[60][60];
+	JLabel[][] dotMatrix;
 	//SE DIBUJAN DOTS
-	public DotsView(Dot[][] dots, JLayeredPane layers) {
-		for (int i = 0; i < dots.length; i++) {
-			for (int j = 0; j < dots.length; j++) {
-				if (dots[i][j] != null) {
-					dotMatrix[i][j] = new JLabel();
-
-					dotMatrix[i][j].setIcon(ResourceBinding.getImageIcon(dots[i][j]));
-					dotMatrix[i][j].setBounds((i * 10) - 10, (j * 10) - 10+25, 30, 30);
-
-					layers.add(dotMatrix[i][j], 5);
-				}
+	public DotsView(ArrayList<Dot> dotBoardMatrix, JLayeredPane layers) {
+		 dotMatrix = new JLabel[dotBoardMatrix.size()][dotBoardMatrix.size()];
+		for (Dot dot : dotBoardMatrix) {
+			if (dot != null) {
+				dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()]= new JLabel();
+				dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()].setIcon(ResourceBinding.getImageIcon(dot));
+				dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()].setBounds((dot.getPosition().getBoardPosition().getX() * 10) - 10, (dot.getPosition().getBoardPosition().getY() * 10) - 10+25, 30, 30);
+				
+				layers.add(dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()], 5);
 			}
+
 		}
 	}
 	
@@ -36,7 +36,11 @@ public class DotsView extends JPanel implements Observer {
 		Board board = (Board) observable;
 		Dot dotRemoved = board.getDotRemoved();
 
-		if (board.getPacmanEatNewDot())
-			dotMatrix[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()].setVisible(false);
+		if (board.getPacmanEatNewDot()) 
+		{
+			dotMatrix[dotRemoved.getPosition().getBoardPosition().getX()][dotRemoved.getPosition().getBoardPosition().getY()].setVisible(false);
+
+			
 	}
+}
 }

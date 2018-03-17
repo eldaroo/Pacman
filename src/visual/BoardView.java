@@ -21,6 +21,7 @@ public class BoardView extends Thread implements ActionListener, Observer{
 	JLabel lblScore;
 	JLabel lblLifes;
 	JButton  btnSave ;
+	JButton  btnExit ;
 	Square[][] squareArray;
 	JLayeredPane layers;
 	BeginMenu beginMenu;
@@ -49,7 +50,11 @@ public class BoardView extends Thread implements ActionListener, Observer{
 		btnSave = new JButton("Save");
 		btnSave.setBounds(450, 0, 89, 23);
 		layers.add(btnSave, 0);
-		btnSave.addActionListener((ActionListener) this);
+		//BOTON SALIR AL MENU DE INICIO
+		btnExit = new JButton("Exit");
+		btnExit.setBounds(350, 0, 89, 23);
+		layers.add(btnExit, 2);
+		btnExit.addActionListener((ActionListener) this);
 		//TABLERO DE JUEGO
 		int capa = 10000;
 		JLabel[][] Fondo = new JLabel[60][60];
@@ -83,6 +88,10 @@ public class BoardView extends Thread implements ActionListener, Observer{
 		if(arg0.getSource()==btnSave)
 		{
 			Game.save();
+		}
+		if(arg0.getSource()==btnExit)
+		{
+			System.exit(0);
 		}
 		
 	}
