@@ -13,18 +13,27 @@ import sounds.Sounds;
 
 public class Pacman extends Creature {
 
-	boolean eatingGhost = false;
+	private boolean eatingGhost = false;
+	public static enum PacmanState {MOVE,EATDOT,EATSUPER,EATGHOST,DEATH};
+	private static PacmanState pacmanState = PacmanState.MOVE;
+	
 	public void run(Board board)
 	{
 		move();
 		eatingDot(board);
 	}
+	
+
 	public boolean isEatingGhost() {
 		return eatingGhost;
 	}
 
 	public void setEatingGhost(boolean eatingGhost) {
 		this.eatingGhost = eatingGhost;
+	}
+
+	public void setPacmanState(PacmanState pacmanState) {
+		Pacman.pacmanState = pacmanState;
 	}
 
 	public Pacman(String name, Square position) {
@@ -69,12 +78,17 @@ public class Pacman extends Creature {
 				
 				sounds.reproduceEatGhost();
 				board.score += 50;
+				pacman.setPacmanState(Pacman.PacmanState.EATGHOST);
 				ghost.setGhostState(Ghost.GhostState.EATED);
 				eatingGhost = true;
 			}
 			}
 		}
 		
+	}
+	
+	public PacmanState getPacmanState () {
+		return pacmanState;
 	}
 	
 }
