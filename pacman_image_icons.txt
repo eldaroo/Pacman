@@ -2,6 +2,10 @@ TODO EN GIF (OPTIMIZA RECURSOS)
 ____________________________
 GHOST
 
+police_alive
+police_pussy
+police_death
+
 police_alive_right
 police_alive_left
 plice_alive_up

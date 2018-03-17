@@ -72,7 +72,7 @@ public class Game implements KeyListener, Runnable {
 	//MODELO
 	private static Board board;
 	private static Square[][] boardMatrix;
-	private static Dot[][] dotMatrix;
+	private static ArrayList<Dot> dotMatrix;
 	private static BoardConfiguration boardConfiguration ;
 
 	//VISUAL
@@ -251,7 +251,7 @@ public class Game implements KeyListener, Runnable {
 		}
 	}
 
-	private static void superMode(Pacman pacman) throws InterruptedException {
+	private void superMode(Pacman pacman) throws InterruptedException {
 		int slowGhosts=0;
 		superTime = 0;
 		setGhostState(Ghost.GhostState.PUSSY);
@@ -267,9 +267,9 @@ public class Game implements KeyListener, Runnable {
 			}
 			
 
-			pacman.move();
+			pacman.run(board);
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
-			board.eatingDot(pacman, gameState);
+
 			superTime++;
 			if (board.getDotRemoved().getSuper()) {
 				superTime = 0;
@@ -293,10 +293,8 @@ public class Game implements KeyListener, Runnable {
 			Thread.sleep(velocity);
 
 			moveGhosts();
-			pacman.move();
 			eatingPacman();
-
-			gameState=board.eatingDot(pacman, gameState);
+			pacman.run(board);
 			
 			//END GAME
 			if (board.lifes <= 0) {
@@ -325,7 +323,7 @@ public class Game implements KeyListener, Runnable {
 			ghost.run(pacman, gameState);
 
 		}
-		System.out.println();
+		//System.out.println();
 	}
 	private static void eatingPacman()
 	{
@@ -363,7 +361,7 @@ public class Game implements KeyListener, Runnable {
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
 		// RECUPER LOS DATOS GUARDADOS DE LOS DOTS Y LOS VUELCA AL TABLERO
 
-		Dot[][] dotsArraySaved = serializator.recover(board, pacman);
+		ArrayList<Dot> dotsArraySaved = serializator.recover(board, pacman);
 		board.setDots(dotsArraySaved);
 		recoveryMenu.dispose();
 		setGameState(GameState.NORMALMODE);

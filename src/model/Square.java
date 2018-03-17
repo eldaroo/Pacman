@@ -6,12 +6,26 @@ import java.util.LinkedHashMap;
 
 import org.json.simple.JSONValue;
 
+
 public abstract class Square {
 	private Square down = null;
 	private Square left = null;
 	private Square right = null;
 	private Square up = null;
-	 Position boardPosition = null;
+	Position boardPosition = null;
+
+	public static enum Corner {NE,NW,SE,SW,CENTER};
+	public Corner corner;
+
+	public Corner getCorner() {
+		return corner;
+	}
+
+
+	public void setCorner(Corner corner) {
+		this.corner = corner;
+	}
+
 
 	public Square() {
 		super();
