@@ -134,7 +134,7 @@ public class Game implements KeyListener, Runnable {
 		}
 	}
 
-	private void initGame() {
+	public static void initGame() {
 		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 		
 		gameState = GameState.LOAD;
@@ -388,7 +388,7 @@ public class Game implements KeyListener, Runnable {
 	}
 	
 	// CREA MODELO DE GHOSTS
-	private void createGhosts(int ghostQuantity) {
+	private static void createGhosts(int ghostQuantity) {
 	    ghostsArray = new ArrayList <Ghost>();
 		
 		int aux=1;
