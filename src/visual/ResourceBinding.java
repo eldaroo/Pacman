@@ -20,6 +20,7 @@ import model.Path;
 import model.Square;
 import model.Square.Corner;
 import model.SuperDot;
+import model.Teleport;
 import model.Wall;
 
 public abstract class ResourceBinding {
@@ -51,17 +52,16 @@ public abstract class ResourceBinding {
 		squareBoard.put(Path.class, falsePathIcon);
 	}
 	static {
-		wallIcon.put(Square.Corner.NE, new ImageIcon("resources/w_sw.png"));
-		wallIcon.put(Square.Corner.NW, new ImageIcon("resources/w_se.png"));
-		wallIcon.put(Square.Corner.SW, new ImageIcon("resources/w_ne.png"));
-		wallIcon.put(Square.Corner.SE, new ImageIcon("resources/w_nw.png"));
+		wallIcon.put(Square.Corner.NE, new ImageIcon("resources/wall_NE.gif"));
+		wallIcon.put(Square.Corner.NW, new ImageIcon("resources/wall_NW.gif"));
+		wallIcon.put(Square.Corner.SW, new ImageIcon("resources/wall_SW.gif"));
+		wallIcon.put(Square.Corner.SE, new ImageIcon("resources/wall_SE.gif"));
 	}
 	static {
-		falsePathIcon.put(Square.Corner.SE, new ImageIcon("resources/"));
-		falsePathIcon.put(Square.Corner.SW, new ImageIcon("resources/"));
-		falsePathIcon.put(Square.Corner.NE, new ImageIcon("resources/"));
-		falsePathIcon.put(Square.Corner.NW, new ImageIcon("resources/"));
-		falsePathIcon.put(Square.Corner.CENTER, new ImageIcon("resources/"));
+		falsePathIcon.put(Square.Corner.SE, new ImageIcon("resources/path_SE.gif"));
+		falsePathIcon.put(Square.Corner.SW, new ImageIcon("resources/path_SW.gif"));
+		falsePathIcon.put(Square.Corner.NE, new ImageIcon("resources/path_NE.gif"));
+		falsePathIcon.put(Square.Corner.NW, new ImageIcon("resources/path_NW.gif"));
 	}
 	
 	static {
@@ -71,9 +71,10 @@ public abstract class ResourceBinding {
 		images.put(HellGate.class, new ImageIcon("resources/1.png"));
 		images.put(FalseHell.class, new ImageIcon("resources/6.png"));
 		images.put(FalseTeleport.class, new ImageIcon("resources/6.png"));
+		images.put(Teleport.class, new ImageIcon("resources/6.png"));
 		images.put(FalsePath.class, new ImageIcon("resources/1.png"));
 		images.put(Dot.class, new ImageIcon("resources/chala.png"));
-		images.put(SuperDot.class, new ImageIcon("resources/superchala.png"));
+		images.put(SuperDot.class, new ImageIcon("resources/superchala.gif"));
 		images.put(BeginMenu.class, new ImageIcon("resources/inicio.gif"));
 
 	}
@@ -97,10 +98,10 @@ public abstract class ResourceBinding {
 		pacmanEatingSuper.put(Direction.RIGHT, new ImageIcon("resources/pacoman_eating_super_back.gif"));
 	}
 	static {
-		pacmanEatingGhost.put(Direction.DOWN, new ImageIcon("resources/pacoman_eating_ghost.gif"));
-		pacmanEatingGhost.put(Direction.LEFT, new ImageIcon("resources/pacoman_eating_ghost.gif"));
-		pacmanEatingGhost.put(Direction.UP, new ImageIcon("resources/pacoman_eating_ghost.gif"));
-		pacmanEatingGhost.put(Direction.RIGHT, new ImageIcon("resources/pacoman_eating_ghost_back.gif"));
+		pacmanEatingGhost.put(Direction.DOWN, new ImageIcon("resources/police_eated.gif"));
+		pacmanEatingGhost.put(Direction.LEFT, new ImageIcon("resources/police_eated.gif"));
+		pacmanEatingGhost.put(Direction.UP, new ImageIcon("resources/police_eated.gif"));
+		pacmanEatingGhost.put(Direction.RIGHT, new ImageIcon("resources/police_eated.gif"));
 	}
 
 	static {
@@ -114,38 +115,38 @@ public abstract class ResourceBinding {
 	}
 	static {
 
-		ghostDeath.put(1, new ImageIcon("resources/police_death_1.png"));
-		ghostDeath.put(3, new ImageIcon("resources/police_death_3.png"));
-		ghostDeath.put(5, new ImageIcon("resources/police_death_5.png"));
-		ghostDeath.put(7, new ImageIcon("resources/police_death_7.png"));
-		ghostDeath.put(9, new ImageIcon("resources/police_death_9.png"));
+		ghostDeath.put(1, new ImageIcon("resources/police_death.gif"));
+		ghostDeath.put(3, new ImageIcon("resources/police_death.gif"));
+		ghostDeath.put(5, new ImageIcon("resources/police_death.gif"));
+		ghostDeath.put(7, new ImageIcon("resources/police_death.gif"));
+		ghostDeath.put(9, new ImageIcon("resources/police_death.gif"));
 
 	}
 	static {
 
-		ghostEated.put(1, new ImageIcon("resources/police_eated_1.png"));
-		ghostEated.put(3, new ImageIcon("resources/police_eated_3.png"));
-		ghostEated.put(5, new ImageIcon("resources/police_eated_5.png"));
-		ghostEated.put(7, new ImageIcon("resources/police_eated_7.png"));
-		ghostEated.put(9, new ImageIcon("resources/police_eated_9.png"));
+		ghostEated.put(1, new ImageIcon("resources/police_eated.gif"));
+		ghostEated.put(3, new ImageIcon("resources/police_eated.gif"));
+		ghostEated.put(5, new ImageIcon("resources/police_eated.gif"));
+		ghostEated.put(7, new ImageIcon("resources/police_eated.gif"));
+		ghostEated.put(9, new ImageIcon("resources/police_eated.gif"));
 
 	}
 	static {
 
-		ghostPussy.put(1, new ImageIcon("resources/police_pussy_1.png"));
-		ghostPussy.put(3, new ImageIcon("resources/police_pussy_3.png"));
-		ghostPussy.put(5, new ImageIcon("resources/police_pussy_5.png"));
-		ghostPussy.put(7, new ImageIcon("resources/police_pussy_7.png"));
-		ghostPussy.put(9, new ImageIcon("resources/police_pussy_9.png"));
+		ghostPussy.put(1, new ImageIcon("resources/police_pussy.gif"));
+		ghostPussy.put(3, new ImageIcon("resources/police_pussy.gif"));
+		ghostPussy.put(5, new ImageIcon("resources/police_pussy.gif"));
+		ghostPussy.put(7, new ImageIcon("resources/police_pussy.gif"));
+		ghostPussy.put(9, new ImageIcon("resources/police_pussy.gif"));
 
 	}
 	static {
 
-		ghostHurry.put(1, new ImageIcon("resources/police_pussy_1.png"));
-		ghostHurry.put(3, new ImageIcon("resources/police_pussy_3.png"));
-		ghostHurry.put(5, new ImageIcon("resources/police_pussy_5.png"));
-		ghostHurry.put(7, new ImageIcon("resources/police_pussy_7.png"));
-		ghostHurry.put(9, new ImageIcon("resources/police_pussy_9.png"));
+		ghostHurry.put(1, new ImageIcon("resources/police_hurry.gif"));
+		ghostHurry.put(3, new ImageIcon("resources/police_hurry.gif"));
+		ghostHurry.put(5, new ImageIcon("resources/police_hurry.gif"));
+		ghostHurry.put(7, new ImageIcon("resources/police_hurry.gif"));
+		ghostHurry.put(9, new ImageIcon("resources/police_hurry.gif"));
 
 	}
 
@@ -165,6 +166,7 @@ public abstract class ResourceBinding {
 		pacmanState.put(Pacman.PacmanState.EATGHOST, pacmanEatingGhost);
 		pacmanState.put(Pacman.PacmanState.DEATH, pacmanDying);
 	}
+	
 
 	static public ImageIcon getImageIcon(Object object) {
 		return images.get(object.getClass());

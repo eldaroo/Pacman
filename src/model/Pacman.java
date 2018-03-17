@@ -54,6 +54,7 @@ public class Pacman extends Creature {
 			}
 			}
 		}
+		setEatingGhost(false);
 		
 	}
 	

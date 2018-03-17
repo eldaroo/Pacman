@@ -44,6 +44,7 @@ import model.GameState;
 import model.Ghost;
 import model.Ghost.GhostState;
 import model.Pacman;
+import model.Pacman.PacmanState;
 import model.Position;
 import model.Serializator;
 import model.Square;
@@ -287,6 +288,7 @@ public class Game implements KeyListener, Runnable {
 		hellTime = 0;
 
 		setGhostState(Ghost.GhostState.COURAGEOUS);
+		setPacmanState(Pacman.PacmanState.MOVE);
 
 		while (gameState.equals(GameState.NORMALMODE)) {
 
@@ -308,6 +310,10 @@ public class Game implements KeyListener, Runnable {
 				
 		}
 
+	private void setPacmanState(PacmanState pacmanState) {
+		pacman.setPacmanState(pacmanState);
+		
+	}
 	private static void setGhostState(Ghost.GhostState ghostState) {
 		//el objetivo cambia en funcion al estado del juego
 		

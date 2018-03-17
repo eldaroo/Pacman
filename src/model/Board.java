@@ -148,50 +148,50 @@ public class Board extends Observable implements Serializable {
 					break;
 				case '\u0009':
 					// PATH WITH TELEPORT
-					board[i][j] = new Path();
+					board[i][j] = new Teleport();
 					teleportList.add(board[i][j]);
-					board[i][j].corner = Corner.CENTER;
+					board[i][j].setCorner(Corner.CENTER);
 					break;
 					// CORNERS
 				case 'a':
 					// a PATHCORNER_NW
 					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.NW);
+					board[i][j].setCorner(Corner.NE);
 					break;
 				case 'w':
 					// w PATHCORNER_NE
 					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.NE);
+					board[i][j].setCorner(Corner.NW);
 					break;
 				case 'x':
 					// x PATHCORNER_SW
 					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.SW);
+					board[i][j].setCorner(Corner.SE);
 					break;
 				case 'd':
 					// d PATHCORNER_SE
 					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.SE);
+					board[i][j].setCorner(Corner.SW);
 					break;
 				case 'q':
-					// q WALLCORNER_NW
-					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.NW);
-					break;
-				case 'e':
-					// e WALLCORNER_NE
+					// q WALLCORNER_SE
 					board[i][j] = new Wall();
 					board[i][j].setCorner(Corner.NE);
 					break;
-				case 'z':
-					// z WALLCORNER_SW
+				case 'e':
+					// e WALLCORNER_SW
 					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.SW);
+					board[i][j].setCorner(Corner.NW);
 					break;
-				case 'c':
-					// c WALLCORNER_SE
+				case 'z':
+					// z WALLCORNER_NE
 					board[i][j] = new Wall();
 					board[i][j].setCorner(Corner.SE);
+					break;
+				case 'c':
+					// c WALLCORNER_NW
+					board[i][j] = new Wall();
+					board[i][j].setCorner(Corner.SW);
 					break;
 				}
 
