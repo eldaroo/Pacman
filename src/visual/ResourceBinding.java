@@ -125,8 +125,8 @@ public abstract class ResourceBinding {
 		return pacmanWithDirection.get(pacman.getDirection());
 	}
 	
-	/*CON CONDICIONALES POR SI COME DOTS O GHOST
-	static public ImageIcon getPacmanIcon(Creature pacman, Board board) {
+	//CON CONDICIONALES POR SI COME DOTS O GHOST
+	/*static public ImageIcon getPacmanIcon(Creature pacman, Board board) {
 		if (board.isPacmanEatNewDot()&&!board.dotRemoved.getSuper()&&!pacman.isEatingGhost())
 		{
 			return pacmanEatingDot.get(pacman.getDirection());
@@ -136,8 +136,8 @@ public abstract class ResourceBinding {
 			return pacmanEatingGhost.get(pacman.getDirection());
 		}else
 		return pacmanWithDirection.get(pacman.getDirection());
-	}
-	*/
+	}*/
+	
 	
 
 	static public ImageIcon getGhostIcon(Ghost ghost) {
