@@ -110,7 +110,7 @@ public class Game implements KeyListener, Runnable {
 	public static void initGame() {
 		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 		
-		gameState = GameState.LOAD;
+		gameState = GameState.POSTGAME;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
 	    originalPositionPacman =boardMatrix[27][43];
@@ -214,12 +214,12 @@ public class Game implements KeyListener, Runnable {
 	//TERMINO LA PARTIDA
 	private static void postGame() { 
 		if (firstTime) {
-			JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
+			//JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
 			gameView.remove(layers);
+			//gameView.repaint();
 			postGameView= new PostGameView(gameView);
 			layers.add(postGameView);
 			gameView.setContentPane(postGameView);
-			gameView.repaint();
 			firstTime=false;
 		}
 	}
@@ -457,6 +457,10 @@ public class Game implements KeyListener, Runnable {
 	public static JLayeredPane getLayers() {
 		return layers;
 	}
-
+	
+	public static void restartGameVisual () {
+		gameView.remove(postGameView);
+		gameView.setContentPane(layers);
+	}
 
 }

@@ -11,7 +11,7 @@ import sounds.Sounds;
 public class Pacman extends Creature {
 
 	private boolean eatingGhost = false;
-	public static enum PacmanState {MOVE,EATDOT,EATSUPER,EATGHOST,DEATH};
+	public static enum PacmanState {MOVE,EATGHOST,DEATH};
 	private static PacmanState pacmanState = PacmanState.MOVE;
 	private ArrayList<Dot> dots;
 	
@@ -20,7 +20,6 @@ public class Pacman extends Creature {
 		move();
 		eatingDot(board);
 	}
-	
 
 	public boolean isEatingGhost() {
 		return eatingGhost;
@@ -51,13 +50,11 @@ public class Pacman extends Creature {
 			{
 				sounds.reproduceEatDot();
 				board.setScore(board.getScore()+ 10);
-				setPacmanState(PacmanState.EATDOT);
 				board.setDotRemoved((Dot) dot);
 				
 				if (board.getDotRemoved().getSuper() == true) {
 					Game.setGameState (GameState.SUPERMODE);
 					board.setScore(board.getScore()+20);
-					setPacmanState(PacmanState.EATSUPER);
 				}
 				board.setPacmanEatNewDot(true);
 
@@ -88,7 +85,7 @@ public class Pacman extends Creature {
 				
 				sounds.reproduceEatGhost();
 				board.score += 50;
-				pacman.setPacmanState(Pacman.PacmanState.EATGHOST);
+				//pacman.setPacmanState(Pacman.PacmanState.EATGHOST);
 				ghost.setGhostState(Ghost.GhostState.EATED);
 				eatingGhost = true;
 			}

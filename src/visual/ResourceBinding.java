@@ -80,22 +80,10 @@ public abstract class ResourceBinding {
 	}
 
 	static {
-		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/paco-man.gif"));
-		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/paco-man.gif"));
-		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/paco-man.gif"));
-		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
-	}
-	static {
-		pacmanEatingDot.put(Direction.DOWN, new ImageIcon("resources/paco-man.gif"));
-		pacmanEatingDot.put(Direction.LEFT, new ImageIcon("resources/paco-man.gif"));
-		pacmanEatingDot.put(Direction.UP, new ImageIcon("resources/paco-man.gif"));
-		pacmanEatingDot.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
-	}
-	static {
-		pacmanEatingSuper.put(Direction.DOWN, new ImageIcon("resources/paco-man.gif.gif"));
-		pacmanEatingSuper.put(Direction.LEFT, new ImageIcon("resources/paco-man.gif.gif"));
-		pacmanEatingSuper.put(Direction.UP, new ImageIcon("resources/paco-man.gif.gif"));
-		pacmanEatingSuper.put(Direction.RIGHT, new ImageIcon("resources/paco-man_back.gif"));
+		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/pacoman.png"));
+		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/pacoman.png"));
+		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/pacoman.png"));
+		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/pacoman_back.png"));
 	}
 	static {
 		pacmanEatingGhost.put(Direction.DOWN, new ImageIcon("resources/.gif"));
@@ -124,11 +112,11 @@ public abstract class ResourceBinding {
 	}
 	static {
 
-		ghostEated.put(1, new ImageIcon("resources/police_eated.gif"));
-		ghostEated.put(3, new ImageIcon("resources/police_eated.gif"));
-		ghostEated.put(5, new ImageIcon("resources/police_eated.gif"));
-		ghostEated.put(7, new ImageIcon("resources/police_eated.gif"));
-		ghostEated.put(9, new ImageIcon("resources/police_eated.gif"));
+		ghostEated.put(1, new ImageIcon("resources/police_death.gif"));
+		ghostEated.put(3, new ImageIcon("resources/police_death.gif"));
+		ghostEated.put(5, new ImageIcon("resources/police_death.gif"));
+		ghostEated.put(7, new ImageIcon("resources/police_death.gif"));
+		ghostEated.put(9, new ImageIcon("resources/police_death.gif"));
 
 	}
 	static {
@@ -161,8 +149,6 @@ public abstract class ResourceBinding {
 
 	static {
 		pacmanState.put(Pacman.PacmanState.MOVE, pacmanWithDirection);
-		pacmanState.put(Pacman.PacmanState.EATDOT, pacmanEatingDot);
-		pacmanState.put(Pacman.PacmanState.EATSUPER, pacmanEatingSuper);
 		pacmanState.put(Pacman.PacmanState.EATGHOST, pacmanEatingGhost);
 		pacmanState.put(Pacman.PacmanState.DEATH, pacmanDying);
 	}

@@ -84,7 +84,6 @@ public class Ghost extends Creature {
 			break;
 		case EATED:
 			Thread.sleep(150);
-			pacman.setPacmanState(PacmanState.EATGHOST);
 			setGhostState(GhostState.DEATH);
 			//eatGhostTime = 0;
 
