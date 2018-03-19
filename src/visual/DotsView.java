@@ -13,14 +13,18 @@ import model.Dot;
 
 public class DotsView extends JPanel implements Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//DIBUJA LA MATRIZ CON TODOS LOS DOTS
 	JLabel[][] dotMatrix;
 	//SE DIBUJAN DOTS
 	public DotsView(ArrayList<Dot> dotBoardMatrix, JLayeredPane layers) {
-		 dotMatrix = new JLabel[dotBoardMatrix.size()][dotBoardMatrix.size()];
+		 dotMatrix = new JLabel[1000][1000];
 		for (Dot dot : dotBoardMatrix) {
-			if (dot != null) {
-				dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()]= new JLabel();
+				
+			dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()]= new JLabel();
 				dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()].setIcon(ResourceBinding.getImageIcon(dot));
 				dotMatrix[dot.getPosition().getBoardPosition().getX()][dot.getPosition().getBoardPosition().getY()].setBounds((dot.getPosition().getBoardPosition().getX() * 10) - 10, (dot.getPosition().getBoardPosition().getY() * 10) - 10+25, 30, 30);
 				
@@ -28,7 +32,6 @@ public class DotsView extends JPanel implements Observer {
 			}
 
 		}
-	}
 	
 	//RECIBE AVISO DEL DOT COMIDO Y LO DESAPARECE
 	@Override

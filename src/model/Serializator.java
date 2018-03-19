@@ -8,14 +8,12 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import controller.Game;
 
 public class Serializator {
 	
@@ -33,8 +31,9 @@ public class Serializator {
 		jDots.clear();
 		dotsArraySaved = new ArrayList<Dot>();
 	
+		//Agarra el archivo y LO GUARDA EN UN objeto lleno de arrays que dentro tienen objetos JSON
 		try (FileReader file = new FileReader("pacman.Json");){
-			jObj = (JSONObject) parser.parse(file);//Agarra el archivo y LO GUARDA EN UN objeto lleno de arrays que dentro tienen objetos JSON
+			jObj = (JSONObject) parser.parse(file);
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Usted no tiene partidas guardadas");
 		} 
@@ -44,11 +43,10 @@ public class Serializator {
 		
 		jCreatures = (JSONArray) jObj.get("Creatures") ;
 		jDots=(JSONArray) jObj.get("Dots");
-		//for (int i = 0; i < jDots.size(); i++) {
-			for (Object obj : jDots) {
+		// Agarra cada objeto JSON y le extrae sus variables	
+		for (Object obj : jDots) {
 				
 			jObj = (JSONObject) obj;
-				//jObj = (JSONObject)jDots.get(i);
 				int x = Integer.parseInt((String) jObj.get("xPosition")) ;
 				int y =Integer.parseInt((String)  jObj.get("yPosition"));
 
@@ -64,12 +62,13 @@ public class Serializator {
 				}
 
 
-		} // Agarra cada objeto JSON y le extrae sus variables	
+		} 
 		return dotsArraySaved;
 
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	public void toPersist(Board board,Creature pacman) throws IOException {
 
 		ArrayList<Dot> dots = board.getDots();
@@ -80,8 +79,8 @@ public class Serializator {
 		jObj.put("Creatures", jCreatures);
 		
 			for (Dot dot : dots) {
-				if(dot!=null) {
-				jDots.add(dot);}
+
+				jDots.add(dot);
 			}
 
 		jObj.put("Dots", jDots);

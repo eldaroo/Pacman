@@ -23,7 +23,7 @@ public class Controller {
 	
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 		boardConfiguration = new BoardConfiguration();
-		board= new Board(boardConfiguration.level1BoardRecharged);
+		board= new Board(boardConfiguration.getLevel1BoardRecharged());
 		layers = new JLayeredPane();
 		
 		game = new Thread( new Game(beginMenu, boardView, board, layers, boardConfiguration),"game");

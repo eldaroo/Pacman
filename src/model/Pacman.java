@@ -1,11 +1,8 @@
 package model;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
-import org.json.simple.JSONValue;
+
+import java.util.ArrayList;
 
 import controller.Game;
 import model.Ghost.GhostState;
@@ -16,6 +13,7 @@ public class Pacman extends Creature {
 	private boolean eatingGhost = false;
 	public static enum PacmanState {MOVE,EATDOT,EATSUPER,EATGHOST,DEATH};
 	private static PacmanState pacmanState = PacmanState.MOVE;
+	private ArrayList<Dot> dots;
 	
 	public void run(Board board)
 	{
@@ -45,28 +43,39 @@ public class Pacman extends Creature {
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
 	public void eatingDot(Board board) {
 		board.setPacmanEatNewDot(false);
-		for (Dot dot : board.getDots()) {
-		if (dot.getPosition().getBoardPosition().equals(position.getBoardPosition()))
+		dots=board.getDots();
+
+		for (Dot dot : dots) {
+
+			if (((Dot) dot).getPosition().getBoardPosition().equals(position.getBoardPosition()))
 			{
 				sounds.reproduceEatDot();
 				board.setScore(board.getScore()+ 10);
 				setPacmanState(PacmanState.EATDOT);
-				board.setDotRemoved(dot);
+				board.setDotRemoved((Dot) dot);
+				
 				if (board.getDotRemoved().getSuper() == true) {
 					Game.setGameState (GameState.SUPERMODE);
 					board.setScore(board.getScore()+20);
 					setPacmanState(PacmanState.EATSUPER);
 				}
-				dot = null;
 				board.setPacmanEatNewDot(true);
-				//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
-				board.Update();
+
+			}
 		}
 		
-
+		dots.remove(board.getDotRemoved());
+		board.setDots(dots);
+		
+		//CHEQUEA SI TERMINO EL JUEGO
+		if (dots.size()==0)
+		{
+			Game.setGameState(GameState.POSTGAME);
+			Game.setFirstTime(true);
 		}
-
-	}
+		//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
+		board.Update();
+		}
 
 	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
 		for (Ghost ghost : ghostsArray) {

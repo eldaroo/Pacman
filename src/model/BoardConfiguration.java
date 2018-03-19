@@ -3,7 +3,7 @@ package model;
 public class BoardConfiguration {
 	int cont = 0;
 
-	static public char[][] level1BoardRecharged = {
+	private char[][] level1BoardRecharged = {
 
 			{ 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 3,9,3, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, },
 			{ 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 2,1,2, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, },
@@ -107,6 +107,14 @@ public class BoardConfiguration {
 	//c WALLCORNER_NW
 	public BoardConfiguration() {
 
+	}
+
+	public char[][] getLevel1BoardRecharged() {
+		return level1BoardRecharged;
+	}
+
+	public void setLevel1BoardRecharged(char[][] level1BoardRecharged) {
+		this.level1BoardRecharged = level1BoardRecharged;
 	}
 
 }

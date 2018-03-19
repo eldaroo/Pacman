@@ -27,7 +27,7 @@ public class RecoveryMenu extends JInternalFrame {
 		getContentPane().setLayout(null);
 		setVisible(true);
 
-		JLabel lblSelect = new JLabel("Tiene una partida guardada del dia ");
+		JLabel lblSelect = new JLabel("Tiene una partida ");
 		lblSelect.setBounds(144, 243, 233, 23);
 		getContentPane().add(lblSelect);
 

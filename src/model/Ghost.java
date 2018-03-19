@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import controller.Game;
 import model.Pacman.PacmanState;
-import sounds.Sounds;
 
 public class Ghost extends Creature {
 
@@ -19,11 +19,8 @@ public class Ghost extends Creature {
 
 	private int stupidity;
 	private GhostState ghostState = GhostState.COURAGEOUS;
-	private Position initialPosition;
 	private Random random;
 	private Board board;
-
-	private int eatGhostTime = 0;
 
 	private int aux;
 
@@ -34,7 +31,6 @@ public class Ghost extends Creature {
 	public Ghost(String name, Square position, int intelligence, Board board) {
 		super(name);
 		this.position = position;
-		this.initialPosition = position.getBoardPosition();
 		this.intelligence = intelligence;
 		this.target = position.getBoardPosition();
 		this.board = board;
@@ -53,7 +49,7 @@ public class Ghost extends Creature {
 		}
 	}
 
-	public GameState eatingPacman(Pacman pacman, Board board, GameState gameState) {
+	public void eatingPacman(Pacman pacman, Board board) {
 		if (getPosition().equals(pacman.getPosition())) {
 
 			sounds.reproduceDeath();
@@ -61,13 +57,12 @@ public class Ghost extends Creature {
 			board.lifes--;
 			pacman.setAlive(false);
 			pacman.setPacmanState(PacmanState.DEATH);
-			gameState = gameState.RESPAWN;
+			Game.setGameState(GameState.RESPAWN);
 		}
-		return gameState;
 
 	}
 
-	public void run(Pacman pacman, GameState gameState) {
+	public void run(Pacman pacman) throws InterruptedException {
 
 		switch (ghostState) {
 
@@ -88,9 +83,10 @@ public class Ghost extends Creature {
 
 			break;
 		case EATED:
+			Thread.sleep(150);
 			pacman.setPacmanState(PacmanState.EATGHOST);
 			setGhostState(GhostState.DEATH);
-			eatGhostTime = 0;
+			//eatGhostTime = 0;
 
 			break;
 		case INHELL:
@@ -102,6 +98,10 @@ public class Ghost extends Creature {
 
 			} else
 				hellTime++;
+			break;
+		case HURRY:
+			break;
+		default:
 			break;
 		}
 		iA_Ghost = new Intelligence(this);

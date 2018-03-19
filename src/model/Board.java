@@ -6,12 +6,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Observable;
-import java.util.Random;
 
 import org.json.simple.JSONValue;
 
 import model.Square.Corner;
-import sounds.Sounds;
 
 public class Board extends Observable implements Serializable {
 
@@ -22,7 +20,6 @@ public class Board extends Observable implements Serializable {
 	private Dot dotRemoved;
 	private boolean pacmanEatNewDot;
 	private boolean superMode = false;
-	private Sounds sounds = new Sounds();
 	private HellGate hellGate = new HellGate();
 
 	private ArrayList<Square> hellZone = new ArrayList<Square>();
@@ -271,7 +268,7 @@ public void update() {
 
 	// LOS DATOS DEL BOARD QUE SE GUARDAN CUANDO SE EJECUTA toPersist
 	public void writeJSONString(Writer out) throws IOException {
-		LinkedHashMap obj = new LinkedHashMap<>();
+		LinkedHashMap<String, Long> obj = new LinkedHashMap<>();
 		obj.put("score", score);
 		obj.put("lifes", lifes);
 		JSONValue.writeJSONString(obj, out);

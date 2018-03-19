@@ -1,39 +1,26 @@
 package controller;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.io.FileNotFoundException;
+
+import java.io.IOException;
+
+
 
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.Random;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.text.html.HTMLEditorKit.Parser;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+
 import org.json.simple.parser.ParseException;
 
 import model.Board;
@@ -45,36 +32,29 @@ import model.Ghost;
 import model.Ghost.GhostState;
 import model.Pacman;
 import model.Pacman.PacmanState;
-import model.Position;
 import model.Serializator;
 import model.Square;
-import sounds.Beginning;
-import sounds.Death;
-import sounds.EatDot;
-import sounds.EatGhost;
+
 import sounds.Sounds;
 import visual.BeginMenu;
-import visual.BoardView;
+
 import visual.GameView;
 import visual.GhostView;
 import visual.PacmanView;
-import visual.PlayerView;
 import visual.PostGameView;
-import visual.RecoveryMenu;
 import visual.CreaturesView;
 import visual.DotsView;
 
 public class Game implements KeyListener, Runnable {
 
 	//HILOS
-	private static Game game;
-	private static Thread boardView;
+	//private static Game game;
+	//private static Thread boardView;
 
 	//MODELO
 	private static Board board;
 	private static Square[][] boardMatrix;
 	private static ArrayList<Dot> dotMatrix;
-	private static BoardConfiguration boardConfiguration ;
 
 	//VISUAL
 	private static DotsView dotsView;
@@ -84,10 +64,6 @@ public class Game implements KeyListener, Runnable {
 	private static ArrayList<CreaturesView> ghostViewsArray;
 	private static BeginMenu beginMenu;
 	private static JLayeredPane layers;
-	private static PlayerView playerView;
-	private static RecoveryMenu recoveryMenu;
-
-	private static LocalDateTime date = LocalDateTime.now();
 
 	//CRIATURAS
 	private static Pacman pacman;
@@ -108,19 +84,16 @@ public class Game implements KeyListener, Runnable {
 	
 	//DATOS
 	private static int velocity = 66;
-	private static int distance = 0;
 	private static int superTime = 0;
-	private static int hellTime = 0;
 	private static int ghostQuantity = 5;
 	
 	public Game(BeginMenu beginMenu, Thread boardView, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
 	{
 		//CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
-		this.beginMenu = beginMenu;
-		this.layers = layers;
-		this.board= board;
-		this.boardConfiguration = boardConfiguration;
-		this.boardView= boardView;
+		Game.beginMenu = beginMenu;
+		Game.layers = layers;
+		Game.board= board;
+		//this.boardView= boardView;
 		
 
 	}
@@ -153,7 +126,6 @@ public class Game implements KeyListener, Runnable {
 		gameView.addKeyListener(this);
 		dotMatrix = board.getDots();
 		dotsView = new DotsView(dotMatrix, layers);
-		playerView = new PlayerView(layers);
 		pacmanView = new PacmanView(pacman, layers);
 		createGhostViews(ghostQuantity);
 		gameView.setVisible(true);
@@ -175,11 +147,12 @@ public class Game implements KeyListener, Runnable {
 
 				break;
 			case RECOVERY:
-				if (firstTime) {
+				/*if (firstTime) {
 					recoveryMenu = new RecoveryMenu(gameView);
 					gameView.setContentPane(recoveryMenu);
 					firstTime = false;
-				}
+				}*/
+				recovery();
 
 				break;
 			case NORMALMODE:
@@ -286,7 +259,6 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
-		hellTime = 0;
 
 		setGhostState(Ghost.GhostState.COURAGEOUS);
 		setPacmanState(Pacman.PacmanState.MOVE);
@@ -323,30 +295,19 @@ public class Game implements KeyListener, Runnable {
 		}
 		
 	}
-	private static void moveGhosts() {
+	private static void moveGhosts() throws InterruptedException {
 		
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: BUSCAN EL OBJETIVO Y SE MUEVEN
 
-			
-			if (ghost.getGhostState()==GhostState.DEATH) {
-				ghost.run(pacman, gameState);
-				ghost.run(pacman, gameState);
-				ghost.run(pacman, gameState);
-				ghost.run(pacman, gameState);
-			}else {
-				ghost.run(pacman, gameState);				
-			}
-			
-			
+				ghost.run(pacman);
 		}
-		//System.out.println();
 	}
 	private static void eatingPacman()
 	{
 		for (Ghost ghost : ghostsArray) {
 			// GHOSTS: SI ENCUENTRAN AL PACMAN LO COMEN
-			gameState = ghost.eatingPacman(pacman, board, gameState);
+			ghost.eatingPacman(pacman, board);
 
 		}
 	}
@@ -376,11 +337,11 @@ public class Game implements KeyListener, Runnable {
 	// CARGA PARTIDA
 
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
-		// RECUPER LOS DATOS GUARDADOS DE LOS DOTS Y LOS VUELCA AL TABLERO
+		// RECUPER LOS DATOS GUARDADOS Y LOS VUELCA AL TABLERO
 
 		ArrayList<Dot> dotsArraySaved = serializator.recover(board, pacman);
 		board.setDots(dotsArraySaved);
-		recoveryMenu.dispose();
+		//recoveryMenu.dispose();
 		setGameState(GameState.NORMALMODE);
 		setFirstTime(true);
 	}

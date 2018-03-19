@@ -1,10 +1,6 @@
 package model;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.LinkedHashMap;
 
-import org.json.simple.JSONValue;
 
 
 public abstract class Square {
