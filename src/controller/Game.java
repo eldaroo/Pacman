@@ -7,9 +7,6 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 
 import java.io.IOException;
-
-
-
 import java.util.ArrayList;
 
 import java.util.Random;
@@ -27,6 +24,7 @@ import model.Board;
 import model.BoardConfiguration;
 import model.Direction;
 import model.Dot;
+import model.Fruit;
 import model.GameState;
 import model.Ghost;
 import model.Ghost.GhostState;
@@ -44,17 +42,15 @@ import visual.PacmanView;
 import visual.PostGameView;
 import visual.CreaturesView;
 import visual.DotsView;
+import visual.FruitView;
 
 public class Game implements KeyListener, Runnable {
-
-	//HILOS
-	//private static Game game;
-	//private static Thread boardView;
 
 	//MODELO
 	private static Board board;
 	private static Square[][] boardMatrix;
 	private static ArrayList<Dot> dotMatrix;
+	private static Fruit fruit;
 
 	//VISUAL
 	private static DotsView dotsView;
@@ -64,6 +60,7 @@ public class Game implements KeyListener, Runnable {
 	private static ArrayList<CreaturesView> ghostViewsArray;
 	private static BeginMenu beginMenu;
 	private static JLayeredPane layers;
+	private static FruitView fruitView;
 
 	//CRIATURAS
 	private static Pacman pacman;
@@ -83,7 +80,8 @@ public class Game implements KeyListener, Runnable {
 	private static Sounds sound = new Sounds();
 	
 	//DATOS
-	private static int velocity = 66;
+	private static int time;
+	private static int retard = 66;
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
 	
@@ -115,6 +113,7 @@ public class Game implements KeyListener, Runnable {
 	    boardMatrix = board.getBoard();
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
+	    fruit = new Fruit();
 		pacman = new Pacman("pacman", originalPositionPacman);
 
 	}
@@ -125,11 +124,13 @@ public class Game implements KeyListener, Runnable {
 		gameView.setContentPane(layers);
 		gameView.addKeyListener(this);
 		dotMatrix = board.getDots();
+		fruitView = new FruitView(fruit, layers);
 		dotsView = new DotsView(dotMatrix, layers);
 		pacmanView = new PacmanView(pacman, layers);
 		createGhostViews(ghostQuantity);
 		gameView.setVisible(true);
 		
+		fruit.addObserver(fruitView);
 		pacman.addObserver(pacmanView);
 		board.addObserver(dotsView);
 
@@ -138,6 +139,7 @@ public class Game implements KeyListener, Runnable {
 	// ARRANCA EL JUEGO
 	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 		boolean ever = true;
+		time = 0;
 		while (ever) {
 			gameView.requestFocus();
 			
@@ -147,11 +149,7 @@ public class Game implements KeyListener, Runnable {
 
 				break;
 			case RECOVERY:
-				/*if (firstTime) {
-					recoveryMenu = new RecoveryMenu(gameView);
-					gameView.setContentPane(recoveryMenu);
-					firstTime = false;
-				}*/
+
 				recovery();
 
 				break;
@@ -175,6 +173,8 @@ public class Game implements KeyListener, Runnable {
 			case POSTGAME:
 
 					postGame();
+				break;
+			case NEXTLEVEL:
 				break;
 			}
 		}
@@ -226,12 +226,13 @@ public class Game implements KeyListener, Runnable {
 
 	private void superMode(Pacman pacman) throws InterruptedException {
 		int slowGhosts=0; 
+		time++;
 		superTime = 0;
 		setGhostState(Ghost.GhostState.PUSSY);
 		setPacmanState(Pacman.PacmanState.MOVE);
 		while (gameState.equals(GameState.SUPERMODE)) {
 
-			Thread.sleep(velocity);	
+			Thread.sleep(retard);	
 			
 			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
 			slowGhosts++;
@@ -258,14 +259,20 @@ public class Game implements KeyListener, Runnable {
 
 	}
 
+	public static int getTime() {
+		return time;
+	}
+	public static void setTime(int time) {
+		Game.time = time;
+	}
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 
 		setGhostState(Ghost.GhostState.COURAGEOUS);
 		setPacmanState(Pacman.PacmanState.MOVE);
 
 		while (gameState.equals(GameState.NORMALMODE)) {
-
-			Thread.sleep(velocity);
+			time++;
+			Thread.sleep(retard);
 
 			moveGhosts();
 			eatingPacman();

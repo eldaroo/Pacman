@@ -68,7 +68,7 @@ public abstract class ResourceBinding {
 		images.put(Path.class, new ImageIcon("resources/1.png"));
 		images.put(Wall.class, new ImageIcon("resources/0.png"));
 		images.put(Hell.class, new ImageIcon("resources/6.png"));
-		images.put(HellGate.class, new ImageIcon("resources/1.png"));
+		images.put(HellGate.class, new ImageIcon("resources/6.png"));
 		images.put(FalseHell.class, new ImageIcon("resources/6.png"));
 		images.put(FalseTeleport.class, new ImageIcon("resources/6.png"));
 		images.put(Teleport.class, new ImageIcon("resources/6.png"));
@@ -189,4 +189,9 @@ public abstract class ResourceBinding {
 		stateIcon = ghostState.get(ghost.getGhostState());
 		return stateIcon.get(ghost.getIntelligence());
 	}
+
+	/*public static Object getFruitIcon(FruitType fruitType) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
 }

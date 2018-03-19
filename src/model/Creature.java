@@ -14,6 +14,9 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 
 	private boolean alive = true;
 	protected boolean keyOfHell;
+	Direction direction = Direction.RIGHT;
+	String name = null;
+	Sounds sounds = new Sounds();
 
 	public boolean isKeyOfHell() {
 		return keyOfHell;
@@ -28,9 +31,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		this.alive = alive;
 	}
 
-	Direction direction = Direction.RIGHT;
-	String name = null;
-	Sounds sounds = new Sounds();
+
 
 	public Creature(String name) {
 		super();

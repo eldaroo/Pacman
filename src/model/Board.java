@@ -158,7 +158,7 @@ public class Board extends Observable implements Serializable {
 					board[i][j].setCorner(Corner.SE);
 					break;
 				case 'd':
-					// d PATHCORNER_SE
+					// d PATHCORNER_SW
 					board[i][j] = new FalsePath();
 					board[i][j].setCorner(Corner.SW);
 					break;
@@ -168,12 +168,12 @@ public class Board extends Observable implements Serializable {
 					board[i][j].setCorner(Corner.NE);
 					break;
 				case 'e':
-					// e WALLCORNER_SW
+					// e WALLCORNER_NW
 					board[i][j] = new Wall();
 					board[i][j].setCorner(Corner.NW);
 					break;
 				case 'z':
-					// z WALLCORNER_NE
+					// z WALLCORNER_SE
 					board[i][j] = new Wall();
 					board[i][j].setCorner(Corner.SE);
 					break;
@@ -281,4 +281,5 @@ public void update() {
 	public void setPacmanEatNewDot(boolean pacmanEatNewDot) {
 		this.pacmanEatNewDot = pacmanEatNewDot;
 	}
+
 }
