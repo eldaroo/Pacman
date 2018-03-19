@@ -4,48 +4,63 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EmptyBorder;
 
+import controller.Game;
+import model.GameState;
+
 public class PostGameView extends JPanel {
 	private JTextField textField;
+
 	public PostGameView(GameView gameView) {
-		setLayout(null);
+
 		setVisible(true);
-		setBounds(100, 100, 600, 650);
-		JLabel lblGameOver = new JLabel("Game Over");
-		lblGameOver.setFont(new Font("Tekton Pro Cond", Font.PLAIN, 21));
-		lblGameOver.setBounds(131, 33, 89, 20);
-		add(lblGameOver);
+		setSize(200, 200);
+		setLocation(200, 200);
 		
+		JLabel lblGameOver = new JLabel(" G A M E   O V E R ");
+		lblGameOver.setFont(new Font("Tekton Pro Cond", Font.PLAIN, 36));
+		lblGameOver.setSize(131, 33);
+		add(lblGameOver, BorderLayout.NORTH);
+
 		JLabel lblNombre = new JLabel("Nombre: ");
-		lblNombre.setBounds(54, 87, 46, 14);
-		add(lblNombre);
-		
+		lblNombre.setSize(54, 87);
+		add(lblNombre,BorderLayout.CENTER);
+
 		textField = new JTextField();
 		textField.setBorder(new EmptyBorder(0, 0, 0, 0));
-		textField.setBounds(112, 84, 86, 20);
-		add(textField);
+		textField.setSize(112, 84);
+		add(textField,BorderLayout.CENTER);
 		textField.setColumns(10);
 		
-		JButton btnSalvarPartida = new JButton("Salvar Puntaje");
-		btnSalvarPartida.setBounds(190, 152, 124, 23);
-		add(btnSalvarPartida);
-		
-		JButton btnVolverAJugar = new JButton("Volver a jugar");
+		JButton btnSalvarPartida = new JButton("SAVE SCORE");
+		btnSalvarPartida.setSize(124, 23);
+		add(btnSalvarPartida, BorderLayout.CENTER);
+
+		JButton btnVolverAJugar = new JButton("TRY AGAIN");
 		btnVolverAJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("salio del juego");
-				
+				Game.setGameState(GameState.NORMALMODE);
+				Game.setFirstTime(true);
+				//Game.restartGameVisual();
+				Game.respawn();
 			}
 		});
-		btnVolverAJugar.setBounds(219, 235, 121, 23);
-		add(btnVolverAJugar);
-		
-		JButton btnTomarseElChori = new JButton("Tomarse el Chori");
+		btnVolverAJugar.setSize(121, 23);
+		add(btnVolverAJugar,BorderLayout.SOUTH);
+
+		JButton btnTomarseElChori = new JButton("EXIT");
+		btnTomarseElChori.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 		btnTomarseElChori.setBounds(11, 235, 132, 23);
-		add(btnTomarseElChori);
+		add(btnTomarseElChori,BorderLayout.SOUTH);
 	}
 }
