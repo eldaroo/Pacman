@@ -108,7 +108,7 @@ public class Game implements KeyListener, Runnable {
 	public static void initGame() {
 		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 		
-		gameState = GameState.POSTGAME;
+		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
 	    originalPositionPacman =boardMatrix[27][43];

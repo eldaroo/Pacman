@@ -38,6 +38,13 @@ public class Pacman extends Creature {
 		this.position = position;
 		setKeyOfHell(false);
 	}
+	
+	public void eatingDots()
+	{
+		//if (((Dot) dot).getPosition().getBoardPosition().equals(position.getBoardPosition()))
+			
+	}
+	
 
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
 	public void eatingDot(Board board) {
