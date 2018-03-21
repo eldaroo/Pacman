@@ -21,18 +21,20 @@ public class Board extends Observable implements Serializable {
 	private boolean pacmanEatNewDot;
 	private boolean superMode = false;
 	private HellGate hellGate = new HellGate();
-
+	private char[][]levelMatrix;
 	private ArrayList<Square> hellZone = new ArrayList<Square>();
 	private ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	public long lifes = 3;
-	public long score = 0;
+	private long lifes = 3;
+	private long score = 0;
+	private Long level =(long) 1;
 
 	private Position fruitPosition;
 
 	public Board(char[][] level1) {
-		makeBoard(level1);
-		makeDots(level1);
+		levelMatrix=level1;
+		makeBoard();
+		makeDots();
 	}
 	public void Update() {
 
@@ -83,12 +85,12 @@ public class Board extends Observable implements Serializable {
 	}
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
-	private void makeBoard(char[][] level1) {
-		board = new Square[level1.length][level1.length];
-		for (int i = 0; i < level1.length; i++) {
-			for (int j = 0; j < level1.length; j++) {
+	private void makeBoard() {
+		board = new Square[levelMatrix.length][levelMatrix.length];
+		for (int i = 0; i < levelMatrix.length; i++) {
+			for (int j = 0; j < levelMatrix.length; j++) {
 				// SE ASIGNAN LOS TIPOS DE CASILLEROS
-				switch (level1[i][j]) {
+				switch (levelMatrix[i][j]) {
 				case '\u0000':
 					// WALL
 					board[i][j] = new Wall();
@@ -146,7 +148,7 @@ public class Board extends Observable implements Serializable {
 					// PATH WITH FRUIT
 					board[i][j] = new Path();
 					board[i][j].setCorner(Corner.CENTER);
-					//fruitPosition = board[i][j].getBoardPosition();
+					fruitPosition = new Position(i,j);
 					break;
 					// CORNERS
 				case 'a':
@@ -192,7 +194,6 @@ public class Board extends Observable implements Serializable {
 				}
 
 				// ASIGNA AL CASILLERO EN UNA POSICION DEL TABLERO
-				if ((!board.getClass().equals(HellGate.class))&&(board[i][j]!=null)) 
 					board[i][j].setBoardPosition(new Position(i, j));
 			}
 		}
@@ -233,13 +234,13 @@ public class Board extends Observable implements Serializable {
 	}
 
 	//CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
-	private void makeDots(char[][] level1) {
+	public void makeDots() {
 		Dot dot;
 		SuperDot superDot;
 		dots = new ArrayList <Dot>();
-		for (int i = 0; i < level1.length; i++) {
-			for (int j = 0; j < level1.length; j++) {
-				switch (level1[i][j]) {
+		for (int i = 0; i < levelMatrix.length; i++) {
+			for (int j = 0; j < levelMatrix.length; j++) {
+				switch (levelMatrix[i][j]) {
 				case 4:
 					dot=new Dot();
 					dot.setPosition(board[i][j]);
@@ -262,7 +263,19 @@ public void update() {
 		notifyObservers();
 	}
 
-	
+public long getLifes() {
+	return lifes;
+}
+public void setLifes(long lifes) {
+	this.lifes = lifes;
+}
+
+public long getLevel() {
+	return level;
+}
+public void setLevel(long level) {
+	this.level = level;
+}
 	public void setBoard(Square[][] board) {
 		this.board = board;
 	}
@@ -284,6 +297,8 @@ public void update() {
 		LinkedHashMap<String, Long> obj = new LinkedHashMap<>();
 		obj.put("score", score);
 		obj.put("lifes", lifes);
+		obj.put("level", level);
+
 		JSONValue.writeJSONString(obj, out);
 	}
 

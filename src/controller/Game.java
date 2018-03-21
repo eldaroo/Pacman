@@ -115,19 +115,21 @@ public class Game implements KeyListener, Runnable {
 	public static void initGame() {
 		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 		
-		gameState = GameState.POSTGAME;
+		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
 	    fruit = new Fruit(board.getFruitPosition());
 		pacman = new Pacman("pacman", originalPositionPacman);
+		scoreView= new ScoreView();
 
 	}
 
 	private void initVisual() {
 		//INICIALIZAMOS MAS VARIABLES, ESTA VEZ ORIENTADO A LO VISUAL
 		
+
 		gameView.setContentPane(layers);
 		gameView.addKeyListener(this);
 		dotMatrix = board.getDots();
@@ -182,12 +184,22 @@ public class Game implements KeyListener, Runnable {
 				postGame();
 				break;
 			case NEXTLEVEL:
+				nextLevel();
 				break;
 			}
 		}
 
 	}
 	
+	private void nextLevel() {
+		int level = board.getLevel();
+		level++;
+		board.setLevel(level);
+		board.makeDots();
+		gameState=GameState.RESPAWN;
+		
+		
+	}
 	private static void load() {
 		//LA PANTALLA PRE-JUEGO
 
@@ -222,7 +234,6 @@ public class Game implements KeyListener, Runnable {
 	private static void postGame() { 
 		if (firstTime) {
 			//JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
-			scoreView = new ScoreView();
 			gameView.remove(layers);
 			//gameView.repaint();
 			postGameView= new PostGameView(gameView, postGameView, scoreView);
@@ -288,7 +299,7 @@ public class Game implements KeyListener, Runnable {
 			pacman.run(board);
 			
 			//END GAME
-			if (board.lifes <= 0) {
+			if (board.getLifes() <= 0) {
 					gameState = GameState.POSTGAME;
 					firstTime = true;
 			}
@@ -419,7 +430,7 @@ public class Game implements KeyListener, Runnable {
 	public void Pause(boolean run) {
 		Game.run = !run;
 	}
-
+//SALVAMOS EL SCORE
 	public static void saveScore(String name) 
 	{
 		try {
@@ -430,19 +441,22 @@ public class Game implements KeyListener, Runnable {
 		}
 
 	}
+	//CARGAMOS EL SCORE Y LO VOLCAMOS AL JTEXTAREA DEL SCOREVIEW
 	public static void getScore()
 	{
+		int aux=0;
 		try {
 			connection = new MyDataAcces();
 			result = connection.getQuery();
 			while (result.next()) {
-				scoreView.scoreTextPane.setText(result.getString("name"));
+				aux++;
+				scoreView.getScoreTextArea().append(aux+". "+result.getString("name")+" "+result.getInt("score")+"\n");
 			}
 			
 		} catch (Exception e) {
 			System.out.println("error "+ e);
 		}
-		
+		gameView.repaint();
 	}
 
 	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)

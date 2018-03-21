@@ -43,14 +43,21 @@ public class PostGameView extends JPanel {
 		JButton btnSave = new JButton("SAVE SCORE");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				//SALVAMOS EL SCORE AL TOCAR EL BOTON
 				Game.saveScore(textField.getText());
 				try {
+					//NOS DESHACEMOS DEL POSTGAMEVIEW
 					this.finalize();
 				} catch (Throwable e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				//AGREGAMOS AL SCOREVIEW A lA PANTALLA
 				gameView.setContentPane(scoreView);
+				
+				//RECUPERAMOS EL LISTADO DE SCORE DE LA BASE DE DATOS
+				scoreView.getScore();
+
 				gameView.repaint();
 			}
 		});

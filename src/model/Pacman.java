@@ -39,12 +39,6 @@ public class Pacman extends Creature {
 		setKeyOfHell(false);
 	}
 	
-	public void eatingDots()
-	{
-		//if (((Dot) dot).getPosition().getBoardPosition().equals(position.getBoardPosition()))
-			
-	}
-	
 
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
 	public void eatingDot(Board board) {
@@ -74,7 +68,7 @@ public class Pacman extends Creature {
 		//CHEQUEA SI TERMINO EL JUEGO
 		if (dots.size()==0)
 		{
-			Game.setGameState(GameState.POSTGAME);
+			Game.setGameState(GameState.NEXTLEVEL);
 			Game.setFirstTime(true);
 		}
 		//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
@@ -91,7 +85,9 @@ public class Pacman extends Creature {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
 				
 				sounds.reproduceEatGhost();
-				board.score += 50;
+				long score = board.getScore();
+				score +=50;
+				board.setScore(score);
 				//pacman.setPacmanState(Pacman.PacmanState.EATGHOST);
 				ghost.setGhostState(Ghost.GhostState.EATED);
 				eatingGhost = true;

@@ -53,8 +53,10 @@ public class Ghost extends Creature {
 		if (getPosition().equals(pacman.getPosition())) {
 
 			sounds.reproduceDeath();
-
-			board.lifes--;
+			long lifes= board.getLifes();
+			lifes--;
+			board.setLifes(lifes);
+			
 			pacman.setAlive(false);
 			pacman.setPacmanState(PacmanState.DEATH);
 			Game.setGameState(GameState.RESPAWN);

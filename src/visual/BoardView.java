@@ -18,13 +18,14 @@ import model.Square.Corner;
 
 public class BoardView extends Thread implements ActionListener, Observer{
 
-	JLabel lblScore;
-	JLabel lblLifes;
-	JButton  btnSave ;
-	JButton  btnExit ;
-	Square[][] squareArray;
-	JLayeredPane layers;
-	BeginMenu beginMenu;
+	private JLabel lblScore;
+	private JLabel lblLevel;
+	private JLabel lblLifes;
+	private JButton  btnSave ;
+	private JButton  btnExit ;
+	private Square[][] squareArray;
+	private JLayeredPane layers;
+	private BeginMenu beginMenu;
 	
 	public BoardView(BeginMenu beginMenu, Square[][] squareArray, JLayeredPane layers)
 	{
@@ -46,6 +47,11 @@ public class BoardView extends Thread implements ActionListener, Observer{
 		lblLifes.setFont(new Font("Tekton Pro", Font.PLAIN, 14));
 		lblLifes.setBounds(30, 3, 80, 21);
 		layers.add(lblLifes);
+		//ETIQUETA DE LEVEL
+		lblLevel = new JLabel("Level: ");
+		lblLevel.setFont(new Font("Tekton Pro", Font.PLAIN, 14));
+		lblLevel.setBounds(230, 3, 80, 21);
+		layers.add(lblLevel);
 		//BOTON PARA GUARDAR PARTIDA
 		btnSave = new JButton("Save");
 		btnSave.setBounds(450, 0, 89, 23);
@@ -100,7 +106,9 @@ public class BoardView extends Thread implements ActionListener, Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Board board = (Board) arg0;
-		lblScore.setText("Score: "+ board.score);
-		lblLifes.setText("Lifes: "+ board.lifes);
+		lblScore.setText("Score: "+ board.getScore());
+		lblLifes.setText("Lifes: "+ board.getLifes());
+		lblLevel.setText("Level: "+ board.getLevel());
+
 	}
 }
