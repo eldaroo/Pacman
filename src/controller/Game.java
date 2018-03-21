@@ -1,12 +1,15 @@
 package controller;
 
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import java.io.FileNotFoundException;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.Random;
@@ -28,6 +31,7 @@ import model.Fruit;
 import model.GameState;
 import model.Ghost;
 import model.Ghost.GhostState;
+import model.MyDataAcces;
 import model.Pacman;
 import model.Pacman.PacmanState;
 import model.Serializator;
@@ -40,6 +44,7 @@ import visual.GameView;
 import visual.GhostView;
 import visual.PacmanView;
 import visual.PostGameView;
+import visual.ScoreView;
 import visual.CreaturesView;
 import visual.DotsView;
 import visual.FruitView;
@@ -61,13 +66,15 @@ public class Game implements KeyListener, Runnable {
 	private static BeginMenu beginMenu;
 	private static JLayeredPane layers;
 	private static FruitView fruitView;
-
+	private static ScoreView scoreView;
 	//CRIATURAS
 	private static Pacman pacman;
 	private static ArrayList<Ghost> ghostsArray;
 
-	//SERIALIZADOR
+	//SERIALIZADOR y SQL
 	private static Serializator serializator = new Serializator();
+	private static MyDataAcces connection ;		
+	private static ResultSet result;
 
 
 	//ESTRUCTURA
@@ -108,12 +115,12 @@ public class Game implements KeyListener, Runnable {
 	public static void initGame() {
 		//INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 		
-		gameState = GameState.LOAD;
+		gameState = GameState.POSTGAME;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
-	    fruit = new Fruit();
+	    fruit = new Fruit(board.getFruitPosition());
 		pacman = new Pacman("pacman", originalPositionPacman);
 
 	}
@@ -141,6 +148,7 @@ public class Game implements KeyListener, Runnable {
 		boolean ever = true;
 		time = 0;
 		while (ever) {
+			if (gameState!= GameState.POSTGAME)
 			gameView.requestFocus();
 			
 			switch (gameState) {
@@ -171,8 +179,7 @@ public class Game implements KeyListener, Runnable {
 				superMode(pacman);
 				break;
 			case POSTGAME:
-
-					postGame();
+				postGame();
 				break;
 			case NEXTLEVEL:
 				break;
@@ -215,13 +222,15 @@ public class Game implements KeyListener, Runnable {
 	private static void postGame() { 
 		if (firstTime) {
 			//JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.score);
+			scoreView = new ScoreView();
 			gameView.remove(layers);
 			//gameView.repaint();
-			postGameView= new PostGameView(gameView);
-			layers.add(postGameView);
+			postGameView= new PostGameView(gameView, postGameView, scoreView);
+			//layers.add(postGameView);
 			gameView.setContentPane(postGameView);
 			firstTime=false;
 		}
+		
 	}
 
 	private void superMode(Pacman pacman) throws InterruptedException {
@@ -411,7 +420,30 @@ public class Game implements KeyListener, Runnable {
 		Game.run = !run;
 	}
 
+	public static void saveScore(String name) 
+	{
+		try {
+			connection = new MyDataAcces();
+			connection.setQuery(name, board.score);
+		} catch (Exception e) {
+			System.out.println("error "+ e);
+		}
 
+	}
+	public static void getScore()
+	{
+		try {
+			connection = new MyDataAcces();
+			result = connection.getQuery();
+			while (result.next()) {
+				scoreView.scoreTextPane.setText(result.getString("name"));
+			}
+			
+		} catch (Exception e) {
+			System.out.println("error "+ e);
+		}
+		
+	}
 
 	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
 	@Override

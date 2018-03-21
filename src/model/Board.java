@@ -28,6 +28,8 @@ public class Board extends Observable implements Serializable {
 	public long lifes = 3;
 	public long score = 0;
 
+	private Position fruitPosition;
+
 	public Board(char[][] level1) {
 		makeBoard(level1);
 		makeDots(level1);
@@ -85,7 +87,6 @@ public class Board extends Observable implements Serializable {
 		board = new Square[level1.length][level1.length];
 		for (int i = 0; i < level1.length; i++) {
 			for (int j = 0; j < level1.length; j++) {
-				System.out.print(".");
 				// SE ASIGNAN LOS TIPOS DE CASILLEROS
 				switch (level1[i][j]) {
 				case '\u0000':
@@ -141,6 +142,12 @@ public class Board extends Observable implements Serializable {
 					teleportList.add(board[i][j]);
 					board[i][j].setCorner(Corner.CENTER);
 					break;
+				case 'f':
+					// PATH WITH FRUIT
+					board[i][j] = new Path();
+					board[i][j].setCorner(Corner.CENTER);
+					//fruitPosition = board[i][j].getBoardPosition();
+					break;
 					// CORNERS
 				case 'a':
 					// a PATHCORNER_NW
@@ -185,7 +192,7 @@ public class Board extends Observable implements Serializable {
 				}
 
 				// ASIGNA AL CASILLERO EN UNA POSICION DEL TABLERO
-				if (!board.getClass().equals(HellGate.class))
+				if ((!board.getClass().equals(HellGate.class))&&(board[i][j]!=null)) 
 					board[i][j].setBoardPosition(new Position(i, j));
 			}
 		}
@@ -211,6 +218,12 @@ public class Board extends Observable implements Serializable {
 		linkTeleports();
 	}
 
+	public Position getFruitPosition() {
+		return fruitPosition;
+	}
+	public void setFruitPosition(Position fruitPosition) {
+		this.fruitPosition = fruitPosition;
+	}
 	public HellGate getHellGate() {
 		return hellGate;
 	}

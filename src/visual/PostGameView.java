@@ -13,14 +13,15 @@ import javax.swing.border.EmptyBorder;
 
 import controller.Game;
 import model.GameState;
+import javax.swing.JTextPane;
 
 public class PostGameView extends JPanel {
 	private JTextField textField;
 
-	public PostGameView(GameView gameView) {
+	public PostGameView(GameView gameView, PostGameView postGameView, ScoreView scoreView) {
 
 		setVisible(true);
-		setSize(200, 200);
+		setSize(324, 333);
 		setLocation(200, 200);
 		
 		JLabel lblGameOver = new JLabel(" G A M E   O V E R ");
@@ -28,22 +29,36 @@ public class PostGameView extends JPanel {
 		lblGameOver.setSize(131, 33);
 		add(lblGameOver, BorderLayout.NORTH);
 
-		JLabel lblNombre = new JLabel("Nombre: ");
-		lblNombre.setSize(54, 87);
-		add(lblNombre,BorderLayout.CENTER);
+		JLabel lblName = new JLabel("Nombre: ");
+		lblName.setSize(54, 87);
+		add(lblName,BorderLayout.CENTER);
 
 		textField = new JTextField();
 		textField.setBorder(new EmptyBorder(0, 0, 0, 0));
 		textField.setSize(112, 84);
+		textField.setEnabled(true);
 		add(textField,BorderLayout.CENTER);
 		textField.setColumns(10);
 		
-		JButton btnSalvarPartida = new JButton("SAVE SCORE");
-		btnSalvarPartida.setSize(124, 23);
-		add(btnSalvarPartida, BorderLayout.CENTER);
+		JButton btnSave = new JButton("SAVE SCORE");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Game.saveScore(textField.getText());
+				try {
+					this.finalize();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				gameView.setContentPane(scoreView);
+				gameView.repaint();
+			}
+		});
+		btnSave.setSize(124, 23);
+		add(btnSave, BorderLayout.CENTER);
 
-		JButton btnVolverAJugar = new JButton("TRY AGAIN");
-		btnVolverAJugar.addActionListener(new ActionListener() {
+		JButton btnAgain = new JButton("TRY AGAIN");
+		btnAgain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Game.setGameState(GameState.NORMALMODE);
 				Game.setFirstTime(true);
@@ -51,8 +66,8 @@ public class PostGameView extends JPanel {
 				Game.respawn();
 			}
 		});
-		btnVolverAJugar.setSize(121, 23);
-		add(btnVolverAJugar,BorderLayout.SOUTH);
+		btnAgain.setSize(121, 23);
+		add(btnAgain,BorderLayout.SOUTH);
 
 		JButton btnTomarseElChori = new JButton("EXIT");
 		btnTomarseElChori.addActionListener(new ActionListener() {
