@@ -13,6 +13,27 @@ Position fruitPosition;
 public Fruit(Position Position)
 {
 	fruitPosition = Position;
+	/*
+	if (Game.getTime()%50==0)
+	{
+		Random random = new Random();		
+		int aux = random.nextInt(3);
+		
+		switch (aux) {
+		case 0:
+			fruitType = FruitType.APPLE;
+			break;
+		case 1:
+			fruitType = FruitType.BANANNA;
+			break;
+		case 2:
+			fruitType = FruitType.ORANGE;
+			break;
+		case 3:
+			fruitType = FruitType.CHERRY;
+			break;
+		}
+	}*/
 }
 
 public Position getFruitPosition() {
@@ -45,6 +66,7 @@ public void lookingForFruit () {
 			break;
 		}
 		
+		System.out.println(fruitType);
 		setChanged();
 		notifyObservers();
 	}

@@ -10,17 +10,22 @@ public class Ghost extends Creature {
 
 	private static ArrayList<Direction> potentialDirectionsList;
 
+	private Position target;
+	private int intelligence;
+
 	public static enum GhostState {
 		COURAGEOUS, DEATH, PUSSY, EATED, INHELL, HURRY
 	};
-	private Position target;
-	private int intelligence;
+
 	private int stupidity;
 	private GhostState ghostState = GhostState.COURAGEOUS;
 	private Random random;
 	private Board board;
+
 	private int aux;
-	private Intelligence iA_Ghost;
+
+	Intelligence iA_Ghost;
+
 	private int hellTime;
 
 	public Ghost(String name, Square position, int intelligence, Board board) {
@@ -32,42 +37,7 @@ public class Ghost extends Creature {
 		setKeyOfHell(true);
 	}
 
-	public void run(Pacman pacman) throws InterruptedException {
-
-		// CALCULA EL PATHFINDER SEGUN EL ESTADO
-		switch (ghostState) {
-
-		case COURAGEOUS:
-			setTarget(pacman.position.getBoardPosition());
-			break;
-		case DEATH:
-			setTarget(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition
-					.getY()].boardPosition);
-			keyOfHell = true;
-			break;
-		case PUSSY:
-			setTarget(pacman.getBoardPosition());
-			break;
-		case EATED:
-			Thread.sleep(150);
-			setGhostState(GhostState.DEATH);
-			//eatGhostTime = 0;
-			break;
-		case INHELL:
-			setTarget(pacman.position.getBoardPosition());
-			if (hellTime == 100) {
-				setKeyOfHell(true);
-				ghostState = GhostState.COURAGEOUS;
-				hellTime = 0;
-			} else
-				hellTime++;
-			break;
-		case HURRY:
-			break;
-		}
-	}
-		
-	private void goingThroughHellGate() {
+	protected void goingThroughHellGate() {
 
 		if (position.equals(
 				board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()])) {
@@ -80,9 +50,8 @@ public class Ghost extends Creature {
 	}
 
 	public void eatingPacman(Pacman pacman, Board board) {
-	//	if (getPosition().equals(pacman.getPosition())) {
-		if (pacman.getBoardPosition().equals(getBoardPosition())) 
-		{
+		if (getPosition().equals(pacman.getPosition())) {
+
 			sounds.reproduceDeath();
 			long lifes= board.getLifes();
 			lifes--;
@@ -92,7 +61,50 @@ public class Ghost extends Creature {
 			pacman.setPacmanState(PacmanState.DEATH);
 			Game.setGameState(GameState.RESPAWN);
 		}
-	
+
+	}
+
+	public void run(Pacman pacman) throws InterruptedException {
+
+		switch (ghostState) {
+
+		// CALCULA EL PATHFINDER PARA CUANDO ESTA VIVO
+		case COURAGEOUS:
+			setTarget(pacman.position.getBoardPosition());
+
+			break;
+		// CALCULA EL PATHFINDER PARA CUANDO ESTA MUERTO, LO MANDA A LA HELLGATE
+		case DEATH:
+
+			setTarget(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition
+					.getY()].boardPosition);
+			keyOfHell = true;
+			break;
+		case PUSSY:
+			setTarget(pacman.getBoardPosition());
+
+			break;
+		case EATED:
+			Thread.sleep(150);
+			setGhostState(GhostState.DEATH);
+			//eatGhostTime = 0;
+
+			break;
+		case INHELL:
+			setTarget(pacman.position.getBoardPosition());
+			if (hellTime == 100) {
+				setKeyOfHell(true);
+				ghostState = GhostState.COURAGEOUS;
+				hellTime = 0;
+
+			} else
+				hellTime++;
+			break;
+		case HURRY:
+			break;
+		default:
+			break;
+		}
 		iA_Ghost = new Intelligence(this);
 		// GENERA LAS BESTCHOISE PARA CADA ESTADO
 
@@ -139,9 +151,12 @@ public class Ghost extends Creature {
 	public void inHell() {
 		// boolean
 	}
+
+	// for (Creatures ghost : Creatures)
 	public Position getTarget() {
 		return target;
 	}
+
 	public void setTarget(Position position) {
 		this.target = position;
 	}

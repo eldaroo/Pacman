@@ -18,6 +18,21 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	String name = null;
 	Sounds sounds = new Sounds();
 
+	public boolean isKeyOfHell() {
+		return keyOfHell;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		System.out.println("muere " + this.name);
+		this.alive = alive;
+	}
+
+
+
 	public Creature(String name) {
 		super();
 		this.name = name;
@@ -59,7 +74,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		} else if ((potentialDirection != direction) && (nextPosition.isNavegable(this))) {
 			setPosition(nextPosition);
 
-		}
+		} else {System.out.println("SE TRABÓ");}
 		
 	}
 
@@ -90,15 +105,8 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	}
 
 	public boolean haveKeyOfHell() {
+		// TODO Auto-generated method stub
 		return keyOfHell;
-	}
-
-	public boolean isAlive() {
-		return alive;
-	}
-
-	public void setAlive(boolean alive) {
-		this.alive = alive;
 	}
 
 	public void setKeyOfHell(boolean key) {

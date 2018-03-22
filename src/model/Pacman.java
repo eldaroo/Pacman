@@ -15,6 +15,23 @@ public class Pacman extends Creature {
 	private static PacmanState pacmanState = PacmanState.MOVE;
 	private ArrayList<Dot> dots;
 	
+	public void run(Board board)
+	{
+		move();
+		eatingDot(board);
+	}
+
+	public boolean isEatingGhost() {
+		return eatingGhost;
+	}
+
+	public void setEatingGhost(boolean eatingGhost) {
+		this.eatingGhost = eatingGhost;
+	}
+
+	public void setPacmanState(PacmanState pacmanState) {
+		Pacman.pacmanState = pacmanState;
+	}
 
 	public Pacman(String name, Square position) {
 		super(name);
@@ -22,11 +39,6 @@ public class Pacman extends Creature {
 		setKeyOfHell(false);
 	}
 	
-	public void run(Board board)
-	{
-		move();
-		eatingDot(board);
-	}
 
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
 	public void eatingDot(Board board) {
@@ -53,14 +65,14 @@ public class Pacman extends Creature {
 		dots.remove(board.getDotRemoved());
 		board.setDots(dots);
 		
-		//CHEQUEA SI TERMINO EL LEVEL
+		//CHEQUEA SI TERMINO EL JUEGO
 		if (dots.size()==0)
 		{
 			Game.setGameState(GameState.NEXTLEVEL);
 			Game.setFirstTime(true);
 		}
 		//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
-		board.update();
+		board.Update();
 		}
 
 	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
@@ -85,21 +97,7 @@ public class Pacman extends Creature {
 		setEatingGhost(false);
 		
 	}
-
-	public boolean isEatingGhost() {
-		return eatingGhost;
-	}
-
-	public void setEatingGhost(boolean eatingGhost) {
-		this.eatingGhost = eatingGhost;
-	}
-
-	public void setPacmanState(PacmanState pacmanState) {
-		Pacman.pacmanState = pacmanState;
-	}
-
 	
-
 	public PacmanState getPacmanState () {
 		return pacmanState;
 	}
