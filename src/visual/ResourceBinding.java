@@ -12,6 +12,7 @@ import model.Dot;
 import model.FalseHell;
 import model.FalsePath;
 import model.FalseTeleport;
+import model.Fruit;
 import model.Ghost;
 import model.Hell;
 import model.HellGate;
@@ -29,6 +30,7 @@ public abstract class ResourceBinding {
 	private static Map<Corner, ImageIcon> falsePathIcon = new HashMap<Corner, ImageIcon>();
 	private static Map<Class<?>, Map<Square.Corner, ImageIcon>> squareBoard = new HashMap<Class<?>, Map<Square.Corner, ImageIcon>>();
 	private static Map<Class<? extends Object>, ImageIcon> images = new HashMap<Class<? extends Object>, ImageIcon>();
+	private static Map<Enum<?>, ImageIcon> fruitIcon = new HashMap<Enum<?>, ImageIcon>();
 	//MAPAS DE ESTADO DE PACMAN
 	private static Map<Enum<?>, Map<Direction, ImageIcon>> pacmanState = new HashMap<Enum<?>, Map<Direction, ImageIcon>>();
 	private static Map<Direction, ImageIcon> pacmanWithDirection = new HashMap<Direction, ImageIcon>();
@@ -50,7 +52,17 @@ public abstract class ResourceBinding {
 		squareBoard.put(FalsePath.class, falsePathIcon);
 		squareBoard.put(Wall.class, wallIcon);
 		squareBoard.put(Path.class, falsePathIcon);
+	}	
+	static {
+		fruitIcon.put(Fruit.FruitType.BANANNA, new ImageIcon("resources/fruit_lsd.gif"));
+		fruitIcon.put(Fruit.FruitType.CHERRY, new ImageIcon("resources/fruit_joint.gif"));
+		fruitIcon.put(Fruit.FruitType.ORANGE, new ImageIcon("resources/fruit_cogollo.gif"));
+		fruitIcon.put(Fruit.FruitType.APPLE, new ImageIcon("resources/fruit_pipe.gif"));
 	}
+	public static ImageIcon getFruitIcon(Fruit fruit) {
+		return fruitIcon.get(fruit.getFruitType());
+	}
+
 	static {
 		wallIcon.put(Square.Corner.NE, new ImageIcon("resources/wall_NE.gif"));
 		wallIcon.put(Square.Corner.NW, new ImageIcon("resources/wall_NW.gif"));

@@ -87,7 +87,7 @@ public class Game implements KeyListener, Runnable {
 	private static Sounds sound = new Sounds();
 	
 	//DATOS
-	private static int time;
+	private static int time=0;
 	private static int retard = 66;
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
@@ -184,7 +184,7 @@ public class Game implements KeyListener, Runnable {
 				postGame();
 				break;
 			case NEXTLEVEL:
-				nextLevel();
+				//nextLevel();
 				break;
 			}
 		}
@@ -256,12 +256,14 @@ public class Game implements KeyListener, Runnable {
 			
 			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
 			slowGhosts++;
+			time++;
 			if(slowGhosts==2) {
 				moveGhosts();
 				slowGhosts=0;
 			}
 			
-
+			fruit.lookingForFruit();
+			
 			pacman.run(board);
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
 
@@ -293,7 +295,8 @@ public class Game implements KeyListener, Runnable {
 		while (gameState.equals(GameState.NORMALMODE)) {
 			time++;
 			Thread.sleep(retard);
-
+			System.out.println(time);
+			fruit.lookingForFruit();
 			moveGhosts();
 			eatingPacman();
 			pacman.run(board);
