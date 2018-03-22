@@ -85,8 +85,8 @@ public abstract class ResourceBinding {
 		images.put(FalseTeleport.class, new ImageIcon("resources/6.png"));
 		images.put(Teleport.class, new ImageIcon("resources/6.png"));
 		images.put(FalsePath.class, new ImageIcon("resources/1.png"));
-		images.put(Dot.class, new ImageIcon("resources/chala.png"));
-		images.put(SuperDot.class, new ImageIcon("resources/superchala.gif"));
+		images.put(Dot.class, new ImageIcon("resources/chala.gif"));
+		images.put(SuperDot.class, new ImageIcon("resources/superchala_b.gif"));
 		images.put(BeginMenu.class, new ImageIcon("resources/paco_inicio.gif"));
 
 	}
@@ -106,11 +106,11 @@ public abstract class ResourceBinding {
 
 	static {
 
-		ghostAlive.put(1, new ImageIcon("resources/police1.png"));
-		ghostAlive.put(3, new ImageIcon("resources/police3.png"));
-		ghostAlive.put(5, new ImageIcon("resources/police5.png"));
-		ghostAlive.put(7, new ImageIcon("resources/police7.png"));
-		ghostAlive.put(9, new ImageIcon("resources/police9.png"));
+		ghostAlive.put(1, new ImageIcon("resources/police1.gif"));
+		ghostAlive.put(3, new ImageIcon("resources/police3.gif"));
+		ghostAlive.put(5, new ImageIcon("resources/police5.gif"));
+		ghostAlive.put(7, new ImageIcon("resources/police7.gif"));
+		ghostAlive.put(9, new ImageIcon("resources/police9.gif"));
 
 	}
 	static {
