@@ -5,7 +5,12 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Usuario/Documents/GitHub/Pacman/resources/json-simple-1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Usuario/Documents/GitHub/Pacman/resources/mysql-connector-java-5.1.46.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Nigga/Desktop/Programacion/Pacman/resources/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nigga/Desktop/Programacion/Pacman/resources/mysql-connector-java-5.1.46.jar"/>
+>>>>>>> 3e8f90a44ac8b695beb260b4edf5e05b314dcc3b
 	<classpathentry kind="output" path="bin/"/>
 </classpath>
