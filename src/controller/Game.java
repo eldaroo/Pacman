@@ -192,7 +192,7 @@ public class Game implements KeyListener, Runnable {
 	}
 	
 	private void nextLevel() {
-		int level = board.getLevel();
+		long level = board.getLevel();
 		level++;
 		board.setLevel(level);
 		board.makeDots();
@@ -435,7 +435,7 @@ public class Game implements KeyListener, Runnable {
 	{
 		try {
 			connection = new MyDataAcces();
-			connection.setQuery(name, board.score);
+			connection.setQuery(name, board.getScore());
 		} catch (Exception e) {
 			System.out.println("error "+ e);
 		}

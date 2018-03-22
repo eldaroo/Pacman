@@ -38,8 +38,8 @@ public class Serializator {
 			JOptionPane.showMessageDialog(null, "Usted no tiene partidas guardadas");
 		} 
 		
-		board.score = (long) jObj.get("score");
-		board.lifes = (long) jObj.get("lifes");
+		board.setScore((long) jObj.get("score"));
+		board.setLifes((long) jObj.get("lifes"));
 		
 		jCreatures = (JSONArray) jObj.get("Creatures") ;
 		jDots=(JSONArray) jObj.get("Dots");
@@ -84,8 +84,8 @@ public class Serializator {
 			}
 
 		jObj.put("Dots", jDots);
-		jObj.put("score", board.score);
-		jObj.put("lifes", board.lifes);
+		jObj.put("score", board.getScore());
+		jObj.put("lifes", board.getLifes());
 		
 		
 		StringWriter out = new StringWriter();
