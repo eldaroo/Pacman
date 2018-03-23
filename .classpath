@@ -5,7 +5,12 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Brisa/Documents/GitHub/Pacman/resources/json-simple-1.1.1.jar/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Brisa/Documents/GitHub/Pacman/resources/mysql-connector-java-5.1.46.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Usuario/Documents/GitHub/Pacman/resources/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Usuario/Documents/GitHub/Pacman/resources/mysql-connector-java-5.1.46.jar"/>
+>>>>>>> parent of 5e90d8e... Merge branch 'master' of https://github.com/eldaroo/Pacman
 	<classpathentry kind="output" path="bin/"/>
 </classpath>
