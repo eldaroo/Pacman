@@ -36,53 +36,7 @@ public class Board extends Observable implements Serializable {
 		makeBoard();
 		makeDots();
 	}
-	public void Update() {
 
-		setChanged();
-		notifyObservers();
-
-	}
-
-	// EXPORTAR DE DATOS
-	public ArrayList<Square> getHellZone() {
-		return hellZone;
-	}
-	public long getScore() {
-		return score;
-	}
-	public void setScore(long score) {
-		this.score = score;
-	}
-
-	public Square[][] getBoard() {
-		return board;
-	}
-
-	public Dot getDotRemoved() {
-		return dotRemoved;
-	}
-	public ArrayList<Dot> getDots() {
-
-		return dots;
-	}
-
-	public boolean getSuperMode() {
-		return superMode;
-	}
-
-	public boolean getPacmanEatNewDot() {
-		return isPacmanEatNewDot();
-	}
-
-	// ESTABLECE LOS CASILLEROS SIGUIENTES A LOS TELEPORT
-	private void linkTeleports() {
-		teleportList.get(0).setLeft(teleportList.get(5));
-		teleportList.get(1).setUp(teleportList.get(2));
-		teleportList.get(2).setDown(teleportList.get(1));
-		teleportList.get(3).setUp(teleportList.get(4));
-		teleportList.get(4).setDown(teleportList.get(3));
-		teleportList.get(5).setRight(teleportList.get(0));
-	}
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
 	private void makeBoard() {
@@ -218,21 +172,6 @@ public class Board extends Observable implements Serializable {
 		// EJECUTA EL ENLACE DE CASILLEROS TELEPORT
 		linkTeleports();
 	}
-
-	public Position getFruitPosition() {
-		return fruitPosition;
-	}
-	public void setFruitPosition(Position fruitPosition) {
-		this.fruitPosition = fruitPosition;
-	}
-	public HellGate getHellGate() {
-		return hellGate;
-	}
-
-	public void setHellGate(HellGate hellGate) {
-		this.hellGate = hellGate;
-	}
-
 	//CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
 	public void makeDots() {
 		Dot dot;
@@ -254,44 +193,98 @@ public class Board extends Observable implements Serializable {
 				}
 			}
 		}
-
 	}
 
-public void update() {
-		// AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
-		setChanged();
-		notifyObservers();
+	// ESTABLECE LOS CASILLEROS SIGUIENTES A LOS TELEPORT
+	private void linkTeleports() {
+		teleportList.get(0).setLeft(teleportList.get(5));
+		teleportList.get(1).setUp(teleportList.get(2));
+		teleportList.get(2).setDown(teleportList.get(1));
+		teleportList.get(3).setUp(teleportList.get(4));
+		teleportList.get(4).setDown(teleportList.get(3));
+		teleportList.get(5).setRight(teleportList.get(0));
 	}
-
-public long getLifes() {
-	return lifes;
-}
-public void setLifes(long lifes) {
-	this.lifes = lifes;
-}
-
-public long getLevel() {
-	return level;
-}
-public void setLevel(long level) {
-	this.level = level;
-}
+	
+	// EXPORTAR DE DATOS
+	public ArrayList<Square> getHellZone() {
+		return hellZone;
+	}
+	public long getScore() {
+		return score;
+	}
+	public void setScore(long score) {
+		this.score = score;
+	}
+	public Square[][] getBoard() {
+		return board;
+	}
+	public Dot getDotRemoved() {
+		return dotRemoved;
+	}
+	public ArrayList<Dot> getDots() {
+		return dots;
+	}
+	public boolean getSuperMode() {
+		return superMode;
+	}
+	public boolean getPacmanEatNewDot() {
+		return isPacmanEatNewDot();
+	}
+	public Position getFruitPosition() {
+		return fruitPosition;
+	}
+	public void setFruitPosition(Position fruitPosition) {
+		this.fruitPosition = fruitPosition;
+	}
+	public HellGate getHellGate() {
+		return hellGate;
+	}
+	public void setHellGate(HellGate hellGate) {
+		this.hellGate = hellGate;
+	}
+	public long getLifes() {
+		return lifes;
+	}
+	public void setLifes(long lifes) {
+		this.lifes = lifes;
+	}
+	public long getLevel() {
+		return level;
+	}
+	public void setLevel(long level) {
+		this.level = level;
+	}
+	public void upLevel()
+	{
+		level++;
+	}
 	public void setBoard(Square[][] board) {
 		this.board = board;
 	}
-
 	public void setDotRemoved(Dot dotRemoved) {
 		this.dotRemoved = dotRemoved;
 	}
 	public void setDots(ArrayList<Dot> dots) {
-
 		this.dots = dots;
 	}
-
 	public void setSuperMode(boolean superMode) {
 		this.superMode = superMode;
 	}
-
+	public boolean isPacmanEatNewDot() {
+		return pacmanEatNewDot;
+	}
+	public void setPacmanEatNewDot(boolean pacmanEatNewDot) {
+		this.pacmanEatNewDot = pacmanEatNewDot;
+	}
+	// AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
+	public void update() {
+		setChanged();
+		notifyObservers();
+	}
+	/*public void Update() {
+		setChanged();
+		notifyObservers();
+	}*/
 	// LOS DATOS DEL BOARD QUE SE GUARDAN CUANDO SE EJECUTA toPersist
 	public void writeJSONString(Writer out) throws IOException {
 		LinkedHashMap<String, Long> obj = new LinkedHashMap<>();
@@ -301,13 +294,5 @@ public void setLevel(long level) {
 
 		JSONValue.writeJSONString(obj, out);
 	}
-
-	public boolean isPacmanEatNewDot() {
-		return pacmanEatNewDot;
-	}
-
-	public void setPacmanEatNewDot(boolean pacmanEatNewDot) {
-		this.pacmanEatNewDot = pacmanEatNewDot;
-	}
-
 }
+

@@ -22,15 +22,21 @@ public class Controller {
 	static BeginMenu beginMenu = new BeginMenu();
 	
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+		//INSTANCIO VARIABLES
 		boardConfiguration = new BoardConfiguration();
 		board= new Board(boardConfiguration.getLevel1BoardRecharged());
 		layers = new JLayeredPane();
 		
-		game = new Thread( new Game(beginMenu, boardView, board, layers, boardConfiguration),"game");
+		//INSTANCIO LOS THREADS
+		game = new Thread( new Game(beginMenu, board, layers, boardConfiguration),"game");
 		boardView= new BoardView(beginMenu, board.getBoard(), layers);
 	
+		//ARRANCAN LOS THREADS
 		game.start();
 		boardView.start();
+
+		//UNA VEZ CARGADO INCORPORO EL THREAD AL BOARD
 		board.addObserver((Observer) boardView);
+
 	}
 }
