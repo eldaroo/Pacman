@@ -25,7 +25,7 @@ public class Board extends Observable implements Serializable {
 	private ArrayList<Square> hellZone = new ArrayList<Square>();
 	private ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	private long lifes = 3;
+	public static long lifes = 3;
 	private long score = 0;
 	private Long level =(long) 1;
 
@@ -36,7 +36,6 @@ public class Board extends Observable implements Serializable {
 		makeBoard();
 		makeDots();
 	}
-
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
 	private void makeBoard() {
@@ -203,6 +202,10 @@ public class Board extends Observable implements Serializable {
 		teleportList.get(3).setUp(teleportList.get(4));
 		teleportList.get(4).setDown(teleportList.get(3));
 		teleportList.get(5).setRight(teleportList.get(0));
+	}
+	public void upScore(int quantity)
+	{
+		score+=quantity;
 	}
 	
 	// EXPORTAR DE DATOS

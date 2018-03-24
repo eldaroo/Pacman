@@ -80,22 +80,16 @@ public class Ghost extends Creature {
 	}
 
 	public void eatingPacman(Pacman pacman, Board board) {
-	//	if (getPosition().equals(pacman.getPosition())) {
 		if (pacman.getBoardPosition().equals(getBoardPosition())) 
 		{
 			sounds.reproduceDeath();
-			long lifes= board.getLifes();
-			lifes--;
-			board.setLifes(lifes);
-			
-			pacman.setAlive(false);
+			pacman.death();
 			pacman.setPacmanState(PacmanState.DEATH);
 			Game.setGameState(GameState.RESPAWN);
 		}
 	
 		iA_Ghost = new Intelligence(this);
-		// GENERA LAS BESTCHOISE PARA CADA ESTADO
-
+		
 		if (ghostState.equals(GhostState.DEATH))
 			setPotentialDirection(iA_Ghost.getSmartChoise());
 		else

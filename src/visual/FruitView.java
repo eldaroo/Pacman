@@ -19,8 +19,15 @@ public class FruitView extends JLabel implements Observer {
 	public void update(Observable o, Object arg) {
 		Fruit fruit = (Fruit) o;
 		repaint();
-		setIcon(ResourceBinding.getFruitIcon(fruit));
-		System.out.println("Nueva fruta");
+		if (fruit.isEnableToEat()==true)
+		{
+			setVisible(true);
+			setIcon(ResourceBinding.getFruitIcon(fruit));
+			System.out.println("Nueva fruta");
+		}else{
+			setVisible(false);
+			
+		}
 	}
 
 }

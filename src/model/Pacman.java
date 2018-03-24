@@ -5,6 +5,7 @@ package model;
 import java.util.ArrayList;
 
 import controller.Game;
+import model.Fruit.FruitType;
 import model.Ghost.GhostState;
 import sounds.Sounds;
 
@@ -26,6 +27,7 @@ public class Pacman extends Creature {
 	{
 		move();
 		eatingDot(board);
+		eatingFruit(Fruit.enableToEat, board);
 	}
 
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
@@ -38,7 +40,7 @@ public class Pacman extends Creature {
 			if (((Dot) dot).getPosition().getBoardPosition().equals(position.getBoardPosition()))
 			{
 				sounds.reproduceEatDot();
-				board.setScore(board.getScore()+ 10);
+				board.upScore(10);
 				board.setDotRemoved((Dot) dot);
 				
 				if (board.getDotRemoved().getSuper() == true) {
@@ -62,28 +64,44 @@ public class Pacman extends Creature {
 		//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
 		board.update();
 		}
+	
+	public void eatingFruit(boolean enableToEat, Board board)
+	{
+		if (enableToEat) {
+			board.upScore(200);
 
+		}
+	}
 	public void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
+		int ghostEated = 0;
 		for (Ghost ghost : ghostsArray) {
+			eatingGhost = false;
+			
 			//SOLO LOS COMERA SI ESTAN VIVOS
 			if (!ghost.getGhostState().equals(GhostState.DEATH))
 			{
-			eatingGhost = false;
-			//SI ESTAN PARADOS EN EL MISMO LUGAR LO COME
-			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
-				
-				sounds.reproduceEatGhost();
-				long score = board.getScore();
-				score +=50;
-				board.setScore(score);
+				if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) 
+				{
+					ghostEated++;
+					sounds.reproduceEatGhost();
 				//pacman.setPacmanState(Pacman.PacmanState.EATGHOST);
-				ghost.setGhostState(Ghost.GhostState.EATED);
-				eatingGhost = true;
-			}
+					ghost.setGhostState(Ghost.GhostState.EATED);
+					eatingGhost = true;
+				/*case 0:
+					board.upScore(50);
+					break;
+*/
+					
+				}
 			}
 		}
 		setEatingGhost(false);
 		
+	}
+	
+	public void death()
+	{
+		Board.lifes--;
 	}
 
 	public boolean isEatingGhost() {
@@ -97,9 +115,6 @@ public class Pacman extends Creature {
 	public void setPacmanState(PacmanState pacmanState) {
 		Pacman.pacmanState = pacmanState;
 	}
-
-	
-
 	public PacmanState getPacmanState () {
 		return pacmanState;
 	}
