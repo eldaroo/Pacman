@@ -19,6 +19,7 @@ import model.Board;
 import model.BoardConfiguration;
 import model.Direction;
 import model.Dot;
+import model.Eating;
 import model.Fruit;
 import model.GameState;
 import model.Ghost;
@@ -82,6 +83,8 @@ public class Game implements KeyListener, Runnable {
 	private static int retard = 66;
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
+	private static int slowGhosts=0; 
+
 	
 	//CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
 	public Game(BeginMenu beginMenu, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
@@ -107,6 +110,7 @@ public class Game implements KeyListener, Runnable {
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = board.getBoard();
+	    board.makeDots();
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
 	    fruit = new Fruit(board.getFruitPosition());
@@ -212,7 +216,6 @@ public class Game implements KeyListener, Runnable {
 		while (gameState.equals(GameState.NORMALMODE)) {
 			time++;
 			Thread.sleep(retard);
-			System.out.println(time);
 			fruit.lookingForFruit();
 			moveGhosts();
 			eatingPacman();
@@ -228,12 +231,11 @@ public class Game implements KeyListener, Runnable {
 
 			Thread.sleep(retard);	
 			time++;
-			System.out.println(time);
 
 			moveGhostsSlowed();
 			fruit.lookingForFruit();
 			pacman.run(board);
-			pacman.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
+			Eating.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
 
 			superTime++;
 			if (board.getDotRemoved().getSuper()) {
@@ -311,7 +313,6 @@ public class Game implements KeyListener, Runnable {
 	}
 	private void moveGhostsSlowed() throws InterruptedException {
 		//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
-		int slowGhosts=0; 
 		slowGhosts++;
 		if(slowGhosts==2) {
 			moveGhosts();
@@ -353,7 +354,6 @@ public class Game implements KeyListener, Runnable {
 			gameView.requestFocus();
 
 		} catch (IOException e) {
-			System.out.println("error " + e);
 			e.printStackTrace();
 		}
 	}
@@ -375,7 +375,6 @@ public class Game implements KeyListener, Runnable {
 			connection = new MyDataAcces();
 			connection.setQuery(name, board.getScore());
 		} catch (Exception e) {
-			System.out.println("error "+ e);
 		}
 	}
 	//CARGAMOS EL SCORE Y LO VOLCAMOS AL JTEXTAREA DEL SCOREVIEW
@@ -391,7 +390,6 @@ public class Game implements KeyListener, Runnable {
 				}
 				
 			} catch (Exception e) {
-				System.out.println("error "+ e);
 			}
 			
 			gameView.repaint();
@@ -429,7 +427,7 @@ public class Game implements KeyListener, Runnable {
 	public static void setTime(int time) {
 		Game.time = time;
 	}
-	public void Pause(boolean run) {
+	public void pause(boolean run) {
 		Game.run = !run;
 	}
 

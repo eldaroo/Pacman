@@ -23,7 +23,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		this.name = name;
 	}
 
-	Square position = null;
+	static Square position = null;
 	Square positionType = null;
 
 	Direction potentialDirection = Direction.LEFT;
@@ -36,7 +36,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		return direction;
 	}
 
-	public Square getPosition() {
+	public static Square getPosition() {
 		return position;
 	}
 

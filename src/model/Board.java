@@ -25,16 +25,15 @@ public class Board extends Observable implements Serializable {
 	private ArrayList<Square> hellZone = new ArrayList<Square>();
 	private ArrayList<Square> teleportList = new ArrayList<Square>();
 
-	public static long lifes = 3;
-	private long score = 0;
-	private Long level =(long) 1;
+	private static long lifes = 3;
+	private static long score = 0;
+	private static Long level =(long) 1;
 
 	private Position fruitPosition;
 
 	public Board(char[][] level1) {
 		levelMatrix=level1;
 		makeBoard();
-		makeDots();
 	}
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
@@ -47,102 +46,83 @@ public class Board extends Observable implements Serializable {
 				case '\u0000':
 					// WALL
 					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0001':
 					// PATH
 					board[i][j] = new Path();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0002':
 					// PATH NOT NAVEGABLE
 					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0003':
 					// TELEPORT NOT NAVEGABLE
 					board[i][j] = new FalseTeleport();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0004':
 					// PATH WITH DOT
 					board[i][j] = new Path();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0005':
 					// PATH WITH SUPER DOT
 					board[i][j] = new Path();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0006':
 					// HELL
 					board[i][j] = new Hell();
-					board[i][j].setCorner(Corner.CENTER);
 					hellZone.add(board[i][j]);
 					break;
 				case '\u0007':
 					// HELL ENTRANCE
 					hellGate.setBoardPosition(new Position(i, j));
 					board[i][j] = hellGate;
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0008':
 					// HELL NOT NAVEGABLE
 					board[i][j] = new FalseHell();
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case '\u0009':
 					// PATH WITH TELEPORT
 					board[i][j] = new Teleport();
 					teleportList.add(board[i][j]);
-					board[i][j].setCorner(Corner.CENTER);
 					break;
 				case 'f':
 					// PATH WITH FRUIT
 					board[i][j] = new Path();
-					board[i][j].setCorner(Corner.CENTER);
 					fruitPosition = new Position(i,j);
 					break;
 					// CORNERS
 				case 'a':
 					// a PATHCORNER_NW
-					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.NE);
+					board[i][j] = new FalsePath(Corner.NE);
 					break;
 				case 'w':
 					// w PATHCORNER_NE
-					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.NW);
+					board[i][j] = new FalsePath(Corner.NW);
 					break;
 				case 'x':
 					// x PATHCORNER_SW
-					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.SE);
+					board[i][j] = new FalsePath(Corner.SE);
 					break;
 				case 'd':
 					// d PATHCORNER_SW
-					board[i][j] = new FalsePath();
-					board[i][j].setCorner(Corner.SW);
+					board[i][j] = new FalsePath(Corner.SW);
 					break;
 				case 'q':
 					// q WALLCORNER_SE
-					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.NE);
+					board[i][j] = new Wall(Corner.NE);
 					break;
 				case 'e':
 					// e WALLCORNER_NW
-					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.NW);
+					board[i][j] = new Wall(Corner.NW);
 					break;
 				case 'z':
 					// z WALLCORNER_SE
-					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.SE);
+					board[i][j] = new Wall(Corner.SE);
 					break;
 				case 'c':
 					// c WALLCORNER_NW
-					board[i][j] = new Wall();
-					board[i][j].setCorner(Corner.SW);
+					board[i][j] = new Wall(Corner.SW);
 					break;
 				}
 
@@ -203,11 +183,22 @@ public class Board extends Observable implements Serializable {
 		teleportList.get(4).setDown(teleportList.get(3));
 		teleportList.get(5).setRight(teleportList.get(0));
 	}
-	public void upScore(int quantity)
+	public static void upScore(int quantity, int multiplication)
 	{
-		score+=quantity;
+		if (multiplication>0) {
+			score+=(quantity*multiplication);			
+		} else {
+			score+=quantity;
+		}		
 	}
-	
+	public static void upLevel()
+	{
+		level++;
+	}
+	public static void lostLife()
+	{
+		lifes--;
+	}
 	// EXPORTAR DE DATOS
 	public ArrayList<Square> getHellZone() {
 		return hellZone;
@@ -254,13 +245,10 @@ public class Board extends Observable implements Serializable {
 	public long getLevel() {
 		return level;
 	}
-	public void setLevel(long level) {
-		this.level = level;
+	public static void setLevel(long level) {
+		level = level;
 	}
-	public void upLevel()
-	{
-		level++;
-	}
+
 	public void setBoard(Square[][] board) {
 		this.board = board;
 	}
@@ -284,10 +272,7 @@ public class Board extends Observable implements Serializable {
 		setChanged();
 		notifyObservers();
 	}
-	/*public void Update() {
-		setChanged();
-		notifyObservers();
-	}*/
+	
 	// LOS DATOS DEL BOARD QUE SE GUARDAN CUANDO SE EJECUTA toPersist
 	public void writeJSONString(Writer out) throws IOException {
 		LinkedHashMap<String, Long> obj = new LinkedHashMap<>();

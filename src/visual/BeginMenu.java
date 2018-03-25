@@ -46,6 +46,7 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		getContentPane().setLayout(new FlowLayout());
 		//LOGO DEL JUEGO
 		JLabel lblPacMan = new JLabel();
+		lblPacMan.setForeground(Color.BLACK);
 		lblPacMan.setBackground(new Color(102, 255, 204));
 		lblPacMan.setIcon(ResourceBinding.getImageIcon(this));
 		lblPacMan.setBounds(100, 0, 352,400);
@@ -70,6 +71,7 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		layers.add(lblLoading);
 		//SE AÑADEN LAS CAPAS A LA VENTANA Y SE DIBUJA
 		setContentPane(layers);
+		
 		setVisible(true);
 		setBounds(200, 200, 600, 650);
 	}

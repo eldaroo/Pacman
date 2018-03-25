@@ -35,6 +35,7 @@ public class Intelligence {
 			randomChoise =getRandomChoise(DirectionMap, targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
 			smartChoise = getSmartPotentialDirection(goAwayTargetMatrix,DirectionMap, smartDirectionAvailables,targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
 			generateGoAwayDirection();
+			
 		}
 
 		private void generateGoAwayDirection() {
@@ -66,7 +67,7 @@ public class Intelligence {
 		private void generateSmartDirectionArray(ArrayList<Direction> goAwayTargetMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{
 			smartDirectionAvailables.clear();
-			CreateDirectionAvailablesArray();
+			createDirectionAvailablesArray();
 			localizateTarget();
 			for (Direction availableDirection : directionAvailables) {
 				for (Direction targetDirection : targetMatrix) {
@@ -121,7 +122,7 @@ public class Intelligence {
 		private Direction getRandomChoise(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{			
 
-			CreateDirectionAvailablesArray();
+			createDirectionAvailablesArray();
 			int aux=0;
 			Random random = new Random();
 			aux = random.nextInt(directionAvailables.size());
@@ -129,10 +130,10 @@ public class Intelligence {
 
 		}
 		//VEMOS CUALES DE LAS DIRECCIONES ESTAN DISPONIBLES
-		private void CreateDirectionAvailablesArray() {
+		private void createDirectionAvailablesArray() {
 			squaresAvailables.clear();
 			directionAvailables.clear();
-			CreateThreeDirectionMatrix(threeDirectionMatrix);
+			createThreeDirectionMatrix(threeDirectionMatrix);
 			for (Square square : threeDirectionMatrix) {
 				if (square.isNavegable(ghost))
 				{
@@ -150,7 +151,7 @@ public class Intelligence {
 		//CREAMOS UN ARRAY CON LOS SQUARE POSIBLES, EXCLUYENDO A LA DIRECCION DE 
 		//LA QUE VIENE. 
 		//LO MAPEAMOS CON SUS RESPECTIVAS DIRECCIONES
-		private void CreateThreeDirectionMatrix(ArrayList<Square> threeDirectionMatrix) {
+		private void createThreeDirectionMatrix(ArrayList<Square> threeDirectionMatrix) {
 			threeDirectionMatrix.clear();
 			DirectionMap.clear();
 			if(!ghost.direction.equals(Direction.UP))

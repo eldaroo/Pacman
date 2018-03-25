@@ -20,7 +20,7 @@ public class Ghost extends Creature {
 	private Random random;
 	private Board board;
 	private int aux;
-	private Intelligence iA_Ghost;
+	private Intelligence iAGhost;
 	private int hellTime;
 
 	public Ghost(String name, Square position, int intelligence, Board board) {
@@ -51,7 +51,6 @@ public class Ghost extends Creature {
 		case EATED:
 			Thread.sleep(150);
 			setGhostState(GhostState.DEATH);
-			//eatGhostTime = 0;
 			break;
 		case INHELL:
 			setTarget(pacman.position.getBoardPosition());
@@ -65,6 +64,14 @@ public class Ghost extends Creature {
 		case HURRY:
 			break;
 		}
+		iAGhost = new Intelligence(this);
+		
+		if (ghostState.equals(GhostState.DEATH))
+			setPotentialDirection(iAGhost.getSmartChoise());
+		else
+			pathFinder();
+		move();
+		goingThroughHellGate();
 	}
 		
 	private void goingThroughHellGate() {
@@ -87,16 +94,6 @@ public class Ghost extends Creature {
 			pacman.setPacmanState(PacmanState.DEATH);
 			Game.setGameState(GameState.RESPAWN);
 		}
-	
-		iA_Ghost = new Intelligence(this);
-		
-		if (ghostState.equals(GhostState.DEATH))
-			setPotentialDirection(iA_Ghost.getSmartChoise());
-		else
-			pathFinder();
-		move();
-		goingThroughHellGate();
-
 	}
 
 	public void pathFinder() {
@@ -108,13 +105,13 @@ public class Ghost extends Creature {
 		// ghost
 		for (int i = 0; i < getIntelligence(); i++) {
 			if (getGhostState().equals(GhostState.PUSSY)) {
-				potentialDirectionsList.add(iA_Ghost.getGoAwayDirection());
+				potentialDirectionsList.add(iAGhost.getGoAwayDirection());
 			} else {
-				potentialDirectionsList.add(iA_Ghost.getSmartChoise());
+				potentialDirectionsList.add(iAGhost.getSmartChoise());
 			}
 		}
 		for (int i = 0; i < stupidity; i++) {
-			potentialDirectionsList.add(iA_Ghost.getRandomChoise());
+			potentialDirectionsList.add(iAGhost.getRandomChoise());
 		}
 
 		aux = random.nextInt(potentialDirectionsList.size());

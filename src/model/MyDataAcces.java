@@ -8,14 +8,14 @@ import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
 
 public class MyDataAcces {
-	private String _usuario = "root";
-	private String _pwd = "";
-	private static String _db ="pacman";
+	private String usuario = "root";
+	private String pwd = "";
+	private static String db ="pacman";
 private String nombre;
 private int puntaje;
 private Connection conn= null;
 
-static String _url = "jdbc:mysql://localhost/"+_db;
+static String url = "jdbc:mysql://localhost/"+db;
 
 public MyDataAcces() throws SQLException, ClassNotFoundException
 {}
@@ -25,9 +25,9 @@ public Connection getConection() throws ClassNotFoundException
 	try {
 		Class.forName("com.mysql.jdbc.Connection");
 
-	conn = (Connection) DriverManager.getConnection(_url, _usuario, _pwd);
+	conn = (Connection) DriverManager.getConnection(url, usuario, pwd);
 	if (conn!=null) {
-		System.out.println("Conexion con la base de datos "+ _url + " exitosa");
+		System.out.println("Conexion con la base de datos "+ url + " exitosa");
 	}
 	
 	}catch ( SQLException e) {

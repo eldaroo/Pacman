@@ -1,8 +1,5 @@
 package model;
 
-
-
-
 public abstract class Square {
 	private Square down = null;
 	private Square left = null;
@@ -11,24 +8,16 @@ public abstract class Square {
 	Position boardPosition = null;
 
 	public static enum Corner {NE,NW,SE,SW,CENTER};
+
 	public Corner corner;
 
-	public Corner getCorner() {
-		return corner;
-	}
-
-
-	public void setCorner(Corner corner) {
-		this.corner = corner;
-	}
-
-
 	public Square() {
-		super();
-
+		corner = Corner.CENTER;
 	}
-
-
+	public Square(Corner corner) {
+		this.corner=corner;
+	}
+	
 	public Square get(Direction direction) {
 
 		switch (direction) {
@@ -72,6 +61,12 @@ public abstract class Square {
 		
 	}
 
+	public Corner getCorner() {
+		return corner;
+	}
+	public void setCorner(Corner corner) {
+		this.corner = corner;
+	}
 	public void setDown(Square down) {
 		this.down = down;
 	}
