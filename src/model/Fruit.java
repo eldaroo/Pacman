@@ -8,25 +8,35 @@ import controller.Game;
 public class Fruit extends Observable{
 public static enum FruitType {CHERRY, BANANNA, APPLE, ORANGE}
 private FruitType fruitType;
-Position fruitPosition;
+private Position fruitPosition;
+public static boolean enableToEat;
+private int fruitTime = 0;
+
 
 public Fruit(Position Position)
 {
+	enableToEat = false;
 	fruitPosition = Position;
 }
 
-public Position getFruitPosition() {
-	return fruitPosition;
-}
-
-public void setFruitPosition(Position fruitPosition) {
-	this.fruitPosition = fruitPosition;
-}
-
-public void lookingForFruit () {
-	
+public void lookingForFruit ()
+{
+	fruitTime++;
 	if (Game.getTime()%50==0)
 	{
+		determinateType();
+		enableToEat = true;
+		fruitTime=0;
+		setChanged();
+		notifyObservers();
+	}
+	if (fruitTime==20) {
+		enableToEat=false;
+	}
+}
+
+public void determinateType () {
+	
 		Random random = new Random();		
 		int aux = random.nextInt(4);
 		
@@ -45,11 +55,24 @@ public void lookingForFruit () {
 			break;
 		}
 		
-		setChanged();
-		notifyObservers();
+		
 	}
+
+public Position getFruitPosition() {
+	return fruitPosition;
 }
 
+public void setFruitPosition(Position fruitPosition) {
+	this.fruitPosition = fruitPosition;
+}
+
+public boolean isEnableToEat() {
+	return enableToEat;
+}
+
+public void setEnableToEat(boolean enableToEat) {
+	this.enableToEat = enableToEat;
+}
 public FruitType getFruitType() {
 	
 	return fruitType;

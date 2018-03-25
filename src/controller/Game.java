@@ -1,7 +1,6 @@
 package controller;
 
 
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,20 +8,13 @@ import java.io.FileNotFoundException;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Observer;
 import java.util.Random;
-
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-
-
 import org.json.simple.parser.ParseException;
-
 import model.Board;
 import model.BoardConfiguration;
 import model.Direction;
@@ -67,16 +59,14 @@ public class Game implements KeyListener, Runnable {
 	private static JLayeredPane layers;
 	private static FruitView fruitView;
 	private static ScoreView scoreView;
-	private static Thread boardView;
 	//CRIATURAS
 	private static Pacman pacman;
 	private static ArrayList<Ghost> ghostsArray;
-
+	
 	//SERIALIZADOR y SQL
 	private static Serializator serializator = new Serializator();
 	private static MyDataAcces connection ;		
 	private static ResultSet result;
-
 
 	//ESTRUCTURA
 	private static GameState gameState;
@@ -162,7 +152,7 @@ public class Game implements KeyListener, Runnable {
 				normalMode();
 				break;
 			case SUPERMODE:
-				superMode(pacman);
+				superMode();
 				break;
 			case RESPAWN:
 				respawn();
@@ -230,26 +220,18 @@ public class Game implements KeyListener, Runnable {
 		}	
 	}
 
-	private void superMode(Pacman pacman) throws InterruptedException {
-		int slowGhosts=0; 
-		time++;
+	private void superMode() throws InterruptedException {
 		superTime = 0;
 		setGhostState(Ghost.GhostState.PUSSY);
 		setPacmanState(Pacman.PacmanState.MOVE);
 		while (gameState.equals(GameState.SUPERMODE)) {
 
 			Thread.sleep(retard);	
-			
-			//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
-			slowGhosts++;
 			time++;
-			if(slowGhosts==2) {
-				moveGhosts();
-				slowGhosts=0;
-			}
-			
+			System.out.println(time);
+
+			moveGhostsSlowed();
 			fruit.lookingForFruit();
-			
 			pacman.run(board);
 			pacman.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
 
@@ -264,6 +246,7 @@ public class Game implements KeyListener, Runnable {
 				setGhostState(GhostState.HURRY);	
 		}
 	}	
+
 	// REINICIA POSICIONES EN EL TABLERO
 	public static void respawn() {	
 
@@ -307,6 +290,7 @@ public class Game implements KeyListener, Runnable {
 	}
 	
 	//METODOS DE FANTASMAS
+	
 	private static void createGhosts(int ghostQuantity) {
 	    ghostsArray = new ArrayList <Ghost>();
 		
@@ -324,6 +308,15 @@ public class Game implements KeyListener, Runnable {
 		for (Ghost ghost : ghostsArray) {
 				ghost.run(pacman);
 		}
+	}
+	private void moveGhostsSlowed() throws InterruptedException {
+		//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
+		int slowGhosts=0; 
+		slowGhosts++;
+		if(slowGhosts==2) {
+			moveGhosts();
+			slowGhosts=0;
+		}		
 	}
 	private static void eatingPacman()
 	{
@@ -473,11 +466,5 @@ public class Game implements KeyListener, Runnable {
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
-
-	
-	/*public static void restartGameVisual () {
-		gameView.remove(postGameView);
-		gameView.setContentPane(layers);
-	}*/
 
 }
