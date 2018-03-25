@@ -24,7 +24,7 @@ public class Controller {
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 		//INSTANCIO VARIABLES
 		boardConfiguration = new BoardConfiguration();
-		board= new Board(boardConfiguration.getLevel1BoardRecharged());
+		board= new Board(boardConfiguration.getLevelBoard());
 		layers = new JLayeredPane();
 		
 		//INSTANCIO LOS THREADS

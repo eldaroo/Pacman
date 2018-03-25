@@ -14,6 +14,7 @@ public class Pacman extends Creature {
 	private boolean eatingGhost = false;
 	public static enum PacmanState {MOVE,EATGHOST,DEATH};
 	private static PacmanState pacmanState = PacmanState.MOVE;
+	private ArrayList<Dot> dots;
 	
 
 	public Pacman(String name, Square position) {

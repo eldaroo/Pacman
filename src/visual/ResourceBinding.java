@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import model.Board;
-import model.Creature;
 import model.Direction;
 import model.Dot;
 import model.FalseHell;
@@ -34,8 +32,6 @@ public abstract class ResourceBinding {
 	//MAPAS DE ESTADO DE PACMAN
 	private static Map<Enum<?>, Map<Direction, ImageIcon>> pacmanState = new HashMap<Enum<?>, Map<Direction, ImageIcon>>();
 	private static Map<Direction, ImageIcon> pacmanWithDirection = new HashMap<Direction, ImageIcon>();
-	private static Map<Direction, ImageIcon> pacmanEatingDot = new HashMap<Direction, ImageIcon>();
-	private static Map<Direction, ImageIcon> pacmanEatingSuper = new HashMap<Direction, ImageIcon>();
 	private static Map<Direction, ImageIcon> pacmanEatingGhost = new HashMap<Direction, ImageIcon>();
 	private static Map<Direction, ImageIcon> pacmanDying = new HashMap<Direction, ImageIcon>();
 	//MAPAS DE ESTADO DEL GHOST
@@ -188,8 +184,4 @@ public abstract class ResourceBinding {
 		return stateIcon.get(ghost.getIntelligence());
 	}
 
-	/*public static Object getFruitIcon(FruitType fruitType) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 }

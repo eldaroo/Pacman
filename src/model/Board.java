@@ -11,25 +11,37 @@ import org.json.simple.JSONValue;
 
 import model.Square.Corner;
 
-public class Board extends Observable implements Serializable {
+public class Board  extends Observable  implements Serializable {
 
 	private static final long serialVersionUID = -6472116531941544087L;
 
-	private Square[][] board;
-	private ArrayList <Dot> dots;
-	private Dot dotRemoved;
-	private boolean pacmanEatNewDot;
-	private boolean superMode = false;
-	private HellGate hellGate = new HellGate();
-	private char[][]levelMatrix;
-	private ArrayList<Square> hellZone = new ArrayList<Square>();
-	private ArrayList<Square> teleportList = new ArrayList<Square>();
+	static private Square[][] board;
+	static private ArrayList <Dot> dots;
+	static private Dot dotRemoved;
+	static private boolean pacmanEatNewDot;
+	static private boolean superMode = false;
+	static private HellGate hellGate = new HellGate();
+	static private char[][]levelMatrix;
+	static private ArrayList<Square> hellZone = new ArrayList<Square>();
+	static private ArrayList<Square> teleportList = new ArrayList<Square>();
+
 
 	private static long lifes = 3;
 	private static long score = 0;
 	private static Long level =(long) 1;
 
-	private Position fruitPosition;
+	static private Position fruitPosition;
+    static private Square originalPacmanPosition;
+
+	public static Square getOriginalPacmanPosition() {
+		return originalPacmanPosition;
+	}
+
+
+	public static void setOriginalPacmanPosition(Square board2) {
+		Board.originalPacmanPosition = board2;
+	}
+
 
 	public Board(char[][] level1) {
 		levelMatrix=level1;
@@ -37,7 +49,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
-	private void makeBoard() {
+	private static void makeBoard() {
 		board = new Square[levelMatrix.length][levelMatrix.length];
 		for (int i = 0; i < levelMatrix.length; i++) {
 			for (int j = 0; j < levelMatrix.length; j++) {
@@ -128,6 +140,7 @@ public class Board extends Observable implements Serializable {
 
 				// ASIGNA AL CASILLERO EN UNA POSICION DEL TABLERO
 					board[i][j].setBoardPosition(new Position(i, j));
+					setOriginalPacmanPosition(board[27][43]);
 			}
 		}
 		// ENLAZA CADA CASILLERO CON SU ADYACENTE
@@ -175,7 +188,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	// ESTABLECE LOS CASILLEROS SIGUIENTES A LOS TELEPORT
-	private void linkTeleports() {
+	private static void linkTeleports() {
 		teleportList.get(0).setLeft(teleportList.get(5));
 		teleportList.get(1).setUp(teleportList.get(2));
 		teleportList.get(2).setDown(teleportList.get(1));
@@ -200,72 +213,71 @@ public class Board extends Observable implements Serializable {
 		lifes--;
 	}
 	// EXPORTAR DE DATOS
-	public ArrayList<Square> getHellZone() {
+	public static ArrayList<Square> getHellZone() {
 		return hellZone;
 	}
-	public long getScore() {
+	public static long getScore() {
 		return score;
 	}
-	public void setScore(long score) {
-		this.score = score;
+	public static void setScore(long score) {
+		Board.score = score;
 	}
-	public Square[][] getBoard() {
+	public static Square[][] getBoard() {
 		return board;
 	}
-	public Dot getDotRemoved() {
+	public static Dot getDotRemoved() {
 		return dotRemoved;
 	}
-	public ArrayList<Dot> getDots() {
+	public static ArrayList<Dot> getDots() {
 		return dots;
 	}
-	public boolean getSuperMode() {
+	public static boolean getSuperMode() {
 		return superMode;
 	}
-	public boolean getPacmanEatNewDot() {
+	public static boolean getPacmanEatNewDot() {
 		return isPacmanEatNewDot();
 	}
-	public Position getFruitPosition() {
+	public static Position getFruitPosition() {
 		return fruitPosition;
 	}
-	public void setFruitPosition(Position fruitPosition) {
-		this.fruitPosition = fruitPosition;
+	public static void setFruitPosition(Position fruitPosition) {
+		Board.fruitPosition = fruitPosition;
 	}
-	public HellGate getHellGate() {
+	public static HellGate getHellGate() {
 		return hellGate;
 	}
-	public void setHellGate(HellGate hellGate) {
-		this.hellGate = hellGate;
+	public static void setHellGate(HellGate hellGate) {
+		Board.hellGate = hellGate;
 	}
-	public long getLifes() {
+	public static long getLifes() {
 		return lifes;
 	}
-	public void setLifes(long lifes) {
-		this.lifes = lifes;
+	public static void setLifes(long lifes) {
+		Board.lifes = lifes;
 	}
 	public long getLevel() {
 		return level;
 	}
-	public static void setLevel(long level) {
-		level = level;
-	}
 
-	public void setBoard(Square[][] board) {
-		this.board = board;
+
+	public static void setBoard(Square[][] board) {
+		Board.board = board;
+
 	}
-	public void setDotRemoved(Dot dotRemoved) {
-		this.dotRemoved = dotRemoved;
+	public static void setDotRemoved(Dot dotRemoved) {
+		Board.dotRemoved = dotRemoved;
 	}
-	public void setDots(ArrayList<Dot> dots) {
-		this.dots = dots;
+	public static void setDots(ArrayList<Dot> dots) {
+		Board.dots = dots;
 	}
-	public void setSuperMode(boolean superMode) {
-		this.superMode = superMode;
+	public static void setSuperMode(boolean superMode) {
+		Board.superMode = superMode;
 	}
-	public boolean isPacmanEatNewDot() {
+	public static boolean isPacmanEatNewDot() {
 		return pacmanEatNewDot;
 	}
-	public void setPacmanEatNewDot(boolean pacmanEatNewDot) {
-		this.pacmanEatNewDot = pacmanEatNewDot;
+	public static void setPacmanEatNewDot(boolean pacmanEatNewDot) {
+		Board.pacmanEatNewDot = pacmanEatNewDot;
 	}
 	// AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
 	public void update() {

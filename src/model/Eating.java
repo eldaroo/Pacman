@@ -1,18 +1,19 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import controller.Game;
 import model.Ghost.GhostState;
 import sounds.Sounds;
 
-public abstract class Eating {
+public abstract class Eating{
 	private static ArrayList<Dot> dots;
 
 	//SE COMEN LOS DOTS Y SUPERDOTS EN FUNCION DE LA UBICACIÓN DEL PACMAN EN EL TABLERO (AUMENTAN LOS PUNTOS Y SE ACTIVA EL SUPERMODE)
 		public static void eatingDot(Board board) {
-			board.setPacmanEatNewDot(false);
-			dots=board.getDots();
+			Board.setPacmanEatNewDot(false);
+			dots=Board.getDots();
 
 			for (Dot dot : dots) {
 
@@ -20,28 +21,26 @@ public abstract class Eating {
 				{
 					Sounds.reproduceEatDot();
 					Board.upScore(10,0);
-					board.setDotRemoved((Dot) dot);
+					Board.setDotRemoved((Dot) dot);
 					
-					if (board.getDotRemoved().getSuper() == true) {
+					if (Board.getDotRemoved().getSuper() == true) {
 						Game.setGameState (GameState.SUPERMODE);
-						board.setScore(board.getScore()+20);
+						Board.upScore(20, 0);
 					}
-					board.setPacmanEatNewDot(true);
+					Board.setPacmanEatNewDot(true);
 
 				}
 			}
 			
-			dots.remove(board.getDotRemoved());
-			board.setDots(dots);
-			
+			dots.remove(Board.getDotRemoved());
+			Board.setDots(dots);
+			board.update();
 			//CHEQUEA SI TERMINO EL LEVEL
 			if (dots.size()==0)
 			{
 				Game.setGameState(GameState.NEXTLEVEL);
 				Game.setFirstTime(true);
 			}
-			//AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
-			board.update();
 			}
 		
 		public static void eatingFruit()
@@ -53,9 +52,9 @@ public abstract class Eating {
 				}
 			}
 		}
-		public static void eatingGhosts(ArrayList<Ghost> ghostsArray, Pacman pacman, Board board, ArrayList<Square> hellZone) {
+		public static void eatingGhosts( Pacman pacman) {
 			int ghostEated = 0;
-			for (Ghost ghost : ghostsArray) {
+			for (Ghost ghost : Game.getGhostsArray()) {
 				//eatingGhost = false;
 				
 				//SOLO LOS COMERA SI ESTAN VIVOS
@@ -65,7 +64,6 @@ public abstract class Eating {
 					{
 						ghostEated++;
 						Sounds.reproduceEatGhost();
-						//pacman.setPacmanState(Pacman.PacmanState.EATGHOST);
 						ghost.setGhostState(Ghost.GhostState.EATED);
 					//	eatingGhost = true;
 						Board.upScore(50, ghostEated);
@@ -73,6 +71,7 @@ public abstract class Eating {
 				}
 			}
 			//setEatingGhost(false);
-			
+
 		}
+
 }

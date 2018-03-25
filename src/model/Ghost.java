@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import controller.Game;
-import model.Pacman.PacmanState;
 
 public class Ghost extends Creature {
 
@@ -91,7 +90,6 @@ public class Ghost extends Creature {
 		{
 			sounds.reproduceDeath();
 			pacman.death();
-			pacman.setPacmanState(PacmanState.DEATH);
 			Game.setGameState(GameState.RESPAWN);
 		}
 	}
