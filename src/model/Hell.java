@@ -1,10 +1,15 @@
 package model;
 
+import model.Square.Corner;
+
 public class Hell extends Square {
 
-	public Hell() {
-		
+	public Hell(Corner corner)
+	{
+		super(corner);
 	}
+	public Hell()
+	{}
 
 @Override
 public boolean isNavegable(Creature creature) {

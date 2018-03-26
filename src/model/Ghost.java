@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import controller.Game;
-import model.Pacman.PacmanState;
 
 public class Ghost extends Creature {
 
@@ -19,10 +18,10 @@ public class Ghost extends Creature {
 	private GhostState ghostState = GhostState.COURAGEOUS;
 	private Random random;
 	private int aux;
-	private Intelligence iA_Ghost;
+	private IA iAGhost;
 	private int hellTime;
 
-	public Ghost(String name, Square position, int intelligence) {
+	public Ghost(String name,Square position, int intelligence) {
 		super(name);
 		this.position = position;
 		this.intelligence = intelligence;
@@ -49,7 +48,6 @@ public class Ghost extends Creature {
 		case EATED:
 			Thread.sleep(150);
 			setGhostState(GhostState.DEATH);
-			//eatGhostTime = 0;
 			break;
 		case INHELL:
 			setTarget(pacman.position.getBoardPosition());
@@ -63,6 +61,14 @@ public class Ghost extends Creature {
 		case HURRY:
 			break;
 		}
+		iAGhost = new IA(this);
+		
+		if (ghostState.equals(GhostState.DEATH))
+			setPotentialDirection(iAGhost.getSmartChoise());
+		else
+			pathFinder();
+		move();
+		goingThroughHellGate();
 	}
 		
 	private void goingThroughHellGate() {
@@ -77,24 +83,13 @@ public class Ghost extends Creature {
 		}
 	}
 
-	public void eatingPacman(Pacman pacman, Board board) {
+	public void eatingPacman(Pacman pacman) {
 		if (pacman.getBoardPosition().equals(getBoardPosition())) 
 		{
 			sounds.reproduceDeath();
 			pacman.death();
-			pacman.setPacmanState(PacmanState.DEATH);
 			Game.setGameState(GameState.RESPAWN);
 		}
-	
-		iA_Ghost = new Intelligence(this);
-		
-		if (ghostState.equals(GhostState.DEATH))
-			setPotentialDirection(iA_Ghost.getSmartChoise());
-		else
-			pathFinder();
-		move();
-		goingThroughHellGate();
-
 	}
 
 	public void pathFinder() {
@@ -106,13 +101,13 @@ public class Ghost extends Creature {
 		// ghost
 		for (int i = 0; i < getIntelligence(); i++) {
 			if (getGhostState().equals(GhostState.PUSSY)) {
-				potentialDirectionsList.add(iA_Ghost.getGoAwayDirection());
+				potentialDirectionsList.add(iAGhost.getGoAwayDirection());
 			} else {
-				potentialDirectionsList.add(iA_Ghost.getSmartChoise());
+				potentialDirectionsList.add(iAGhost.getSmartChoise());
 			}
 		}
 		for (int i = 0; i < stupidity; i++) {
-			potentialDirectionsList.add(iA_Ghost.getRandomChoise());
+			potentialDirectionsList.add(iAGhost.getRandomChoise());
 		}
 
 		aux = random.nextInt(potentialDirectionsList.size());

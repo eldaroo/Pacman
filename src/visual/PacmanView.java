@@ -3,6 +3,7 @@ package visual;
 import java.util.Observable;
 import javax.swing.JLayeredPane;
 
+import model.Board;
 import model.Pacman;
 import model.Position;
 
@@ -11,10 +12,10 @@ public class PacmanView extends CreaturesView{
 	private static final long serialVersionUID = 8740845001484130644L;
 
 
-	public PacmanView(Pacman obj, JLayeredPane layers) {
-		super(obj, layers);
-		this.setBounds((obj.getBoardPosition().getX() * 10) - 10, (obj.getBoardPosition().getY() * 10) - 10+25, 30, 30);
-		setIcon(ResourceBinding.getPacmanIcon(obj));
+	public PacmanView(Pacman pacman, JLayeredPane layers) {
+		super(pacman,layers);
+		this.setBounds((pacman.getBoardPosition().getX() * 10) - 10, (pacman.getBoardPosition().getY() * 10) - 10+25, 30, 30);
+		setIcon(ResourceBinding.getPacmanIcon(pacman));
 		//PARA OBTENER INFO DE DOTS
 		//setIcon(ResourceBinding.getPacmanIcon(obj,board));
 		layers.add(this, 6);

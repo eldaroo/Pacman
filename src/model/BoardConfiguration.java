@@ -114,6 +114,7 @@ public class BoardConfiguration {
 		return levelBoard;
 	}
 
+
 	/*
 	static public void setLevel1BoardRecharged(char[][] level1BoardRecharged) {
 		this.level1BoardRecharged = level1BoardRecharged;

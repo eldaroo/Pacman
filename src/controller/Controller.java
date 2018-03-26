@@ -28,7 +28,7 @@ public class Controller {
 		layers = new JLayeredPane();
 		
 		//INSTANCIO LOS THREADS
-		game = new Thread( new Game(beginMenu, layers),"game");
+		game = new Thread( new Game(beginMenu, layers, board),"game");
 		boardView= new BoardView(beginMenu, layers);
 	
 		//ARRANCAN LOS THREADS

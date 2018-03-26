@@ -13,50 +13,22 @@ public class Fruit extends Observable {
 	private static FruitType fruitType;
 	private static Position fruitPosition;
 	public static boolean enableToEat;
-	private static int fruitTime = 0;
 
 	public Fruit(Position Position) {
 		enableToEat = false;
 		fruitPosition = Position;
 	}
 
-	public void lookingForFruit() {
-		fruitTime++;
-		if (Game.getTime() % 50 == 0) {
-			determinateType();
-			enableToEat = true;
-			fruitTime = 0;
-			setChanged();
-			notifyObservers();
-		}
-		if (fruitTime == 20) {
-			enableToEat = false;
-		}
+
+
+	public static void setFruitType(FruitType fruitType) {
+		Fruit.fruitType = fruitType;
 	}
 
-	public static void determinateType() {
 
-		Random random = new Random();
-		int aux = random.nextInt(4);
 
-		switch (aux) {
-		case 0:
-			fruitType = FruitType.APPLE;
-			break;
-		case 1:
-			fruitType = FruitType.BANANNA;
-			break;
-		case 2:
-			fruitType = FruitType.ORANGE;
-			break;
-		case 3:
-			fruitType = FruitType.CHERRY;
-			break;
-		}
+	public static Position getFruitPosition() {
 
-	}
-
-	public Position getFruitPosition() {
 		return fruitPosition;
 	}
 

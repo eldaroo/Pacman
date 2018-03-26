@@ -18,13 +18,14 @@ import org.json.simple.parser.ParseException;
 import model.Board;
 import model.Direction;
 import model.Dot;
+import model.Actions;
 import model.Fruit;
 import model.GameState;
 import model.Ghost;
 import model.Ghost.GhostState;
+import model.IA;
 import model.MyDataAcces;
 import model.Pacman;
-import model.Pacman.PacmanState;
 import model.Serializator;
 import model.Square;
 
@@ -46,7 +47,6 @@ public class Game implements KeyListener, Runnable {
 	private static Board board;
 	private static Square[][] boardMatrix;
 	private static ArrayList<Dot> dotMatrix;
-	private static Fruit fruit;
 
 	//VISUAL
 	private static DotsView dotsView;
@@ -58,6 +58,7 @@ public class Game implements KeyListener, Runnable {
 	private static JLayeredPane layers;
 	private static FruitView fruitView;
 	private static ScoreView scoreView;
+	
 	//CRIATURAS
 	private static Pacman pacman;
 	private static ArrayList<Ghost> ghostsArray;
@@ -71,9 +72,7 @@ public class Game implements KeyListener, Runnable {
 	private static GameState gameState;
 	private static boolean run = true;
 	private static boolean firstTime = true;
-	private static Square originalPositionPacman ; 
-	private static int hellIndex=0;
-	private static Random randomHellZoneSquare = new Random();
+	//private static Square originalPositionPacman ; 
 	private static Sounds sound = new Sounds();
 	
 	//DATOS
@@ -81,12 +80,14 @@ public class Game implements KeyListener, Runnable {
 	private static int retard = 66;
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
+
 	
 	//CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
-	public Game(BeginMenu beginMenu, JLayeredPane layers)
+	public Game(BeginMenu beginMenu, JLayeredPane layers, Board board)
 	{
 		Game.beginMenu = beginMenu;
 		Game.layers = layers;
+		Game.board = board;
 	}
 
 	//EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
@@ -105,10 +106,10 @@ public class Game implements KeyListener, Runnable {
 		gameState = GameState.LOAD;
 		gameView = new GameView();
 	    boardMatrix = Board.getBoard();
-	    originalPositionPacman =boardMatrix[27][43];
-	    createGhosts(ghostQuantity);
-	    fruit = new Fruit(Board.getFruitPosition());
-		pacman = new Pacman("pacman", originalPositionPacman);
+
+	    Board.makeDots();
+	    Actions.createGhosts(ghostQuantity);
+		pacman = new Pacman("pacman", boardMatrix[27][43]);
 		scoreView= new ScoreView();
 	}
 
@@ -118,15 +119,16 @@ public class Game implements KeyListener, Runnable {
 		gameView.setContentPane(layers);
 		gameView.addKeyListener(this);
 		dotMatrix = Board.getDots();
-		fruitView = new FruitView(fruit, layers);
+		fruitView = new FruitView( layers);
 		dotsView = new DotsView(dotMatrix, layers);
 		pacmanView = new PacmanView(pacman, layers);
 		createGhostViews(ghostQuantity);
 		gameView.setVisible(true);
 		
-		fruit.addObserver(fruitView);
+		Board.observeFruit(fruitView);
+		
 		pacman.addObserver(pacmanView);
-		//board.addObserver(dotsView);
+		board.addObserver(dotsView);
 
 	}
 
@@ -159,13 +161,15 @@ public class Game implements KeyListener, Runnable {
 				pausa();
 				break;
 			case POSTGAME:
-				postGame();
+				System.exit(0);
+				//postGame();
 				break;
 			case NEXTLEVEL:
 				nextLevel();
 				break;
 			}
 			
+	
 			//END GAME
 			if (Board.getLifes() <= 0) {
 					gameState = GameState.POSTGAME;
@@ -200,41 +204,39 @@ public class Game implements KeyListener, Runnable {
 	private void normalMode() throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 
 		setGhostState(Ghost.GhostState.COURAGEOUS);
-		setPacmanState(Pacman.PacmanState.MOVE);
 		
 		if (firstTime) {
 			initVisual();
-			sound.reproduceBeginning();
+			Sounds.reproduceBeginning();
 			firstTime = false;
 		}
 		while (gameState.equals(GameState.NORMALMODE)) {
 			time++;
 			Thread.sleep(retard);
-			System.out.println(time);
-			fruit.lookingForFruit();
-			moveGhosts();
-			eatingPacman();
-			pacman.run(board);
+			Actions.moveGhosts();
+			Actions.eatingPacman(pacman);
+			runPacman();
+			board.update();
+
 		}	
 	}
 
 	private void superMode() throws InterruptedException {
 		superTime = 0;
 		setGhostState(Ghost.GhostState.PUSSY);
-		setPacmanState(Pacman.PacmanState.MOVE);
+		
 		while (gameState.equals(GameState.SUPERMODE)) {
 
 			Thread.sleep(retard);	
 			time++;
-			System.out.println(time);
 
-			moveGhostsSlowed();
-			fruit.lookingForFruit();
-			pacman.run(board);
-			pacman.eatingGhosts(ghostsArray, pacman, board, Board.getHellZone());
+			Actions.moveGhostsSlowed(2);
+			runPacman();
+			//runGhost
+			Actions.eatingGhosts(pacman);
 
 			superTime++;
-			if (board.getDotRemoved().getSuper()) {
+			if (Board.getDotRemoved().getSuper()) {
 				superTime = 0;
 			}
 			if (superTime == 150) {
@@ -242,23 +244,21 @@ public class Game implements KeyListener, Runnable {
 			}
 			if (superTime >= 125)
 				setGhostState(GhostState.HURRY);	
+			board.update();
+
 		}
+
 	}	
 
 	// REINICIA POSICIONES EN EL TABLERO
 	public static void respawn() {	
 
-		pacman.setPosition(originalPositionPacman);
+		Actions.respawnCreatures(pacman);
 
-		for (Ghost ghost : ghostsArray) {
-			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
-			ghost.setKeyOfHell(true);
-			hellIndex=randomHellZoneSquare.nextInt(Board.getHellZone().size());
-			ghost.setPosition( Board.getHellZone().get(hellIndex));
-		}
 		// REINICIA PARTIDA
 
-		pacman.setAlive(true);
+		Pacman.setPacmanState(Pacman.PacmanState.MOVE);
+		
 		firstTime = true;
 		gameState = GameState.NORMALMODE;
 	}
@@ -269,7 +269,7 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	private void nextLevel() {
-		board.upLevel();
+		Board.upLevel();
 		board.makeDots();
 		gameState=GameState.RESPAWN;
 		retard= retard/2;
@@ -287,42 +287,6 @@ public class Game implements KeyListener, Runnable {
 		
 	}
 	
-	//METODOS DE FANTASMAS
-	
-	private static void createGhosts(int ghostQuantity) {
-	    ghostsArray = new ArrayList <Ghost>();
-		
-		int aux=1;
-		int intelligence = 1;
-		while (aux<= ghostQuantity) {
-			hellIndex=randomHellZoneSquare.nextInt(Board.getHellZone().size());
-			ghostsArray.add(new Ghost("ghost"+aux,Board.getHellZone().get(hellIndex), intelligence));
-			aux++;
-			intelligence +=2;
-		}
-	}
-	private static void moveGhosts() throws InterruptedException {
-		
-		for (Ghost ghost : ghostsArray) {
-				ghost.run(pacman);
-		}
-	}
-	private void moveGhostsSlowed() throws InterruptedException {
-		//SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
-		int slowGhosts=0; 
-		slowGhosts++;
-		if(slowGhosts==2) {
-			moveGhosts();
-			slowGhosts=0;
-		}		
-	}
-	private static void eatingPacman()
-	{
-		for (Ghost ghost : ghostsArray) {
-			ghost.eatingPacman(pacman, board);
-
-		}
-	}
 	private static void setGhostState(Ghost.GhostState ghostState) {
 		
 		for (Ghost ghost : ghostsArray) {
@@ -335,12 +299,20 @@ public class Game implements KeyListener, Runnable {
 	    ghostViewsArray = new ArrayList <CreaturesView>();
 		int aux=1;
 		while (aux<= ghostQuantity) {
-			ghostViewsArray.add(new GhostView(ghostsArray.get(aux-1), layers));
+			ghostViewsArray.add(new GhostView(getGhostsArray().get(aux-1), layers));
 			ghostsArray.get(aux-1).addObserver(ghostViewsArray.get(aux-1));
 			aux++;
 		}		
 	}
-	
+	public void runPacman()
+	{
+		pacman.move();
+		Actions.eatingDot(pacman);
+		Actions.eatingFruit(pacman);
+		
+		Actions.updateFruit();
+		
+	}
 	
 	// GUARDA PARTIDA
 	public static void save() {
@@ -351,7 +323,6 @@ public class Game implements KeyListener, Runnable {
 			gameView.requestFocus();
 
 		} catch (IOException e) {
-			System.out.println("error " + e);
 			e.printStackTrace();
 		}
 	}
@@ -365,7 +336,7 @@ public class Game implements KeyListener, Runnable {
 		setGameState(GameState.NORMALMODE);
 		setFirstTime(true);
 	}
-	
+
 	//SALVAMOS EL SCORE
 	public static void saveScore(String name) 
 	{
@@ -373,7 +344,6 @@ public class Game implements KeyListener, Runnable {
 			connection = new MyDataAcces();
 			connection.setQuery(name, Board.getScore());
 		} catch (Exception e) {
-			System.out.println("error "+ e);
 		}
 	}
 	//CARGAMOS EL SCORE Y LO VOLCAMOS AL JTEXTAREA DEL SCOREVIEW
@@ -389,16 +359,11 @@ public class Game implements KeyListener, Runnable {
 				}
 				
 			} catch (Exception e) {
-				System.out.println("error "+ e);
 			}
 			
 			gameView.repaint();
 		}
 		
-	private void setPacmanState(PacmanState pacmanState) {
-		pacman.setPacmanState(pacmanState);
-		
-	}
 	public static Square[][] getBoardMatrix() {
 		return boardMatrix;
 	}
@@ -427,8 +392,28 @@ public class Game implements KeyListener, Runnable {
 	public static void setTime(int time) {
 		Game.time = time;
 	}
-	public void Pause(boolean run) {
+	public void pause(boolean run) {
 		Game.run = !run;
+	}
+	public static  ArrayList<Ghost> getGhostsArray() {
+		// TODO Auto-generated method stub
+		return ghostsArray;
+	}
+
+	public static void setGhostsArray(ArrayList<Ghost> arrayList) {
+		ghostsArray=arrayList;
+	}
+
+	public static void setPacman(Pacman pacman) {
+		Game.pacman = pacman;
+	}
+
+	public static void addGhost(Ghost ghost) {
+		ghostsArray.add(ghost);
+	}
+
+	public static Pacman getPacman() {
+		return pacman;
 	}
 
 	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
@@ -458,6 +443,7 @@ public class Game implements KeyListener, Runnable {
 		}
 		}
 	}
+
 	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
 	}
