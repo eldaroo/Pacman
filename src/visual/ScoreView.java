@@ -2,13 +2,13 @@ package visual;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-
 import controller.Game;
 
 import javax.swing.JLabel;
 
 public class ScoreView extends JPanel {
+
+	private static final long serialVersionUID = 1725601919587341513L;
 	public JTextArea scoreTextArea;
 
 	public ScoreView() {

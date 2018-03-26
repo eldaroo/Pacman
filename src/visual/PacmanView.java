@@ -1,17 +1,15 @@
 package visual;
 
 import java.util.Observable;
-import java.util.Observer;
-
-import javax.annotation.Resources;
 import javax.swing.JLayeredPane;
 
-import model.Creature;
-import model.Direction;
 import model.Pacman;
 import model.Position;
 
 public class PacmanView extends CreaturesView{
+
+	private static final long serialVersionUID = 8740845001484130644L;
+
 
 	public PacmanView(Pacman obj, JLayeredPane layers) {
 		super(obj, layers);
@@ -30,7 +28,6 @@ public class PacmanView extends CreaturesView{
 		Pacman pacman = (Pacman) observable;
 		setIcon(ResourceBinding.getPacmanIcon(pacman));
 		Position boardPosition = pacman.getBoardPosition();
-		Direction direction = pacman.getDirection();
 		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10+25, 30, 30);
 	}
 }

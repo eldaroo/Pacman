@@ -38,8 +38,8 @@ public class Serializator {
 			JOptionPane.showMessageDialog(null, "Usted no tiene partidas guardadas");
 		} 
 		
-		board.setScore((long) jObj.get("score"));
-		board.setLifes((long) jObj.get("lifes"));
+		Board.setScore((long) jObj.get("score"));
+		Board.setLifes((long) jObj.get("lifes"));
 		
 		jCreatures = (JSONArray) jObj.get("Creatures") ;
 		jDots=(JSONArray) jObj.get("Dots");
@@ -52,12 +52,12 @@ public class Serializator {
 
 				if (Boolean.parseBoolean((String) jObj.get("superDot"))) {
 					dot=new SuperDot();
-					dot.setPosition(board.getBoard()[(int) x][(int) y]);
+					dot.setPosition(Board.getBoard()[(int) x][(int) y]);
 					dotsArraySaved.add(dot);
 
 				} else if(!Boolean.parseBoolean((String) jObj.get("superDot"))){
 					dot=new Dot();
-					dot.setPosition(board.getBoard()[(int) x][(int) y]);
+					dot.setPosition(Board.getBoard()[(int) x][(int) y]);
 					dotsArraySaved.add(dot);
 				}
 
@@ -71,7 +71,7 @@ public class Serializator {
 	@SuppressWarnings("unchecked")
 	public void toPersist(Board board,Creature pacman) throws IOException {
 
-		ArrayList<Dot> dots = board.getDots();
+		ArrayList<Dot> dots = Board.getDots();
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
 		jCreatures.add(pacman);
@@ -84,8 +84,8 @@ public class Serializator {
 			}
 
 		jObj.put("Dots", jDots);
-		jObj.put("score", board.getScore());
-		jObj.put("lifes", board.getLifes());
+		jObj.put("score", Board.getScore());
+		jObj.put("lifes", Board.getLifes());
 		
 		
 		StringWriter out = new StringWriter();

@@ -39,7 +39,7 @@ public class DotsView extends JPanel implements Observer {
 		Board board = (Board) observable;
 		Dot dotRemoved = board.getDotRemoved();
 
-		if (board.getPacmanEatNewDot()) 
+		if (Board.getPacmanEatNewDot()) 
 		{
 			dotMatrix[dotRemoved.getPosition().getBoardPosition().getX()][dotRemoved.getPosition().getBoardPosition().getY()].setVisible(false);
 

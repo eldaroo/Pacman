@@ -1,29 +1,19 @@
 package visual;
 
-import javax.swing.JPanel;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
 import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultCaret;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
-import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
 public class BeginMenu extends JInternalFrame implements ActionListener {
+
+	private static final long serialVersionUID = 8307699164140917205L;
 
 	private boolean pressRecovery = false;
 	private boolean pressBegin = false;

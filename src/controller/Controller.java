@@ -24,12 +24,12 @@ public class Controller {
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 		//INSTANCIO VARIABLES
 		boardConfiguration = new BoardConfiguration();
-		board= new Board(boardConfiguration.getLevel1BoardRecharged());
+		board= new Board(BoardConfiguration.getLevelBoard());
 		layers = new JLayeredPane();
 		
 		//INSTANCIO LOS THREADS
-		game = new Thread( new Game(beginMenu, board, layers, boardConfiguration),"game");
-		boardView= new BoardView(beginMenu, board.getBoard(), layers);
+		game = new Thread( new Game(beginMenu, layers),"game");
+		boardView= new BoardView(beginMenu, layers);
 	
 		//ARRANCAN LOS THREADS
 		game.start();

@@ -13,9 +13,10 @@ import javax.swing.border.EmptyBorder;
 
 import controller.Game;
 import model.GameState;
-import javax.swing.JTextPane;
 
 public class PostGameView extends JPanel {
+
+	private static final long serialVersionUID = 34706378010734016L;
 	private JTextField textField;
 
 	public PostGameView(GameView gameView, PostGameView postGameView, ScoreView scoreView) {

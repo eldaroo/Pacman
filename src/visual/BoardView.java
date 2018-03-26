@@ -1,7 +1,6 @@
 package visual;
 
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -27,11 +26,11 @@ public class BoardView extends Thread implements ActionListener, Observer{
 	private JLayeredPane layers;
 	private BeginMenu beginMenu;
 	
-	public BoardView(BeginMenu beginMenu, Square[][] squareArray, JLayeredPane layers)
+	public BoardView(BeginMenu beginMenu, JLayeredPane layers)
 	{
-		this.squareArray= squareArray;
 		this.layers = layers;
 		this.beginMenu = beginMenu;
+		squareArray = Board.getBoard();
 	}
 	//SE CARGRA EN EL HILO EL DIBUJO DEL TABLERO
 	@Override
@@ -71,6 +70,7 @@ public class BoardView extends Thread implements ActionListener, Observer{
 				capa++;
 				Fondo[i][j] = new JLabel();
 				if(squareArray[i][j].corner==Corner.CENTER)
+					//Fondo[i][j].setIcon(ResourceBinding.getImageIcon(squareArray[i][j]));
 				Fondo[i][j].setIcon(ResourceBinding.getImageIcon(squareArray[i][j]));
 				else
 				Fondo[i][j].setIcon(ResourceBinding.getCornerIcon(squareArray[i][j]));
@@ -105,10 +105,10 @@ public class BoardView extends Thread implements ActionListener, Observer{
 	//OBSERVA Y DIBUJA CUANDO SE ALTERAN EL PUNTAJE Y LAS VIDAS
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		Board board = (Board) arg0;
-		lblScore.setText("Score: "+ board.getScore());
-		lblLifes.setText("Lifes: "+ board.getLifes());
-		lblLevel.setText("Level: "+ board.getLevel());
+	
+		lblScore.setText("Score: "+ Board.getScore());
+		lblLifes.setText("Lifes: "+ Board.getLifes());
+		lblLevel.setText("Level: "+ Board.getLevel());
 
 	}
 }

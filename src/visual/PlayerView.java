@@ -10,6 +10,10 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 
 public class PlayerView extends JPanel implements Observer{
+
+	private static final long serialVersionUID = 5833621458256587347L;
+
+
 	public PlayerView(JLayeredPane layers) {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		

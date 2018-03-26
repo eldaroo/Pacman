@@ -4,13 +4,14 @@ import java.util.Observable;
 
 import javax.swing.JLayeredPane;
 
-import model.Creature;
-import model.Direction;
 import model.Ghost;
-import model.Pacman;
 import model.Position;
 
 public class GhostView extends CreaturesView{
+
+
+	private static final long serialVersionUID = 6357805430570453814L;
+
 
 	public GhostView(Ghost obj, JLayeredPane layers) {
 		super(obj, layers);
@@ -28,7 +29,6 @@ public class GhostView extends CreaturesView{
 		setIcon(ResourceBinding.getGhostIcon(creature));
 
 		Position boardPosition = creature.getBoardPosition();
-		Direction direction = creature.getDirection();
 		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10+25, 30, 30);
 		
 	}

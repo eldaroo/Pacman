@@ -1,16 +1,11 @@
 package visual;
 
-import javax.swing.JPanel;
-
 import org.json.simple.parser.ParseException;
 
 import controller.Game;
 
-import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.DefaultComboBoxModel;
-import model.Direction;
 import model.GameState;
 
 import java.awt.event.ActionListener;
@@ -20,6 +15,8 @@ import javax.swing.JList;
 import javax.swing.JButton;
 
 public class RecoveryMenu extends JInternalFrame {
+
+	private static final long serialVersionUID = 3323633746761751043L;
 
 	public RecoveryMenu(GameView gameView) {
 
@@ -31,7 +28,7 @@ public class RecoveryMenu extends JInternalFrame {
 		lblSelect.setBounds(144, 243, 233, 23);
 		getContentPane().add(lblSelect);
 
-		JList list = new JList();
+		JList<?> list = new JList<Object>();
 		list.setBounds(93, 229, 1, 1);
 		getContentPane().add(list);
 

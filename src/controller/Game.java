@@ -16,7 +16,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import org.json.simple.parser.ParseException;
 import model.Board;
-import model.BoardConfiguration;
 import model.Direction;
 import model.Dot;
 import model.Fruit;
@@ -84,11 +83,10 @@ public class Game implements KeyListener, Runnable {
 	private static int ghostQuantity = 5;
 	
 	//CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
-	public Game(BeginMenu beginMenu, Board board, JLayeredPane layers, BoardConfiguration boardConfiguration)
+	public Game(BeginMenu beginMenu, JLayeredPane layers)
 	{
 		Game.beginMenu = beginMenu;
 		Game.layers = layers;
-		Game.board= board;	
 	}
 
 	//EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
@@ -106,10 +104,10 @@ public class Game implements KeyListener, Runnable {
 		
 		gameState = GameState.LOAD;
 		gameView = new GameView();
-	    boardMatrix = board.getBoard();
+	    boardMatrix = Board.getBoard();
 	    originalPositionPacman =boardMatrix[27][43];
 	    createGhosts(ghostQuantity);
-	    fruit = new Fruit(board.getFruitPosition());
+	    fruit = new Fruit(Board.getFruitPosition());
 		pacman = new Pacman("pacman", originalPositionPacman);
 		scoreView= new ScoreView();
 	}
@@ -119,7 +117,7 @@ public class Game implements KeyListener, Runnable {
 		
 		gameView.setContentPane(layers);
 		gameView.addKeyListener(this);
-		dotMatrix = board.getDots();
+		dotMatrix = Board.getDots();
 		fruitView = new FruitView(fruit, layers);
 		dotsView = new DotsView(dotMatrix, layers);
 		pacmanView = new PacmanView(pacman, layers);
@@ -128,7 +126,7 @@ public class Game implements KeyListener, Runnable {
 		
 		fruit.addObserver(fruitView);
 		pacman.addObserver(pacmanView);
-		board.addObserver(dotsView);
+		//board.addObserver(dotsView);
 
 	}
 
@@ -169,7 +167,7 @@ public class Game implements KeyListener, Runnable {
 			}
 			
 			//END GAME
-			if (board.getLifes() <= 0) {
+			if (Board.getLifes() <= 0) {
 					gameState = GameState.POSTGAME;
 					firstTime = true;
 			}
@@ -233,7 +231,7 @@ public class Game implements KeyListener, Runnable {
 			moveGhostsSlowed();
 			fruit.lookingForFruit();
 			pacman.run(board);
-			pacman.eatingGhosts(ghostsArray, pacman, board, board.getHellZone());
+			pacman.eatingGhosts(ghostsArray, pacman, board, Board.getHellZone());
 
 			superTime++;
 			if (board.getDotRemoved().getSuper()) {
@@ -255,8 +253,8 @@ public class Game implements KeyListener, Runnable {
 		for (Ghost ghost : ghostsArray) {
 			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
 			ghost.setKeyOfHell(true);
-			hellIndex=randomHellZoneSquare.nextInt(board.getHellZone().size());
-			ghost.setPosition( board.getHellZone().get(hellIndex));
+			hellIndex=randomHellZoneSquare.nextInt(Board.getHellZone().size());
+			ghost.setPosition( Board.getHellZone().get(hellIndex));
 		}
 		// REINICIA PARTIDA
 
@@ -297,8 +295,8 @@ public class Game implements KeyListener, Runnable {
 		int aux=1;
 		int intelligence = 1;
 		while (aux<= ghostQuantity) {
-			hellIndex=randomHellZoneSquare.nextInt(board.getHellZone().size());
-			ghostsArray.add(new Ghost("ghost"+aux,board.getHellZone().get(hellIndex), intelligence, board));
+			hellIndex=randomHellZoneSquare.nextInt(Board.getHellZone().size());
+			ghostsArray.add(new Ghost("ghost"+aux,Board.getHellZone().get(hellIndex), intelligence));
 			aux++;
 			intelligence +=2;
 		}
@@ -362,7 +360,7 @@ public class Game implements KeyListener, Runnable {
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
 		
 		ArrayList<Dot> dotsArraySaved = serializator.recover(board, pacman);
-		board.setDots(dotsArraySaved);
+		Board.setDots(dotsArraySaved);
 		//recoveryMenu.dispose();
 		setGameState(GameState.NORMALMODE);
 		setFirstTime(true);
@@ -373,7 +371,7 @@ public class Game implements KeyListener, Runnable {
 	{
 		try {
 			connection = new MyDataAcces();
-			connection.setQuery(name, board.getScore());
+			connection.setQuery(name, Board.getScore());
 		} catch (Exception e) {
 			System.out.println("error "+ e);
 		}

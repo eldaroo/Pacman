@@ -18,17 +18,15 @@ public class Ghost extends Creature {
 	private int stupidity;
 	private GhostState ghostState = GhostState.COURAGEOUS;
 	private Random random;
-	private Board board;
 	private int aux;
 	private Intelligence iA_Ghost;
 	private int hellTime;
 
-	public Ghost(String name, Square position, int intelligence, Board board) {
+	public Ghost(String name, Square position, int intelligence) {
 		super(name);
 		this.position = position;
 		this.intelligence = intelligence;
 		this.target = position.getBoardPosition();
-		this.board = board;
 		setKeyOfHell(true);
 	}
 
@@ -41,7 +39,7 @@ public class Ghost extends Creature {
 			setTarget(pacman.position.getBoardPosition());
 			break;
 		case DEATH:
-			setTarget(board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition
+			setTarget(Board.getBoard()[Board.getHellGate().boardPosition.getX()][Board.getHellGate().boardPosition
 					.getY()].boardPosition);
 			keyOfHell = true;
 			break;
@@ -70,7 +68,7 @@ public class Ghost extends Creature {
 	private void goingThroughHellGate() {
 
 		if (position.equals(
-				board.getBoard()[board.getHellGate().boardPosition.getX()][board.getHellGate().boardPosition.getY()])) {
+				Board.getBoard()[Board.getHellGate().boardPosition.getX()][Board.getHellGate().boardPosition.getY()])) {
 			keyOfHell = !keyOfHell;
 
 			if (ghostState.equals(GhostState.DEATH)) {

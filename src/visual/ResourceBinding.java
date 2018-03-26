@@ -56,7 +56,7 @@ public abstract class ResourceBinding {
 		fruitIcon.put(Fruit.FruitType.APPLE, new ImageIcon("resources/fruit_pipe.gif"));
 	}
 	public static ImageIcon getFruitIcon(Fruit fruit) {
-		return fruitIcon.get(fruit.getFruitType());
+		return fruitIcon.get(Fruit.getFruitType());
 	}
 
 	static {

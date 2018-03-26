@@ -7,10 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import model.Creature;
-import model.Direction;
-import model.Position;
 
 public class CreaturesView extends JLabel implements Observer {
+
+	private static final long serialVersionUID = -7241581276315197591L;
 
 	public CreaturesView(Creature obj, JLayeredPane layers) {
 
