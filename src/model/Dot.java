@@ -17,7 +17,9 @@ public class Dot extends Observable implements JSONStreamAware{
 	public void setSuper (boolean sd) {
 		superDot=sd;
 	}
-	
+	public Position getBoardPosition() {
+		return position.getBoardPosition();
+	}
 	public boolean getSuper () {
 		return superDot;
 	}

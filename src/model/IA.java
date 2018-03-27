@@ -6,55 +6,86 @@ import java.util.Map;
 import java.util.Random;
 
 import controller.Game;
+import model.Ghost.GhostState;
 
 
 public class IA {
-	private Ghost ghost;
-	private ArrayList<Square> threeDirectionMatrix ;
-	private Map <Square, Direction > DirectionMap;
-	private ArrayList<Square> squaresAvailables;
-	 ArrayList<Direction> smartDirectionAvailables;
-	private ArrayList<Direction> targetMatrix; 
-	private ArrayList<Direction> directionAvailables ; 
-	private ArrayList<Direction> goAwayTargetMatrix; 
+	private static Ghost ghost;
+	private static ArrayList<Square> threeDirectionMatrix ;
+	private static Map <Square, Direction > DirectionMap;
+	private static ArrayList<Square> squaresAvailables;
+	public static ArrayList<Direction> smartDirectionAvailables;
+	private static ArrayList<Direction> targetMatrix; 
+	private static ArrayList<Direction> directionAvailables ; 
+	private static ArrayList<Direction> goAwayTargetMatrix; 
 	private static Direction smartChoise;
-	private Direction randomChoise;
-	private Direction goAwayDirection;
+	private static Direction randomChoise;
+	private static Direction goAwayDirection;
 
 	public IA(Ghost ghost)
 	{
-		this.ghost = ghost;
+	}
+	
+	public static void runIa(Ghost ghost)
+	{
+		IA.ghost = ghost;
 		
-			DirectionMap = new HashMap <Square, Direction>( );
-			threeDirectionMatrix = new ArrayList<Square>();
-			 squaresAvailables = new ArrayList<Square>();
-			smartDirectionAvailables  = new ArrayList<Direction>();
-			targetMatrix = new ArrayList<Direction>();
-			directionAvailables = new ArrayList<Direction>();
-			goAwayTargetMatrix = new ArrayList<Direction>();
-			
+		DirectionMap = new HashMap <Square, Direction>( );
+		threeDirectionMatrix = new ArrayList<Square>();
+		 squaresAvailables = new ArrayList<Square>();
+		smartDirectionAvailables  = new ArrayList<Direction>();
+		targetMatrix = new ArrayList<Direction>();
+		directionAvailables = new ArrayList<Direction>();
+		goAwayTargetMatrix = new ArrayList<Direction>();
+		
 
-			randomChoise =getRandomChoise(DirectionMap, targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
-			smartChoise = getSmartPotentialDirection(goAwayTargetMatrix,DirectionMap, smartDirectionAvailables,targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
-			generateGoAwayDirection();
-			
-		}
+		randomChoise =getRandomChoise(DirectionMap, targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
+		smartChoise = getSmartPotentialDirection(goAwayTargetMatrix,DirectionMap, smartDirectionAvailables,targetMatrix,squaresAvailables,threeDirectionMatrix,directionAvailables);
+		generateGoAwayDirection();
+		
+	}
+	
+	
+	//FUNCIONES
+	
+	public static int random (int value) {
+		Random random = new Random();
+		int aux = random.nextInt(value);
+		return aux;
+	}
 
 	
 	//METODOS DE PATHFINDER
-		private void generateGoAwayDirection() {
-			int aux=0;
-			Random random = new Random();
-			aux = random.nextInt(goAwayTargetMatrix.size());
-			setGoAwayDirection(goAwayTargetMatrix.get(aux));
+	
+	public static Direction pathFinder() {
+		ArrayList<Direction> potentialDirectionsList = new ArrayList<Direction>();
+		int stupidity = 10 - ghost.getIntelligence();
+
+		// y las agregamos a un array, en proporciones dadas por la inteligencia de cada
+
+		for (int i = 0; i < ghost.getIntelligence(); i++) {
+			if (ghost.getGhostState().equals(GhostState.PUSSY)) {
+				potentialDirectionsList.add(getGoAwayDirection());
+			} else {
+				potentialDirectionsList.add(getSmartChoise());
+			}
+		}
+		for (int i = 0; i < stupidity; i++) {
+			potentialDirectionsList.add(getRandomChoise());
+		}
+
+
+		return potentialDirectionsList.get(random(potentialDirectionsList.size()));
+	}
+	
+		private static void generateGoAwayDirection() {
+
+			goAwayDirection = goAwayTargetMatrix.get(random(goAwayTargetMatrix.size()));
 	}
 
-		public void setGoAwayDirection(Direction goAwayDirection) {
-		this.goAwayDirection = goAwayDirection;
-	}
 
 		//GENERAMOS LA MEJOR DECISION
-		private Direction getSmartPotentialDirection(ArrayList<Direction> goAwayDirectionMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailable2, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
+		private static Direction getSmartPotentialDirection(ArrayList<Direction> goAwayDirectionMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailable2, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{
 			Direction bestChoise = null;
 
@@ -66,14 +97,9 @@ public class IA {
 			return bestChoise;
 		}
 		
-		public static int random (int value) {
-			Random random = new Random();
-			int aux = random.nextInt(value);
-			return aux;
-		}
 		
 		//GENERAMOS UNA MATRIZ CON LAS MEJORES DECISIONES
-		private void generateSmartDirectionArray(ArrayList<Direction> goAwayTargetMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
+		private static void generateSmartDirectionArray(ArrayList<Direction> goAwayTargetMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{
 			smartDirectionAvailables.clear();
 			createDirectionAvailablesArray();
@@ -99,7 +125,7 @@ public class IA {
 
 		}
 		//IDENTIFICAMOS DONDE ESTA EL TARGET
-		private void localizateTarget() {
+		private static void localizateTarget() {
 			goAwayTargetMatrix.clear();
 			targetMatrix.clear();
 
@@ -128,7 +154,7 @@ public class IA {
 		}
 
 		//GENERAMOS UNA DECISION ALEATORIA ENTRE LAS DISPONIBLES
-		private Direction getRandomChoise(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
+		private static Direction getRandomChoise(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
 		{			
 
 			createDirectionAvailablesArray();
@@ -139,7 +165,7 @@ public class IA {
 
 		}
 		//VEMOS CUALES DE LAS DIRECCIONES ESTAN DISPONIBLES
-		private void createDirectionAvailablesArray() {
+		private static void createDirectionAvailablesArray() {
 			squaresAvailables.clear();
 			directionAvailables.clear();
 			createThreeDirectionMatrix(threeDirectionMatrix);
@@ -160,7 +186,7 @@ public class IA {
 		//CREAMOS UN ARRAY CON LOS SQUARE POSIBLES, EXCLUYENDO A LA DIRECCION DE 
 		//LA QUE VIENE. 
 		//LO MAPEAMOS CON SUS RESPECTIVAS DIRECCIONES
-		private void createThreeDirectionMatrix(ArrayList<Square> threeDirectionMatrix) {
+		private static void createThreeDirectionMatrix(ArrayList<Square> threeDirectionMatrix) {
 			threeDirectionMatrix.clear();
 			DirectionMap.clear();
 			if(!ghost.direction.equals(Direction.UP))
@@ -185,14 +211,14 @@ public class IA {
 			}
 		}
 		
-		public Direction getGoAwayDirection() {
+		public static Direction getGoAwayDirection() {
 		return goAwayDirection;
 	}
 
-		public Direction getSmartChoise() {
+		public static Direction getSmartChoise() {
 			return smartChoise;
 		}
-	public Direction getRandomChoise() {
+	public static Direction getRandomChoise() {
 		return randomChoise;
 	}
 		

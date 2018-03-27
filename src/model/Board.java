@@ -329,5 +329,9 @@ public class Board extends Observable implements Serializable {
 		
 	}
 
+	public static Position getHellGatePosition() {
+		return hellGate.getBoardPosition();
+	}
+
 
 }

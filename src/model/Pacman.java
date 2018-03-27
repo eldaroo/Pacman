@@ -23,6 +23,31 @@ public class Pacman extends Creature  {
 		setKeyOfHell(false);
 	}
 	
+	public void eatDot(Dot dot)
+	{
+		Sounds.reproduceEatDot();
+		Board.upScore(10,0);
+		Board.setDotRemoved((Dot) dot);
+		
+		if (Board.getDotRemoved().getSuper() == true) {
+			Game.setGameState (GameState.SUPERMODE);
+			Board.upScore(20, 0);
+		}
+		Board.setPacmanEatNewDot(true);
+	}
+	
+	public void eatFruit()
+	{
+		Board.upScore(200,0);
+	}
+	
+	public void eatGhost(Ghost ghost, int ghostEated)
+	{
+		ghostEated++;
+		Sounds.reproduceEatGhost();
+		ghost.setGhostState(GhostState.EATED);
+		Board.upScore(50, ghostEated);
+	}
 
 	public void death()
 	{

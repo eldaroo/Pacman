@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import controller.Game;
+import sounds.Sounds;
 
 public class Ghost extends Creature {
 
@@ -12,6 +13,7 @@ public class Ghost extends Creature {
 	public static enum GhostState {
 		COURAGEOUS, DEATH, PUSSY, EATED, INHELL, HURRY
 	};
+
 	private Position target;
 	private int intelligence;
 	private int stupidity;
@@ -21,7 +23,7 @@ public class Ghost extends Creature {
 	private IA iAGhost;
 	private int hellTime;
 
-	public Ghost(String name,Square position, int intelligence) {
+	public Ghost(String name, Square position, int intelligence) {
 		super(name);
 		this.position = position;
 		this.intelligence = intelligence;
@@ -35,11 +37,10 @@ public class Ghost extends Creature {
 		switch (ghostState) {
 
 		case COURAGEOUS:
-			setTarget(pacman.position.getBoardPosition());
+			setTarget(pacman.getBoardPosition());
 			break;
 		case DEATH:
-			setTarget(Board.getBoard()[Board.getHellGate().boardPosition.getX()][Board.getHellGate().boardPosition
-					.getY()].boardPosition);
+			setTarget(Board.getHellGatePosition());
 			keyOfHell = true;
 			break;
 		case PUSSY:
@@ -50,7 +51,7 @@ public class Ghost extends Creature {
 			setGhostState(GhostState.DEATH);
 			break;
 		case INHELL:
-			setTarget(pacman.position.getBoardPosition());
+			setTarget(pacman.getBoardPosition());
 			if (hellTime == 100) {
 				setKeyOfHell(true);
 				ghostState = GhostState.COURAGEOUS;
@@ -61,20 +62,20 @@ public class Ghost extends Creature {
 		case HURRY:
 			break;
 		}
-		iAGhost = new IA(this);
-		
+		IA.runIa(this);
+
 		if (ghostState.equals(GhostState.DEATH))
-			setPotentialDirection(iAGhost.getSmartChoise());
+			setPotentialDirection(IA.getSmartChoise());
 		else
-			pathFinder();
+			setPotentialDirection(IA.pathFinder());
 		move();
 		goingThroughHellGate();
 	}
-		
+
 	private void goingThroughHellGate() {
 
-		if (position.equals(
-				Board.getBoard()[Board.getHellGate().boardPosition.getX()][Board.getHellGate().boardPosition.getY()])) {
+		if (position.boardPosition.equals(Board.getHellGatePosition())) {
+			System.out.println("Holis");
 			keyOfHell = !keyOfHell;
 
 			if (ghostState.equals(GhostState.DEATH)) {
@@ -83,37 +84,15 @@ public class Ghost extends Creature {
 		}
 	}
 
-	public void eatingPacman(Pacman pacman) {
-		if (pacman.getBoardPosition().equals(getBoardPosition())) 
-		{
-			sounds.reproduceDeath();
-			pacman.death();
-			Game.setGameState(GameState.RESPAWN);
-		}
+	public void eatPacman(Pacman pacman) {
+
+		Sounds.reproduceDeath();
+		pacman.death();
+		Game.setGameState(GameState.RESPAWN);
+
 	}
 
-	public void pathFinder() {
-		random = new Random();
-		potentialDirectionsList = new ArrayList<Direction>();
-		stupidity = 10 - getIntelligence();
 
-		// y las agregamos a un array, en proporciones dadas por la inteligencia de cada
-		// ghost
-		for (int i = 0; i < getIntelligence(); i++) {
-			if (getGhostState().equals(GhostState.PUSSY)) {
-				potentialDirectionsList.add(iAGhost.getGoAwayDirection());
-			} else {
-				potentialDirectionsList.add(iAGhost.getSmartChoise());
-			}
-		}
-		for (int i = 0; i < stupidity; i++) {
-			potentialDirectionsList.add(iAGhost.getRandomChoise());
-		}
-
-		aux = random.nextInt(potentialDirectionsList.size());
-
-		setPotentialDirection(potentialDirectionsList.get(aux));
-	}
 
 	public int getIntelligence() {
 		return intelligence;
@@ -126,9 +105,11 @@ public class Ghost extends Creature {
 	public void inHell() {
 		// boolean
 	}
+
 	public Position getTarget() {
 		return target;
 	}
+
 	public void setTarget(Position position) {
 		this.target = position;
 	}

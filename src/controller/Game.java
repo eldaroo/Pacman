@@ -213,9 +213,8 @@ public class Game implements KeyListener, Runnable {
 		while (gameState.equals(GameState.NORMALMODE)) {
 			time++;
 			Thread.sleep(retard);
-			Actions.moveGhosts();
-			Actions.eatingPacman(pacman);
-			runPacman();
+
+			runCreatures();
 			board.update();
 
 		}	
@@ -230,10 +229,9 @@ public class Game implements KeyListener, Runnable {
 			Thread.sleep(retard);	
 			time++;
 
-			Actions.moveGhostsSlowed(2);
-			runPacman();
+			runCreatures();
 			//runGhost
-			Actions.eatingGhosts(pacman);
+
 
 			superTime++;
 			if (Board.getDotRemoved().getSuper()) {
@@ -304,13 +302,28 @@ public class Game implements KeyListener, Runnable {
 			aux++;
 		}		
 	}
-	public void runPacman()
+
+	public void runCreatures() throws InterruptedException
 	{
+		if (gameState.equals(GameState.NORMALMODE)) {
+			Actions.lookingForPacman(pacman);		
+			Actions.moveGhosts();
+			Actions.lookingForPacman(pacman);		
+
+
+
+		} else if(gameState.equals(GameState.SUPERMODE)){
+			Actions.lookingForGhosts(pacman);
+			Actions.moveGhostsSlowed(2);
+			Actions.lookingForGhosts(pacman);
+		}
 		pacman.move();
-		Actions.eatingDot(pacman);
-		Actions.eatingFruit(pacman);
+		Actions.lookingForDot(pacman);
+		Actions.lookingForFruit(pacman);
 		
 		Actions.updateFruit();
+		
+
 		
 	}
 	

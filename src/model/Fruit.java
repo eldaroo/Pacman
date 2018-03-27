@@ -27,7 +27,7 @@ public class Fruit extends Observable {
 
 
 
-	public static Position getFruitPosition() {
+	public static Position getBoardPosition() {
 
 		return fruitPosition;
 	}
