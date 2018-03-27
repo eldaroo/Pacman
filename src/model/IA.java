@@ -9,7 +9,7 @@ import controller.Game;
 import model.Ghost.GhostState;
 
 
-public class IA {
+public abstract class IA {
 	private static Ghost ghost;
 	private static ArrayList<Square> threeDirectionMatrix ;
 	private static Map <Square, Direction > DirectionMap;
