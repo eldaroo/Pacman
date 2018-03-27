@@ -25,7 +25,7 @@ public class Serializator {
 	static Dot dot;
 	
 	
-	public ArrayList<Dot> recover(Board board, Pacman pacman) throws FileNotFoundException, IOException, ParseException,NullPointerException {
+	public ArrayList<Dot> recover() throws FileNotFoundException, IOException, ParseException,NullPointerException {
 		jCreatures.clear();
 		jObj.clear();
 		jDots.clear();
@@ -69,12 +69,12 @@ public class Serializator {
 	
 
 	@SuppressWarnings("unchecked")
-	public void toPersist(Board board,Creature pacman) throws IOException {
+	public void toPersist() throws IOException {
 
 		ArrayList<Dot> dots = Board.getDots();
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
-		jCreatures.add(pacman);
+		jCreatures.add(Board.pacman);
 
 		jObj.put("Creatures", jCreatures);
 		

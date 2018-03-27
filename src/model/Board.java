@@ -8,41 +8,60 @@ import java.util.LinkedHashMap;
 import java.util.Observable;
 import java.util.Random;
 
+import javax.swing.JLayeredPane;
+
 import org.json.simple.JSONValue;
 
+import controller.Game;
+import model.Fruit.FruitType;
+import model.Ghost.GhostState;
 import model.Square.Corner;
 import visual.CreaturesView;
 import visual.FruitView;
+import visual.GhostView;
+import visual.PacmanView;
 
 public class Board extends Observable implements Serializable {
 
 	private static final long serialVersionUID = -6472116531941544087L;
 
+	// SQUARES
 	static private Square[][] board;
-	static private ArrayList<Dot> dots;
-	static private Dot dotRemoved;
-	static private boolean pacmanEatNewDot;
-	static private boolean superMode = false;
 	static private HellGate hellGate = new HellGate();
-	static private char[][] levelMatrix;
 	static private ArrayList<Square> hellZone = new ArrayList<Square>();
 	static private ArrayList<Square> teleportList = new ArrayList<Square>();
-	private static Fruit fruit;
+	static private Square originalPacmanPosition;
 
+	// ELEMENTOS VARIOS
+	static private ArrayList<Dot> dots;
+	static private Dot dotRemoved;
+	private static Fruit fruit;
+	static private Position fruitPosition;
+
+	// CRIATURAS
+	public static Pacman pacman;
+	private static ArrayList<Ghost> ghostsArray;
+
+	// VARIABLES
+	static int ghostSpeed = 0;
+	static int hellIndex = 0;
+	static Random randomHellZoneSquare = new Random();
+	static private boolean pacmanEatNewDot;
+	static private boolean superMode = false;
+	static private char[][] levelMatrix;
 
 	private static long lifes = 3;
 	private static long score = 0;
 	private static Long level = (long) 1;
 
-	static private Position fruitPosition;
-	static private Square originalPacmanPosition;
-
 	public Board(char[][] level1) {
 		levelMatrix = level1;
 		makeBoard();
-	    fruit = new Fruit(getFruitPosition());
+		fruit = new Fruit(getFruitPosition());
 
 	}
+
+	// --------- TABLERO --------------
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
 	private static void makeBoard() {
@@ -194,6 +213,162 @@ public class Board extends Observable implements Serializable {
 		teleportList.get(5).setRight(teleportList.get(0));
 	}
 
+	// ------------ CREATURES --------------
+
+	// ******** PACMAN
+
+	public static void createPacman(String name, Square position) {
+		pacman = new Pacman(name, position);
+	}
+
+	public static void movePacman() {
+		pacman.move();
+	}
+
+	public static void lookingForDot() {
+		Board.setPacmanEatNewDot(false);
+		dots = Board.getDots();
+
+		for (Dot dot : dots) {
+
+			if (dot.getBoardPosition().equals(pacman.getBoardPosition())) {
+				pacman.eatDot(dot);
+
+			}
+		}
+
+		dots.remove(Board.getDotRemoved());
+		Board.setDots(dots);
+
+		// CHEQUEA SI TERMINO EL LEVEL
+		if (dots.size() == 0) {
+			Game.setGameState(GameState.NEXTLEVEL);
+			Game.setFirstTime(true);
+		}
+	}
+
+	public static void lookingForFruit() {
+		if (Fruit.isEnableToEat()) {
+			if (Fruit.getBoardPosition().equals(pacman.getBoardPosition())) {
+				pacman.eatFruit();
+			}
+		}
+	}
+
+	public static void lookingForGhosts() {
+		int ghostEated = 0;
+		for (Ghost ghost : ghostsArray) {
+
+			// SOLO LOS COMERA SI ESTAN VIVOS
+			if (!ghost.getGhostState().equals(GhostState.DEATH)) {
+				if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
+					pacman.eatGhost(ghost, ghostEated);
+
+				}
+			}
+		}
+	}
+
+	// ******** METODOS DE FANTASMAS
+
+	public static void createGhosts(int value) {
+		ghostsArray = new ArrayList<Ghost>();
+
+		int intelligence = 1;
+		for (int i = 0; i < value; i++) {
+
+			hellIndex = IA.random(Board.getHellZone().size());
+			ghostsArray.add(new Ghost("ghost" + i, Board.getHellZone().get(hellIndex), intelligence));
+			intelligence += 2;
+		}
+
+	}
+
+	public static void moveGhosts() throws InterruptedException {
+
+		for (Ghost ghost : ghostsArray) {
+			ghost.run(pacman);
+		}
+	}
+
+	public static void respawnCreatures() {
+		pacman.setPosition(Board.getOriginalPacmanPosition());
+
+		for (Ghost ghost : ghostsArray) {
+			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
+			ghost.setKeyOfHell(true);
+			hellIndex = IA.random(Board.getHellZone().size());
+			ghost.setPosition(Board.getHellZone().get(hellIndex));
+		}
+	}
+
+	public static void moveGhostsSlowed(int value) throws InterruptedException {
+		// SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
+		ghostSpeed++;
+		if (ghostSpeed == value) {
+			moveGhosts();
+			ghostSpeed = 0;
+		}
+	}
+
+	public static void lookingForPacman() {
+		for (Ghost ghost : ghostsArray) {
+			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
+				ghost.eatPacman(pacman);
+			}
+		}
+	}
+
+	public static void setGhostState(Ghost.GhostState ghostState) {
+
+		for (Ghost ghost : ghostsArray) {
+			// SI LOS FANTASMAS ESTAN MUERTOS O EN EL INFIERNO NO CAMBIAN SU ESTADO,
+			// RESPETAN UN PROCESO DE CAMBIO INTERNO QUE TIENEN
+			if (!ghost.getGhostState().equals(GhostState.DEATH) && (!ghost.getGhostState().equals(GhostState.INHELL)))
+				ghost.setGhostState(ghostState);
+		}
+	}
+
+	// ********* FRUIT
+
+	private static int fruitTime = 0;
+
+	public static void updateFruit() {
+		fruitTime++;
+		if (Game.getTime() % 50 == 0) {
+			determinateType();
+			Fruit.setEnableToEat(true);
+			fruitTime = 0;
+		}
+		if (fruitTime == 20) {
+			Fruit.setEnableToEat(false);
+		}
+	}
+
+	public static void determinateType() {
+
+		Random random = new Random();
+		int aux = random.nextInt(4);
+
+		switch (aux) {
+		case 0:
+			Fruit.setFruitType(FruitType.APPLE);
+			break;
+		case 1:
+			Fruit.setFruitType(FruitType.BANANNA);
+			break;
+		case 2:
+			Fruit.setFruitType(FruitType.ORANGE);
+			break;
+		case 3:
+			Fruit.setFruitType(FruitType.CHERRY);
+			break;
+		}
+
+	}
+
+	// ----------- METODOS VARIOS ---------------
+
 	public static void upScore(int quantity, int multiplication) {
 		if (multiplication > 0) {
 			score += (quantity * multiplication);
@@ -208,6 +383,32 @@ public class Board extends Observable implements Serializable {
 
 	public static void lostLife() {
 		lifes--;
+	}
+
+	public static void subtractLife() {
+		lifes--;
+	}
+
+	public static void observeFruit(FruitView fruitView) {
+		fruit.addObserver(fruitView);
+
+	}
+
+	public static void observePacman(CreaturesView pacmanView) {
+		pacman.addObserver(pacmanView);
+	}
+
+	public static void observeGhost(ArrayList<CreaturesView> ghostViewsArray, int value, JLayeredPane layers) {
+		int aux = 1;
+		while (aux <= value) {
+			ghostViewsArray.add(new GhostView(ghostsArray.get(aux - 1), layers));
+			ghostsArray.get(aux - 1).addObserver(ghostViewsArray.get(aux - 1));
+			aux++;
+		}
+	}
+
+	public static Position getHellGatePosition() {
+		return hellGate.getBoardPosition();
 	}
 
 	// EXPORTAR DE DATOS
@@ -319,19 +520,5 @@ public class Board extends Observable implements Serializable {
 
 		JSONValue.writeJSONString(obj, out);
 	}
-
-	public static void subtractLife() {
-		lifes--;
-	}
-
-	public static void observeFruit(FruitView fruitView) {
-		fruit.addObserver(fruitView);
-		
-	}
-
-	public static Position getHellGatePosition() {
-		return hellGate.getBoardPosition();
-	}
-
 
 }
