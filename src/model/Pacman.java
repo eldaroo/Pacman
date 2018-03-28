@@ -15,6 +15,9 @@ public class Pacman extends Creature  {
 	public static enum PacmanState {MOVE,EATGHOST,DEATH};
 	private static PacmanState pacmanState = PacmanState.MOVE;
 	private ArrayList<Dot> dots;
+	private int ghostsEated = 0;
+	
+
 	
 
 	public Pacman(String name, Square position) {
@@ -43,10 +46,11 @@ public class Pacman extends Creature  {
 	
 	public void eatGhost(Ghost ghost, int ghostEated)
 	{
-		ghostEated++;
+		ghostsEated++;
 		Sounds.reproduceEatGhost();
+		setPacmanState(PacmanState.EATGHOST);
 		ghost.setGhostState(GhostState.EATED);
-		Board.upScore(50, ghostEated);
+		Board.upScore(50, ghostsEated);
 	}
 
 	public void death()
@@ -61,12 +65,25 @@ public class Pacman extends Creature  {
 	public void setEatingGhost(boolean eatingGhost) {
 		this.eatingGhost = eatingGhost;
 	}
+	
+	public void	accumulateGhostsEated () {
+		ghostsEated++;
+	}
+	
+	public void resetGhostEated () {
+		ghostsEated = 0;
+	}
 
-	public static void setPacmanState(PacmanState pacmanState) {
+	public void setPacmanState(PacmanState pacmanState) {
 		Pacman.pacmanState = pacmanState;
 	}
-	public static PacmanState getPacmanState () {
+	public PacmanState getPacmanState () {
 		return pacmanState;
+	}
+
+	public int getGhostsEated() {
+		// TODO Auto-generated method stub
+		return ghostsEated;
 	}
 	
 }

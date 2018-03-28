@@ -32,7 +32,7 @@ public abstract class ResourceBinding {
 	//MAPAS DE ESTADO DE PACMAN
 	private static Map<Enum<?>, Map<Direction, ImageIcon>> pacmanState = new HashMap<Enum<?>, Map<Direction, ImageIcon>>();
 	private static Map<Direction, ImageIcon> pacmanWithDirection = new HashMap<Direction, ImageIcon>();
-	private static Map<Direction, ImageIcon> pacmanEatingGhost = new HashMap<Direction, ImageIcon>();
+	private static Map<Integer, ImageIcon> pacmanEatingGhost = new HashMap<Integer, ImageIcon>();
 	private static Map<Direction, ImageIcon> pacmanDying = new HashMap<Direction, ImageIcon>();
 	//MAPAS DE ESTADO DEL GHOST
 	private static Map<Enum<?>, Map<Integer, ImageIcon>> ghostState = new HashMap<Enum<?>, Map<Integer, ImageIcon>>();
@@ -94,10 +94,11 @@ public abstract class ResourceBinding {
 		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/pacoman_back.png"));
 	}
 	static {
-		pacmanEatingGhost.put(Direction.DOWN, new ImageIcon("resources/.gif"));
-		pacmanEatingGhost.put(Direction.LEFT, new ImageIcon("resources/.gif"));
-		pacmanEatingGhost.put(Direction.UP, new ImageIcon("resources/.gif"));
-		pacmanEatingGhost.put(Direction.RIGHT, new ImageIcon("resources/.gif"));
+		pacmanEatingGhost.put(1, new ImageIcon("resources/eat_score_1.gif"));
+		pacmanEatingGhost.put(2, new ImageIcon("resources/eat_score_2.gif"));
+		pacmanEatingGhost.put(3, new ImageIcon("resources/eat_score_3.gif"));
+		pacmanEatingGhost.put(4, new ImageIcon("resources/eat_score_4.gif"));
+		pacmanEatingGhost.put(5, new ImageIcon("resources/eat_score_5.gif"));
 	}
 
 	static {
@@ -120,11 +121,11 @@ public abstract class ResourceBinding {
 	}
 	static {
 
-		ghostEated.put(1, new ImageIcon("resources/police_death.gif"));
-		ghostEated.put(3, new ImageIcon("resources/police_death.gif"));
-		ghostEated.put(5, new ImageIcon("resources/police_death.gif"));
-		ghostEated.put(7, new ImageIcon("resources/police_death.gif"));
-		ghostEated.put(9, new ImageIcon("resources/police_death.gif"));
+		ghostEated.put(1, new ImageIcon("resources/"));
+		ghostEated.put(3, new ImageIcon("resources/"));
+		ghostEated.put(5, new ImageIcon("resources/"));
+		ghostEated.put(7, new ImageIcon("resources/"));
+		ghostEated.put(9, new ImageIcon("resources/"));
 
 	}
 	static {
@@ -157,7 +158,6 @@ public abstract class ResourceBinding {
 
 	static {
 		pacmanState.put(Pacman.PacmanState.MOVE, pacmanWithDirection);
-		pacmanState.put(Pacman.PacmanState.EATGHOST, pacmanEatingGhost);
 		pacmanState.put(Pacman.PacmanState.DEATH, pacmanDying);
 	}
 	
@@ -170,6 +170,11 @@ public abstract class ResourceBinding {
 		Map<Direction, ImageIcon> stateIcon = new HashMap<Direction, ImageIcon>();
 		stateIcon = pacmanState.get(pacman.getPacmanState());
 		return stateIcon.get(pacman.getDirection());
+	}
+	
+	static public ImageIcon getEatIcon (Pacman pacman) {
+		System.out.println(pacman.getGhostsEated());
+		return pacmanEatingGhost.get(pacman.getGhostsEated());
 	}
 
 	static public ImageIcon getCornerIcon(Square object) {

@@ -24,6 +24,7 @@ import model.Ghost.GhostState;
 import model.IA;
 import model.MyDataAcces;
 import model.Pacman;
+import model.Pacman.PacmanState;
 import model.Serializator;
 import model.Square;
 
@@ -196,7 +197,8 @@ public class Game implements KeyListener, Runnable {
 
 	private void normalMode()
 			throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
-
+		
+		Board.pacman.resetGhostEated();
 		Board.setGhostState(Ghost.GhostState.COURAGEOUS);
 
 		if (firstTime) {
@@ -238,7 +240,7 @@ public class Game implements KeyListener, Runnable {
 			board.update();
 
 		}
-
+		
 	}
 
 	// REINICIA POSICIONES EN EL TABLERO
@@ -248,7 +250,7 @@ public class Game implements KeyListener, Runnable {
 
 		// REINICIA PARTIDA
 
-		Pacman.setPacmanState(Pacman.PacmanState.MOVE);
+		Board.pacman.setPacmanState(PacmanState.MOVE);
 
 		firstTime = true;
 		gameState = GameState.NORMALMODE;
@@ -286,6 +288,12 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	public void runCreatures() throws InterruptedException {
+
+		if (Board.pacman.getPacmanState()==PacmanState.EATGHOST) {
+			Thread.sleep(500);
+			Board.pacman.setPacmanState(PacmanState.MOVE);
+		}
+		
 		if (gameState.equals(GameState.NORMALMODE)) {
 			Board.lookingForPacman();
 			Board.moveGhosts();
