@@ -1,5 +1,7 @@
 package sounds;
 
+import java.applet.AudioClip;
+
 public class Sounds {
 
 	public static void reproduceBeginning() throws InterruptedException
@@ -15,10 +17,35 @@ public class Sounds {
 	    sound.play();
 	}
 	
-	public static void reproduceEatGhost()
+	public void reproduceEatGhost(int ghostEated)
 	{
-		EatGhost sound = new EatGhost();
+		AudioClip sound ;
+			
+		switch (ghostEated) {
+		case 1:
+			sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/firstblood.wav"));
+			break;
+		case 2:
+			sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/godlike.wav"));
+			break;
+		case 3:
+			sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/monsterkill.wav"));
+			break;
+		case 4:
+			sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/wickedsick.wav"));
+
+			break;
+		case 5:
+			sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/rampage.wav"));
+			break;
+		default:
+			sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/rampage.wav"));
+			break;
+		}
+		//EatGhost sound = new EatGhost();
 	    sound.play();
+		
+
 	}
 	
 	public static void reproduceDeath()

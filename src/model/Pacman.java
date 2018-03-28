@@ -2,6 +2,7 @@ package model;
 
 
 
+import java.applet.AudioClip;
 import java.util.ArrayList;
 
 import controller.Game;
@@ -16,6 +17,7 @@ public class Pacman extends Creature  {
 	private static PacmanState pacmanState = PacmanState.MOVE;
 	private ArrayList<Dot> dots;
 	private int ghostsEated = 0;
+	Sounds sounds = new Sounds();
 	
 
 	
@@ -28,7 +30,7 @@ public class Pacman extends Creature  {
 	
 	public void eatDot(Dot dot)
 	{
-		Sounds.reproduceEatDot();
+		//Sounds.reproduceEatDot();
 		Board.upScore(10,0);
 		Board.setDotRemoved((Dot) dot);
 		
@@ -44,10 +46,11 @@ public class Pacman extends Creature  {
 		Board.upScore(200,0);
 	}
 	
-	public void eatGhost(Ghost ghost, int ghostEated)
+	public void eatGhost(Ghost ghost)
 	{
 		ghostsEated++;
-		Sounds.reproduceEatGhost();
+
+		sounds.reproduceEatGhost(ghostsEated);
 		setPacmanState(PacmanState.EATGHOST);
 		ghost.setGhostState(GhostState.EATED);
 		Board.upScore(50, ghostsEated);

@@ -8,7 +8,7 @@ import javax.sound.sampled.SourceDataLine;
 /** <p>An object implementing {@link java.applet.AudioClip java.applet.AudioClip} with the data from beginning.wav hard-coded into it.</p>
  * <p>Created with the <a href="http://stephengware.com/projects/soundtoclass">SoundToClass tool</a>, by Stephen G. Ware.</p>
  * @author Stephen G. Ware */
-public class Beginning implements AudioClip {
+public class Beginning extends JavaSounds implements AudioClip {
 	private byte[] data;
 	private AudioFormat format;
 	private DataLine.Info lineInfo = null;

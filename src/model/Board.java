@@ -256,13 +256,13 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void lookingForGhosts() {
-		int ghostEated = 0;
+
 		for (Ghost ghost : ghostsArray) {
 
 			// SOLO LOS COMERA SI ESTAN VIVOS
 			if (!ghost.getGhostState().equals(GhostState.DEATH)) {
 				if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
-					pacman.eatGhost(ghost, ghostEated);
+					pacman.eatGhost(ghost);
 
 				}
 			}

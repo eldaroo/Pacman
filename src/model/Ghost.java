@@ -75,7 +75,6 @@ public class Ghost extends Creature {
 	private void goingThroughHellGate() {
 
 		if (position.boardPosition.equals(Board.getHellGatePosition())) {
-			System.out.println("Holis");
 			keyOfHell = !keyOfHell;
 
 			if (ghostState.equals(GhostState.DEATH)) {
