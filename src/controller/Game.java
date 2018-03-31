@@ -265,7 +265,7 @@ public class Game implements KeyListener, Runnable {
 		Board.upLevel();
 		Board.makeDots();
 		gameState = GameState.RESPAWN;
-		retard = retard / 2;
+		retard = (retard *5) / 6;
 	}
 
 	// TERMINO LA PARTIDA

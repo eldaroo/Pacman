@@ -46,11 +46,12 @@ public class Pacman extends Creature  {
 		Board.upScore(200,0);
 	}
 	
-	public void eatGhost(Ghost ghost)
+	public void eatGhost(Ghost ghost) throws InterruptedException
 	{
 		ghostsEated++;
 
 		sounds.reproduceEatGhost(ghostsEated);
+
 		setPacmanState(PacmanState.EATGHOST);
 		ghost.setGhostState(GhostState.EATED);
 		Board.upScore(50, ghostsEated);

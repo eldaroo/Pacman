@@ -45,6 +45,20 @@ public abstract class IA {
 		
 	}
 	
+	//RETURNS DIRECTIONS
+	
+	static Direction pussyDirection ()
+	{
+		return goAwayDirection;
+	}
+	static Direction smartDirection ()
+	{
+		return smartChoise;
+	}
+	static Direction randomDirection ()
+	{
+		return randomChoise;
+	}
 	
 	//FUNCIONES
 	
@@ -57,21 +71,21 @@ public abstract class IA {
 	
 	//METODOS DE PATHFINDER
 	
-	public static Direction pathFinder() {
+	public static Direction pathFinder(int intelligence) {
 		ArrayList<Direction> potentialDirectionsList = new ArrayList<Direction>();
-		int stupidity = 10 - ghost.getIntelligence();
+		int stupidity = 10 - intelligence;
 
 		// y las agregamos a un array, en proporciones dadas por la inteligencia de cada
 
 		for (int i = 0; i < ghost.getIntelligence(); i++) {
 			if (ghost.getGhostState().equals(GhostState.PUSSY)) {
-				potentialDirectionsList.add(getGoAwayDirection());
+				potentialDirectionsList.add(goAwayDirection);
 			} else {
-				potentialDirectionsList.add(getSmartChoise());
+				potentialDirectionsList.add(smartChoise);
 			}
 		}
 		for (int i = 0; i < stupidity; i++) {
-			potentialDirectionsList.add(getRandomChoise());
+			potentialDirectionsList.add(randomChoise);
 		}
 
 
@@ -211,15 +225,6 @@ public abstract class IA {
 			}
 		}
 		
-		public static Direction getGoAwayDirection() {
-		return goAwayDirection;
-	}
 
-		public static Direction getSmartChoise() {
-			return smartChoise;
-		}
-	public static Direction getRandomChoise() {
-		return randomChoise;
-	}
 		
 }

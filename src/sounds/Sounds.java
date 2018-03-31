@@ -17,7 +17,7 @@ public class Sounds {
 	    sound.play();
 	}
 	
-	public void reproduceEatGhost(int ghostEated)
+	public void reproduceEatGhost(int ghostEated) throws InterruptedException
 	{
 		AudioClip sound ;
 			
@@ -44,6 +44,7 @@ public class Sounds {
 		}
 		//EatGhost sound = new EatGhost();
 	    sound.play();
+	   // Thread.sleep(500);
 		
 
 	}

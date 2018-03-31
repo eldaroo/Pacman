@@ -17,68 +17,78 @@ public class Ghost extends Creature {
 	private Position target;
 	private int intelligence;
 	private int stupidity;
-	private GhostState ghostState = GhostState.COURAGEOUS;
+	private GhostState ghostState = GhostState.INHELL;
 	private Random random;
-	private int aux;
+	private int hellTime=0;
 	private IA iAGhost;
-	private int hellTime;
+	private int hellRequiredTime;
+	 int auxForRetarded=0;
 
 	public Ghost(String name, Square position, int intelligence) {
 		super(name);
 		this.position = position;
 		this.intelligence = intelligence;
+		this.hellRequiredTime= intelligence*10;
 		this.target = position.getBoardPosition();
 		setKeyOfHell(true);
 	}
 
 	public void run(Pacman pacman) throws InterruptedException {
 
+		
 		// CALCULA EL PATHFINDER SEGUN EL ESTADO
+		IA.runIa(this);
+
 		switch (ghostState) {
 
 		case COURAGEOUS:
 			setTarget(pacman.getBoardPosition());
+			potentialDirection= IA.pathFinder(intelligence);
 			break;
 		case DEATH:
 			setTarget(Board.getHellGatePosition());
+			potentialDirection= IA.pathFinder(9);
 			keyOfHell = true;
 			break;
 		case PUSSY:
 			setTarget(pacman.getBoardPosition());
+			potentialDirection= IA.pathFinder(intelligence);
 			break;
 		case EATED:
-			Thread.sleep(150);
 			setGhostState(GhostState.DEATH);
 			break;
 		case INHELL:
-			setTarget(pacman.getBoardPosition());
-			if (hellTime == 100) {
-				setKeyOfHell(true);
-				ghostState = GhostState.COURAGEOUS;
-				hellTime = 0;
-			} else
-				hellTime++;
+			potentialDirection=IA.randomDirection();
+			determinatePermanenceInHell();
 			break;
 		case HURRY:
 			break;
 		}
-		IA.runIa(this);
-
-		if (ghostState.equals(GhostState.DEATH))
-			setPotentialDirection(IA.getSmartChoise());
-		else
-			setPotentialDirection(IA.pathFinder());
+		
 		move();
-		goingThroughHellGate();
+		checkGoingThroughHellGate();
 	}
 
-	private void goingThroughHellGate() {
+	private void determinatePermanenceInHell() {
+		if (hellTime == hellRequiredTime) {
+			setTarget(Board.getHellGatePosition());
+			potentialDirection=IA.pathFinder(intelligence);
+			setKeyOfHell(true);
+			
+		} else
+			hellTime++;		
+	}
+
+	private void checkGoingThroughHellGate() {
 
 		if (position.boardPosition.equals(Board.getHellGatePosition())) {
 			keyOfHell = !keyOfHell;
 
 			if (ghostState.equals(GhostState.DEATH)) {
 				ghostState = GhostState.INHELL;
+			}else if (ghostState.equals(GhostState.INHELL))
+			{
+				ghostState = GhostState.COURAGEOUS;
 			}
 		}
 	}
@@ -119,6 +129,10 @@ public class Ghost extends Creature {
 
 	public void setGhostState(GhostState ghostState) {
 		this.ghostState = ghostState;
+	}
+
+	public void setHellTime(int i) {
+		hellTime=i;
 	}
 
 }

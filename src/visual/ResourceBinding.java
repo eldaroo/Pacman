@@ -103,46 +103,46 @@ public abstract class ResourceBinding {
 
 	static {
 
-		ghostAlive.put(1, new ImageIcon("resources/police1.gif"));
-		ghostAlive.put(3, new ImageIcon("resources/police3.gif"));
-		ghostAlive.put(5, new ImageIcon("resources/police5.gif"));
-		ghostAlive.put(7, new ImageIcon("resources/police7.gif"));
+		ghostAlive.put(5, new ImageIcon("resources/police1.gif"));
+		ghostAlive.put(6, new ImageIcon("resources/police3.gif"));
+		ghostAlive.put(7, new ImageIcon("resources/police5.gif"));
+		ghostAlive.put(8, new ImageIcon("resources/police7.gif"));
 		ghostAlive.put(9, new ImageIcon("resources/police9.gif"));
 
 	}
 	static {
 
-		ghostDeath.put(1, new ImageIcon("resources/police_death.gif"));
-		ghostDeath.put(3, new ImageIcon("resources/police_death.gif"));
 		ghostDeath.put(5, new ImageIcon("resources/police_death.gif"));
+		ghostDeath.put(6, new ImageIcon("resources/police_death.gif"));
 		ghostDeath.put(7, new ImageIcon("resources/police_death.gif"));
+		ghostDeath.put(8, new ImageIcon("resources/police_death.gif"));
 		ghostDeath.put(9, new ImageIcon("resources/police_death.gif"));
 
 	}
 	static {
 
-		ghostEated.put(1, new ImageIcon("resources/"));
-		ghostEated.put(3, new ImageIcon("resources/"));
 		ghostEated.put(5, new ImageIcon("resources/"));
+		ghostEated.put(6, new ImageIcon("resources/"));
 		ghostEated.put(7, new ImageIcon("resources/"));
+		ghostEated.put(8, new ImageIcon("resources/"));
 		ghostEated.put(9, new ImageIcon("resources/"));
 
 	}
 	static {
 
-		ghostPussy.put(1, new ImageIcon("resources/police_pussy.gif"));
-		ghostPussy.put(3, new ImageIcon("resources/police_pussy.gif"));
 		ghostPussy.put(5, new ImageIcon("resources/police_pussy.gif"));
+		ghostPussy.put(6, new ImageIcon("resources/police_pussy.gif"));
 		ghostPussy.put(7, new ImageIcon("resources/police_pussy.gif"));
+		ghostPussy.put(8, new ImageIcon("resources/police_pussy.gif"));
 		ghostPussy.put(9, new ImageIcon("resources/police_pussy.gif"));
 
 	}
 	static {
 
-		ghostHurry.put(1, new ImageIcon("resources/police_hurry.gif"));
-		ghostHurry.put(3, new ImageIcon("resources/police_hurry.gif"));
 		ghostHurry.put(5, new ImageIcon("resources/police_hurry.gif"));
+		ghostHurry.put(6, new ImageIcon("resources/police_hurry.gif"));
 		ghostHurry.put(7, new ImageIcon("resources/police_hurry.gif"));
+		ghostHurry.put(8, new ImageIcon("resources/police_hurry.gif"));
 		ghostHurry.put(9, new ImageIcon("resources/police_hurry.gif"));
 
 	}

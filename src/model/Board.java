@@ -43,7 +43,6 @@ public class Board extends Observable implements Serializable {
 	private static ArrayList<Ghost> ghostsArray;
 
 	// VARIABLES
-	static int ghostSpeed = 0;
 	static int hellIndex = 0;
 	static Random randomHellZoneSquare = new Random();
 	static private boolean pacmanEatNewDot;
@@ -53,6 +52,7 @@ public class Board extends Observable implements Serializable {
 	private static long lifes = 3;
 	private static long score = 0;
 	private static Long level = (long) 1;
+	private static int upLife =0 ;
 
 	public Board(char[][] level1) {
 		levelMatrix = level1;
@@ -255,7 +255,7 @@ public class Board extends Observable implements Serializable {
 		}
 	}
 
-	public static void lookingForGhosts() {
+	public static void lookingForGhosts() throws InterruptedException {
 
 		for (Ghost ghost : ghostsArray) {
 
@@ -274,12 +274,12 @@ public class Board extends Observable implements Serializable {
 	public static void createGhosts(int value) {
 		ghostsArray = new ArrayList<Ghost>();
 
-		int intelligence = 1;
+		int intelligence = 5;
 		for (int i = 0; i < value; i++) {
 
 			hellIndex = IA.random(Board.getHellZone().size());
 			ghostsArray.add(new Ghost("ghost" + i, Board.getHellZone().get(hellIndex), intelligence));
-			intelligence += 2;
+			intelligence += 1;
 		}
 
 	}
@@ -289,14 +289,17 @@ public class Board extends Observable implements Serializable {
 		for (Ghost ghost : ghostsArray) {
 			ghost.run(pacman);
 		}
+
 	}
 
 	public static void respawnCreatures() {
 		pacman.setPosition(Board.getOriginalPacmanPosition());
 
 		for (Ghost ghost : ghostsArray) {
+			ghost.setGhostState(GhostState.INHELL);
+			ghost.setKeyOfHell(false);
+			ghost.setHellTime (0);
 			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
-			ghost.setKeyOfHell(true);
 			hellIndex = IA.random(Board.getHellZone().size());
 			ghost.setPosition(Board.getHellZone().get(hellIndex));
 		}
@@ -304,10 +307,17 @@ public class Board extends Observable implements Serializable {
 
 	public static void moveGhostsSlowed(int value) throws InterruptedException {
 		// SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
-		ghostSpeed++;
-		if (ghostSpeed == value) {
-			moveGhosts();
-			ghostSpeed = 0;
+		for (Ghost ghost : ghostsArray) {
+			if(ghost.getGhostState().equals(GhostState.DEATH))
+			{
+				ghost.run(pacman);
+			}else {
+				ghost.auxForRetarded++;
+				if (ghost.auxForRetarded == value) {
+					ghost.run(pacman);
+					ghost.auxForRetarded = 0;
+				}
+			}
 		}
 	}
 
@@ -375,14 +385,39 @@ public class Board extends Observable implements Serializable {
 		} else {
 			score += quantity;
 		}
+		checkUpLife();
 	}
 
 	public static void upLevel() {
 		level++;
 	}
 
-	public static void lostLife() {
-		lifes--;
+	public static void checkUpLife() {
+		switch (upLife) {
+		case 0:
+			if(score>1000)
+			{
+				lifes++;
+				upLife++;
+			}
+			break;
+		case 1:
+			if(score>5000)
+			{
+				lifes++;
+				upLife++;
+			}
+			break;
+		case 2:
+			if(score>10000)
+			{
+				lifes++;
+
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	public static void subtractLife() {
