@@ -156,8 +156,8 @@ public class Game implements KeyListener, Runnable {
 				pausa();
 				break;
 			case POSTGAME:
-				System.exit(0);
-				// postGame();
+				//System.exit(0);
+				 postGame();
 				break;
 			case NEXTLEVEL:
 				nextLevel();
@@ -277,6 +277,8 @@ public class Game implements KeyListener, Runnable {
 			postGameView = new PostGameView(gameView, postGameView, scoreView);
 			gameView.setContentPane(postGameView);
 			firstTime = false;
+			sound.reproducePostGame();
+
 		}
 
 	}
@@ -290,7 +292,7 @@ public class Game implements KeyListener, Runnable {
 	public void runCreatures() throws InterruptedException {
 
 		if (Board.pacman.getPacmanState()==PacmanState.EATGHOST) {
-			Thread.sleep(500);
+		    Thread.sleep(500);
 			Board.pacman.setPacmanState(PacmanState.MOVE);
 		}
 		

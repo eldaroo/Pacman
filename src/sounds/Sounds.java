@@ -16,7 +16,18 @@ public class Sounds {
 		EatDot sound = new EatDot();
 	    sound.play();
 	}
-	
+	public static void reproduceLifeUp()
+	{
+		LifeUp sound = new LifeUp();
+	    sound.play();
+	}
+	public void reproducePostGame()
+	{
+		AudioClip sound ;
+		sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/postGame.wav"));
+		sound.play();
+		
+	}
 	public void reproduceEatGhost(int ghostEated) throws InterruptedException
 	{
 		AudioClip sound ;

@@ -9,7 +9,7 @@ import javax.sound.sampled.SourceDataLine;
 /** <p>An object implementing {@link java.applet.AudioClip java.applet.AudioClip} with the data from pacman_eatghost.wav hard-coded into it.</p>
  * <p>Created with the <a href="http://stephengware.com/projects/soundtoclass">SoundToClass tool</a>, by Stephen G. Ware.</p>
  * @author Stephen G. Ware */
-public class EatGhost extends JavaSounds implements AudioClip {
+public class LifeUp extends JavaSounds implements AudioClip {
 	private byte[] data;
 	private AudioFormat format;
 	private DataLine.Info lineInfo = null;
@@ -35,7 +35,7 @@ public class EatGhost extends JavaSounds implements AudioClip {
 		return data;
 	}
 	/** Constructs a new AudioClip with the data from pacman_eatghost.wav. */
-	public EatGhost(){
+	public LifeUp(){
 		data = getData();
 		format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED, (float)(11025.0), 8, 1, 1, (float)(11025.0), false);
 		lineInfo = new DataLine.Info(SourceDataLine.class, format, AudioSystem.NOT_SPECIFIED);
@@ -76,9 +76,9 @@ public class EatGhost extends JavaSounds implements AudioClip {
 	}
 	/** A separate thread for looping play of pacman_eatghost.wav. */
 	private class LoopThread extends Thread {
-		private EatGhost clip;
+		private LifeUp clip;
 		private boolean looping = true;
-		public LoopThread(EatGhost c){ clip = c; }
+		public LoopThread(LifeUp c){ clip = c; }
 		public void run(){
 			while(looping){
 				clip.play();

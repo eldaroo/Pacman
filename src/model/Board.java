@@ -16,6 +16,7 @@ import controller.Game;
 import model.Fruit.FruitType;
 import model.Ghost.GhostState;
 import model.Square.Corner;
+import sounds.Sounds;
 import visual.CreaturesView;
 import visual.FruitView;
 import visual.GhostView;
@@ -52,7 +53,7 @@ public class Board extends Observable implements Serializable {
 	private static long lifes = 3;
 	private static long score = 0;
 	private static Long level = (long) 1;
-	private static int upLife =0 ;
+	private static int aux =0 ;
 
 	public Board(char[][] level1) {
 		levelMatrix = level1;
@@ -393,26 +394,28 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void checkUpLife() {
-		switch (upLife) {
+		switch (aux) {
 		case 0:
 			if(score>1000)
 			{
 				lifes++;
-				upLife++;
+				aux++;
+				Sounds.reproduceLifeUp();
 			}
 			break;
 		case 1:
 			if(score>5000)
 			{
 				lifes++;
-				upLife++;
+				aux++;
+				Sounds.reproduceLifeUp();
 			}
 			break;
 		case 2:
 			if(score>10000)
 			{
 				lifes++;
-
+				Sounds.reproduceLifeUp();
 			}
 			break;
 		default:
