@@ -8,14 +8,13 @@ import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
 
 public class MyDataAcces {
-	private String usuario = "root";
-	private String pwd = "";
-	private static String db ="pacman";
-private String nombre;
-private int puntaje;
+	private String usuario = "u861596183_dario";
+	private String pwd = "darioegea";
+	private static String db ="u861596183_pacma";
+
 private Connection conn= null;
 
-static String url = "jdbc:mysql://localhost/"+db;
+static String url = "jdbc:mysql://auth-db141.hostinger.com.ar:3306/"+db;
 
 public MyDataAcces() throws SQLException, ClassNotFoundException
 {}

@@ -135,6 +135,7 @@ public class Game implements KeyListener, Runnable {
 
 			if (gameState != GameState.POSTGAME)
 				gameView.requestFocus();
+			
 
 			switch (gameState) {
 			case LOAD:
@@ -156,8 +157,8 @@ public class Game implements KeyListener, Runnable {
 				pausa();
 				break;
 			case POSTGAME:
-				System.exit(0);
-				// postGame();
+				//System.exit(0);
+				 postGame();
 				break;
 			case NEXTLEVEL:
 				nextLevel();
@@ -168,6 +169,7 @@ public class Game implements KeyListener, Runnable {
 			if (Board.getLifes() <= 0) {
 				gameState = GameState.POSTGAME;
 				firstTime = true;
+				Board.setLifes(3);
 			}
 		}
 	}
@@ -271,8 +273,7 @@ public class Game implements KeyListener, Runnable {
 	// TERMINO LA PARTIDA
 	private static void postGame() {
 		if (firstTime) {
-			// JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+
-			// board.getScore());
+			 JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.getScore());
 			gameView.remove(layers);
 			postGameView = new PostGameView(gameView, postGameView, scoreView);
 			gameView.setContentPane(postGameView);
