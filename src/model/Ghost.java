@@ -38,7 +38,6 @@ public class Ghost extends Creature {
 		
 		// CALCULA EL PATHFINDER SEGUN EL ESTADO
 		IA.runIa(this);
-
 		switch (ghostState) {
 
 		case COURAGEOUS:

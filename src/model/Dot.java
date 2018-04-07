@@ -31,10 +31,6 @@ public class Dot extends Observable implements JSONStreamAware{
 		this.superDot = superDot;
 	}
 
-	public Square getPosition() {
-		return position;
-	}
-
 	public void setPosition(Square position) {
 		this.position = position;
 	}

@@ -157,7 +157,6 @@ public class Game implements KeyListener, Runnable {
 				pausa();
 				break;
 			case POSTGAME:
-				//System.exit(0);
 				 postGame();
 				break;
 			case NEXTLEVEL:
@@ -228,7 +227,6 @@ public class Game implements KeyListener, Runnable {
 			time++;
 
 			runCreatures();
-			// runGhost
 
 			superTime++;
 			if (Board.getDotRemoved().getSuper()) {
@@ -239,6 +237,7 @@ public class Game implements KeyListener, Runnable {
 			}
 			if (superTime >= 125)
 				Board.setGhostState(GhostState.HURRY);
+			
 			board.update();
 
 		}
@@ -266,6 +265,8 @@ public class Game implements KeyListener, Runnable {
 	private void nextLevel() {
 		Board.upLevel();
 		Board.makeDots();
+		//initVisual();
+		//dotsView= new DotsView(Board.getDots(),layers);
 		gameState = GameState.RESPAWN;
 		retard = (retard *5) / 6;
 	}
@@ -297,16 +298,10 @@ public class Game implements KeyListener, Runnable {
 			Board.pacman.setPacmanState(PacmanState.MOVE);
 		}
 		
-		if (gameState.equals(GameState.NORMALMODE)) {
-			Board.lookingForPacman();
+			Board.lookingForCreatures();
 			Board.moveGhosts();
-			Board.lookingForPacman();
+			Board.lookingForCreatures();
 
-		} else if (gameState.equals(GameState.SUPERMODE)) {
-			Board.lookingForGhosts();
-			Board.moveGhostsSlowed(2);
-			Board.lookingForGhosts();
-		}
 		Board.movePacman();
 		Board.lookingForDot();
 		Board.lookingForFruit();

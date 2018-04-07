@@ -17,16 +17,14 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	Direction direction = Direction.RIGHT;
 	String name = null;
 	Sounds sounds = new Sounds();
-
+	protected Square position = null;
+	Square positionType = null;
+	Direction potentialDirection = Direction.LEFT;
+	
 	public Creature(String name) {
 		super();
 		this.name = name;
 	}
-
-	Square position = null;
-	Square positionType = null;
-
-	Direction potentialDirection = Direction.LEFT;
 
 	public Position getBoardPosition() {
 		return position.getBoardPosition();

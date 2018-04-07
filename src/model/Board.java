@@ -234,12 +234,16 @@ public class Board extends Observable implements Serializable {
 
 			if (dot.getBoardPosition().equals(pacman.getBoardPosition())) {
 				pacman.eatDot(dot);
-
+				
 			}
-		}
 
-		dots.remove(Board.getDotRemoved());
+		}
+		if(Board.isPacmanEatNewDot())
+		{
+			dots.remove(Board.getDotRemoved());
+		}
 		Board.setDots(dots);
+
 
 		// CHEQUEA SI TERMINO EL LEVEL
 		if (dots.size() == 0) {
@@ -252,20 +256,6 @@ public class Board extends Observable implements Serializable {
 		if (Fruit.isEnableToEat()) {
 			if (Fruit.getBoardPosition().equals(pacman.getBoardPosition())) {
 				pacman.eatFruit();
-			}
-		}
-	}
-
-	public static void lookingForGhosts() throws InterruptedException {
-
-		for (Ghost ghost : ghostsArray) {
-
-			// SOLO LOS COMERA SI ESTAN VIVOS
-			if (!ghost.getGhostState().equals(GhostState.DEATH)) {
-				if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
-					pacman.eatGhost(ghost);
-
-				}
 			}
 		}
 	}
@@ -285,14 +275,6 @@ public class Board extends Observable implements Serializable {
 
 	}
 
-	public static void moveGhosts() throws InterruptedException {
-
-		for (Ghost ghost : ghostsArray) {
-			ghost.run(pacman);
-		}
-
-	}
-
 	public static void respawnCreatures() {
 		pacman.setPosition(Board.getOriginalPacmanPosition());
 
@@ -306,26 +288,52 @@ public class Board extends Observable implements Serializable {
 		}
 	}
 
-	public static void moveGhostsSlowed(int value) throws InterruptedException {
-		// SUPERMODE: LOS GHOST SE MUEVEN MAS LENTOS
+	public static void moveGhosts() throws InterruptedException {
+		
+		// Value = 1 : velocidad normal
+		//int value = 1;
+		
+		//value=2;
+		// Value = 2 : velocidad lenta
+		
 		for (Ghost ghost : ghostsArray) {
-			if(ghost.getGhostState().equals(GhostState.DEATH))
+			
+			if(ghost.getGhostState().equals(GhostState.PUSSY)||ghost.getGhostState().equals(GhostState.HURRY))
 			{
-				ghost.run(pacman);
-			}else {
 				ghost.auxForRetarded++;
-				if (ghost.auxForRetarded == value) {
+				if (ghost.auxForRetarded == 2) {
 					ghost.run(pacman);
 					ghost.auxForRetarded = 0;
 				}
+			}else {
+				ghost.run(pacman);
 			}
 		}
 	}
 
-	public static void lookingForPacman() {
+	public static void lookingForCreatures() throws InterruptedException {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
-				ghost.eatPacman(pacman);
+				
+					switch (ghost.getGhostState()) {
+					case COURAGEOUS:
+						ghost.eatPacman(pacman);
+						break;
+					case DEATH:
+						break;
+					case PUSSY:
+						pacman.eatGhost(ghost);
+						break;
+					case EATED:
+						break;
+					case INHELL:
+						break;
+					case HURRY:
+						pacman.eatGhost(ghost);
+						break;
+
+					}
+				
 			}
 		}
 	}
@@ -476,10 +484,6 @@ public class Board extends Observable implements Serializable {
 
 	public static boolean getSuperMode() {
 		return superMode;
-	}
-
-	public static boolean getPacmanEatNewDot() {
-		return isPacmanEatNewDot();
 	}
 
 	public static Position getFruitPosition() {
