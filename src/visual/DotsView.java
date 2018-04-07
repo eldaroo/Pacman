@@ -13,9 +13,6 @@ import model.Dot;
 
 public class DotsView extends JPanel implements Observer {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// DIBUJA LA MATRIZ CON TODOS LOS DOTS
 	JLabel[][] dotMatrix;
@@ -43,6 +40,8 @@ public class DotsView extends JPanel implements Observer {
 		Dot dotRemoved = Board.getDotRemoved();
 
 		if (Board.isPacmanEatNewDot()) {
+			System.out.println(dotMatrix[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()]);
+			System.out.println(dotRemoved.getBoardPosition().getX());
 			dotMatrix[dotRemoved.getBoardPosition().getX()][dotRemoved.getBoardPosition().getY()].setVisible(false);
 
 		}

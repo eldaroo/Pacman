@@ -14,6 +14,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import org.json.simple.parser.ParseException;
+import org.w3c.dom.css.DocumentCSS;
+
 import model.Board;
 import model.Direction;
 import model.Dot;
@@ -45,7 +47,8 @@ public class Game implements KeyListener, Runnable {
 	// MODELO
 	private static Board board;
 	private static Square[][] boardMatrix;
-	private static ArrayList<Dot> dotMatrix;
+	//private static ArrayList<Dot> dotMatrix;
+	private static ArrayList<Dot> dotStartMatrix;
 
 	// VISUAL
 	private static DotsView dotsView;
@@ -102,6 +105,7 @@ public class Game implements KeyListener, Runnable {
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
+		dotStartMatrix = Board.getDots();
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
 		scoreView = new ScoreView();
@@ -112,9 +116,8 @@ public class Game implements KeyListener, Runnable {
 
 		gameView.setContentPane(layers);
 		gameView.addKeyListener(this);
-		dotMatrix = Board.getDots();
 		fruitView = new FruitView(layers);
-		dotsView = new DotsView(dotMatrix, layers);
+		dotsView = new DotsView(Board.getDots(), layers);
 		pacmanView = new PacmanView(Board.pacman, layers);
 		createGhostViews(ghostQuantity);
 		gameView.setVisible(true);
@@ -264,9 +267,7 @@ public class Game implements KeyListener, Runnable {
 
 	private void nextLevel() {
 		Board.upLevel();
-		Board.makeDots();
-		//initVisual();
-		//dotsView= new DotsView(Board.getDots(),layers);
+		Board.setDots(dotStartMatrix);
 		gameState = GameState.RESPAWN;
 		retard = (retard *5) / 6;
 	}
@@ -328,7 +329,7 @@ public class Game implements KeyListener, Runnable {
 
 		ArrayList<Dot> dotsArraySaved = serializator.recover();
 		Board.setDots(dotsArraySaved);
-		// recoveryMenu.dispose();
+		//dotMatrix = Board.getDots();
 		setGameState(GameState.NORMALMODE);
 		setFirstTime(true);
 	}

@@ -46,7 +46,7 @@ public class Board extends Observable implements Serializable {
 	// VARIABLES
 	static int hellIndex = 0;
 	static Random randomHellZoneSquare = new Random();
-	static private boolean pacmanEatNewDot;
+	static private boolean pacmanEatNewDot = false;
 	static private boolean superMode = false;
 	static private char[][] levelMatrix;
 
@@ -58,6 +58,7 @@ public class Board extends Observable implements Serializable {
 	public Board(char[][] level1) {
 		levelMatrix = level1;
 		makeBoard();
+		dots = new ArrayList<Dot>();
 		fruit = new Fruit(getFruitPosition());
 
 	}
@@ -65,7 +66,7 @@ public class Board extends Observable implements Serializable {
 	// --------- TABLERO --------------
 
 	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
-	private static void makeBoard() {
+	public static void makeBoard() {
 		board = new Square[levelMatrix.length][levelMatrix.length];
 		for (int i = 0; i < levelMatrix.length; i++) {
 			for (int j = 0; j < levelMatrix.length; j++) {
@@ -185,7 +186,8 @@ public class Board extends Observable implements Serializable {
 	public static void makeDots() {
 		Dot dot;
 		SuperDot superDot;
-		dots = new ArrayList<Dot>();
+		dots.clear();
+		
 		for (int i = 0; i < levelMatrix.length; i++) {
 			for (int j = 0; j < levelMatrix.length; j++) {
 				switch (levelMatrix[i][j]) {
@@ -227,6 +229,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void lookingForDot() {
+		
 		Board.setPacmanEatNewDot(false);
 		dots = Board.getDots();
 
@@ -234,14 +237,10 @@ public class Board extends Observable implements Serializable {
 
 			if (dot.getBoardPosition().equals(pacman.getBoardPosition())) {
 				pacman.eatDot(dot);
-				
 			}
 
 		}
-		if(Board.isPacmanEatNewDot())
-		{
-			dots.remove(Board.getDotRemoved());
-		}
+		dots.remove(Board.getDotRemoved());
 		Board.setDots(dots);
 
 
@@ -289,12 +288,6 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void moveGhosts() throws InterruptedException {
-		
-		// Value = 1 : velocidad normal
-		//int value = 1;
-		
-		//value=2;
-		// Value = 2 : velocidad lenta
 		
 		for (Ghost ghost : ghostsArray) {
 			
@@ -529,6 +522,7 @@ public class Board extends Observable implements Serializable {
 
 	public static void setDotRemoved(Dot dotRemoved) {
 		Board.dotRemoved = dotRemoved;
+
 	}
 
 	public static void setDots(ArrayList<Dot> dots) {
