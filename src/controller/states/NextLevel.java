@@ -15,7 +15,7 @@ public class NextLevel extends GameState {
 	public void run() {
 		Board.upLevel();
 		Board.setDots(Game.getDotStartMatrix());
-		Game.setGameState(new Respawn());
+		Game.setState(new Respawn());
 		Game.setRetard((Game.getRetard() *5) / 6);
 	}
 

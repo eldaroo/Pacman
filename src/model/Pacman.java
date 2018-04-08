@@ -33,7 +33,7 @@ public class Pacman extends Creature  {
 		Board.setDotRemoved((Dot) dot);
 		
 		if (Board.getDotRemoved().getSuper() == true) {
-			Game.setGameState (new Super());
+			Game.setState (new Super());
 			Board.upScore(20, 0);
 		}
 		Board.setPacmanEatNewDot(true);
