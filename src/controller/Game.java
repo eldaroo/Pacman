@@ -21,12 +21,14 @@ import model.Direction;
 import model.Dot;
 import model.Fruit;
 import model.GameState;
-import model.Ghost;
-import model.Ghost.GhostState;
-import model.IA;
 import model.MyDataAcces;
-import model.Pacman;
-import model.Pacman.PacmanState;
+import model.creatures.Ghost;
+import model.creatures.IA;
+import model.creatures.Pacman;
+import model.creatures.Pacman.PacmanState;
+import model.creatures.ghostStates.Courageous;
+import model.creatures.ghostStates.Hurry;
+import model.creatures.ghostStates.Pussy;
 import model.Serializator;
 import model.Square;
 
@@ -203,7 +205,7 @@ public class Game implements KeyListener, Runnable {
 			throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
 		
 		Board.pacman.resetGhostEated();
-		Board.setGhostState(Ghost.GhostState.COURAGEOUS);
+		Board.setGhostState(new Courageous());
 
 		if (firstTime) {
 			initVisual();
@@ -222,7 +224,7 @@ public class Game implements KeyListener, Runnable {
 
 	private void superMode() throws InterruptedException {
 		superTime = 0;
-		Board.setGhostState(Ghost.GhostState.PUSSY);
+		Board.setGhostState(new Pussy());
 
 		while (gameState.equals(GameState.SUPERMODE)) {
 
@@ -238,8 +240,7 @@ public class Game implements KeyListener, Runnable {
 			if (superTime == 150) {
 				gameState = GameState.NORMALMODE;
 			}
-			if (superTime >= 125)
-				Board.setGhostState(GhostState.HURRY);
+			
 			
 			board.update();
 
@@ -435,6 +436,11 @@ public class Game implements KeyListener, Runnable {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+	}
+
+	public static int getSuperTime() {
+		// TODO Auto-generated method stub
+		return superTime;
 	}
 
 }

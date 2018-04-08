@@ -4,8 +4,8 @@ import java.util.Observable;
 
 import javax.swing.JLayeredPane;
 
-import model.Ghost;
 import model.Position;
+import model.creatures.Ghost;
 
 public class GhostView extends CreaturesView{
 
@@ -18,7 +18,6 @@ public class GhostView extends CreaturesView{
 		this.setBounds((obj.getBoardPosition().getX() * 10) - 10, (obj.getBoardPosition().getY() * 10) - 10+25, 30, 30);
 		setIcon(ResourceBinding.getGhostIcon(obj));
 		layers.add(this, 6);
-
      }
 	
 

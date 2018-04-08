@@ -14,8 +14,16 @@ import org.json.simple.JSONValue;
 
 import controller.Game;
 import model.Fruit.FruitType;
-import model.Ghost.GhostState;
 import model.Square.Corner;
+import model.creatures.Creature;
+import model.creatures.Ghost;
+import model.creatures.IA;
+import model.creatures.Pacman;
+import model.creatures.ghostStates.Death;
+import model.creatures.ghostStates.GhostState;
+import model.creatures.ghostStates.Hurry;
+import model.creatures.ghostStates.InHell;
+import model.creatures.ghostStates.Pussy;
 import sounds.Sounds;
 import visual.CreaturesView;
 import visual.FruitView;
@@ -40,7 +48,7 @@ public class Board extends Observable implements Serializable {
 	static private Position fruitPosition;
 
 	// CRIATURAS
-	public static Pacman pacman;
+	public static Pacman pacman ;
 	private static ArrayList<Ghost> ghostsArray;
 
 	// VARIABLES
@@ -278,7 +286,7 @@ public class Board extends Observable implements Serializable {
 		pacman.setPosition(Board.getOriginalPacmanPosition());
 
 		for (Ghost ghost : ghostsArray) {
-			ghost.setGhostState(GhostState.INHELL);
+			ghost.setState(new InHell());
 			ghost.setKeyOfHell(false);
 			ghost.setHellTime (0);
 			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
@@ -287,16 +295,17 @@ public class Board extends Observable implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	public static void moveGhosts() throws InterruptedException {
 		
 		for (Ghost ghost : ghostsArray) {
 			
-			if(ghost.getGhostState().equals(GhostState.PUSSY)||ghost.getGhostState().equals(GhostState.HURRY))
+			if(ghost.getState().toString()=="Pussy"||ghost.getState().toString()=="Hurry")
 			{
-				ghost.auxForRetarded++;
-				if (ghost.auxForRetarded == 2) {
+				ghost.setAuxForRetarded(ghost.getAuxForRetarded() + 1);
+				if (ghost.getAuxForRetarded() == 2) {
 					ghost.run(pacman);
-					ghost.auxForRetarded = 0;
+					ghost.setAuxForRetarded(0);
 				}
 			}else {
 				ghost.run(pacman);
@@ -308,36 +317,22 @@ public class Board extends Observable implements Serializable {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
 				
-					switch (ghost.getGhostState()) {
-					case COURAGEOUS:
-						ghost.eatPacman(pacman);
-						break;
-					case DEATH:
-						break;
-					case PUSSY:
-						pacman.eatGhost(ghost);
-						break;
-					case EATED:
-						break;
-					case INHELL:
-						break;
-					case HURRY:
-						pacman.eatGhost(ghost);
-						break;
-
-					}
+				ghost.getState().meetPacman(ghost, pacman);
 				
 			}
 		}
 	}
 
-	public static void setGhostState(Ghost.GhostState ghostState) {
+	public static void setGhostState(GhostState ghostState) {
 
 		for (Ghost ghost : ghostsArray) {
 			// SI LOS FANTASMAS ESTAN MUERTOS O EN EL INFIERNO NO CAMBIAN SU ESTADO,
 			// RESPETAN UN PROCESO DE CAMBIO INTERNO QUE TIENEN
-			if (!ghost.getGhostState().equals(GhostState.DEATH) && (!ghost.getGhostState().equals(GhostState.INHELL)))
-				ghost.setGhostState(ghostState);
+			ghost.state.setGhostState(ghost, ghostState);
+			/*System.out.println(ghost.getState().toString());
+			if (ghost.getState().toString()!="Death" && (ghost.getState().toString()!="InHell"))
+				{
+				ghost.setState(ghostState);}*/
 		}
 	}
 

@@ -1,4 +1,4 @@
-package model;
+package model.creatures;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -8,6 +8,9 @@ import java.util.Observable;
 import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
+import model.Direction;
+import model.Position;
+import model.Square;
 import sounds.Sounds;
 
 public abstract class Creature extends Observable implements JSONStreamAware {
@@ -15,7 +18,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	private boolean alive = true;
 	protected boolean keyOfHell;
 	Direction direction = Direction.RIGHT;
-	String name = null;
+	private String name = null;
 	Sounds sounds = new Sounds();
 	protected Square position = null;
 	Square positionType = null;
@@ -23,7 +26,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	
 	public Creature(String name) {
 		super();
-		this.name = name;
+		this.setName(name);
 	}
 
 	public Position getBoardPosition() {
@@ -79,7 +82,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	public void writeJSONString(Writer out) throws IOException {
 
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
-		obj.put("name", String.valueOf(name));
+		obj.put("name", String.valueOf(getName()));
 		obj.put("direction", String.valueOf(direction));
 		obj.put("getX", String.valueOf(position.getBoardPosition().getX()));
 		obj.put("getY", String.valueOf(position.getBoardPosition().getY()));
@@ -102,5 +105,13 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	public void setKeyOfHell(boolean key) {
 		keyOfHell = key;
 
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

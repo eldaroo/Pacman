@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import model.Board;
 import model.BoardConfiguration;
-import model.Ghost;
-import model.Pacman;
 /*
 public class CreatureTest {
 	Board board;
@@ -41,3 +39,5 @@ public class CreatureTest {
 
 	}
 }*/
+import model.creatures.Ghost;
+import model.creatures.Pacman;

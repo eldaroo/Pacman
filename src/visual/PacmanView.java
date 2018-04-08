@@ -5,9 +5,9 @@ import java.util.Observable;
 import javax.swing.JLayeredPane;
 
 import model.Board;
-import model.Pacman;
 import model.Position;
-import model.Pacman.PacmanState;
+import model.creatures.Pacman;
+import model.creatures.Pacman.PacmanState;
 
 public class PacmanView extends CreaturesView {
 

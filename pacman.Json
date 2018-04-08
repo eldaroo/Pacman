@@ -1,1 +1,1 @@
-{"Creatures":[{"name":"pacman","direction":"RIGHT","getX":"37","getY":"22","status":true}],"score":2020,"lifes":2,"Dots":[{"xPosition":"16","yPosition":"37","superDot":"false"}]}
+{"Creatures":[{"name":"pacman","direction":"LEFT","getX":"5","getY":"4","status":true}],"score":2130,"lifes":2,"Dots":[{"xPosition":"22","yPosition":"22","superDot":"false"},{"xPosition":"25","yPosition":"22","superDot":"false"},{"xPosition":"28","yPosition":"22","superDot":"false"},{"xPosition":"31","yPosition":"22","superDot":"false"},{"xPosition":"34","yPosition":"22","superDot":"false"}]}

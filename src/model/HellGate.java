@@ -1,6 +1,7 @@
 package model;
 
 import model.Square.Corner;
+import model.creatures.Creature;
 
 public class HellGate extends Square {
 

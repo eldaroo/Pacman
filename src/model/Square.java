@@ -1,5 +1,7 @@
 package model;
 
+import model.creatures.Creature;
+
 public abstract class Square {
 	private Square down = null;
 	private Square left = null;

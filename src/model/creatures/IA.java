@@ -1,4 +1,4 @@
-package model;
+package model.creatures;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.Random;
 
 import controller.Game;
-import model.Ghost.GhostState;
+import model.Direction;
+import model.Position;
+import model.Square;
+import model.creatures.ghostStates.Pussy;
 
 
 public abstract class IA {
@@ -55,7 +58,7 @@ public abstract class IA {
 	{
 		return smartChoise;
 	}
-	static Direction randomDirection ()
+	public static Direction randomDirection ()
 	{
 		return randomChoise;
 	}
@@ -78,7 +81,7 @@ public abstract class IA {
 		// y las agregamos a un array, en proporciones dadas por la inteligencia de cada
 
 		for (int i = 0; i < ghost.getIntelligence(); i++) {
-			if (ghost.getGhostState().equals(GhostState.PUSSY)) {
+			if (ghost.getState().toString().equals("pussy")) {
 				potentialDirectionsList.add(goAwayDirection);
 			} else {
 				potentialDirectionsList.add(smartChoise);

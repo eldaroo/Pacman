@@ -1,4 +1,4 @@
-package model;
+package model.creatures;
 
 
 
@@ -6,8 +6,12 @@ import java.applet.AudioClip;
 import java.util.ArrayList;
 
 import controller.Game;
+import model.Board;
+import model.Dot;
+import model.GameState;
+import model.Square;
+import model.creatures.ghostStates.Eated;
 import model.Fruit.FruitType;
-import model.Ghost.GhostState;
 import sounds.Sounds;
 
 public class Pacman extends Creature  {
@@ -53,7 +57,7 @@ public class Pacman extends Creature  {
 		sounds.reproduceEatGhost(ghostsEated);
 
 		setPacmanState(PacmanState.EATGHOST);
-		ghost.setGhostState(GhostState.EATED);
+		ghost.setState(new Eated());
 		Board.upScore(50, ghostsEated);
 	}
 
