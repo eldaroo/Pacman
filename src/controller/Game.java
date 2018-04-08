@@ -42,7 +42,6 @@ import visual.DotsView;
 import visual.FruitView;
 import controller.states.*;
 public class Game implements KeyListener, Runnable {
-
 	// MODELO
 	private static GameState state;
 	private static Board board;
@@ -96,7 +95,7 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	// INICIALIZAMOS ALGUNAS DE LAS VARIABLES
-	public static void initGame() {
+	public  void initGame() {
 
 		state = new Load();
 		setGameView(new GameView());
@@ -104,26 +103,27 @@ public class Game implements KeyListener, Runnable {
 
 		Board.makeDots();
 		setDotStartMatrix(Board.getDots());
-		Board.createGhosts(ghostQuantity);
+		Board.createGhosts(getGhostQuantity());
 		Board.createPacman("pacman", boardMatrix[27][43]);
 		scoreView = new ScoreView();
+		getGameView().addKeyListener(this);
+
 	}
 
 	// INICIALIZAMOS MAS VARIABLES, ESTA VEZ ORIENTADO A LO VISUAL
-	public void initVisual() {
+	public static void initVisual() {
 
 		getGameView().setContentPane(layers);
-		getGameView().addKeyListener(this);
-		fruitView = new FruitView(layers);
-		dotsView = new DotsView(Board.getDots(), layers);
-		pacmanView = new PacmanView(Board.pacman, layers);
-		createGhostViews(ghostQuantity);
+		setFruitView(new FruitView(layers));
+		setDotsView(new DotsView(Board.getDots(), layers));
+		setPacmanView(new PacmanView(Board.pacman, layers));
+		createGhostViews(getGhostQuantity());
 		getGameView().setVisible(true);
 
-		Board.observeFruit(fruitView);
-		Board.observePacman(pacmanView);
+		Board.observeFruit(getFruitView());
+		Board.observePacman(getPacmanView());
 
-		getBoard().addObserver(dotsView);
+		getBoard().addObserver(getDotsView());
 
 	}
 
@@ -189,7 +189,7 @@ public class Game implements KeyListener, Runnable {
 		state = new Normal();
 	}
 
-	private static void createGhostViews(int value) {
+	public static void createGhostViews(int value) {
 		ghostViewsArray = new ArrayList<CreaturesView>();
 		Board.observeGhost(ghostViewsArray, value,layers);
 		
@@ -404,6 +404,39 @@ public class Game implements KeyListener, Runnable {
 
 	public static void setGameView(GameView gameView) {
 		Game.gameView = gameView;
+	}
+
+
+	public static FruitView getFruitView() {
+		return fruitView;
+	}
+
+	public static void setFruitView(FruitView fruitView) {
+		Game.fruitView = fruitView;
+	}
+
+	public static int getGhostQuantity() {
+		return ghostQuantity;
+	}
+
+	public static void setGhostQuantity(int ghostQuantity) {
+		Game.ghostQuantity = ghostQuantity;
+	}
+
+	public static CreaturesView getPacmanView() {
+		return pacmanView;
+	}
+
+	public static void setPacmanView(CreaturesView pacmanView) {
+		Game.pacmanView = pacmanView;
+	}
+
+	public static DotsView getDotsView() {
+		return dotsView;
+	}
+
+	public static void setDotsView(DotsView dotsView) {
+		Game.dotsView = dotsView;
 	}
 
 }

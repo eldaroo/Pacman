@@ -3,7 +3,11 @@ package controller.states;
 import controller.Game;
 import model.Board;
 import model.Ghost;
+import model.Pacman;
 import sounds.Sounds;
+import visual.DotsView;
+import visual.FruitView;
+import visual.PacmanView;
 
 public class Normal extends GameState {
 
@@ -21,20 +25,20 @@ public class Normal extends GameState {
 		Board.setGhostState(Ghost.GhostState.COURAGEOUS);
 
 		if (Game.isFirstTime()) {
-			//Game.initVisual();
+			Game.initVisual();
 			Sounds.reproduceBeginning();
 			Game.setFirstTime (false);
 		}
-		
-		while (Game.getState().equals(Normal.class)) {
+
+		//while (Game.getState().equals(Normal.class)) {
+			while (!Game.isPaused()) {
 			Game.setTime(Game.getTime() + 1);
 			Thread.sleep(Game.getRetard());
-
+			System.out.println("HOLA");
 			runCreatures();
 			Game.getBoard().update();
 
 		}
 	}
-
 
 }
