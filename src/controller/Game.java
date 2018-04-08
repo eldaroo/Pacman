@@ -41,12 +41,13 @@ import visual.CreaturesView;
 import visual.DotsView;
 import visual.FruitView;
 import controller.states.*;
+
 public class Game implements KeyListener, Runnable {
 	// MODELO
 	private static GameState state;
 	private static Board board;
 	private static Square[][] boardMatrix;
-	//private static ArrayList<Dot> dotMatrix;
+	// private static ArrayList<Dot> dotMatrix;
 	private static ArrayList<Dot> dotStartMatrix;
 
 	// VISUAL
@@ -95,7 +96,7 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	// INICIALIZAMOS ALGUNAS DE LAS VARIABLES
-	public  void initGame() {
+	public void initGame() {
 
 		state = new Load();
 		setGameView(new GameView());
@@ -128,83 +129,46 @@ public class Game implements KeyListener, Runnable {
 	}
 
 	// ARRANCA EL JUEGO
-	@SuppressWarnings("unlikely-arg-type")
 	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException,
 			UnsupportedAudioFileException {
+
 		boolean ever = true;
 		time = 0;
+
 		while (ever) {
 
-			if (!state.equals(PostGame.class))
+			if (state.toString() != "PostGame")
 				getGameView().requestFocus();
+
 			state.run();
+
 			if (Board.getLifes() <= 0) {
 				state = new PostGame();
 				firstTime = true;
 				Board.setLifes(3);
 			}
+
 		}
+
 	}
 
-	private static void load() {
-		// LA PANTALLA PRE-JUEGO
-
-		if (firstTime) {
-			getGameView().setContentPane(getBeginMenu());
-			firstTime = false;
-		}
-		getBeginMenu();
-		if (BeginMenu.wasPressbtnBegin()) {
-			// CAMBIA A MODO NORMAL (CIERRA PANTALLA DE INICIO)
-			state = new Normal();
-			firstTime = true;
-			getBeginMenu().dispose();
-		} else {
-			getBeginMenu();
-			if (BeginMenu.wasPressBtnRecovery()) {
-				// CAMBIA A MODO CARGAR (CIERRA PANTALLA DE INICIO)
-				//gameState = new Recovery();
-				getBeginMenu().dispose();
-				firstTime = true;
-			} else {
-				getBeginMenu();
-				if (BeginMenu.wasPressBtnExit()) {
-					// CIERRA EL JUEGO
-					System.exit(0);
-				}
-			}
-		}
-	}
-
-	// REINICIA POSICIONES EN EL TABLERO
-	public static void respawn() {
-
-		Board.respawnCreatures();
-
-		// REINICIA PARTIDA
-
-		Board.pacman.setPacmanState(PacmanState.MOVE);
-
-		firstTime = true;
-		state = new Normal();
-	}
 
 	public static void createGhostViews(int value) {
 		ghostViewsArray = new ArrayList<CreaturesView>();
-		Board.observeGhost(ghostViewsArray, value,layers);
-		
+		Board.observeGhost(ghostViewsArray, value, layers);
+
 	}
 
-	public void runCreatures() throws InterruptedException {
+	public static void runCreatures() throws InterruptedException {
 
-		if (Board.pacman.getPacmanState()==PacmanState.EATGHOST) {
-		    Thread.sleep(500);
+		if (Board.pacman.getPacmanState() == PacmanState.EATGHOST) {
+			Thread.sleep(500);
 			Board.pacman.setPacmanState(PacmanState.MOVE);
 		}
-		
-			Board.lookingForCreatures();
-			Board.moveGhosts();
-			Board.lookingForCreatures();
+
+		Board.lookingForCreatures();
+		Board.moveGhosts();
+		Board.lookingForCreatures();
 
 		Board.movePacman();
 		Board.lookingForDot();
@@ -232,7 +196,7 @@ public class Game implements KeyListener, Runnable {
 
 		ArrayList<Dot> dotsArraySaved = getSerializator().recover();
 		Board.setDots(dotsArraySaved);
-		//dotMatrix = Board.getDots();
+		// dotMatrix = Board.getDots();
 		setState(new Normal());
 		setFirstTime(true);
 	}
@@ -279,7 +243,6 @@ public class Game implements KeyListener, Runnable {
 	public static void setFirstTime(boolean firstTime) {
 		Game.firstTime = firstTime;
 	}
-
 
 	public static void setState(GameState newState) {
 		state = newState;
@@ -390,7 +353,7 @@ public class Game implements KeyListener, Runnable {
 		Game.dotStartMatrix = dotStartMatrix;
 	}
 
-	public static  BeginMenu getBeginMenu() {
+	public static BeginMenu getBeginMenu() {
 		return beginMenu;
 	}
 
@@ -405,7 +368,6 @@ public class Game implements KeyListener, Runnable {
 	public static void setGameView(GameView gameView) {
 		Game.gameView = gameView;
 	}
-
 
 	public static FruitView getFruitView() {
 		return fruitView;

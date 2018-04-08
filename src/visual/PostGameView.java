@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.Game;
 import controller.states.Normal;
+import controller.states.Respawn;
 
 public class PostGameView extends JPanel {
 
@@ -71,8 +72,7 @@ public class PostGameView extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Game.setState(new Normal());
 				Game.setFirstTime(true);
-				//Game.restartGameVisual();
-				Game.respawn();
+				Game.setState(new Respawn());
 			}
 		});
 		btnAgain.setSize(121, 23);

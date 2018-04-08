@@ -3,11 +3,7 @@ package controller.states;
 import controller.Game;
 import model.Board;
 import model.Ghost;
-import model.Pacman;
 import sounds.Sounds;
-import visual.DotsView;
-import visual.FruitView;
-import visual.PacmanView;
 
 public class Normal extends GameState {
 
@@ -18,7 +14,7 @@ public class Normal extends GameState {
 
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
+
 	@Override
 	public void run() throws InterruptedException {
 		Board.pacman.resetGhostEated();
@@ -30,15 +26,18 @@ public class Normal extends GameState {
 			Game.setFirstTime (false);
 		}
 
-		//while (Game.getState().equals(Normal.class)) {
-			while (!Game.isPaused()) {
+		while (Game.getState().toString()=="Normal") {
 			Game.setTime(Game.getTime() + 1);
 			Thread.sleep(Game.getRetard());
-			System.out.println("HOLA");
-			runCreatures();
+			Game.runCreatures();
 			Game.getBoard().update();
 
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Normal";
 	}
 
 }

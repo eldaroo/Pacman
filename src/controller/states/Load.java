@@ -2,7 +2,6 @@ package controller.states;
 
 import controller.Game;
 import visual.BeginMenu;
-import visual.GameView;
 
 public class Load extends GameState {
 
