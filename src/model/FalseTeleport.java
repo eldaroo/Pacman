@@ -1,7 +1,5 @@
 package model;
 
-import model.Square.Corner;
-
 public class FalseTeleport extends Square {
 
 	public FalseTeleport(Corner corner)

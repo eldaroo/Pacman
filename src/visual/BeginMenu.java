@@ -15,9 +15,9 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 
 	private static final long serialVersionUID = 8307699164140917205L;
 
-	private boolean pressRecovery = false;
-	private boolean pressBegin = false;
-	private boolean pressExit = false;
+	private static boolean pressRecovery = false;
+	private static boolean pressBegin = false;
+	private static boolean pressExit = false;
 	JLayeredPane layers = new JLayeredPane();
 	JButton btnRecovery;
 	JButton btnBegin;
@@ -85,15 +85,16 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 	}
 	
 	//DEVUELVE SI SE PRESIONÓ (O NO) RL BOTON DE INICIAR PARTIDA
-	public boolean wasPressbtnBegin() {
+	public static boolean wasPressbtnBegin() {
 		return pressBegin;
 	}
 	//DEVUELVE SI SE PRESIONÓ (O NO) RL BOTON DE CARGAR PARTIDA
-	public boolean wasPressBtnRecovery() {
+	public static boolean wasPressBtnRecovery() {
 		return pressRecovery;
 	}
 	//DEVUELVE SI SE PRESIONÓ (O NO) EL BOTON DE SALIR
-	public boolean wasPressBtnExit() {
+	public static boolean wasPressBtnExit() {
 		return pressExit;
 	}
+
 }

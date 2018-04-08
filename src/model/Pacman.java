@@ -2,11 +2,9 @@ package model;
 
 
 
-import java.applet.AudioClip;
-import java.util.ArrayList;
 
 import controller.Game;
-import model.Fruit.FruitType;
+import controller.states.Super;
 import model.Ghost.GhostState;
 import sounds.Sounds;
 
@@ -15,7 +13,7 @@ public class Pacman extends Creature  {
 	private boolean eatingGhost = false;
 	public static enum PacmanState {MOVE,EATGHOST,DEATH};
 	private static PacmanState pacmanState = PacmanState.MOVE;
-	private ArrayList<Dot> dots;
+	//private ArrayList<Dot> dots;
 	private int ghostsEated = 0;
 	Sounds sounds = new Sounds();
 	
@@ -35,7 +33,7 @@ public class Pacman extends Creature  {
 		Board.setDotRemoved((Dot) dot);
 		
 		if (Board.getDotRemoved().getSuper() == true) {
-			Game.setGameState (GameState.SUPERMODE);
+			Game.setGameState (new Super());
 			Board.upScore(20, 0);
 		}
 		Board.setPacmanEatNewDot(true);

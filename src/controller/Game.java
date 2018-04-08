@@ -20,7 +20,6 @@ import model.Board;
 import model.Direction;
 import model.Dot;
 import model.Fruit;
-import model.GameState;
 import model.Ghost;
 import model.Ghost.GhostState;
 import model.IA;
@@ -41,10 +40,11 @@ import visual.ScoreView;
 import visual.CreaturesView;
 import visual.DotsView;
 import visual.FruitView;
-
+import controller.states.*;
 public class Game implements KeyListener, Runnable {
 
 	// MODELO
+	private static GameState state;
 	private static Board board;
 	private static Square[][] boardMatrix;
 	//private static ArrayList<Dot> dotMatrix;
@@ -52,7 +52,6 @@ public class Game implements KeyListener, Runnable {
 
 	// VISUAL
 	private static DotsView dotsView;
-	private static PostGameView postGameView;
 	private static GameView gameView; // JFRAME
 	private static CreaturesView pacmanView;
 	private static ArrayList<CreaturesView> ghostViewsArray;
@@ -67,7 +66,6 @@ public class Game implements KeyListener, Runnable {
 	private static ResultSet result;
 
 	// ESTRUCTURA
-	private static GameState gameState;
 	private static boolean run = true;
 	private static boolean firstTime = true;
 	// private static Square originalPositionPacman ;
@@ -81,9 +79,9 @@ public class Game implements KeyListener, Runnable {
 
 	// CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
 	public Game(BeginMenu beginMenu, JLayeredPane layers, Board board) {
-		Game.beginMenu = beginMenu;
+		Game.setBeginMenu(beginMenu);
 		Game.layers = layers;
-		Game.board = board;
+		Game.setBoard(board);
 	}
 
 	// EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
@@ -100,76 +98,48 @@ public class Game implements KeyListener, Runnable {
 	// INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 	public static void initGame() {
 
-		gameState = GameState.LOAD;
-		gameView = new GameView();
+		state = new Load();
+		setGameView(new GameView());
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
-		dotStartMatrix = Board.getDots();
+		setDotStartMatrix(Board.getDots());
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
 		scoreView = new ScoreView();
 	}
 
 	// INICIALIZAMOS MAS VARIABLES, ESTA VEZ ORIENTADO A LO VISUAL
-	private void initVisual() {
+	public void initVisual() {
 
-		gameView.setContentPane(layers);
-		gameView.addKeyListener(this);
+		getGameView().setContentPane(layers);
+		getGameView().addKeyListener(this);
 		fruitView = new FruitView(layers);
 		dotsView = new DotsView(Board.getDots(), layers);
 		pacmanView = new PacmanView(Board.pacman, layers);
 		createGhostViews(ghostQuantity);
-		gameView.setVisible(true);
+		getGameView().setVisible(true);
 
 		Board.observeFruit(fruitView);
 		Board.observePacman(pacmanView);
 
-		board.addObserver(dotsView);
+		getBoard().addObserver(dotsView);
 
 	}
 
 	// ARRANCA EL JUEGO
+	@SuppressWarnings("unlikely-arg-type")
 	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException,
 			UnsupportedAudioFileException {
 		boolean ever = true;
 		time = 0;
 		while (ever) {
 
-			if (gameState != GameState.POSTGAME)
-				gameView.requestFocus();
-			
-
-			switch (gameState) {
-			case LOAD:
-				load();
-				break;
-			case RECOVERY:
-				recovery();
-				break;
-			case NORMALMODE:
-				normalMode();
-				break;
-			case SUPERMODE:
-				superMode();
-				break;
-			case RESPAWN:
-				respawn();
-				break;
-			case PAUSA:
-				pausa();
-				break;
-			case POSTGAME:
-				 postGame();
-				break;
-			case NEXTLEVEL:
-				nextLevel();
-				break;
-			}
-
-			// END GAME
+			if (!state.equals(PostGame.class))
+				getGameView().requestFocus();
+			state.run();
 			if (Board.getLifes() <= 0) {
-				gameState = GameState.POSTGAME;
+				state = new PostGame();
 				firstTime = true;
 				Board.setLifes(3);
 			}
@@ -180,71 +150,30 @@ public class Game implements KeyListener, Runnable {
 		// LA PANTALLA PRE-JUEGO
 
 		if (firstTime) {
-			gameView.setContentPane(beginMenu);
+			getGameView().setContentPane(getBeginMenu());
 			firstTime = false;
 		}
-		if (beginMenu.wasPressbtnBegin()) {
+		getBeginMenu();
+		if (BeginMenu.wasPressbtnBegin()) {
 			// CAMBIA A MODO NORMAL (CIERRA PANTALLA DE INICIO)
-			gameState = GameState.NORMALMODE;
+			state = new Normal();
 			firstTime = true;
-			beginMenu.dispose();
-		} else if (beginMenu.wasPressBtnRecovery()) {
-			// CAMBIA A MODO CARGAR (CIERRA PANTALLA DE INICIO)
-			gameState = GameState.RECOVERY;
-			beginMenu.dispose();
-			firstTime = true;
-		} else if (beginMenu.wasPressBtnExit()) {
-			// CIERRA EL JUEGO
-			System.exit(0);
-		}
-	}
-
-	private void normalMode()
-			throws InterruptedException, LineUnavailableException, IOException, UnsupportedAudioFileException {
-		
-		Board.pacman.resetGhostEated();
-		Board.setGhostState(Ghost.GhostState.COURAGEOUS);
-
-		if (firstTime) {
-			initVisual();
-			Sounds.reproduceBeginning();
-			firstTime = false;
-		}
-		while (gameState.equals(GameState.NORMALMODE)) {
-			time++;
-			Thread.sleep(retard);
-
-			runCreatures();
-			board.update();
-
-		}
-	}
-
-	private void superMode() throws InterruptedException {
-		superTime = 0;
-		Board.setGhostState(Ghost.GhostState.PUSSY);
-
-		while (gameState.equals(GameState.SUPERMODE)) {
-
-			Thread.sleep(retard);
-			time++;
-
-			runCreatures();
-
-			superTime++;
-			if (Board.getDotRemoved().getSuper()) {
-				superTime = 0;
+			getBeginMenu().dispose();
+		} else {
+			getBeginMenu();
+			if (BeginMenu.wasPressBtnRecovery()) {
+				// CAMBIA A MODO CARGAR (CIERRA PANTALLA DE INICIO)
+				//gameState = new Recovery();
+				getBeginMenu().dispose();
+				firstTime = true;
+			} else {
+				getBeginMenu();
+				if (BeginMenu.wasPressBtnExit()) {
+					// CIERRA EL JUEGO
+					System.exit(0);
+				}
 			}
-			if (superTime == 150) {
-				gameState = GameState.NORMALMODE;
-			}
-			if (superTime >= 125)
-				Board.setGhostState(GhostState.HURRY);
-			
-			board.update();
-
 		}
-		
 	}
 
 	// REINICIA POSICIONES EN EL TABLERO
@@ -257,36 +186,10 @@ public class Game implements KeyListener, Runnable {
 		Board.pacman.setPacmanState(PacmanState.MOVE);
 
 		firstTime = true;
-		gameState = GameState.NORMALMODE;
+		state = new Normal();
 	}
 
-	private static void pausa() {
-		JOptionPane.showMessageDialog(null, "la partida esta en pausa");
-		gameState = GameState.NORMALMODE;
-	}
-
-	private void nextLevel() {
-		Board.upLevel();
-		Board.setDots(dotStartMatrix);
-		gameState = GameState.RESPAWN;
-		retard = (retard *5) / 6;
-	}
-
-	// TERMINO LA PARTIDA
-	private static void postGame() {
-		if (firstTime) {
-			 JOptionPane.showMessageDialog(null, "la partida termino. Puntos: "+ board.getScore());
-			gameView.remove(layers);
-			postGameView = new PostGameView(gameView, postGameView, scoreView);
-			gameView.setContentPane(postGameView);
-			firstTime = false;
-			sound.reproducePostGame();
-
-		}
-
-	}
-
-	private void createGhostViews(int value) {
+	private static void createGhostViews(int value) {
 		ghostViewsArray = new ArrayList<CreaturesView>();
 		Board.observeGhost(ghostViewsArray, value,layers);
 		
@@ -315,9 +218,9 @@ public class Game implements KeyListener, Runnable {
 	public static void save() {
 		try {
 
-			serializator.toPersist();
+			getSerializator().toPersist();
 
-			gameView.requestFocus();
+			getGameView().requestFocus();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -327,10 +230,10 @@ public class Game implements KeyListener, Runnable {
 	// CARGA PARTIDA
 	public static void recovery() throws FileNotFoundException, IOException, ParseException {
 
-		ArrayList<Dot> dotsArraySaved = serializator.recover();
+		ArrayList<Dot> dotsArraySaved = getSerializator().recover();
 		Board.setDots(dotsArraySaved);
 		//dotMatrix = Board.getDots();
-		setGameState(GameState.NORMALMODE);
+		setState(new Normal());
 		setFirstTime(true);
 	}
 
@@ -358,7 +261,7 @@ public class Game implements KeyListener, Runnable {
 		} catch (Exception e) {
 		}
 
-		gameView.repaint();
+		getGameView().repaint();
 	}
 
 	public static Square[][] getBoardMatrix() {
@@ -377,12 +280,9 @@ public class Game implements KeyListener, Runnable {
 		Game.firstTime = firstTime;
 	}
 
-	public static GameState getGameState() {
-		return gameState;
-	}
 
-	public static void setGameState(GameState gameState) {
-		Game.gameState = gameState;
+	public static void setState(GameState newState) {
+		state = newState;
 	}
 
 	public static boolean isPaused() {
@@ -423,7 +323,7 @@ public class Game implements KeyListener, Runnable {
 			break;
 		}
 		case KeyEvent.VK_P: {
-			gameState = GameState.PAUSA;
+			setState(new Pause());
 			break;
 		}
 		}
@@ -435,6 +335,75 @@ public class Game implements KeyListener, Runnable {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+	}
+
+	public static Serializator getSerializator() {
+		return serializator;
+	}
+
+	public static void setSerializator(Serializator serializator) {
+		Game.serializator = serializator;
+	}
+
+	public static int getRetard() {
+		return retard;
+	}
+
+	public static void setRetard(int retard) {
+		Game.retard = retard;
+	}
+
+	public static GameState getState() {
+		// TODO Auto-generated method stub
+		return state;
+	}
+
+	public static Board getBoard() {
+		return board;
+	}
+
+	public static void setBoard(Board board) {
+		Game.board = board;
+	}
+
+	public static int getSuperTime() {
+		return superTime;
+	}
+
+	public static void setSuperTime(int superTime) {
+		Game.superTime = superTime;
+	}
+
+	public static Sounds getSound() {
+		return sound;
+	}
+
+	public static void setSound(Sounds sound) {
+		Game.sound = sound;
+	}
+
+	public static ArrayList<Dot> getDotStartMatrix() {
+		return dotStartMatrix;
+	}
+
+	public static void setDotStartMatrix(ArrayList<Dot> dotStartMatrix) {
+		Game.dotStartMatrix = dotStartMatrix;
+	}
+
+	public static  BeginMenu getBeginMenu() {
+		return beginMenu;
+	}
+
+	public static void setBeginMenu(BeginMenu beginMenu) {
+		Game.beginMenu = beginMenu;
+	}
+
+	public static GameView getGameView() {
+		return gameView;
+	}
+
+	public static void setGameView(GameView gameView) {
+		Game.gameView = gameView;
 	}
 
 }

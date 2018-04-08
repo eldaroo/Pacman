@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import controller.Game;
 import model.Ghost.GhostState;
 
 

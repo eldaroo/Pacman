@@ -3,10 +3,10 @@ package visual;
 import org.json.simple.parser.ParseException;
 
 import controller.Game;
+import controller.states.Load;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import model.GameState;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class RecoveryMenu extends JInternalFrame {
 		JButton btnBack = new JButton("Atras");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Game.setGameState(GameState.LOAD);
+				Game.setState(new Load());
 				Game.setFirstTime(true);
 				dispose();
 			}

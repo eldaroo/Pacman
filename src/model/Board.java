@@ -13,6 +13,7 @@ import javax.swing.JLayeredPane;
 import org.json.simple.JSONValue;
 
 import controller.Game;
+import controller.states.NextLevel;
 import model.Fruit.FruitType;
 import model.Ghost.GhostState;
 import model.Square.Corner;
@@ -20,7 +21,6 @@ import sounds.Sounds;
 import visual.CreaturesView;
 import visual.FruitView;
 import visual.GhostView;
-import visual.PacmanView;
 
 public class Board extends Observable implements Serializable {
 
@@ -246,7 +246,7 @@ public class Board extends Observable implements Serializable {
 
 		// CHEQUEA SI TERMINO EL LEVEL
 		if (dots.size() == 0) {
-			Game.setGameState(GameState.NEXTLEVEL);
+			Game.setState(new NextLevel());
 			Game.setFirstTime(true);
 		}
 	}

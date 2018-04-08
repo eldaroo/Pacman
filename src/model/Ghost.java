@@ -1,14 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Random;
 
 import controller.Game;
+import controller.states.Respawn;
 import sounds.Sounds;
 
 public class Ghost extends Creature {
 
-	private static ArrayList<Direction> potentialDirectionsList;
 
 	public static enum GhostState {
 		COURAGEOUS, DEATH, PUSSY, EATED, INHELL, HURRY
@@ -16,11 +14,8 @@ public class Ghost extends Creature {
 
 	private Position target;
 	private int intelligence;
-	private int stupidity;
 	private GhostState ghostState = GhostState.INHELL;
-	private Random random;
 	private int hellTime=0;
-	private IA iAGhost;
 	private int hellRequiredTime;
 	 int auxForRetarded=0;
 
@@ -96,7 +91,7 @@ public class Ghost extends Creature {
 
 		Sounds.reproduceDeath();
 		pacman.death();
-		Game.setGameState(GameState.RESPAWN);
+		Game.setState(new Respawn());
 
 	}
 

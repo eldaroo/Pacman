@@ -1,4 +1,0 @@
-package model;
-
-public enum GameState {LOAD, NORMALMODE, RESPAWN, SUPERMODE, POSTGAME, PAUSA, RECOVERY, NEXTLEVEL}
-

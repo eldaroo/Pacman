@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.util.Observable;
 import javax.swing.JLayeredPane;
 
-import model.Board;
 import model.Pacman;
 import model.Position;
 import model.Pacman.PacmanState;

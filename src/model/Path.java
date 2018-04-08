@@ -1,6 +1,5 @@
 package model;
 
-import model.Square.Corner;
 
 public class Path extends Square {
 	public Path(Corner corner)

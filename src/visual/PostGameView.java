@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.EmptyBorder;
 
 import controller.Game;
-import model.GameState;
+import controller.states.Normal;
 
 public class PostGameView extends JPanel {
 
@@ -69,7 +69,7 @@ public class PostGameView extends JPanel {
 		JButton btnAgain = new JButton("TRY AGAIN");
 		btnAgain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Game.setGameState(GameState.NORMALMODE);
+				Game.setState(new Normal());
 				Game.setFirstTime(true);
 				//Game.restartGameVisual();
 				Game.respawn();

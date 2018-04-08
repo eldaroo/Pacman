@@ -1,9 +1,6 @@
 package model;
 
 import java.util.Observable;
-import java.util.Random;
-
-import controller.Game;
 
 public class Fruit extends Observable {
 	public static enum FruitType {
