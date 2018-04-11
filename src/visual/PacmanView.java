@@ -4,9 +4,12 @@ import java.awt.Dimension;
 import java.util.Observable;
 import javax.swing.JLayeredPane;
 
-import model.Pacman;
+
+import model.Board;
+
 import model.Position;
-import model.Pacman.PacmanState;
+import model.creatures.Pacman;
+import model.creatures.Pacman.PacmanState;
 
 public class PacmanView extends CreaturesView {
 
@@ -42,7 +45,7 @@ public class PacmanView extends CreaturesView {
 		dimension=this.size();
 		
 		while (dimension.getHeight()<500) {
-			System.out.println(this.size());
+			//System.out.println(this.size());
 
 			dimension.height++;
 			dimension.width++;

@@ -56,6 +56,7 @@ public class Serializator {
 					dotsArraySaved.add(dot);
 
 				} else if(!Boolean.parseBoolean((String) jObj.get("superDot"))){
+					System.out.println("HOla");
 					dot=new Dot();
 					dot.setPosition(Board.getBoard()[(int) x][(int) y]);
 					dotsArraySaved.add(dot);

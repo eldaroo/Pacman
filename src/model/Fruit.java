@@ -2,7 +2,9 @@ package model;
 
 import java.util.Observable;
 
-public class Fruit extends Observable {
+import model.board.Element;
+
+public class Fruit extends Element {
 	public static enum FruitType {
 		CHERRY, BANANNA, APPLE, ORANGE
 	}

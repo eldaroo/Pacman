@@ -8,7 +8,9 @@ import java.util.Observable;
 import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
-public class Dot extends Observable implements JSONStreamAware{
+import model.board.Element;
+
+public class Dot extends Element implements JSONStreamAware{
 
 	private boolean superDot=false;
 	private Square position;

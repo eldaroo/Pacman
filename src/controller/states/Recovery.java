@@ -2,12 +2,17 @@ package controller.states;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.json.simple.parser.ParseException;
 
 import controller.Game;
+import model.Board;
+import model.Dot;
+import model.Serializator;
 
-public abstract class Recovery extends GameState {
+public class Recovery extends GameState {
+	private static Serializator serializator = new Serializator();
 
 	@Override
 	public void reorganize(Game game) {
@@ -17,7 +22,12 @@ public abstract class Recovery extends GameState {
 
 	@Override
 	public void run() throws FileNotFoundException, IOException, ParseException  {
-		Game.recovery();
+
+		ArrayList<Dot> dotsArraySaved = serializator.recover();
+		Board.setDots(dotsArraySaved);
+		// dotMatrix = Board.getDots();
+		Game.setState(new Normal());
+		Game.setFirstTime(true);
 	}
 
 }

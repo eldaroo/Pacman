@@ -1,5 +1,8 @@
 package model;
 
+
+import model.creatures.Creature;
+
 public class FalseTeleport extends Square {
 
 	public FalseTeleport(Corner corner)

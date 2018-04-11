@@ -2,45 +2,41 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Random;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import org.json.simple.parser.ParseException;
-import org.w3c.dom.css.DocumentCSS;
 
+import org.json.simple.parser.ParseException;
+
+import controller.states.GameState;
+import controller.states.Load;
+import controller.states.Normal;
+import controller.states.Pause;
+import controller.states.PostGame;
 import model.Board;
 import model.Direction;
 import model.Dot;
-import model.Fruit;
-import model.Ghost;
-import model.Ghost.GhostState;
-import model.IA;
 import model.MyDataAcces;
-import model.Pacman;
-import model.Pacman.PacmanState;
 import model.Serializator;
 import model.Square;
-
+import model.creatures.Pacman.PacmanState;
+import model.creatures.ghostStates.Courageous;
+import model.creatures.ghostStates.Pussy;
 import sounds.Sounds;
 import visual.BeginMenu;
-
-import visual.GameView;
-import visual.GhostView;
-import visual.PacmanView;
-import visual.PostGameView;
-import visual.ScoreView;
 import visual.CreaturesView;
 import visual.DotsView;
 import visual.FruitView;
-import controller.states.*;
+import visual.GameView;
+import visual.PacmanView;
+import visual.PostGameView;
+import visual.ScoreView;
 
 public class Game implements KeyListener, Runnable {
 	// MODELO
@@ -79,9 +75,9 @@ public class Game implements KeyListener, Runnable {
 
 	// CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
 	public Game(BeginMenu beginMenu, JLayeredPane layers, Board board) {
-		Game.setBeginMenu(beginMenu);
+		Game.beginMenu = beginMenu;
 		Game.layers = layers;
-		Game.setBoard(board);
+		Game.board = board;
 	}
 
 	// EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
@@ -99,32 +95,31 @@ public class Game implements KeyListener, Runnable {
 	public void initGame() {
 
 		state = new Load();
-		setGameView(new GameView());
+		gameView = new GameView();
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
-		setDotStartMatrix(Board.getDots());
-		Board.createGhosts(getGhostQuantity());
+		dotStartMatrix =Board.getDots();
+		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
 		scoreView = new ScoreView();
-		getGameView().addKeyListener(this);
+		gameView.addKeyListener(this);
 
 	}
 
-	// INICIALIZAMOS MAS VARIABLES, ESTA VEZ ORIENTADO A LO VISUAL
 	public static void initVisual() {
 
-		getGameView().setContentPane(layers);
-		setFruitView(new FruitView(layers));
-		setDotsView(new DotsView(Board.getDots(), layers));
-		setPacmanView(new PacmanView(Board.pacman, layers));
-		createGhostViews(getGhostQuantity());
-		getGameView().setVisible(true);
+		gameView.setContentPane(layers);
+		fruitView = new FruitView(layers);
+		dotsView = new DotsView(Board.getDots(), layers);
+		pacmanView = new PacmanView(Board.pacman, layers);
+		createGhostViews(ghostQuantity);
+		gameView.setVisible(true);
 
-		Board.observeFruit(getFruitView());
-		Board.observePacman(getPacmanView());
+		Board.observeFruit(fruitView);
+		Board.observePacman(pacmanView);
 
-		getBoard().addObserver(getDotsView());
+		board.addObserver(dotsView);
 
 	}
 
@@ -137,9 +132,12 @@ public class Game implements KeyListener, Runnable {
 
 		while (ever) {
 
-			if (state.toString() != "PostGame")
-				getGameView().requestFocus();
+			//if (state.toString() != "PostGame")
+				gameView.requestFocus();
 
+			if (isFirstTime())
+				state.reorganize(this);
+			
 			state.run();
 
 			if (Board.getLifes() <= 0) {
@@ -147,16 +145,12 @@ public class Game implements KeyListener, Runnable {
 				firstTime = true;
 				Board.setLifes(3);
 			}
-
 		}
-
 	}
-
 
 	public static void createGhostViews(int value) {
 		ghostViewsArray = new ArrayList<CreaturesView>();
 		Board.observeGhost(ghostViewsArray, value, layers);
-
 	}
 
 	public static void runCreatures() throws InterruptedException {
@@ -182,24 +176,15 @@ public class Game implements KeyListener, Runnable {
 	public static void save() {
 		try {
 
-			getSerializator().toPersist();
+			serializator.toPersist();
 
-			getGameView().requestFocus();
+			gameView.requestFocus();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// CARGA PARTIDA
-	public static void recovery() throws FileNotFoundException, IOException, ParseException {
-
-		ArrayList<Dot> dotsArraySaved = getSerializator().recover();
-		Board.setDots(dotsArraySaved);
-		// dotMatrix = Board.getDots();
-		setState(new Normal());
-		setFirstTime(true);
-	}
 
 	// SALVAMOS EL SCORE
 	public static void saveScore(String name) {
@@ -225,7 +210,7 @@ public class Game implements KeyListener, Runnable {
 		} catch (Exception e) {
 		}
 
-		getGameView().repaint();
+		gameView.repaint();
 	}
 
 	public static Square[][] getBoardMatrix() {
@@ -259,6 +244,9 @@ public class Game implements KeyListener, Runnable {
 	public static void setTime(int time) {
 		Game.time = time;
 	}
+	public static void upTime() {
+		Game.time ++;
+	}
 
 	public void pause(boolean run) {
 		Game.run = !run;
@@ -291,6 +279,10 @@ public class Game implements KeyListener, Runnable {
 		}
 		}
 	}
+	public static void upSuperTime() {
+		Game.superTime++;
+	}
+
 
 	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
@@ -349,10 +341,6 @@ public class Game implements KeyListener, Runnable {
 		return dotStartMatrix;
 	}
 
-	public static void setDotStartMatrix(ArrayList<Dot> dotStartMatrix) {
-		Game.dotStartMatrix = dotStartMatrix;
-	}
-
 	public static BeginMenu getBeginMenu() {
 		return beginMenu;
 	}
@@ -400,5 +388,6 @@ public class Game implements KeyListener, Runnable {
 	public static void setDotsView(DotsView dotsView) {
 		Game.dotsView = dotsView;
 	}
+
 
 }

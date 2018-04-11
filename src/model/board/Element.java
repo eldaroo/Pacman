@@ -1,5 +1,7 @@
 package model.board;
 
-public class Element {
+import java.util.Observable;
+
+public class Element extends Observable {
 	//dot,superdot,fruit -> heredan de Element
 }

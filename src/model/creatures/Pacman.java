@@ -1,11 +1,16 @@
-package model;
+package model.creatures;
 
 
 
 
 import controller.Game;
 import controller.states.Super;
-import model.Ghost.GhostState;
+
+import model.Board;
+import model.Dot;
+import model.Square;
+import model.creatures.ghostStates.Eated;
+import model.Fruit.FruitType;
 import sounds.Sounds;
 
 public class Pacman extends Creature  {
@@ -34,6 +39,7 @@ public class Pacman extends Creature  {
 		
 		if (Board.getDotRemoved().getSuper() == true) {
 			Game.setState (new Super());
+			Game.setFirstTime(true);
 			Board.upScore(20, 0);
 		}
 		Board.setPacmanEatNewDot(true);
@@ -51,7 +57,7 @@ public class Pacman extends Creature  {
 		sounds.reproduceEatGhost(ghostsEated);
 
 		setPacmanState(PacmanState.EATGHOST);
-		ghost.setGhostState(GhostState.EATED);
+		ghost.setState(new Eated());
 		Board.upScore(50, ghostsEated);
 	}
 

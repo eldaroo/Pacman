@@ -1,7 +1,8 @@
 package visual;
 
 import javax.swing.JLabel;
-import model.Pacman;
+
+import model.creatures.Pacman;
 
 public class ComboScream extends JLabel {
 

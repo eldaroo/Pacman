@@ -1,6 +1,8 @@
 package model;
 
 
+import model.creatures.Creature;
+
 public class Wall extends Square {
 	public Wall(Corner corner)
 	{

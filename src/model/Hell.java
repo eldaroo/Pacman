@@ -1,5 +1,8 @@
 package model;
 
+
+import model.creatures.Creature;
+
 public class Hell extends Square {
 
 	public Hell(Corner corner)
@@ -11,7 +14,7 @@ public class Hell extends Square {
 
 @Override
 public boolean isNavegable(Creature creature) {
-	if(creature.name.equals("pacman")) {
+	if(creature.getName().equals("pacman")) {
 	return false;}
 	else return true;
 }

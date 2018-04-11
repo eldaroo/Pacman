@@ -11,13 +11,19 @@ import model.FalseHell;
 import model.FalsePath;
 import model.FalseTeleport;
 import model.Fruit;
-import model.Ghost;
 import model.Hell;
 import model.HellGate;
-import model.Pacman;
 import model.Path;
 import model.Square;
 import model.Square.Corner;
+import model.creatures.Ghost;
+import model.creatures.Pacman;
+import model.creatures.ghostStates.Courageous;
+import model.creatures.ghostStates.Death;
+import model.creatures.ghostStates.Eated;
+import model.creatures.ghostStates.Hurry;
+import model.creatures.ghostStates.InHell;
+import model.creatures.ghostStates.Pussy;
 import model.SuperDot;
 import model.Teleport;
 import model.Wall;
@@ -35,7 +41,7 @@ public abstract class ResourceBinding {
 	private static Map<Integer, ImageIcon> pacmanEatingGhost = new HashMap<Integer, ImageIcon>();
 	private static Map<Direction, ImageIcon> pacmanDying = new HashMap<Direction, ImageIcon>();
 	//MAPAS DE ESTADO DEL GHOST
-	private static Map<Enum<?>, Map<Integer, ImageIcon>> ghostState = new HashMap<Enum<?>, Map<Integer, ImageIcon>>();
+	private static Map<String, Map<Integer, ImageIcon>> ghostState = new HashMap<String, Map<Integer, ImageIcon>>();
 	private static Map<Integer, ImageIcon> ghostAlive = new HashMap<Integer, ImageIcon>();
 	private static Map<Integer, ImageIcon> ghostEated = new HashMap<Integer, ImageIcon>();
 	private static Map<Integer, ImageIcon> ghostDeath = new HashMap<Integer, ImageIcon>();
@@ -148,12 +154,12 @@ public abstract class ResourceBinding {
 	}
 
 	static {
-		ghostState.put(Ghost.GhostState.COURAGEOUS, ghostAlive);
-		ghostState.put(Ghost.GhostState.DEATH, ghostDeath);
-		ghostState.put(Ghost.GhostState.PUSSY, ghostPussy);
-		ghostState.put(Ghost.GhostState.EATED, ghostEated);
-		ghostState.put(Ghost.GhostState.INHELL, ghostAlive);
-		ghostState.put(Ghost.GhostState.HURRY, ghostHurry);
+		ghostState.put("Courageous", ghostAlive);
+		ghostState.put("Death", ghostDeath);
+		ghostState.put("Pussy", ghostPussy);
+		ghostState.put("Eated", ghostEated);
+		ghostState.put("InHell", ghostAlive);
+		ghostState.put("Hurry", ghostHurry);
 	}
 
 	static {
@@ -183,9 +189,10 @@ public abstract class ResourceBinding {
 		return cornerIcon.get(object.getCorner());
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	static public ImageIcon getGhostIcon(Ghost ghost) {
 		Map<Integer, ImageIcon> stateIcon = new HashMap<Integer, ImageIcon>();
-		stateIcon = ghostState.get(ghost.getGhostState());
+		stateIcon = ghostState.get(ghost.getState().toString());
 		return stateIcon.get(ghost.getIntelligence());
 	}
 

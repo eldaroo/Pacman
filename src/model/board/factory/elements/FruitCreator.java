@@ -9,7 +9,7 @@ public class FruitCreator extends ElementCreator {
 	@Override
 	public Element elementCreator() {
 		// TODO Auto-generated method stub
-		return new Fruit();
+		return new Fruit(null);
 	}
 
 }

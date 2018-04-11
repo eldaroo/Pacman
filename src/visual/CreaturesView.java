@@ -6,7 +6,9 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-import model.Creature;
+
+import model.Board;
+import model.creatures.Creature;
 
 public class CreaturesView extends JLabel implements Observer {
 

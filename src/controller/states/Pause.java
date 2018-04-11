@@ -15,7 +15,7 @@ public class Pause extends GameState {
 	@Override
 	public void run() {
 		JOptionPane.showMessageDialog(null, "la partida esta en pausa");
-		Game.setState(new Normal());
+		//Game.setState(new Normal());
 	}
 
 }
