@@ -49,7 +49,7 @@ public class Board extends Observable implements Serializable {
 	static private Position fruitPosition;
 
 	// CRIATURAS
-	public static Pacman pacman ;
+	public static Pacman pacman;
 	private static ArrayList<Ghost> ghostsArray;
 
 	// VARIABLES
@@ -62,7 +62,7 @@ public class Board extends Observable implements Serializable {
 	private static long lifes = 3;
 	private static long score = 0;
 	private static Long level = (long) 1;
-	private static int aux =0 ;
+	private static int aux = 0;
 
 	public Board(char[][] level1) {
 		levelMatrix = level1;
@@ -196,7 +196,7 @@ public class Board extends Observable implements Serializable {
 		Dot dot;
 		SuperDot superDot;
 		dots.clear();
-		
+
 		for (int i = 0; i < levelMatrix.length; i++) {
 			for (int j = 0; j < levelMatrix.length; j++) {
 				switch (levelMatrix[i][j]) {
@@ -238,20 +238,17 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void lookingForDot() {
-		
+
 		Board.setPacmanEatNewDot(false);
-		dots = Board.getDots();
 
 		for (Dot dot : dots) {
 
 			if (dot.getBoardPosition().equals(pacman.getBoardPosition())) {
 				pacman.eatDot(dot);
 			}
-
 		}
-		dots.remove(Board.getDotRemoved());
-		Board.setDots(dots);
 
+		dots.remove(Board.getDotRemoved());
 
 		// CHEQUEA SI TERMINO EL LEVEL
 		if (dots.size() == 0) {
@@ -289,7 +286,7 @@ public class Board extends Observable implements Serializable {
 		for (Ghost ghost : ghostsArray) {
 			ghost.setState(new InHell());
 			ghost.setKeyOfHell(false);
-			ghost.setHellTime (0);
+			ghost.setHellTime(0);
 			// UBICA A LOS GHOST EN POSICION AZAROZA DENTRO DEL HELL
 			hellIndex = IA.random(Board.getHellZone().size());
 			ghost.setPosition(Board.getHellZone().get(hellIndex));
@@ -298,17 +295,16 @@ public class Board extends Observable implements Serializable {
 
 	@SuppressWarnings("unlikely-arg-type")
 	public static void moveGhosts() throws InterruptedException {
-		
+
 		for (Ghost ghost : ghostsArray) {
-			
-			if(ghost.getState().toString()=="Pussy"||ghost.getState().toString()=="Hurry")
-			{
+
+			if (ghost.getState().toString() == "Pussy" || ghost.getState().toString() == "Hurry") {
 				ghost.setAuxForRetarded(ghost.getAuxForRetarded() + 1);
 				if (ghost.getAuxForRetarded() == 2) {
 					ghost.run(pacman);
 					ghost.setAuxForRetarded(0);
 				}
-			}else {
+			} else {
 				ghost.run(pacman);
 			}
 		}
@@ -317,9 +313,9 @@ public class Board extends Observable implements Serializable {
 	public static void lookingForCreatures() throws InterruptedException {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
-				
+
 				ghost.getState().meetPacman(ghost, pacman);
-				
+
 			}
 		}
 	}
@@ -387,24 +383,21 @@ public class Board extends Observable implements Serializable {
 	public static void checkUpLife() {
 		switch (aux) {
 		case 0:
-			if(score>1000)
-			{
+			if (score > 1000) {
 				lifes++;
 				aux++;
 				Sounds.reproduceLifeUp();
 			}
 			break;
 		case 1:
-			if(score>5000)
-			{
+			if (score > 5000) {
 				lifes++;
 				aux++;
 				Sounds.reproduceLifeUp();
 			}
 			break;
 		case 2:
-			if(score>10000)
-			{
+			if (score > 10000) {
 				lifes++;
 				Sounds.reproduceLifeUp();
 			}
@@ -516,7 +509,6 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void setDots(ArrayList<Dot> dots) {
-		Board.dots.clear();
 		Board.dots = dots;
 	}
 
@@ -525,6 +517,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static boolean isPacmanEatNewDot() {
+		
 		return pacmanEatNewDot;
 	}
 

@@ -42,6 +42,7 @@ public class Pacman extends Creature  {
 			Game.setFirstTime(true);
 			Board.upScore(20, 0);
 		}
+
 		Board.setPacmanEatNewDot(true);
 	}
 	

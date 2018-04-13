@@ -4,6 +4,7 @@ import org.json.simple.parser.ParseException;
 
 import controller.Game;
 import controller.states.Load;
+import controller.states.Recovery;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -49,12 +50,7 @@ public class RecoveryMenu extends JInternalFrame {
 		getContentPane().add(btnBegin);
 		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Game.recovery();
-				} catch (IOException | ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Game.setState(new Recovery());
 			}
 		});
 	}

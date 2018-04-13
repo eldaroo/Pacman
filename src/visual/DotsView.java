@@ -14,10 +14,8 @@ import model.Dot;
 public class DotsView extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	// DIBUJA LA MATRIZ CON TODOS LOS DOTS
 	JLabel[][] dotMatrix;
 
-	// SE DIBUJAN DOTS
 	public DotsView(ArrayList<Dot> dotBoardMatrix, JLayeredPane layers) {
 		dotMatrix = new JLabel[1000][1000];
 		for (Dot dot : dotBoardMatrix) {
@@ -33,7 +31,6 @@ public class DotsView extends JPanel implements Observer {
 
 	}
 
-	// RECIBE AVISO DEL DOT COMIDO Y LO DESAPARECE
 	@Override
 	public void update(Observable observable, Object arg) {
 		// Board board = (Board) observable;

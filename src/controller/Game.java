@@ -64,7 +64,6 @@ public class Game implements KeyListener, Runnable {
 	// ESTRUCTURA
 	private static boolean run = true;
 	private static boolean firstTime = true;
-	// private static Square originalPositionPacman ;
 	private static Sounds sound = new Sounds();
 
 	// DATOS
@@ -73,7 +72,6 @@ public class Game implements KeyListener, Runnable {
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
 
-	// CON ESTO LAS VARIABLES IMPORTADAS DE CONTROLLER SE PUEDEN MANEJAR LOCALMENTE
 	public Game(BeginMenu beginMenu, JLayeredPane layers, Board board) {
 		Game.beginMenu = beginMenu;
 		Game.layers = layers;
@@ -163,7 +161,6 @@ public class Game implements KeyListener, Runnable {
 		Board.lookingForCreatures();
 		Board.moveGhosts();
 		Board.lookingForCreatures();
-
 		Board.movePacman();
 		Board.lookingForDot();
 		Board.lookingForFruit();

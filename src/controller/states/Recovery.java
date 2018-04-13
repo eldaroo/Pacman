@@ -25,7 +25,6 @@ public class Recovery extends GameState {
 
 		ArrayList<Dot> dotsArraySaved = serializator.recover();
 		Board.setDots(dotsArraySaved);
-		// dotMatrix = Board.getDots();
 		Game.setState(new Normal());
 		Game.setFirstTime(true);
 	}
