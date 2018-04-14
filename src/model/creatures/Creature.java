@@ -10,7 +10,7 @@ import org.json.simple.JSONValue;
 
 import model.Direction;
 import model.Position;
-import model.Square;
+import model.squares.Square;
 import sounds.Sounds;
 
 public abstract class Creature extends Observable implements JSONStreamAware {
@@ -84,8 +84,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
 		obj.put("name", String.valueOf(getName()));
 		obj.put("direction", String.valueOf(direction));
-		obj.put("getX", String.valueOf(position.getBoardPosition().getX()));
-		obj.put("getY", String.valueOf(position.getBoardPosition().getY()));
+		obj.put("position", String.valueOf(position));
 		obj.put("status", alive);
 		JSONValue.writeJSONString(obj, out);
 	}

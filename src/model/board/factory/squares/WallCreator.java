@@ -1,8 +1,8 @@
 package model.board.factory.squares;
 
-import model.Square;
-import model.Wall;
 import model.board.factory.SquareCreator;
+import model.squares.Square;
+import model.squares.Wall;
 
 public class WallCreator extends SquareCreator {
 

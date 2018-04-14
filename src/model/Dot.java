@@ -9,6 +9,7 @@ import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
 import model.board.Element;
+import model.squares.Square;
 
 public class Dot extends Element implements JSONStreamAware{
 
@@ -40,8 +41,8 @@ public class Dot extends Element implements JSONStreamAware{
 	@Override
 	public void writeJSONString(Writer out) throws IOException {
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
-		obj.put("xPosition", String.valueOf(position.getBoardPosition().getX()));
-		obj.put("yPosition", String.valueOf(position.getBoardPosition().getY()));
+		obj.put("xPosition", String.valueOf(getBoardPosition().getX()));
+		obj.put("yPosition", String.valueOf(getBoardPosition().getY()));
 		obj.put("superDot", String.valueOf(superDot));
 		JSONValue.writeJSONString(obj, out);
 	}

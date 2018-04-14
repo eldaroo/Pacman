@@ -1,8 +1,8 @@
 package model.board.factory.squares;
 
-import model.Path;
-import model.Square;
 import model.board.factory.SquareCreator;
+import model.squares.Path;
+import model.squares.Square;
 
 public class PathCreator extends SquareCreator {
 

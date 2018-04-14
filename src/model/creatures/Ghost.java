@@ -8,10 +8,10 @@ import controller.states.Respawn;
 import model.Board;
 import model.Direction;
 import model.Position;
-import model.Square;
 import model.creatures.ghostStates.Courageous;
 import model.creatures.ghostStates.GhostState;
 import model.creatures.ghostStates.InHell;
+import model.squares.Square;
 import sounds.Sounds;
 
 public class Ghost extends Creature {

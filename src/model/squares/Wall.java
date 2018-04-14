@@ -1,19 +1,18 @@
-package model;
+package model.squares;
 
 
 import model.creatures.Creature;
 
-public class Path extends Square {
-	public Path(Corner corner)
+public class Wall extends Square {
+	public Wall(Corner corner)
 	{
 		super(corner);
 	}
-	public Path()
+	public Wall()
 	{}
+
 	@Override
 	public boolean isNavegable(Creature creature) {
-		return true;
+		return false;
 	}
-
-
 }

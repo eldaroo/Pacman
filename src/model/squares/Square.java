@@ -1,5 +1,7 @@
-package model;
+package model.squares;
 
+import model.Direction;
+import model.Position;
 import model.creatures.Creature;
 
 public abstract class Square {

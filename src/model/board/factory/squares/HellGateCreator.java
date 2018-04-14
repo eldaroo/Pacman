@@ -1,8 +1,8 @@
 package model.board.factory.squares;
 
-import model.HellGate;
-import model.Square;
 import model.board.factory.SquareCreator;
+import model.squares.HellGate;
+import model.squares.Square;
 
 public class HellGateCreator extends SquareCreator {
 

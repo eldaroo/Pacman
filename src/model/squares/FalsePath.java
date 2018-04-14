@@ -1,18 +1,18 @@
-package model;
+package model.squares;
+
 
 import model.creatures.Creature;
 
-public class FalseHell extends Square {
+public class FalsePath extends Square {
 
-	public FalseHell(Corner corner)
+	public FalsePath(Corner corner)
 	{
 		super(corner);
 	}
-	public FalseHell()
+	public FalsePath()
 	{}
 	@Override
 	public boolean isNavegable(Creature creature) {
 		return false;
 	}
-
 }

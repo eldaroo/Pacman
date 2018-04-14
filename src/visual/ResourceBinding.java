@@ -7,15 +7,7 @@ import javax.swing.ImageIcon;
 
 import model.Direction;
 import model.Dot;
-import model.FalseHell;
-import model.FalsePath;
-import model.FalseTeleport;
 import model.Fruit;
-import model.Hell;
-import model.HellGate;
-import model.Path;
-import model.Square;
-import model.Square.Corner;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
 import model.creatures.ghostStates.Courageous;
@@ -24,9 +16,17 @@ import model.creatures.ghostStates.Eated;
 import model.creatures.ghostStates.Hurry;
 import model.creatures.ghostStates.InHell;
 import model.creatures.ghostStates.Pussy;
+import model.squares.FalseHell;
+import model.squares.FalsePath;
+import model.squares.FalseTeleport;
+import model.squares.Hell;
+import model.squares.HellGate;
+import model.squares.Path;
+import model.squares.Square;
+import model.squares.Teleport;
+import model.squares.Wall;
+import model.squares.Square.Corner;
 import model.SuperDot;
-import model.Teleport;
-import model.Wall;
 
 public abstract class ResourceBinding {
 	//MAPA DE BOARD

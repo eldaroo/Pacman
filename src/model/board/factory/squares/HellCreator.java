@@ -1,7 +1,7 @@
 package model.board.factory.squares;
 
-import model.Square;
 import model.board.factory.SquareCreator;
+import model.squares.Square;
 
 public class HellCreator extends SquareCreator {
 

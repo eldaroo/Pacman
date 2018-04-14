@@ -8,8 +8,8 @@ import controller.states.Super;
 
 import model.Board;
 import model.Dot;
-import model.Square;
 import model.creatures.ghostStates.Eated;
+import model.squares.Square;
 import model.Fruit.FruitType;
 import sounds.Sounds;
 

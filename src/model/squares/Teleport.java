@@ -1,4 +1,4 @@
-package model;
+package model.squares;
 
 public class Teleport extends Path {
 

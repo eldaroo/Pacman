@@ -13,8 +13,8 @@ import javax.swing.JLayeredPane;
 
 import controller.Game;
 import model.Board;
-import model.Square;
-import model.Square.Corner;
+import model.squares.Square;
+import model.squares.Square.Corner;
 
 public class BoardView extends Thread implements ActionListener, Observer{
 

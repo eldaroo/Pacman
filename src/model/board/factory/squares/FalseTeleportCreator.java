@@ -1,8 +1,8 @@
 package model.board.factory.squares;
 
-import model.FalseTeleport;
-import model.Square;
 import model.board.factory.SquareCreator;
+import model.squares.FalseTeleport;
+import model.squares.Square;
 
 public class FalseTeleportCreator extends SquareCreator {
 

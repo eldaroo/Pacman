@@ -9,8 +9,8 @@ import java.util.Random;
 import controller.Game;
 import model.Direction;
 import model.Position;
-import model.Square;
 import model.creatures.ghostStates.Pussy;
+import model.squares.Square;
 
 
 public abstract class IA {

@@ -15,7 +15,6 @@ import org.json.simple.JSONValue;
 import controller.Game;
 import controller.states.NextLevel;
 import model.Fruit.FruitType;
-import model.Square.Corner;
 import model.creatures.Creature;
 import model.creatures.Ghost;
 import model.creatures.IA;
@@ -26,6 +25,16 @@ import model.creatures.ghostStates.GhostState;
 import model.creatures.ghostStates.Hurry;
 import model.creatures.ghostStates.InHell;
 import model.creatures.ghostStates.Pussy;
+import model.squares.FalseHell;
+import model.squares.FalsePath;
+import model.squares.FalseTeleport;
+import model.squares.Hell;
+import model.squares.HellGate;
+import model.squares.Path;
+import model.squares.Square;
+import model.squares.Teleport;
+import model.squares.Wall;
+import model.squares.Square.Corner;
 import sounds.Sounds;
 import visual.CreaturesView;
 import visual.FruitView;
@@ -74,92 +83,70 @@ public class Board extends Observable implements Serializable {
 
 	// --------- TABLERO --------------
 
-	// CONSTRUYE EL TABLERO A PARTIR DE LA MATRIZ DE DATOS BASE
 	public static void makeBoard() {
 		board = new Square[levelMatrix.length][levelMatrix.length];
 		for (int i = 0; i < levelMatrix.length; i++) {
 			for (int j = 0; j < levelMatrix.length; j++) {
-				// SE ASIGNAN LOS TIPOS DE CASILLEROS
 				switch (levelMatrix[i][j]) {
 				case '\u0000':
-					// WALL
 					board[i][j] = new Wall();
 					break;
 				case '\u0001':
-					// PATH
 					board[i][j] = new Path();
 					break;
 				case '\u0002':
-					// PATH NOT NAVEGABLE
 					board[i][j] = new FalsePath();
 					break;
 				case '\u0003':
-					// TELEPORT NOT NAVEGABLE
 					board[i][j] = new FalseTeleport();
 					break;
 				case '\u0004':
-					// PATH WITH DOT
 					board[i][j] = new Path();
 					break;
 				case '\u0005':
-					// PATH WITH SUPER DOT
 					board[i][j] = new Path();
 					break;
 				case '\u0006':
-					// HELL
 					board[i][j] = new Hell();
 					hellZone.add(board[i][j]);
 					break;
 				case '\u0007':
-					// HELL ENTRANCE
 					hellGate.setBoardPosition(new Position(i, j));
 					board[i][j] = hellGate;
 					break;
 				case '\u0008':
-					// HELL NOT NAVEGABLE
 					board[i][j] = new FalseHell();
 					break;
 				case '\u0009':
-					// PATH WITH TELEPORT
 					board[i][j] = new Teleport();
 					teleportList.add(board[i][j]);
 					break;
 				case 'f':
-					// PATH WITH FRUIT
 					board[i][j] = new Path();
 					fruitPosition = new Position(i, j);
 					break;
-				// CORNERS
 				case 'a':
-					// a PATHCORNER_NW
 					board[i][j] = new FalsePath(Corner.NE);
 					break;
 				case 'w':
-					// w PATHCORNER_NE
 					board[i][j] = new FalsePath(Corner.NW);
 					break;
 				case 'x':
-					// x PATHCORNER_SW
 					board[i][j] = new FalsePath(Corner.SE);
 					break;
 				case 'd':
-					// d PATHCORNER_SW
 					board[i][j] = new FalsePath(Corner.SW);
 					break;
 				case 'q':
-					// q WALLCORNER_SE
 					board[i][j] = new Wall(Corner.NE);
 					break;
 				case 'e':
-					// e WALLCORNER_NW
 					board[i][j] = new Wall(Corner.NW);
 					break;
 				case 'z':
-					// z WALLCORNER_SE
 					board[i][j] = new Wall(Corner.SE);
 					break;
 				case 'c':
-					// c WALLCORNER_NW
 					board[i][j] = new Wall(Corner.SW);
 					break;
 				}
@@ -517,7 +504,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static boolean isPacmanEatNewDot() {
-		
+
 		return pacmanEatNewDot;
 	}
 
@@ -539,6 +526,10 @@ public class Board extends Observable implements Serializable {
 		obj.put("level", level);
 
 		JSONValue.writeJSONString(obj, out);
+	}
+
+	public static ArrayList<Ghost> getGhostsArray() {
+		return ghostsArray;
 	}
 
 }
