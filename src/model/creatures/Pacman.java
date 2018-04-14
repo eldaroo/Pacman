@@ -56,9 +56,10 @@ public class Pacman extends Creature  {
 		ghostsEated++;
 
 		sounds.reproduceEatGhost(ghostsEated);
-
-		setPacmanState(PacmanState.EATGHOST);
 		ghost.setState(new Eated());
+		pacmanState = PacmanState.EATGHOST;
+		Thread.sleep(500);
+		pacmanState= PacmanState.MOVE;
 		Board.upScore(50, ghostsEated);
 	}
 

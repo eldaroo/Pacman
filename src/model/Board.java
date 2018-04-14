@@ -314,43 +314,7 @@ public class Board extends Observable implements Serializable {
 		}
 	}
 
-	// ********* FRUIT
-
-	private static int fruitTime = 0;
-
-	public static void updateFruit() {
-		fruitTime++;
-		if (Game.getTime() % 50 == 0) {
-			determinateType();
-			Fruit.setEnableToEat(true);
-			fruitTime = 0;
-		}
-		if (fruitTime == 20) {
-			Fruit.setEnableToEat(false);
-		}
-	}
-
-	public static void determinateType() {
-
-		Random random = new Random();
-		int aux = random.nextInt(4);
-
-		switch (aux) {
-		case 0:
-			Fruit.setFruitType(FruitType.APPLE);
-			break;
-		case 1:
-			Fruit.setFruitType(FruitType.BANANNA);
-			break;
-		case 2:
-			Fruit.setFruitType(FruitType.ORANGE);
-			break;
-		case 3:
-			Fruit.setFruitType(FruitType.CHERRY);
-			break;
-		}
-
-	}
+	
 
 	// ----------- METODOS VARIOS ---------------
 
@@ -530,6 +494,10 @@ public class Board extends Observable implements Serializable {
 
 	public static ArrayList<Ghost> getGhostsArray() {
 		return ghostsArray;
+	}
+
+	public static void updateFruit() {
+		fruit.update();
 	}
 
 }

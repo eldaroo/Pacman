@@ -15,7 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class Serializator {
+public abstract class Serializator {
 	
 	static JSONArray jCreatures;
 	static JSONArray jDots ;
@@ -26,7 +26,7 @@ public class Serializator {
 	static Dot dot;
 	
 	
-	public ArrayList<Dot> recover() throws FileNotFoundException, IOException, ParseException,NullPointerException {
+	public static ArrayList<Dot> recover() throws FileNotFoundException, IOException, ParseException,NullPointerException {
 		 jCreatures = new JSONArray();
 		jObj = new JSONObject();
 		jDots = new JSONArray();
@@ -93,7 +93,7 @@ public class Serializator {
 	
 
 	@SuppressWarnings("unchecked")
-	public void toPersist() throws IOException {
+	public static void toPersist() throws IOException {
 		jDots = new JSONArray();
 		jObj = new JSONObject();
 		 jCreatures = new JSONArray();

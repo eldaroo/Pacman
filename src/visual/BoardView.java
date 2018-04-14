@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +14,7 @@ import javax.swing.JLayeredPane;
 
 import controller.Game;
 import model.Board;
+import model.Serializator;
 import model.squares.Square;
 import model.squares.Square.Corner;
 
@@ -98,8 +100,13 @@ public class BoardView extends Thread implements ActionListener, Observer{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btnSave)
 		{
-			Game.save();
-		}
+			try {
+				Serializator.toPersist();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			}
 		if(arg0.getSource()==btnExit)
 		{
 			System.exit(0);

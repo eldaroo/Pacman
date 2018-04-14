@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import controller.Game;
 import controller.states.Normal;
 import controller.states.Respawn;
+import model.DataManager;
 
 public class PostGameView extends JPanel {
 
@@ -48,7 +49,7 @@ public class PostGameView extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				//SALVAMOS EL SCORE AL TOCAR EL BOTON
-				Game.saveScore(textField.getText());
+				DataManager.saveScore(textField.getText());
 				try {
 					//NOS DESHACEMOS DEL POSTGAMEVIEW
 					this.finalize();

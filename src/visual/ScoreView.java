@@ -3,6 +3,7 @@ package visual;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import controller.Game;
+import model.DataManager;
 
 import javax.swing.JLabel;
 
@@ -27,8 +28,7 @@ public class ScoreView extends JPanel {
 			}
 	public void getScore()
 	{
-		//LLAMAMOS AL METODO QUE MUESTRA EL SCORE
-				Game.getScore();
+				DataManager.getScore();
 
 	}
 	public JTextArea getScoreTextArea() {

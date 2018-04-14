@@ -12,7 +12,6 @@ import model.Dot;
 import model.Serializator;
 
 public class Recovery extends GameState {
-	private static Serializator serializator = new Serializator();
 
 	@Override
 	public void reorganize(Game game) {
@@ -23,7 +22,7 @@ public class Recovery extends GameState {
 	@Override
 	public void run() throws FileNotFoundException, IOException, ParseException  {
 
-		ArrayList<Dot> dotsArraySaved = serializator.recover();
+		ArrayList<Dot> dotsArraySaved = Serializator.recover();
 		Board.setDots(dotsArraySaved);
 		Game.setState(new Normal());
 		Game.setFirstTime(true);

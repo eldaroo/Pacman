@@ -10,23 +10,14 @@ import java.util.ArrayList;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-
 import org.json.simple.parser.ParseException;
-
 import controller.states.GameState;
 import controller.states.Load;
-import controller.states.Normal;
 import controller.states.Pause;
 import controller.states.PostGame;
 import model.Board;
 import model.Direction;
 import model.Dot;
-import model.MyDataAcces;
-import model.Serializator;
-import model.creatures.Pacman.PacmanState;
-import model.creatures.ghostStates.Courageous;
-import model.creatures.ghostStates.Pussy;
 import model.squares.Square;
 import sounds.Sounds;
 import visual.BeginMenu;
@@ -35,8 +26,6 @@ import visual.DotsView;
 import visual.FruitView;
 import visual.GameView;
 import visual.PacmanView;
-import visual.PostGameView;
-import visual.ScoreView;
 
 public class Game implements KeyListener, Runnable {
 	// MODELO
@@ -54,12 +43,6 @@ public class Game implements KeyListener, Runnable {
 	private static BeginMenu beginMenu;
 	private static JLayeredPane layers;
 	private static FruitView fruitView;
-	private static ScoreView scoreView;
-
-	// SERIALIZADOR y SQL
-	private static Serializator serializator = new Serializator();
-	private static MyDataAcces connection;
-	private static ResultSet result;
 
 	// ESTRUCTURA
 	private static boolean run = true;
@@ -97,10 +80,9 @@ public class Game implements KeyListener, Runnable {
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
-		dotStartMatrix =Board.getDots();
+		dotStartMatrix = Board.getDots();
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
-		scoreView = new ScoreView();
 		gameView.addKeyListener(this);
 
 	}
@@ -130,12 +112,12 @@ public class Game implements KeyListener, Runnable {
 
 		while (ever) {
 
-			//if (state.toString() != "PostGame")
-				gameView.requestFocus();
+			// if (state.toString() != "PostGame")
+			gameView.requestFocus();
 
 			if (isFirstTime())
 				state.reorganize(this);
-			
+
 			state.run();
 
 			if (Board.getLifes() <= 0) {
@@ -153,100 +135,18 @@ public class Game implements KeyListener, Runnable {
 
 	public static void runCreatures() throws InterruptedException {
 
-		if (Board.pacman.getPacmanState() == PacmanState.EATGHOST) {
-			Thread.sleep(500);
-			Board.pacman.setPacmanState(PacmanState.MOVE);
-		}
-
 		Board.lookingForCreatures();
 		Board.moveGhosts();
 		Board.lookingForCreatures();
 		Board.movePacman();
 		Board.lookingForDot();
 		Board.lookingForFruit();
-
 		Board.updateFruit();
 
 	}
 
-	// GUARDA PARTIDA
-	public static void save() {
-		try {
-
-			serializator.toPersist();
-
-			gameView.requestFocus();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	// SALVAMOS EL SCORE
-	public static void saveScore(String name) {
-		try {
-			connection = new MyDataAcces();
-			connection.setQuery(name, Board.getScore());
-		} catch (Exception e) {
-		}
-	}
-
-	// CARGAMOS EL SCORE Y LO VOLCAMOS AL JTEXTAREA DEL SCOREVIEW
-	public static void getScore() {
-		int aux = 0;
-		try {
-			connection = new MyDataAcces();
-			result = connection.getQuery();
-			while (result.next()) {
-				aux++;
-				scoreView.getScoreTextArea()
-						.append(aux + ". " + result.getString("name") + " " + result.getInt("score") + "\n");
-			}
-
-		} catch (Exception e) {
-		}
-
-		gameView.repaint();
-	}
-
-	public static Square[][] getBoardMatrix() {
-		return boardMatrix;
-	}
-
-	public static JLayeredPane getLayers() {
-		return layers;
-	}
-
-	public static boolean isFirstTime() {
-		return firstTime;
-	}
-
-	public static void setFirstTime(boolean firstTime) {
-		Game.firstTime = firstTime;
-	}
-
-	public static void setState(GameState newState) {
-		state = newState;
-	}
-
-	public static boolean isPaused() {
-		return !run;
-	}
-
-	public static int getTime() {
-		return time;
-	}
-
-	public static void setTime(int time) {
-		Game.time = time;
-	}
-	public static void upTime() {
-		Game.time ++;
-	}
-
-	public void pause(boolean run) {
-		Game.run = !run;
+	public static void upSuperTime() {
+		Game.superTime++;
 	}
 
 	// ESCUCHA LAS TECLAS: DIRECCIONES Y PAUSA (P)
@@ -276,10 +176,6 @@ public class Game implements KeyListener, Runnable {
 		}
 		}
 	}
-	public static void upSuperTime() {
-		Game.superTime++;
-	}
-
 
 	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
@@ -289,12 +185,36 @@ public class Game implements KeyListener, Runnable {
 	public void keyTyped(KeyEvent arg0) {
 	}
 
-	public static Serializator getSerializator() {
-		return serializator;
+	public static boolean isFirstTime() {
+		return firstTime;
 	}
 
-	public static void setSerializator(Serializator serializator) {
-		Game.serializator = serializator;
+	public static void setFirstTime(boolean firstTime) {
+		Game.firstTime = firstTime;
+	}
+
+	public static void setState(GameState newState) {
+		state = newState;
+	}
+
+	public static boolean isPaused() {
+		return !run;
+	}
+
+	public static int getTime() {
+		return time;
+	}
+
+	public static void setTime(int time) {
+		Game.time = time;
+	}
+
+	public static void upTime() {
+		Game.time++;
+	}
+
+	public void pause(boolean run) {
+		Game.run = !run;
 	}
 
 	public static int getRetard() {
@@ -310,14 +230,6 @@ public class Game implements KeyListener, Runnable {
 		return state;
 	}
 
-	public static Board getBoard() {
-		return board;
-	}
-
-	public static void setBoard(Board board) {
-		Game.board = board;
-	}
-
 	public static int getSuperTime() {
 		return superTime;
 	}
@@ -326,24 +238,8 @@ public class Game implements KeyListener, Runnable {
 		Game.superTime = superTime;
 	}
 
-	public static Sounds getSound() {
-		return sound;
-	}
-
-	public static void setSound(Sounds sound) {
-		Game.sound = sound;
-	}
-
 	public static ArrayList<Dot> getDotStartMatrix() {
 		return dotStartMatrix;
-	}
-
-	public static BeginMenu getBeginMenu() {
-		return beginMenu;
-	}
-
-	public static void setBeginMenu(BeginMenu beginMenu) {
-		Game.beginMenu = beginMenu;
 	}
 
 	public static GameView getGameView() {
@@ -386,5 +282,19 @@ public class Game implements KeyListener, Runnable {
 		Game.dotsView = dotsView;
 	}
 
+	public static BeginMenu getBeginMenu() {
+		// TODO Auto-generated method stub
+		return beginMenu;
+	}
+
+	public static Board getBoard() {
+		// TODO Auto-generated method stub
+		return board;
+	}
+
+	public static Sounds getSound() {
+		// TODO Auto-generated method stub
+		return sound;
+	}
 
 }
