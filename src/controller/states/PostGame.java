@@ -11,7 +11,7 @@ public class PostGame extends GameState {
 	@Override
 	public void reorganize() {
 		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: " + Board.getScore());
-		ViewManager.removeWindowContent(ViewManager.getLayers());
+		//ViewManager.removeWindowContent(ViewManager.getLayers());
 		ViewManager.startPostGameView();
 		Game.setFirstTime(false);
 		Game.getSound().reproducePostGame();

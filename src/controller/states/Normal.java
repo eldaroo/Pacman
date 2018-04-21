@@ -1,9 +1,12 @@
 package controller.states;
 
+import javax.swing.JOptionPane;
+
 import controller.Game;
 import model.Board;
 import model.creatures.ghostStates.Courageous;
 import sounds.Sounds;
+import visual.BoardView;
 import visual.ViewManager;
 
 public class Normal extends GameState {
@@ -13,9 +16,11 @@ public class Normal extends GameState {
 	public void reorganize() throws InterruptedException {
 		ViewManager.startGameView();
 		Game.getBoard().addObserver(ViewManager.getBoardView());
-		Board.observePacman(ViewManager.getPacmanView());
-		Game.getBoard().addObserver(ViewManager.getDotsView());
+		Board.observePacman(BoardView.getPacmanView());
+		
 		Game.getBoard().update();
+		JOptionPane.showMessageDialog(null, "Move a Paco con las flechitas.\nCon la tecla 'P', hace una pausa.");
+
 		Sounds.reproduceBeginning();
 
 		Game.setFirstTime (false);
