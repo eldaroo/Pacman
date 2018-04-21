@@ -101,6 +101,10 @@ public abstract class IA {
 			goAwayDirection = goAwayTargetMatrix.get(random(goAwayTargetMatrix.size()));
 	}
 
+		public static Direction getGoAwayDirection()
+		{
+			return goAwayDirection;
+		}
 
 		//GENERAMOS LA MEJOR DECISION
 		private static Direction getSmartPotentialDirection(ArrayList<Direction> goAwayDirectionMatrix, Map<Square, Direction> directionMap, ArrayList<Direction> smartDirectionAvailables, ArrayList<Direction> targetMatrix, ArrayList<Square> squaresAvailable2, ArrayList<Square> threeDirectionMatrix, ArrayList<Direction> directionAvailables)
@@ -128,6 +132,9 @@ public abstract class IA {
 					{
 						smartDirectionAvailables.add(availableDirection);
 
+					}else
+					{
+						goAwayTargetMatrix.add(availableDirection);
 					}
 				}
 			}

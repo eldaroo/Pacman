@@ -6,7 +6,7 @@ import model.Board;
 public class NextLevel extends GameState {
 
 	@Override
-	public void reorganize(Game game) {
+	public void reorganize() {
 		Board.upLevel();
 		Board.setDots(Game.getDotStartMatrix());
 		System.out.println("Level 2");

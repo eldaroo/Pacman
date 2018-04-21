@@ -33,7 +33,6 @@ public class DotsView extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable observable, Object arg) {
-		// Board board = (Board) observable;
 		Dot dotRemoved = Board.getDotRemoved();
 
 		if (Board.isPacmanEatNewDot()) {

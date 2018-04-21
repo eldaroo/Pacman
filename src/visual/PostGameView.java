@@ -21,7 +21,7 @@ public class PostGameView extends JPanel {
 	private static final long serialVersionUID = 34706378010734016L;
 	private JTextField textField;
 
-	public PostGameView(GameView gameView, PostGameView postGameView, ScoreView scoreView) {
+	public PostGameView(Window window, ScoreView scoreView) {
 
 		setVisible(true);
 		setSize(324, 333);
@@ -57,12 +57,12 @@ public class PostGameView extends JPanel {
 					e.printStackTrace();
 				}
 				//AGREGAMOS AL SCOREVIEW A lA PANTALLA
-				gameView.setContentPane(scoreView);
+				window.setContentPane(scoreView);
 				
 				//RECUPERAMOS EL LISTADO DE SCORE DE LA BASE DE DATOS
 				scoreView.getScore();
 
-				gameView.repaint();
+				window.repaint();
 			}
 		});
 		btnSave.setSize(124, 23);

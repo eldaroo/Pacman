@@ -18,7 +18,6 @@ public class Pacman extends Creature  {
 	private boolean eatingGhost = false;
 	public static enum PacmanState {MOVE,EATGHOST,DEATH};
 	private static PacmanState pacmanState = PacmanState.MOVE;
-	//private ArrayList<Dot> dots;
 	private int ghostsEated = 0;
 	Sounds sounds = new Sounds();
 	
@@ -58,7 +57,6 @@ public class Pacman extends Creature  {
 		sounds.reproduceEatGhost(ghostsEated);
 		ghost.setState(new Eated());
 		pacmanState = PacmanState.EATGHOST;
-		Thread.sleep(500);
 		pacmanState= PacmanState.MOVE;
 		Board.upScore(50, ghostsEated);
 	}

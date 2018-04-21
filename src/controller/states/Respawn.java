@@ -6,7 +6,7 @@ import model.Board;
 public class Respawn extends GameState {
 
 	@Override
-	public void reorganize(Game game) {
+	public void reorganize() {
 		// TODO Auto-generated method stub
 
 	}

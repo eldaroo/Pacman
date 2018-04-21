@@ -6,16 +6,20 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Observer;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLayeredPane;
+import javax.swing.text.View;
+
 import org.json.simple.parser.ParseException;
 import controller.states.GameState;
 import controller.states.Load;
 import controller.states.Pause;
 import controller.states.PostGame;
 import model.Board;
+import model.BoardConfiguration;
 import model.Direction;
 import model.Dot;
 import model.squares.Square;
@@ -24,25 +28,19 @@ import visual.BeginMenu;
 import visual.CreaturesView;
 import visual.DotsView;
 import visual.FruitView;
-import visual.GameView;
+import visual.Window;
 import visual.PacmanView;
+import visual.ViewManager;
 
-public class Game implements KeyListener, Runnable {
+public class Game implements KeyListener {
+	
+	public static Game game;
 	// MODELO
 	private static GameState state;
 	private static Board board;
 	private static Square[][] boardMatrix;
-	// private static ArrayList<Dot> dotMatrix;
 	private static ArrayList<Dot> dotStartMatrix;
-
-	// VISUAL
-	private static DotsView dotsView;
-	private static GameView gameView; // JFRAME
-	private static CreaturesView pacmanView;
-	private static ArrayList<CreaturesView> ghostViewsArray;
-	private static BeginMenu beginMenu;
-	private static JLayeredPane layers;
-	private static FruitView fruitView;
+	private static ViewManager viewManager;
 
 	// ESTRUCTURA
 	private static boolean run = true;
@@ -55,56 +53,38 @@ public class Game implements KeyListener, Runnable {
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
 
-	public Game(BeginMenu beginMenu, JLayeredPane layers, Board board) {
-		Game.beginMenu = beginMenu;
-		Game.layers = layers;
-		Game.board = board;
-	}
-
-	// EL METODO PRINCIPAL (ESTAMOS EN UN THREAD)
-	public void run() {
+	public static void main(String[] args) throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
+		game = new Game();
+		viewManager = new ViewManager();
 		initGame();
-		try {
-			play();
-		} catch (IOException | ParseException | InterruptedException | LineUnavailableException
-				| UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		}
+		initVisual();
+		play();
 	}
 
 	// INICIALIZAMOS ALGUNAS DE LAS VARIABLES
-	public void initGame() {
+	public static void initGame() {
 
 		state = new Load();
-		gameView = new GameView();
+		board = new Board(BoardConfiguration.getLevelBoard());
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
 		dotStartMatrix = Board.getDots();
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
-		gameView.addKeyListener(this);
+		ViewManager.getWindow().addKeyListener(game);
+
 
 	}
 
 	public static void initVisual() {
 
-		gameView.setContentPane(layers);
-		fruitView = new FruitView(layers);
-		dotsView = new DotsView(Board.getDots(), layers);
-		pacmanView = new PacmanView(Board.pacman, layers);
-		createGhostViews(ghostQuantity);
-		gameView.setVisible(true);
 
-		Board.observeFruit(fruitView);
-		Board.observePacman(pacmanView);
-
-		board.addObserver(dotsView);
 
 	}
 
 	// ARRANCA EL JUEGO
-	private void play() throws IOException, ParseException, InterruptedException, LineUnavailableException,
+	private static void play() throws IOException, ParseException, InterruptedException, LineUnavailableException,
 			UnsupportedAudioFileException {
 
 		boolean ever = true;
@@ -113,10 +93,13 @@ public class Game implements KeyListener, Runnable {
 		while (ever) {
 
 			// if (state.toString() != "PostGame")
-			gameView.requestFocus();
+			ViewManager.getWindow().requestFocus();
 
 			if (isFirstTime())
-				state.reorganize(this);
+			{
+				sound.reproduceLoad();
+				state.reorganize();
+			}
 
 			state.run();
 
@@ -128,10 +111,6 @@ public class Game implements KeyListener, Runnable {
 		}
 	}
 
-	public static void createGhostViews(int value) {
-		ghostViewsArray = new ArrayList<CreaturesView>();
-		Board.observeGhost(ghostViewsArray, value, layers);
-	}
 
 	public static void runCreatures() throws InterruptedException {
 
@@ -242,51 +221,6 @@ public class Game implements KeyListener, Runnable {
 		return dotStartMatrix;
 	}
 
-	public static GameView getGameView() {
-		return gameView;
-	}
-
-	public static void setGameView(GameView gameView) {
-		Game.gameView = gameView;
-	}
-
-	public static FruitView getFruitView() {
-		return fruitView;
-	}
-
-	public static void setFruitView(FruitView fruitView) {
-		Game.fruitView = fruitView;
-	}
-
-	public static int getGhostQuantity() {
-		return ghostQuantity;
-	}
-
-	public static void setGhostQuantity(int ghostQuantity) {
-		Game.ghostQuantity = ghostQuantity;
-	}
-
-	public static CreaturesView getPacmanView() {
-		return pacmanView;
-	}
-
-	public static void setPacmanView(CreaturesView pacmanView) {
-		Game.pacmanView = pacmanView;
-	}
-
-	public static DotsView getDotsView() {
-		return dotsView;
-	}
-
-	public static void setDotsView(DotsView dotsView) {
-		Game.dotsView = dotsView;
-	}
-
-	public static BeginMenu getBeginMenu() {
-		// TODO Auto-generated method stub
-		return beginMenu;
-	}
-
 	public static Board getBoard() {
 		// TODO Auto-generated method stub
 		return board;
@@ -296,5 +230,7 @@ public class Game implements KeyListener, Runnable {
 		// TODO Auto-generated method stub
 		return sound;
 	}
+
+
 
 }

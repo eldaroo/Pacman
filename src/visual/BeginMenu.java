@@ -40,10 +40,7 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		lblPacMan.setBackground(new Color(102, 255, 204));
 		lblPacMan.setIcon(ResourceBinding.getImageIcon(this));
 		lblPacMan.setBounds(100, 0, 352,400);
-		//ANIMACIÓN DE CARGA DE JUEGO
-		lblLoading = new JLabel("Loading");
-		lblLoading.setIcon(new ImageIcon("resources/loading.gif"));
-		lblLoading.setBounds(212, 380, 114, 94);
+
 		//BOTON COMENZAR PARTIDA
 		btnBegin = new JButton("Comenzar");
 		btnBegin.setBounds(200, 400, 137, 29);
@@ -58,8 +55,10 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		btnExit.addActionListener(this);
 		//SE AÑADEN COMO CAPAS SOLO EL LOGO Y LA ANIMACIÓN DE CARGA DE JUEGO
 		layers.add(lblPacMan);
-		layers.add(lblLoading);
-		//SE AÑADEN LAS CAPAS A LA VENTANA Y SE DIBUJA
+		layers.add(btnBegin);
+		layers.add(btnRecovery);
+		layers.add(btnExit);
+		
 		setContentPane(layers);
 		
 		setVisible(true);

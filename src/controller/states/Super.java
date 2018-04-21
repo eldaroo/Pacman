@@ -8,7 +8,7 @@ import model.creatures.ghostStates.Pussy;
 public class Super extends GameState {
 
 	@Override
-	public void reorganize(Game game) {
+	public void reorganize() {
 		Game.setSuperTime(0);
 		Board.setGhostStates(new Pussy());
 		Game.setFirstTime(false);
@@ -17,23 +17,24 @@ public class Super extends GameState {
 	@Override
 	public void run() throws InterruptedException {
 
-		while (Game.getState().toString() == "Super") {
 
 			Thread.sleep(Game.getRetard());
 			Game.upTime();
 			Game.upSuperTime();
-
 			Game.runCreatures();
 
 			if (Board.getDotRemoved().getSuper())
+			{
 				Game.setSuperTime(0);
-
-			if (Game.getSuperTime() == 150)
+				Board.setGhostStates(new Pussy());
+			}
+			if (Game.getSuperTime() == 150) {
 				Game.setState(new Normal());
+				Board.pacman.resetGhostEated();
+			}
 
 			Game.getBoard().update();
 
-		}
 	}
 
 	@Override

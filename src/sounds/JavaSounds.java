@@ -1,10 +1,7 @@
 package sounds;
 
-public class JavaSounds {
+public abstract class JavaSounds {
 
-	public void play() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void play() {}
 
 }

@@ -1,10 +1,14 @@
 package visual;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import controller.states.GameState;
+import controller.states.Load;
 import model.Direction;
 import model.Dot;
 import model.Fruit;
@@ -30,9 +34,6 @@ import model.SuperDot;
 
 public abstract class ResourceBinding {
 	//MAPA DE BOARD
-	private static Map<Corner, ImageIcon> wallIcon = new HashMap<Corner, ImageIcon>();
-	private static Map<Corner, ImageIcon> falsePathIcon = new HashMap<Corner, ImageIcon>();
-	private static Map<Class<?>, Map<Square.Corner, ImageIcon>> squareBoard = new HashMap<Class<?>, Map<Square.Corner, ImageIcon>>();
 	private static Map<Class<? extends Object>, ImageIcon> images = new HashMap<Class<? extends Object>, ImageIcon>();
 	private static Map<Enum<?>, ImageIcon> fruitIcon = new HashMap<Enum<?>, ImageIcon>();
 	//MAPAS DE ESTADO DE PACMAN
@@ -47,14 +48,11 @@ public abstract class ResourceBinding {
 	private static Map<Integer, ImageIcon> ghostDeath = new HashMap<Integer, ImageIcon>();
 	private static Map<Integer, ImageIcon> ghostPussy = new HashMap<Integer, ImageIcon>();
 	private static Map<Integer, ImageIcon> ghostHurry = new HashMap<Integer, ImageIcon>();
+	private static Map <Integer, String> actionSounds = new HashMap<Integer, String>();
+	private static Map<Integer, String> loadSounds = new HashMap<Integer, String>();
 
 	
 
-	static {
-		squareBoard.put(FalsePath.class, falsePathIcon);
-		squareBoard.put(Wall.class, wallIcon);
-		squareBoard.put(Path.class, falsePathIcon);
-	}	
 	static {
 		fruitIcon.put(Fruit.FruitType.BANANNA, new ImageIcon("resources/fruit_lsd.gif"));
 		fruitIcon.put(Fruit.FruitType.CHERRY, new ImageIcon("resources/fruit_joint.gif"));
@@ -66,27 +64,10 @@ public abstract class ResourceBinding {
 	}
 
 	static {
-		wallIcon.put(Square.Corner.NE, new ImageIcon("resources/wall_NE.gif"));
-		wallIcon.put(Square.Corner.NW, new ImageIcon("resources/wall_NW.gif"));
-		wallIcon.put(Square.Corner.SW, new ImageIcon("resources/wall_SW.gif"));
-		wallIcon.put(Square.Corner.SE, new ImageIcon("resources/wall_SE.gif"));
+		loadSounds.put(1,"/sounds/states/load.wav");
+		loadSounds.put(2,"/sounds/firstblood.wav");
 	}
 	static {
-		falsePathIcon.put(Square.Corner.SE, new ImageIcon("resources/path_SE.gif"));
-		falsePathIcon.put(Square.Corner.SW, new ImageIcon("resources/path_SW.gif"));
-		falsePathIcon.put(Square.Corner.NE, new ImageIcon("resources/path_NE.gif"));
-		falsePathIcon.put(Square.Corner.NW, new ImageIcon("resources/path_NW.gif"));
-	}
-	
-	static {
-		images.put(Path.class, new ImageIcon("resources/1.png"));
-		images.put(Wall.class, new ImageIcon("resources/0.png"));
-		images.put(Hell.class, new ImageIcon("resources/6.png"));
-		images.put(HellGate.class, new ImageIcon("resources/6.png"));
-		images.put(FalseHell.class, new ImageIcon("resources/6.png"));
-		images.put(FalseTeleport.class, new ImageIcon("resources/6.png"));
-		images.put(Teleport.class, new ImageIcon("resources/6.png"));
-		images.put(FalsePath.class, new ImageIcon("resources/1.png"));
 		images.put(Dot.class, new ImageIcon("resources/chala.gif"));
 		images.put(SuperDot.class, new ImageIcon("resources/superchala_b.gif"));
 		images.put(BeginMenu.class, new ImageIcon("resources/paco_inicio.gif"));
@@ -179,21 +160,27 @@ public abstract class ResourceBinding {
 	}
 	
 	static public ImageIcon getEatIcon (Pacman pacman) {
-		System.out.println(pacman.getGhostsEated());
 		return pacmanEatingGhost.get(pacman.getGhostsEated());
 	}
 
-	static public ImageIcon getCornerIcon(Square object) {
-		Map<Corner, ImageIcon> cornerIcon = new HashMap<Corner, ImageIcon>();
-		cornerIcon = squareBoard.get(object.getClass());
-		return cornerIcon.get(object.getCorner());
+	public static String getActionSounds(int ghostEated) {
+		return actionSounds.get(ghostEated);
 	}
-	
+
+
+	public static String getLoadSound(Integer aux) {
+		return loadSounds.get(aux);
+	}
+
 	@SuppressWarnings("unlikely-arg-type")
 	static public ImageIcon getGhostIcon(Ghost ghost) {
 		Map<Integer, ImageIcon> stateIcon = new HashMap<Integer, ImageIcon>();
 		stateIcon = ghostState.get(ghost.getState().toString());
 		return stateIcon.get(ghost.getIntelligence());
+	}
+
+	public static Icon getBoard() {
+		return new ImageIcon("resources/board600x600.png");
 	}
 
 }

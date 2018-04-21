@@ -76,7 +76,6 @@ public class Board extends Observable implements Serializable {
 	public Board(char[][] level1) {
 		levelMatrix = level1;
 		makeBoard();
-		dots = new ArrayList<Dot>();
 		fruit = new Fruit(getFruitPosition());
 
 	}
@@ -182,7 +181,7 @@ public class Board extends Observable implements Serializable {
 	public static void makeDots() {
 		Dot dot;
 		SuperDot superDot;
-		dots.clear();
+		dots = new ArrayList<Dot>();
 
 		for (int i = 0; i < levelMatrix.length; i++) {
 			for (int j = 0; j < levelMatrix.length; j++) {
@@ -371,14 +370,7 @@ public class Board extends Observable implements Serializable {
 		pacman.addObserver(pacmanView);
 	}
 
-	public static void observeGhost(ArrayList<CreaturesView> ghostViewsArray, int value, JLayeredPane layers) {
-		int aux = 1;
-		while (aux <= value) {
-			ghostViewsArray.add(new GhostView(ghostsArray.get(aux - 1), layers));
-			ghostsArray.get(aux - 1).addObserver(ghostViewsArray.get(aux - 1));
-			aux++;
-		}
-	}
+
 
 	public static Position getHellGatePosition() {
 		return hellGate.getBoardPosition();

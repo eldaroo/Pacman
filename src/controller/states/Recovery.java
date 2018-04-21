@@ -14,7 +14,7 @@ import model.Serializator;
 public class Recovery extends GameState {
 
 	@Override
-	public void reorganize(Game game) {
+	public void reorganize() {
 		// TODO Auto-generated method stub
 
 	}

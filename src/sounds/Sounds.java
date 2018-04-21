@@ -2,6 +2,10 @@ package sounds;
 
 import java.applet.AudioClip;
 
+import controller.states.GameState;
+import model.creatures.IA;
+import visual.ResourceBinding;
+
 public class Sounds {
 
 	public static void reproduceBeginning() throws InterruptedException
@@ -9,6 +13,7 @@ public class Sounds {
 		Beginning sound = new Beginning();
 	    sound.play();
 		Thread.sleep(3795);
+
 	}
 	
 	public static void reproduceEatDot()
@@ -55,10 +60,21 @@ public class Sounds {
 		}
 		//EatGhost sound = new EatGhost();
 	    sound.play();
-	   // Thread.sleep(500);
+	    Thread.sleep(500);
 		
 
 	}
+	public void reproduceLoad() throws InterruptedException
+	{
+		//String url = ResourceBinding.getLoadSound(IA.random(3));
+		String url = ResourceBinding.getLoadSound(2);
+
+		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
+		sound.play();
+
+	    
+	}
+	
 	
 	public static void reproduceDeath()
 	{

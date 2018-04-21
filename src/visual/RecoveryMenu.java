@@ -19,7 +19,7 @@ public class RecoveryMenu extends JInternalFrame {
 
 	private static final long serialVersionUID = 3323633746761751043L;
 
-	public RecoveryMenu(GameView gameView) {
+	public RecoveryMenu(Window gameView) {
 
 
 		getContentPane().setLayout(null);

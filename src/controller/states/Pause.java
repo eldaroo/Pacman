@@ -7,7 +7,7 @@ import controller.Game;
 public class Pause extends GameState {
 
 	@Override
-	public void reorganize(Game game) {
+	public void reorganize() {
 		// TODO Auto-generated method stub
 
 	}
@@ -15,7 +15,7 @@ public class Pause extends GameState {
 	@Override
 	public void run() {
 		JOptionPane.showMessageDialog(null, "la partida esta en pausa");
-		//Game.setState(new Normal());
+		Game.setState(new Normal());
 	}
 
 }
