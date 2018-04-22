@@ -20,7 +20,7 @@ public class PacmanView extends CreaturesView {
 		super(pacman, layers);
 		this.setBounds((pacman.getBoardPosition().getX() * 10) - 10, (pacman.getBoardPosition().getY() * 10) - 10 + 25,
 				30, 30);
-		setIcon(ResourceBinding.getPacmanIcon(pacman));
+		setIcon(ImageBinding.getPacmanIcon(pacman));
 		// PARA OBTENER INFO DE DOTS
 		// setIcon(ResourceBinding.getPacmanIcon(obj,board));
 		layers.add(this, 6);
@@ -32,10 +32,10 @@ public class PacmanView extends CreaturesView {
 
 		Pacman pacman = (Pacman) observable;
 		if (pacman.getPacmanState()==PacmanState.EATGHOST) {
-			setIcon(ResourceBinding.getEatIcon(pacman));
+			setIcon(ImageBinding.getEatIcon(pacman));
 			comboScream();
 		} else
-			setIcon(ResourceBinding.getPacmanIcon(pacman));
+			setIcon(ImageBinding.getPacmanIcon(pacman));
 		Position boardPosition = pacman.getBoardPosition();
 		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10 + 25, 30, 30);
 	}

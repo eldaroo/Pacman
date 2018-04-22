@@ -38,7 +38,7 @@ public class BeginMenu extends JInternalFrame implements ActionListener {
 		JLabel lblPacMan = new JLabel();
 		lblPacMan.setForeground(Color.BLACK);
 		lblPacMan.setBackground(new Color(102, 255, 204));
-		lblPacMan.setIcon(ResourceBinding.getImageIcon(this));
+		lblPacMan.setIcon(ImageBinding.getImageIcon(this));
 		lblPacMan.setBounds(100, 0, 352,400);
 
 		//BOTON COMENZAR PARTIDA

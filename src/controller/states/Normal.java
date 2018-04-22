@@ -16,8 +16,7 @@ public class Normal extends GameState {
 		Board.observePacman(ViewManager.getPacmanView());
 		Game.getBoard().addObserver(ViewManager.getDotsView());
 		Game.getBoard().update();
-		Sounds.reproduceBeginning();
-
+		Game.getSound().reproduceBeginning();
 		Game.setFirstTime (false);
 	}
 

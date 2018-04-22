@@ -24,13 +24,8 @@ import model.Direction;
 import model.Dot;
 import model.squares.Square;
 import sounds.Sounds;
-import visual.BeginMenu;
-import visual.CreaturesView;
-import visual.DotsView;
-import visual.FruitView;
-import visual.Window;
-import visual.PacmanView;
 import visual.ViewManager;
+
 
 public class Game implements KeyListener {
 	
@@ -44,6 +39,7 @@ public class Game implements KeyListener {
 
 	// ESTRUCTURA
 	private static boolean run = true;
+	private static boolean changeState = true;
 	private static boolean firstTime = true;
 	private static Sounds sound = new Sounds();
 
@@ -97,9 +93,10 @@ public class Game implements KeyListener {
 
 			if (isFirstTime())
 			{
-				sound.reproduceLoad();
 				state.reorganize();
+
 			}
+			playMusic();
 
 			state.run();
 
@@ -111,6 +108,14 @@ public class Game implements KeyListener {
 		}
 	}
 
+
+	private static void playMusic() throws FileNotFoundException, InterruptedException {
+		if(changeState)
+		{
+			sound.reproduceMusic(state.toString());
+			changeState = false;
+		}
+	}
 
 	public static void runCreatures() throws InterruptedException {
 
@@ -174,6 +179,7 @@ public class Game implements KeyListener {
 
 	public static void setState(GameState newState) {
 		state = newState;
+		changeState = true;
 	}
 
 	public static boolean isPaused() {

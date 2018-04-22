@@ -4,14 +4,16 @@ import controller.Game;
 import model.Board;
 import model.creatures.ghostStates.Hurry;
 import model.creatures.ghostStates.Pussy;
+import sounds.Sounds;
 
 public class Super extends GameState {
 
 	@Override
-	public void reorganize() {
+	public void reorganize() throws InterruptedException {
 		Game.setSuperTime(0);
 		Board.setGhostStates(new Pussy());
 		Game.setFirstTime(false);
+
 	}
 
 	@Override

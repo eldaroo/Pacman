@@ -238,6 +238,7 @@ public class Board extends Observable implements Serializable {
 
 		// CHEQUEA SI TERMINO EL LEVEL
 		if (dots.size() == 0) {
+			Game.getSound().reproduceLevelUp();
 			Game.setState(new NextLevel());
 			Game.setFirstTime(true);
 		}
@@ -336,20 +337,20 @@ public class Board extends Observable implements Serializable {
 			if (score > 1000) {
 				lifes++;
 				aux++;
-				Sounds.reproduceLifeUp();
+				Game.getSound().reproduceLifeUp();
 			}
 			break;
 		case 1:
 			if (score > 5000) {
 				lifes++;
 				aux++;
-				Sounds.reproduceLifeUp();
+				Game.getSound().reproduceLifeUp();
 			}
 			break;
 		case 2:
 			if (score > 10000) {
 				lifes++;
-				Sounds.reproduceLifeUp();
+				Game.getSound().reproduceLifeUp();
 			}
 			break;
 		default:

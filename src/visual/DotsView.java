@@ -22,7 +22,7 @@ public class DotsView extends JPanel implements Observer {
 
 			dotMatrix[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()] = new JLabel();
 			dotMatrix[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()]
-					.setIcon(ResourceBinding.getImageIcon(dot));
+					.setIcon(ImageBinding.getImageIcon(dot));
 			dotMatrix[dot.getBoardPosition().getX()][dot.getBoardPosition().getY()].setBounds(
 					(dot.getBoardPosition().getX() * 10) - 10, (dot.getBoardPosition().getY() * 10) - 10 + 25, 30, 30);
 

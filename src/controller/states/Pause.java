@@ -3,6 +3,7 @@ package controller.states;
 import javax.swing.JOptionPane;
 
 import controller.Game;
+import sounds.Sounds;
 
 public class Pause extends GameState {
 

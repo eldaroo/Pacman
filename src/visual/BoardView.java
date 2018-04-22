@@ -58,7 +58,7 @@ public class BoardView extends JLabel implements ActionListener, Observer{
 	}
 	private void drawBoard() {
 
-		setIcon(ResourceBinding.getBoard());
+		setIcon(ImageBinding.getBoard());
 		setBounds(0, ViewManager.getWindow().getY()+5,600, 600);
 		//ETIQUETA DE PUNTAJE
 				lblScore = new JLabel("Score: ");

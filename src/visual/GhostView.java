@@ -16,7 +16,7 @@ public class GhostView extends CreaturesView{
 	public GhostView(Ghost obj, JLayeredPane layers) {
 		super(obj, layers);
 		this.setBounds((obj.getBoardPosition().getX() * 10) - 10, (obj.getBoardPosition().getY() * 10) - 10+25, 30, 30);
-		setIcon(ResourceBinding.getGhostIcon(obj));
+		setIcon(ImageBinding.getGhostIcon(obj));
 		layers.add(this, 6);
      }
 	
@@ -25,7 +25,7 @@ public class GhostView extends CreaturesView{
 	public void update(Observable observable, Object object) {
 
 		Ghost creature = (Ghost) observable;
-		setIcon(ResourceBinding.getGhostIcon(creature));
+		setIcon(ImageBinding.getGhostIcon(creature));
 
 		Position boardPosition = creature.getBoardPosition();
 		this.setBounds((boardPosition.getX() * 10) - 10, (boardPosition.getY() * 10) - 10+25, 30, 30);

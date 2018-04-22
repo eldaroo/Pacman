@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 
 import controller.Game;
 import model.Board;
+import sounds.Sounds;
 import visual.ViewManager;
 
 public class PostGame extends GameState {
@@ -14,14 +15,15 @@ public class PostGame extends GameState {
 		ViewManager.removeWindowContent(ViewManager.getLayers());
 		ViewManager.startPostGameView();
 		Game.setFirstTime(false);
-		Game.getSound().reproducePostGame();
 	}
 
 	@Override
 	public void run() {
-		
-
-
+	
 	}
 
+	@Override
+	public String toString() {
+		return "PostGame";
+	}
 }

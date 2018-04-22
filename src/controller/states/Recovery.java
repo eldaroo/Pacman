@@ -10,6 +10,7 @@ import controller.Game;
 import model.Board;
 import model.Dot;
 import model.Serializator;
+import sounds.Sounds;
 
 public class Recovery extends GameState {
 

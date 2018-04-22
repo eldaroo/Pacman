@@ -2,6 +2,7 @@ package controller.states;
 
 import controller.Game;
 import model.Board;
+import sounds.Sounds;
 
 public class Respawn extends GameState {
 
