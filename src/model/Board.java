@@ -55,10 +55,18 @@ public class Board extends Observable implements Serializable {
 	static private ArrayList<Dot> dots;
 	static private Dot dotRemoved;
 	private static Fruit fruit;
+	public static Fruit getFruit() {
+		return fruit;
+	}
+
 	static private Position fruitPosition;
 
 	// CRIATURAS
 	public static Pacman pacman;
+	public static Pacman getPacman() {
+		return pacman;
+	}
+
 	private static ArrayList<Ghost> ghostsArray;
 
 	// VARIABLES
@@ -224,7 +232,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void lookingForDot() {
-
+		//dotRemoved=false;
 		Board.setPacmanEatNewDot(false);
 
 		for (Dot dot : dots) {
@@ -240,6 +248,7 @@ public class Board extends Observable implements Serializable {
 		if (dots.size() == 0) {
 			Game.getSound().reproduceLevelUp();
 			Game.setState(new NextLevel());
+			Board.setPacmanEatNewDot(false);
 			Game.setFirstTime(true);
 		}
 	}
@@ -362,11 +371,6 @@ public class Board extends Observable implements Serializable {
 		lifes--;
 	}
 
-	public static void observeFruit(FruitView fruitView) {
-		fruit.addObserver(fruitView);
-
-	}
-
 	public static void observePacman(CreaturesView pacmanView) {
 		pacman.addObserver(pacmanView);
 	}
@@ -453,7 +457,8 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void setDots(ArrayList<Dot> dots) {
-		Board.dots = dots;
+		ArrayList <Dot> newDots = new ArrayList<Dot> ();
+		newDots = dots;
 	}
 
 	public static void setSuperMode(boolean superMode) {
@@ -489,8 +494,6 @@ public class Board extends Observable implements Serializable {
 		return ghostsArray;
 	}
 
-	public static void updateFruit() {
-		fruit.update();
-	}
+
 
 }

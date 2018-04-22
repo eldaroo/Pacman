@@ -16,7 +16,7 @@ public class Respawn extends GameState {
 	public void run() {
 		Board.respawnCreatures();
 		Board.pacman.setPacmanState(model.creatures.Pacman.PacmanState.MOVE);
-		Game.setFirstTime(true);
+		//Game.setFirstTime(true);
 		Game.setState(new Normal());
 	}
 

@@ -10,9 +10,8 @@ public class NextLevel extends GameState {
 	public void reorganize() {
 		Board.upLevel();
 		Board.setDots(Game.getDotStartMatrix());
-		System.out.println("Level 2");
+		System.out.println("Level " + Board.getLevel());
 		Game.setState(new Respawn());
-		Game.setFirstTime(true);
 		Game.setRetard((Game.getRetard() *5) / 6);
 
 	}

@@ -56,13 +56,14 @@ public class Sounds {
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();
+
 	}
 	public void changeToPostGame()
 	{
 		String url = SoundsBinding.getGameSounds("postGame");
 
 		music = java.applet.Applet.newAudioClip(getClass().getResource(url));
-		
+
 	}
 	public void reproduceEatGhost(int ghostEated) throws InterruptedException
 	{
@@ -99,6 +100,7 @@ public class Sounds {
 	public static void reproduceDeath()
 	{
 
+
 	}
 
 	public void reproduceLevelUp() {
@@ -106,6 +108,7 @@ public class Sounds {
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();		
+
 	}
 
 

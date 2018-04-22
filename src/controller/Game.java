@@ -24,12 +24,12 @@ import model.Direction;
 import model.Dot;
 import model.squares.Square;
 import sounds.Sounds;
+
 import visual.ViewManager;
 
 
 public class Game implements KeyListener {
 	
-	public static Game game;
 	// MODELO
 	private static GameState state;
 	private static Board board;
@@ -50,16 +50,14 @@ public class Game implements KeyListener {
 	private static int ghostQuantity = 5;
 
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
-		game = new Game();
-		viewManager = new ViewManager();
 		initGame();
-		initVisual();
 		play();
 	}
 
 	// INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 	public static void initGame() {
 
+		viewManager = new ViewManager();
 		state = new Load();
 		board = new Board(BoardConfiguration.getLevelBoard());
 		boardMatrix = Board.getBoard();
@@ -68,15 +66,14 @@ public class Game implements KeyListener {
 		dotStartMatrix = Board.getDots();
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
-		ViewManager.getWindow().addKeyListener(game);
+		ViewManager.getWindow().addKeyListener(get());
 
 
 	}
 
-	public static void initVisual() {
-
-
-
+	private static KeyListener get() {
+		Game game = new Game();
+		return game;
 	}
 
 	// ARRANCA EL JUEGO
@@ -93,13 +90,15 @@ public class Game implements KeyListener {
 
 			if (isFirstTime())
 			{
+
 				state.reorganize();
 
 			}
 			playMusic();
 
 			state.run();
-
+			
+			
 			if (Board.getLifes() <= 0) {
 				state = new PostGame();
 				firstTime = true;
@@ -125,7 +124,6 @@ public class Game implements KeyListener {
 		Board.movePacman();
 		Board.lookingForDot();
 		Board.lookingForFruit();
-		Board.updateFruit();
 
 	}
 
@@ -164,15 +162,15 @@ public class Game implements KeyListener {
 	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
 	}
-
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
+	//---------------------------------------
 
+	
 	public static boolean isFirstTime() {
 		return firstTime;
 	}
-
 	public static void setFirstTime(boolean firstTime) {
 		Game.firstTime = firstTime;
 	}
@@ -182,24 +180,11 @@ public class Game implements KeyListener {
 		changeState = true;
 	}
 
-	public static boolean isPaused() {
-		return !run;
-	}
-
 	public static int getTime() {
 		return time;
 	}
-
-	public static void setTime(int time) {
-		Game.time = time;
-	}
-
 	public static void upTime() {
 		Game.time++;
-	}
-
-	public void pause(boolean run) {
-		Game.run = !run;
 	}
 
 	public static int getRetard() {
@@ -210,15 +195,10 @@ public class Game implements KeyListener {
 		Game.retard = retard;
 	}
 
-	public static GameState getState() {
-		// TODO Auto-generated method stub
-		return state;
-	}
 
 	public static int getSuperTime() {
 		return superTime;
 	}
-
 	public static void setSuperTime(int superTime) {
 		Game.superTime = superTime;
 	}
@@ -228,12 +208,10 @@ public class Game implements KeyListener {
 	}
 
 	public static Board getBoard() {
-		// TODO Auto-generated method stub
 		return board;
 	}
-
+	
 	public static Sounds getSound() {
-		// TODO Auto-generated method stub
 		return sound;
 	}
 

@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"Creatures":[{"name":"pacman","direction":"RIGHT","position":"model.squares.Path@4a22f9e2","status":true}],"score":1970,"lifes":3,"Dots":[{"xPosition":"7","yPosition":"46","superDot":"false"}]}
+=======
+{"Creatures":[{"name":"pacman","direction":"UP","position":"model.squares.Path@18ef96","status":true}],"score":4000,"lifes":4,"Dots":[{"xPosition":"31","yPosition":"31","superDot":"false"},{"xPosition":"34","yPosition":"31","superDot":"false"}]}
+>>>>>>> 20d7dccd2064f363922b4bac32db136a9f79922f

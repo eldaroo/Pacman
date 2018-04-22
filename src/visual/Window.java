@@ -18,19 +18,18 @@ public class Window extends JFrame {
 		setUndecorated(true);
 		setFont(new Font("Chiller", Font.BOLD, 24));
 		setTitle("PACO-MAN");
-		setBackground(new Color(32, 178, 170));
+		//setBackground(new Color(32, 178, 170));
+		setBackground(Color.BLUE);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300,20,600,630);
-		
-		setLayout(null);
 		//setSize(600, 650);
+		setLayout(null);
 		//grafica.setFullScreenWindow(this);
-		this.setBackground(Color.BLUE);
-		//pack();
-		//show();
 		setVisible(true);
 	}
+	
+	
 	
 
 	
