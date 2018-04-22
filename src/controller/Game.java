@@ -63,7 +63,6 @@ public class Game implements KeyListener {
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
-		dotStartMatrix = Board.getDots();
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
 		ViewManager.getWindow().addKeyListener(get());
