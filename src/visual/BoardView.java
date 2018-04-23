@@ -52,7 +52,7 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 		layers = new JLayeredPane();
 		dotMatrix = new DotView[1000][1000];
 		ghostViewsArray = new ArrayList<CreaturesView>();
-		fruitView = new FruitView(layers);
+		//fruitView = new FruitView(layers);
 	}
 	
 	public void createDotsView(ArrayList<Dot> dotBoardMatrix) {
@@ -71,7 +71,7 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 	}
 	public void createGhostsView() {
 		int aux = 0;
-		for (Ghost ghost : Board.getGhostsArray()) { // CANTIDAD DE GHOST: 5
+		for (Ghost ghost : Board.getGhostsArray()) { 
 			ghostViewsArray.add(new GhostView(ghost, layers));
 			ghost.addObserver(ghostViewsArray.get(aux));
 			aux++;

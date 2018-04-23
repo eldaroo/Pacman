@@ -28,7 +28,7 @@ public class ScoreView extends JPanel {
 			}
 	public void getScore()
 	{
-				DataManager.getScore();
+				DataManager.getScore(this);
 
 	}
 	public JTextArea getScoreTextArea() {

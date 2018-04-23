@@ -53,6 +53,7 @@ public class ViewManager {
 	}
 
 	public static void startPostGameView() {
+		scoreView = new ScoreView();
 		postGameView = new PostGameView(window, scoreView);
 		window.setContentPane(postGameView);
 	}

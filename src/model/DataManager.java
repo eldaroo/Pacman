@@ -8,7 +8,6 @@ public abstract class DataManager {
 
 	private static MyDataAcces connection;
 	private static ResultSet result;
-	private static ScoreView scoreView;
 
 	// SALVAMOS EL SCORE
 	public static void saveScore(String name) {
@@ -20,8 +19,7 @@ public abstract class DataManager {
 	}
 
 	// CARGAMOS EL SCORE Y LO VOLCAMOS AL JTEXTAREA DEL SCOREVIEW
-	public static void getScore() {
-		scoreView = new ScoreView();
+	public static void getScore(ScoreView scoreView) {
 
 		int aux = 0;
 		try {

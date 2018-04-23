@@ -88,141 +88,15 @@ public class Board extends Observable implements Serializable {
 
 	}
 
-	// --------- TABLERO --------------
-
 	public static void makeBoard() {
-		board = new Square[levelMatrix.length][levelMatrix.length];
-		for (int i = 0; i < levelMatrix.length; i++) {
-			for (int j = 0; j < levelMatrix.length; j++) {
-				switch (levelMatrix[i][j]) {
-				case '\u0000':
-					board[i][j] = new Wall();
-					break;
-				case '\u0001':
-					board[i][j] = new Path();
-					break;
-				case '\u0002':
-					board[i][j] = new FalsePath();
-					break;
-				case '\u0003':
-					board[i][j] = new FalseTeleport();
-					break;
-				case '\u0004':
-					board[i][j] = new Path();
-					break;
-				case '\u0005':
-					board[i][j] = new Path();
-					break;
-				case '\u0006':
-					board[i][j] = new Hell();
-					hellZone.add(board[i][j]);
-					break;
-				case '\u0007':
-					hellGate.setBoardPosition(new Position(i, j));
-					board[i][j] = hellGate;
-					break;
-				case '\u0008':
-					board[i][j] = new FalseHell();
-					break;
-				case '\u0009':
-					board[i][j] = new Teleport();
-					teleportList.add(board[i][j]);
-					break;
-				case 'f':
-					board[i][j] = new Path();
-					fruitPosition = new Position(i, j);
-					break;
-				case 'a':
-					board[i][j] = new FalsePath(Corner.NE);
-					break;
-				case 'w':
-					board[i][j] = new FalsePath(Corner.NW);
-					break;
-				case 'x':
-					board[i][j] = new FalsePath(Corner.SE);
-					break;
-				case 'd':
-					board[i][j] = new FalsePath(Corner.SW);
-					break;
-				case 'q':
-					board[i][j] = new Wall(Corner.NE);
-					break;
-				case 'e':
-					board[i][j] = new Wall(Corner.NW);
-					break;
-				case 'z':
-					board[i][j] = new Wall(Corner.SE);
-					break;
-				case 'c':
-					board[i][j] = new Wall(Corner.SW);
-					break;
-				}
-
-				// ASIGNA AL CASILLERO EN UNA POSICION DEL TABLERO
-				board[i][j].setBoardPosition(new Position(i, j));
-				setOriginalPacmanPosition(board[27][43]);
-			}
-		}
-		// ENLAZA CADA CASILLERO CON SU ADYACENTE
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
-
-				if (j + 1 < board.length) {
-					board[i][j].setDown(board[i][j + 1]);
-				}
-				if (j - 1 >= 0) {
-					board[i][j].setUp(board[i][j - 1]);
-				}
-				if (i - 1 >= 0) {
-					board[i][j].setLeft(board[i - 1][j]);
-				}
-				if (i + 1 < board.length) {
-					board[i][j].setRight(board[i + 1][j]);
-				}
-			}
-		}
-		// EJECUTA EL ENLACE DE CASILLEROS TELEPORT
-		linkTeleports();
+		board = BoardConfiguration.makeBoard();
 	}
-
-	// CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
 	public static void makeDots() {
-		Dot dot;
-		SuperDot superDot;
-		dots = new ArrayList<Dot>();
-
-		for (int i = 0; i < levelMatrix.length; i++) {
-			for (int j = 0; j < levelMatrix.length; j++) {
-				switch (levelMatrix[i][j]) {
-				case 4:
-					dot = new Dot();
-					dot.setPosition(board[i][j]);
-					dots.add(dot);
-					break;
-				case 5:
-					superDot = new SuperDot();
-					superDot.setPosition(board[i][j]);
-					dots.add(superDot);
-					break;
-				}
-			}
-		}
+		
+		dots = BoardConfiguration.makeDots();
 	}
 
-	// ESTABLECE LOS CASILLEROS SIGUIENTES A LOS TELEPORT
-	private static void linkTeleports() {
-		teleportList.get(0).setLeft(teleportList.get(5));
-		teleportList.get(1).setUp(teleportList.get(2));
-		teleportList.get(2).setDown(teleportList.get(1));
-		teleportList.get(3).setUp(teleportList.get(4));
-		teleportList.get(4).setDown(teleportList.get(3));
-		teleportList.get(5).setRight(teleportList.get(0));
-	}
-
-	// ------------ CREATURES --------------
-
-	// ******** PACMAN
-
+	
 	public static void createPacman(String name, Square position) {
 		pacman = new Pacman(name, position);
 	}
@@ -383,7 +257,7 @@ public class Board extends Observable implements Serializable {
 
 	// EXPORTAR DE DATOS
 	public static ArrayList<Square> getHellZone() {
-		return hellZone;
+		return BoardConfiguration.getHellZone();
 	}
 
 	public static long getScore() {

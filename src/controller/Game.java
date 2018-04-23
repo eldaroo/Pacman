@@ -84,7 +84,7 @@ public class Game implements KeyListener {
 
 		while (ever) {
 
-			// if (state.toString() != "PostGame")
+			 if (state.toString() != "PostGame")
 			ViewManager.getWindow().requestFocus();
 
 			if (isFirstTime())
