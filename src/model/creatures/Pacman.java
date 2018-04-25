@@ -30,14 +30,14 @@ public class Pacman extends Creature  {
 		setKeyOfHell(false);
 	}
 	
-	public void eatDot(Dot dot)
+	public void eatDot(Dot dot) throws InterruptedException
 	{
-		//Sounds.reproduceEatDot();
 		Board.upScore(10,0);
 		Board.setDotRemoved((Dot) dot);
 		
 		if (Board.getDotRemoved().getSuper() == true) {
 			Game.setState (new Super());
+			ghostsEated=0;
 			Game.setFirstTime(true);
 			Board.upScore(20, 0);
 		}
@@ -45,7 +45,7 @@ public class Pacman extends Creature  {
 		Board.setPacmanEatNewDot(true);
 	}
 	
-	public void eatFruit()
+	public void eatFruit() throws InterruptedException
 	{
 		Board.upScore(200,0);
 	}

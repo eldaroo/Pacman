@@ -11,18 +11,16 @@ import org.json.simple.JSONValue;
 import model.Direction;
 import model.Position;
 import model.squares.Square;
-import sounds.Sounds;
 
 public abstract class Creature extends Observable implements JSONStreamAware {
 
 	private boolean alive = true;
 	protected boolean keyOfHell;
-	Direction direction = Direction.RIGHT;
+	private Direction direction = Direction.RIGHT;
 	private String name = null;
-	Sounds sounds = new Sounds();
 	protected Square position = null;
-	Square positionType = null;
-	Direction potentialDirection = Direction.LEFT;
+	//private Square positionType = null;
+	private Direction potentialDirection = Direction.LEFT;
 	
 	public Creature(String name) {
 		super();
@@ -79,16 +77,6 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		this.potentialDirection = potentialDirection;
 	}
 
-	public void writeJSONString(Writer out) throws IOException {
-
-		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
-		obj.put("name", String.valueOf(getName()));
-		obj.put("direction", String.valueOf(direction));
-		obj.put("position", String.valueOf(position));
-		obj.put("status", alive);
-		JSONValue.writeJSONString(obj, out);
-	}
-
 	public boolean haveKeyOfHell() {
 		return keyOfHell;
 	}
@@ -112,5 +100,15 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void writeJSONString(Writer out) throws IOException {
+
+		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
+		obj.put("name", String.valueOf(getName()));
+		obj.put("direction", String.valueOf(direction));
+		obj.put("position", String.valueOf(position));
+		obj.put("status", alive);
+		JSONValue.writeJSONString(obj, out);
 	}
 }

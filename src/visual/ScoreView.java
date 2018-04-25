@@ -22,7 +22,7 @@ public class ScoreView extends JPanel {
 
 		add(scoreTextArea);
 		JLabel lblMaximosPuntajes = new JLabel("Maximos puntajes:");
-		lblMaximosPuntajes.setBounds(48, 11, 95, 21);
+		lblMaximosPuntajes.setBounds(48, 25, 95, 21);
 		add(lblMaximosPuntajes);
 		
 			}

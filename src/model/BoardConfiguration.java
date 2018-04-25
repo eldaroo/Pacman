@@ -225,6 +225,10 @@ public class BoardConfiguration {
 	//8 FALSE HELL
 	//9 PATH WITH TELEPORT
 	
+	public static Position getHellGatePosition() {
+		return hellGate.getBoardPosition();
+	}
+
 	static public char[][] getLevelBoard() {
 		return levelBoard;
 	}

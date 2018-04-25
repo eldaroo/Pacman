@@ -50,12 +50,13 @@ public class Sounds {
 
 	}
 
-	public void reproduceLifeUp()
+	public void reproduceLifeUp() throws InterruptedException
 	{
 		String url = SoundsBinding.getGameSounds("lifeUp");
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();
+		Thread.sleep(1000);
 
 	}
 	public void changeToPostGame()
@@ -97,17 +98,21 @@ public class Sounds {
 
 	    
 	}
-	public static void reproduceDeath()
+	public void reproduceDeath() throws InterruptedException
 	{
 
-
+		 AudioClip sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/death.wav"));
+		sound.play();
+		music.stop();
+	    Thread.sleep(2000);
 	}
 
-	public void reproduceLevelUp() {
+	public void reproduceLevelUp() throws InterruptedException {
 		String url = SoundsBinding.getGameSounds("levelUp");
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
-		sound.play();		
+		sound.play();	
+		Thread.sleep(3000);
 
 	}
 

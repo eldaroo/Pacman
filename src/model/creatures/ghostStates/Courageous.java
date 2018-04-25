@@ -1,6 +1,5 @@
 package model.creatures.ghostStates;
 
-import controller.Game;
 import model.creatures.Ghost;
 import model.creatures.IA;
 import model.creatures.Pacman;

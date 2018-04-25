@@ -4,14 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Observer;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JLayeredPane;
-import javax.swing.text.View;
+import javax.swing.JOptionPane;
 
 import org.json.simple.parser.ParseException;
 import controller.states.GameState;
@@ -19,7 +16,6 @@ import controller.states.Load;
 import controller.states.Pause;
 import controller.states.PostGame;
 import model.Board;
-import model.BoardConfiguration;
 import model.Direction;
 import model.Dot;
 import model.squares.Square;
@@ -38,7 +34,6 @@ public class Game implements KeyListener {
 	private static ViewManager viewManager;
 
 	// ESTRUCTURA
-	private static boolean run = true;
 	private static boolean changeState = true;
 	private static boolean firstTime = true;
 	private static Sounds sound = new Sounds();
@@ -59,7 +54,7 @@ public class Game implements KeyListener {
 
 		viewManager = new ViewManager();
 		state = new Load();
-		board = new Board(BoardConfiguration.getLevelBoard());
+		board = new Board();
 		boardMatrix = Board.getBoard();
 
 		Board.makeDots();
@@ -89,9 +84,7 @@ public class Game implements KeyListener {
 
 			if (isFirstTime())
 			{
-
 				state.reorganize();
-
 			}
 			playMusic();
 
@@ -102,6 +95,12 @@ public class Game implements KeyListener {
 				state = new PostGame();
 				firstTime = true;
 				Board.setLifes(3);
+			}
+			
+			if (Board.getLevel()>3) {
+				JOptionPane.showMessageDialog(null, "Termino el juego");
+
+				
 			}
 		}
 	}

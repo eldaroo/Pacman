@@ -18,35 +18,32 @@ public class Ghost extends Creature {
 
 	private static ArrayList<Direction> potentialDirectionsList;
 
-
 	private Position target;
 	private int intelligence;
-	private int hellTime=0;
+	private int hellTime = 0;
 	private int hellRequiredTime;
-	 private int auxForRetarded=0;
-	 public GhostState state ;
+	private int auxForRetarded = 0;
+	public GhostState state;
 
 	public Ghost(String name, Square position, int intelligence) {
 		super(name);
 		setState(new InHell());
 		this.position = position;
 		this.intelligence = intelligence;
-		this.hellRequiredTime= intelligence*10;
+		this.hellRequiredTime = intelligence * 10;
 		this.target = position.getBoardPosition();
 		setKeyOfHell(true);
 	}
 
-
-
 	public void setState(GhostState state) {
 		this.state = state;
 	}
-	public GhostState getState ()
-	{
+
+	public GhostState getState() {
 		return state;
 	}
-	public boolean timeForOutOfHell()
-	{
+
+	public boolean timeForOutOfHell() {
 		if (hellTime == hellRequiredTime)
 			return true;
 		return false;
@@ -54,18 +51,17 @@ public class Ghost extends Creature {
 
 	public void run(Pacman pacman) throws InterruptedException {
 
-		IA.runIa(this);
 		determinateTarget(pacman);
+		IA.runIa(this);
 		determinatePotentialDirection();
 		state.singularityAction(this);
 		state.checkGoingThroughHellGate(this);
 		move();
 	}
 
+	public void eatPacman(Pacman pacman) throws InterruptedException {
 
-	public void eatPacman(Pacman pacman) {
-
-		Sounds.reproduceDeath();
+		Game.getSound().reproduceDeath();
 		pacman.death();
 		Game.setState(new Respawn());
 
@@ -76,7 +72,7 @@ public class Ghost extends Creature {
 	}
 
 	private void determinateTarget(Pacman pacman) {
-		state.determinateTarget(this,pacman);
+		state.determinateTarget(this, pacman);
 	}
 
 	public int getIntelligence() {
@@ -99,10 +95,16 @@ public class Ghost extends Creature {
 		this.target = position;
 	}
 
-	
+	public boolean goTo(Direction direction)
+	{
+		if (direction.equals(this.getDirection()))
+		{
+			return true;
+		}else return false;
+	}
 
 	public void setHellTime(int i) {
-		hellTime=i;
+		hellTime = i;
 	}
 
 	public int getAuxForRetarded() {
@@ -112,8 +114,6 @@ public class Ghost extends Creature {
 	public void setAuxForRetarded(int auxForRetarded) {
 		this.auxForRetarded = auxForRetarded;
 	}
-
-
 
 	public void upHellTime() {
 		hellTime++;

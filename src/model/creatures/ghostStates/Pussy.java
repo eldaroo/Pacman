@@ -16,7 +16,7 @@ public class Pussy extends GhostState{
 
 	@Override
 	public void determinatePotentialDirection(Ghost ghost) {
-		ghost.setPotentialDirection(IA.getGoAwayDirection());
+		ghost.setPotentialDirection(IA.pathFinder(2));
 		
 	}
 	@Override

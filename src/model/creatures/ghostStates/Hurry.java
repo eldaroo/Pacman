@@ -16,7 +16,7 @@ public class Hurry extends GhostState {
 
 	@Override
 	public void determinatePotentialDirection(Ghost ghost) {
-		ghost.setPotentialDirection(IA.pathFinder(ghost.getIntelligence()));
+		ghost.setPotentialDirection(IA.pathFinder(2));
 
 	}
 
