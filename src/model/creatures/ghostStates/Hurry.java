@@ -45,4 +45,12 @@ public class Hurry extends GhostState {
 		ghost.setState(new Courageous());
 	}
 
+	@Override
+	public void move(Ghost ghost) {
+		ghost.setAuxForRetarded(ghost.getAuxForRetarded() + 1);
+		if (ghost.getAuxForRetarded() == 2) {
+			ghost.move();
+			ghost.setAuxForRetarded(0);
+		}
+	}
 }

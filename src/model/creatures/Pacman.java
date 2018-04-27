@@ -8,6 +8,7 @@ import controller.states.Super;
 
 import model.Board;
 import model.Dot;
+import model.Fruit;
 import model.creatures.ghostStates.Eated;
 import model.squares.Square;
 import model.Fruit.FruitType;
@@ -60,6 +61,30 @@ public class Pacman extends Creature  {
 		pacmanState= PacmanState.MOVE;
 		Board.upScore(50, ghostsEated);
 	}
+	public void lookingForDots() throws InterruptedException {
+		//dotRemoved=false;
+		Board.setPacmanEatNewDot(false);
+
+		for (Dot dot : Board.getDots()) {
+
+			if (dot.getBoardPosition().equals(Board.getPacman().getBoardPosition())) {
+				Board.getPacman().eatDot(dot);
+			}
+		}
+
+		Board.getDots().remove(Board.getDotRemoved());
+
+		// CHEQUEA SI TERMINO EL LEVEL
+		Game.checkIfCompleteLevel();
+	}
+
+	public void lookingForFruit() throws InterruptedException {
+		if (Fruit.isEnableToEat()) {
+			if (Fruit.getBoardPosition().equals(Board.getPacman().getBoardPosition())) {
+				Board.getPacman().eatFruit();
+			}		
+	}
+	}
 
 	public void death()
 	{
@@ -93,5 +118,6 @@ public class Pacman extends Creature  {
 		// TODO Auto-generated method stub
 		return ghostsEated;
 	}
-	
+
+
 }

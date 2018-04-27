@@ -40,6 +40,12 @@ public class Courageous extends GhostState {
 		ghost.setState(new Pussy());
 	}
 
+	@Override
+	public void move(Ghost ghost) {
+		ghost.move();
+		
+	}
+
 
 
 }

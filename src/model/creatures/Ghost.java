@@ -56,7 +56,7 @@ public class Ghost extends Creature {
 		determinatePotentialDirection();
 		state.singularityAction(this);
 		state.checkGoingThroughHellGate(this);
-		move();
+		state.move(this);
 	}
 
 	public void eatPacman(Pacman pacman) throws InterruptedException {

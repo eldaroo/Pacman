@@ -64,35 +64,11 @@ public class Board extends Observable implements Serializable {
 		pacman.move();
 	}
 
-	public static void lookingForDot() throws InterruptedException {
-		//dotRemoved=false;
-		Board.setPacmanEatNewDot(false);
-
-		for (Dot dot : dots) {
-
-			if (dot.getBoardPosition().equals(pacman.getBoardPosition())) {
-				pacman.eatDot(dot);
-			}
+	public static void lookingForDotAndFruit() throws InterruptedException {
+		pacman.lookingForDots();
+		pacman.lookingForFruit();
 		}
-
-		dots.remove(Board.getDotRemoved());
-
-		// CHEQUEA SI TERMINO EL LEVEL
-		if (dots.size() == 0) {
-			Game.getSound().reproduceLevelUp();
-			Game.setState(new NextLevel());
-			Board.setPacmanEatNewDot(false);
-			Game.setFirstTime(true);
-		}
-	}
-
-	public static void lookingForFruit() throws InterruptedException {
-		if (Fruit.isEnableToEat()) {
-			if (Fruit.getBoardPosition().equals(pacman.getBoardPosition())) {
-				pacman.eatFruit();
-			}
-		}
-	}
+	
 
 	// ******** METODOS DE FANTASMAS
 
@@ -126,15 +102,7 @@ public class Board extends Observable implements Serializable {
 
 		for (Ghost ghost : ghostsArray) {
 
-			if (ghost.getState().toString() == "Pussy" || ghost.getState().toString() == "Hurry") {
-				ghost.setAuxForRetarded(ghost.getAuxForRetarded() + 1);
-				if (ghost.getAuxForRetarded() == 2) {
-					ghost.run(pacman);
-					ghost.setAuxForRetarded(0);
-				}
-			} else {
 				ghost.run(pacman);
-			}
 		}
 	}
 

@@ -42,6 +42,15 @@ public class Pussy extends GhostState{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+
+	public void move(Ghost ghost) {
+		ghost.setAuxForRetarded(ghost.getAuxForRetarded() + 1);
+		if (ghost.getAuxForRetarded() == 2) {
+			ghost.move();
+			ghost.setAuxForRetarded(0);
+		}
+	}
 
 
 }

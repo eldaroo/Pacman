@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import org.json.simple.parser.ParseException;
 import controller.states.GameState;
 import controller.states.Load;
+import controller.states.NextLevel;
 import controller.states.Pause;
 import controller.states.PostGame;
 import model.Board;
@@ -120,8 +121,7 @@ public class Game implements KeyListener {
 		Board.moveGhosts();
 		Board.lookingForCreatures();
 		Board.movePacman();
-		Board.lookingForDot();
-		Board.lookingForFruit();
+		Board.lookingForDotAndFruit();
 
 	}
 
@@ -211,6 +211,15 @@ public class Game implements KeyListener {
 	
 	public static Sounds getSound() {
 		return sound;
+	}
+
+	public static void checkIfCompleteLevel() throws InterruptedException {
+		if (Board.getDots().size() == 0) {
+			sound.reproduceLevelUp();
+			setState(new NextLevel());
+			Board.setPacmanEatNewDot(false);
+			setFirstTime(true);
+		}		
 	}
 
 

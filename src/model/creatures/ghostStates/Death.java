@@ -42,6 +42,10 @@ public class Death extends GhostState {
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	public void move(Ghost ghost) {
+		ghost.move();
+		
+	}
 
 }
