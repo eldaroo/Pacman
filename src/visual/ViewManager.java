@@ -1,25 +1,8 @@
 package visual;
 
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-
-import controller.Game;
 import model.Board;
-import model.Serializator;
-import model.squares.Square;
-import model.squares.Square.Corner;
+
 
 public class ViewManager {
 
@@ -28,6 +11,7 @@ public class ViewManager {
 	private static BoardView boardView;
 	private static PostGameView postGameView;
 	private static ScoreView scoreView;
+
 
 	public ViewManager() {
 		window = new Window();
@@ -52,13 +36,17 @@ public class ViewManager {
 
 	}
 
-	public static void startPostGameView() {
+	public static void startPostGameView(boolean win) {
 		scoreView = new ScoreView();
-		postGameView = new PostGameView(window, scoreView);
+		if (win) {
+			postGameView = new WinGameView(window, scoreView);
+		} else {
+			postGameView = new GameOverView(window, scoreView);
+		}
+		window.remove(boardView.getLayers());
 		window.setContentPane(postGameView);
+		window.repaint();
 	}
-
-	
 	
 	public static void removeWindowContent(Container contentPane) {
 		window.remove(contentPane);
@@ -78,14 +66,6 @@ public class ViewManager {
 
 	public static void setBeginMenu(BeginMenu beginMenu) {
 		ViewManager.beginMenu = beginMenu;
-	}
-
-	public static PostGameView getPostGameView() {
-		return postGameView;
-	}
-
-	public static void setPostGameView(PostGameView postGameView) {
-		ViewManager.postGameView = postGameView;
 	}
 
 	public static BoardView getBoardView() {

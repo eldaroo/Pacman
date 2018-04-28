@@ -1,11 +1,11 @@
-package model;
+package model.board;
 
 import java.util.Observable;
 import java.util.Random;
 
 import controller.Game;
-import model.Fruit.FruitType;
-import model.board.Element;
+import model.Position;
+import model.board.Fruit.FruitType;
 
 public class Fruit extends Element {
 	public static enum FruitType {

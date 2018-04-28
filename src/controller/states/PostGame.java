@@ -13,7 +13,7 @@ public class PostGame extends GameState {
 	public void reorganize() {
 		JOptionPane.showMessageDialog(null, "la partida termino. Puntos: " + Board.getScore());
 		//ViewManager.removeWindowContent(ViewManager.getLayers());
-		ViewManager.startPostGameView();
+		ViewManager.startPostGameView(Game.getWin());
 		Game.setFirstTime(false);
 	}
 

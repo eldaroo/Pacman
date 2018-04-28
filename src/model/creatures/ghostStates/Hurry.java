@@ -16,7 +16,7 @@ public class Hurry extends GhostState {
 
 	@Override
 	public void determinatePotentialDirection(Ghost ghost) {
-		ghost.setPotentialDirection(IA.pathFinder(ghost.getIntelligence()));
+		ghost.setPotentialDirection(IA.pathFinder(2));
 
 	}
 
@@ -45,4 +45,12 @@ public class Hurry extends GhostState {
 		ghost.setState(new Courageous());
 	}
 
+	@Override
+	public void move(Ghost ghost) {
+		ghost.setAuxForRetarded(ghost.getAuxForRetarded() + 1);
+		if (ghost.getAuxForRetarded() == 2) {
+			ghost.move();
+			ghost.setAuxForRetarded(0);
+		}
+	}
 }

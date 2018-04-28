@@ -38,4 +38,9 @@ public class Eated extends GhostState {
 		
 	}
 
+	@Override
+	public void move(Ghost ghost) {
+		ghost.move();
+		
+	}
 }

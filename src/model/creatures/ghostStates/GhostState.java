@@ -12,6 +12,7 @@ public abstract class GhostState {
 	public abstract void singularityAction(Ghost ghost);
 	public abstract void meetPacman(Ghost ghost, Pacman pacman) throws InterruptedException;
 	public abstract void changeState(Ghost ghost);
+	public abstract void move(Ghost ghost);
 	
 	public void checkGoingThroughHellGate(Ghost ghost)
 	{
@@ -28,6 +29,7 @@ public abstract class GhostState {
 	}
 	
 	public abstract String toString();
+
 
 	
 }

@@ -7,10 +7,11 @@ import controller.Game;
 import controller.states.Super;
 
 import model.Board;
-import model.Dot;
 import model.creatures.ghostStates.Eated;
 import model.squares.Square;
-import model.Fruit.FruitType;
+import model.board.Dot;
+import model.board.Fruit;
+import model.board.Fruit.FruitType;
 import sounds.Sounds;
 
 public class Pacman extends Creature  {
@@ -30,14 +31,14 @@ public class Pacman extends Creature  {
 		setKeyOfHell(false);
 	}
 	
-	public void eatDot(Dot dot)
+	public void eatDot(Dot dot) throws InterruptedException
 	{
-		//Sounds.reproduceEatDot();
 		Board.upScore(10,0);
 		Board.setDotRemoved((Dot) dot);
 		
 		if (Board.getDotRemoved().getSuper() == true) {
 			Game.setState (new Super());
+			ghostsEated=0;
 			Game.setFirstTime(true);
 			Board.upScore(20, 0);
 		}
@@ -45,7 +46,7 @@ public class Pacman extends Creature  {
 		Board.setPacmanEatNewDot(true);
 	}
 	
-	public void eatFruit()
+	public void eatFruit() throws InterruptedException
 	{
 		Board.upScore(200,0);
 	}
@@ -59,6 +60,30 @@ public class Pacman extends Creature  {
 		pacmanState = PacmanState.EATGHOST;
 		pacmanState= PacmanState.MOVE;
 		Board.upScore(50, ghostsEated);
+	}
+	public void lookingForDots() throws InterruptedException {
+		//dotRemoved=false;
+		Board.setPacmanEatNewDot(false);
+
+		for (Dot dot : Board.getDots()) {
+
+			if (dot.getBoardPosition().equals(Board.getPacman().getBoardPosition())) {
+				Board.getPacman().eatDot(dot);
+			}
+		}
+
+		Board.getDots().remove(Board.getDotRemoved());
+
+		// CHEQUEA SI TERMINO EL LEVEL
+		Game.checkIfCompleteLevel();
+	}
+
+	public void lookingForFruit() throws InterruptedException {
+		if (Fruit.isEnableToEat()) {
+			if (Fruit.getBoardPosition().equals(Board.getPacman().getBoardPosition())) {
+				Board.getPacman().eatFruit();
+			}		
+	}
 	}
 
 	public void death()
@@ -93,5 +118,6 @@ public class Pacman extends Creature  {
 		// TODO Auto-generated method stub
 		return ghostsEated;
 	}
-	
+
+
 }

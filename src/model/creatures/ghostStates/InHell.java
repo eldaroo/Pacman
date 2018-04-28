@@ -50,6 +50,11 @@ public class InHell extends GhostState{
 		
 	}
 
+	@Override
+	public void move(Ghost ghost) {
+		ghost.move();
+		
+	}
 
 
 }

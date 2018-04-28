@@ -1,6 +1,5 @@
 package model.creatures.ghostStates;
 
-import controller.Game;
 import model.creatures.Ghost;
 import model.creatures.IA;
 import model.creatures.Pacman;
@@ -39,6 +38,12 @@ public class Courageous extends GhostState {
 	@Override
 	public void changeState(Ghost ghost) {
 		ghost.setState(new Pussy());
+	}
+
+	@Override
+	public void move(Ghost ghost) {
+		ghost.move();
+		
 	}
 
 

@@ -18,7 +18,11 @@ public class Normal extends GameState {
 		Game.getBoard().addObserver(ViewManager.getBoardView());
 		Board.observePacman(BoardView.getPacmanView());
 		Game.getBoard().update();
-		JOptionPane.showMessageDialog(null, "Move a Paco con las flechitas.\nCon la tecla 'P', hace una pausa.");
+		if(Board.getLevel()==1)
+		{				
+			JOptionPane.showMessageDialog(null, "Move a Paco con las flechitas.\nCon la tecla 'P', hace una pausa.");
+			Game.setWin(false);
+		}
 		Game.getSound().reproduceBeginning();
 
 		Game.setFirstTime (false);

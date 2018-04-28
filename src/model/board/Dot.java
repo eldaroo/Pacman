@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -8,7 +8,7 @@ import java.util.Observable;
 import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
-import model.board.Element;
+import model.Position;
 import model.squares.Square;
 
 public class Dot extends Element implements JSONStreamAware{

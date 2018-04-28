@@ -14,6 +14,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import model.board.Dot;
+import model.board.SuperDot;
+
 
 public abstract class Serializator {
 	
@@ -44,6 +47,7 @@ public abstract class Serializator {
 
 			Board.setScore((long) jObj.get("score"));
 			Board.setLifes((long) jObj.get("lifes"));
+			Board.setLevel((long) jObj.get("level"));
 				
 		
 			jCreatures = (JSONArray) jObj.get("Creatures") ;
@@ -113,6 +117,8 @@ public abstract class Serializator {
 
 		jObj.put("score", Board.getScore());
 		jObj.put("lifes", Board.getLifes());
+		jObj.put("level", Board.getLevel());
+
 		
 		StringWriter out = new StringWriter();
 
