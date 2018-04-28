@@ -9,7 +9,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import model.Board;
-import model.Dot;
+import model.board.Dot;
 
 public class DotView extends JLabel {
 

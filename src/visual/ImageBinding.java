@@ -10,8 +10,6 @@ import javax.swing.ImageIcon;
 import controller.states.GameState;
 import controller.states.Load;
 import model.Direction;
-import model.Dot;
-import model.Fruit;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
 import model.creatures.ghostStates.Courageous;
@@ -30,7 +28,9 @@ import model.squares.Square;
 import model.squares.Teleport;
 import model.squares.Wall;
 import model.squares.Square.Corner;
-import model.SuperDot;
+import model.board.Dot;
+import model.board.Fruit;
+import model.board.SuperDot;
 
 public abstract class ImageBinding {
 	//MAPA DE BOARD
@@ -52,10 +52,10 @@ public abstract class ImageBinding {
 	
 
 	static {
-		fruitIcon.put(Fruit.FruitType.BANANNA, new ImageIcon("resources/fruit_lsd.gif"));
-		fruitIcon.put(Fruit.FruitType.CHERRY, new ImageIcon("resources/fruit_joint.gif"));
-		fruitIcon.put(Fruit.FruitType.ORANGE, new ImageIcon("resources/fruit_cogollo.gif"));
-		fruitIcon.put(Fruit.FruitType.APPLE, new ImageIcon("resources/fruit_pipe.gif"));
+		fruitIcon.put(Fruit.FruitType.BANANNA, new ImageIcon("resources/images/fruit_lsd.gif"));
+		fruitIcon.put(Fruit.FruitType.CHERRY, new ImageIcon("resources/images/fruit_joint.gif"));
+		fruitIcon.put(Fruit.FruitType.ORANGE, new ImageIcon("resources/images/fruit_cogollo.gif"));
+		fruitIcon.put(Fruit.FruitType.APPLE, new ImageIcon("resources/images/fruit_pipe.gif"));
 	}
 	public static ImageIcon getFruitIcon(Fruit fruit) {
 		return fruitIcon.get(Fruit.getFruitType());
@@ -63,69 +63,69 @@ public abstract class ImageBinding {
 
 
 	static {
-		images.put(Dot.class, new ImageIcon("resources/chala.gif"));
-		images.put(SuperDot.class, new ImageIcon("resources/superchala_b.gif"));
-		images.put(BeginMenu.class, new ImageIcon("resources/paco_inicio.gif"));
+		images.put(Dot.class, new ImageIcon("resources/images/chala.gif"));
+		images.put(SuperDot.class, new ImageIcon("resources/images/superchala_b.gif"));
+		images.put(BeginMenu.class, new ImageIcon("resources/images/paco_inicio.gif"));
 
 	}
 
 	static {
-		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/pacoman.png"));
-		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/pacoman.png"));
-		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/pacoman.png"));
-		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/pacoman_back.png"));
+		pacmanWithDirection.put(Direction.DOWN, new ImageIcon("resources/images/pacoman.png"));
+		pacmanWithDirection.put(Direction.LEFT, new ImageIcon("resources/images/pacoman.png"));
+		pacmanWithDirection.put(Direction.UP, new ImageIcon("resources/images/pacoman.png"));
+		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon("resources/images/pacoman_back.png"));
 	}
 	static {
-		pacmanEatingGhost.put(1, new ImageIcon("resources/eat_score_1.gif"));
-		pacmanEatingGhost.put(2, new ImageIcon("resources/eat_score_2.gif"));
-		pacmanEatingGhost.put(3, new ImageIcon("resources/eat_score_3.gif"));
-		pacmanEatingGhost.put(4, new ImageIcon("resources/eat_score_4.gif"));
-		pacmanEatingGhost.put(5, new ImageIcon("resources/eat_score_5.gif"));
+		pacmanEatingGhost.put(1, new ImageIcon("resources/images/eat_score_1.gif"));
+		pacmanEatingGhost.put(2, new ImageIcon("resources/images/eat_score_2.gif"));
+		pacmanEatingGhost.put(3, new ImageIcon("resources/images/eat_score_3.gif"));
+		pacmanEatingGhost.put(4, new ImageIcon("resources/images/eat_score_4.gif"));
+		pacmanEatingGhost.put(5, new ImageIcon("resources/images/eat_score_5.gif"));
 	}
 
 	static {
 
-		ghostAlive.put(5, new ImageIcon("resources/police1.gif"));
-		ghostAlive.put(6, new ImageIcon("resources/police3.gif"));
-		ghostAlive.put(7, new ImageIcon("resources/police5.gif"));
-		ghostAlive.put(8, new ImageIcon("resources/police7.gif"));
-		ghostAlive.put(9, new ImageIcon("resources/police9.gif"));
-
-	}
-	static {
-
-		ghostDeath.put(5, new ImageIcon("resources/police_death.gif"));
-		ghostDeath.put(6, new ImageIcon("resources/police_death.gif"));
-		ghostDeath.put(7, new ImageIcon("resources/police_death.gif"));
-		ghostDeath.put(8, new ImageIcon("resources/police_death.gif"));
-		ghostDeath.put(9, new ImageIcon("resources/police_death.gif"));
+		ghostAlive.put(5, new ImageIcon("resources/images/police1.gif"));
+		ghostAlive.put(6, new ImageIcon("resources/images/police3.gif"));
+		ghostAlive.put(7, new ImageIcon("resources/images/police5.gif"));
+		ghostAlive.put(8, new ImageIcon("resources/images/police7.gif"));
+		ghostAlive.put(9, new ImageIcon("resources/images/police9.gif"));
 
 	}
 	static {
 
-		ghostEated.put(5, new ImageIcon("resources/"));
-		ghostEated.put(6, new ImageIcon("resources/"));
-		ghostEated.put(7, new ImageIcon("resources/"));
-		ghostEated.put(8, new ImageIcon("resources/"));
-		ghostEated.put(9, new ImageIcon("resources/"));
+		ghostDeath.put(5, new ImageIcon("resources/images/police_death.gif"));
+		ghostDeath.put(6, new ImageIcon("resources/images/police_death.gif"));
+		ghostDeath.put(7, new ImageIcon("resources/images/police_death.gif"));
+		ghostDeath.put(8, new ImageIcon("resources/images/police_death.gif"));
+		ghostDeath.put(9, new ImageIcon("resources/images/police_death.gif"));
 
 	}
 	static {
 
-		ghostPussy.put(5, new ImageIcon("resources/police_pussy.gif"));
-		ghostPussy.put(6, new ImageIcon("resources/police_pussy.gif"));
-		ghostPussy.put(7, new ImageIcon("resources/police_pussy.gif"));
-		ghostPussy.put(8, new ImageIcon("resources/police_pussy.gif"));
-		ghostPussy.put(9, new ImageIcon("resources/police_pussy.gif"));
+		ghostEated.put(5, new ImageIcon("resources/images/"));
+		ghostEated.put(6, new ImageIcon("resources/images/"));
+		ghostEated.put(7, new ImageIcon("resources/images/"));
+		ghostEated.put(8, new ImageIcon("resources/images/"));
+		ghostEated.put(9, new ImageIcon("resources/images/"));
 
 	}
 	static {
 
-		ghostHurry.put(5, new ImageIcon("resources/police_hurry.gif"));
-		ghostHurry.put(6, new ImageIcon("resources/police_hurry.gif"));
-		ghostHurry.put(7, new ImageIcon("resources/police_hurry.gif"));
-		ghostHurry.put(8, new ImageIcon("resources/police_hurry.gif"));
-		ghostHurry.put(9, new ImageIcon("resources/police_hurry.gif"));
+		ghostPussy.put(5, new ImageIcon("resources/images/police_pussy.gif"));
+		ghostPussy.put(6, new ImageIcon("resources/images/police_pussy.gif"));
+		ghostPussy.put(7, new ImageIcon("resources/images/police_pussy.gif"));
+		ghostPussy.put(8, new ImageIcon("resources/images/police_pussy.gif"));
+		ghostPussy.put(9, new ImageIcon("resources/images/police_pussy.gif"));
+
+	}
+	static {
+
+		ghostHurry.put(5, new ImageIcon("resources/images/police_hurry.gif"));
+		ghostHurry.put(6, new ImageIcon("resources/images/police_hurry.gif"));
+		ghostHurry.put(7, new ImageIcon("resources/images/police_hurry.gif"));
+		ghostHurry.put(8, new ImageIcon("resources/images/police_hurry.gif"));
+		ghostHurry.put(9, new ImageIcon("resources/images/police_hurry.gif"));
 
 	}
 
@@ -166,7 +166,7 @@ public abstract class ImageBinding {
 	}
 
 	public static Icon getBoard() {
-		return new ImageIcon("resources/board600x600.png");
+		return new ImageIcon("resources/images/board600x600.png");
 	}
 
 }

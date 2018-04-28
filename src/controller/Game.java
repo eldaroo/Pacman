@@ -5,11 +5,9 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
-
 import org.json.simple.parser.ParseException;
 import controller.states.GameState;
 import controller.states.Load;
@@ -18,15 +16,14 @@ import controller.states.Pause;
 import controller.states.PostGame;
 import model.Board;
 import model.Direction;
-import model.Dot;
+import model.board.Dot;
 import model.squares.Square;
 import sounds.Sounds;
 
 import visual.ViewManager;
 
-
 public class Game implements KeyListener {
-	
+
 	// MODELO
 	private static GameState state;
 	private static Board board;
@@ -38,6 +35,7 @@ public class Game implements KeyListener {
 	private static boolean changeState = true;
 	private static boolean firstTime = true;
 	private static Sounds sound = new Sounds();
+	static Game game;
 
 	// DATOS
 	private static int time = 0;
@@ -45,7 +43,8 @@ public class Game implements KeyListener {
 	private static int superTime = 0;
 	private static int ghostQuantity = 5;
 
-	public static void main(String[] args) throws IOException, ParseException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
+	public static void main(String[] args) throws IOException, ParseException, InterruptedException,
+			LineUnavailableException, UnsupportedAudioFileException {
 		initGame();
 		play();
 	}
@@ -53,25 +52,18 @@ public class Game implements KeyListener {
 	// INICIALIZAMOS ALGUNAS DE LAS VARIABLES
 	public static void initGame() {
 
+		game = new Game();
 		viewManager = new ViewManager();
 		state = new Load();
 		board = new Board();
 		boardMatrix = Board.getBoard();
-
 		Board.makeDots();
 		Board.createGhosts(ghostQuantity);
 		Board.createPacman("pacman", boardMatrix[27][43]);
-		ViewManager.getWindow().addKeyListener(get());
-
+		ViewManager.getWindow().addKeyListener(game);
 
 	}
 
-	private static KeyListener get() {
-		Game game = new Game();
-		return game;
-	}
-
-	// ARRANCA EL JUEGO
 	private static void play() throws IOException, ParseException, InterruptedException, LineUnavailableException,
 			UnsupportedAudioFileException {
 
@@ -80,36 +72,31 @@ public class Game implements KeyListener {
 
 		while (ever) {
 
-			 if (state.toString() != "PostGame")
-			ViewManager.getWindow().requestFocus();
+			if (state.toString() != "PostGame")
+				ViewManager.getWindow().requestFocus();
 
-			if (isFirstTime())
-			{
+			if (isFirstTime()) {
 				state.reorganize();
 			}
 			playMusic();
 
 			state.run();
-			
-			
+
 			if (Board.getLifes() <= 0) {
 				state = new PostGame();
 				firstTime = true;
 				Board.setLifes(3);
 			}
-			
-			if (Board.getLevel()>3) {
+
+			if (Board.getLevel() > 3) {
 				JOptionPane.showMessageDialog(null, "Termino el juego");
 
-				
 			}
 		}
 	}
 
-
 	private static void playMusic() throws FileNotFoundException, InterruptedException {
-		if(changeState)
-		{
+		if (changeState) {
 			sound.reproduceMusic(state.toString());
 			changeState = false;
 		}
@@ -157,18 +144,28 @@ public class Game implements KeyListener {
 		}
 	}
 
+	public static void checkIfCompleteLevel() throws InterruptedException {
+		if (Board.getDots().size() == 0) {
+			sound.reproduceLevelUp();
+			setState(new NextLevel());
+			Board.setPacmanEatNewDot(false);
+			setFirstTime(true);
+		}
+	}
+
 	// METODOS OBLIGADOS PARA EL KEYLISTENER
 	public void keyReleased(KeyEvent arg0) {
 	}
+
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
-	//---------------------------------------
+	// ---------------------------------------
 
-	
 	public static boolean isFirstTime() {
 		return firstTime;
 	}
+
 	public static void setFirstTime(boolean firstTime) {
 		Game.firstTime = firstTime;
 	}
@@ -181,6 +178,7 @@ public class Game implements KeyListener {
 	public static int getTime() {
 		return time;
 	}
+
 	public static void upTime() {
 		Game.time++;
 	}
@@ -193,10 +191,10 @@ public class Game implements KeyListener {
 		Game.retard = retard;
 	}
 
-
 	public static int getSuperTime() {
 		return superTime;
 	}
+
 	public static void setSuperTime(int superTime) {
 		Game.superTime = superTime;
 	}
@@ -208,20 +206,9 @@ public class Game implements KeyListener {
 	public static Board getBoard() {
 		return board;
 	}
-	
+
 	public static Sounds getSound() {
 		return sound;
 	}
-
-	public static void checkIfCompleteLevel() throws InterruptedException {
-		if (Board.getDots().size() == 0) {
-			sound.reproduceLevelUp();
-			setState(new NextLevel());
-			Board.setPacmanEatNewDot(false);
-			setFirstTime(true);
-		}		
-	}
-
-
 
 }

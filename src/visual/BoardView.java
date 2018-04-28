@@ -17,10 +17,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import model.Board;
-import model.Dot;
-import model.Fruit;
 import model.Position;
 import model.Serializator;
+import model.board.Dot;
+import model.board.Fruit;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
 import model.creatures.Pacman.PacmanState;

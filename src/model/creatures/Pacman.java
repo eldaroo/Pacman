@@ -7,11 +7,11 @@ import controller.Game;
 import controller.states.Super;
 
 import model.Board;
-import model.Dot;
-import model.Fruit;
 import model.creatures.ghostStates.Eated;
 import model.squares.Square;
-import model.Fruit.FruitType;
+import model.board.Dot;
+import model.board.Fruit;
+import model.board.Fruit.FruitType;
 import sounds.Sounds;
 
 public class Pacman extends Creature  {

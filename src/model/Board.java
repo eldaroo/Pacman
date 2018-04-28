@@ -5,6 +5,8 @@ import java.util.*;
 import org.json.simple.JSONValue;
 import controller.Game;
 import controller.states.NextLevel;
+import model.board.Dot;
+import model.board.Fruit;
 import model.creatures.*;
 import model.creatures.ghostStates.*;
 import model.squares.*;
@@ -18,26 +20,18 @@ public class Board extends Observable implements Serializable {
 	static private Square[][] board;
 	static private HellGate hellGate = new HellGate();
 	static private Square originalPacmanPosition;
-
 	// ELEMENTOS VARIOS
 	static private ArrayList<Dot> dots;
 	static private Dot dotRemoved;
 	private static Fruit fruit;
 	static private Position fruitPosition;
-
 	// CRIATURAS
 	public static Pacman pacman;
-	public static Pacman getPacman() {
-		return pacman;
-	}
-
 	private static ArrayList<Ghost> ghostsArray;
-
 	// VARIABLES
 	static int hellIndex = 0;
 	static Random randomHellZoneSquare = new Random();
 	static private boolean pacmanEatNewDot = false;
-	static private boolean superMode = false;
 	private static long lifes = 3;
 	private static long score = 0;
 	private static Long level = (long) 1;
@@ -52,6 +46,7 @@ public class Board extends Observable implements Serializable {
 	public static void makeBoard() {
 		board = BoardConfiguration.makeBoard();
 	}
+
 	public static void makeDots() {
 		dots = BoardConfiguration.makeDots();
 	}
@@ -67,8 +62,7 @@ public class Board extends Observable implements Serializable {
 	public static void lookingForDotAndFruit() throws InterruptedException {
 		pacman.lookingForDots();
 		pacman.lookingForFruit();
-		}
-	
+	}
 
 	// ******** METODOS DE FANTASMAS
 
@@ -86,7 +80,7 @@ public class Board extends Observable implements Serializable {
 	}
 
 	public static void respawnCreatures() {
-		pacman.setPosition(Board.getOriginalPacmanPosition());
+		pacman.setPosition(originalPacmanPosition);
 
 		for (Ghost ghost : ghostsArray) {
 			ghost.setState(new InHell());
@@ -101,17 +95,14 @@ public class Board extends Observable implements Serializable {
 	public static void moveGhosts() throws InterruptedException {
 
 		for (Ghost ghost : ghostsArray) {
-
-				ghost.run(pacman);
+			ghost.run(pacman);
 		}
 	}
 
 	public static void lookingForCreatures() throws InterruptedException {
 		for (Ghost ghost : ghostsArray) {
 			if (pacman.getBoardPosition().equals(ghost.getBoardPosition())) {
-
 				ghost.getState().meetPacman(ghost, pacman);
-
 			}
 		}
 	}
@@ -122,8 +113,6 @@ public class Board extends Observable implements Serializable {
 			ghost.state.changeState(ghost);
 		}
 	}
-
-	
 
 	// ----------- METODOS VARIOS ---------------
 
@@ -175,8 +164,6 @@ public class Board extends Observable implements Serializable {
 		pacman.addObserver(pacmanView);
 	}
 
-
-
 	public static Position getHellGatePosition() {
 		return BoardConfiguration.getHellGatePosition();
 	}
@@ -190,9 +177,14 @@ public class Board extends Observable implements Serializable {
 		return score;
 	}
 
+	public static Pacman getPacman() {
+		return pacman;
+	}
+
 	public static void setScore(long score) {
 		Board.score = score;
 	}
+
 	public static void setLevel(long level) {
 		Board.level = level;
 	}
@@ -209,14 +201,10 @@ public class Board extends Observable implements Serializable {
 		return dots;
 	}
 
-	public static boolean getSuperMode() {
-		return superMode;
-	}
-
-	public static void setDots(ArrayList<Dot> dots)
-	{
+	public static void setDots(ArrayList<Dot> dots) {
 		Board.dots = dots;
 	}
+
 	public static Position getFruitPosition() {
 		return fruitPosition;
 	}
@@ -240,6 +228,7 @@ public class Board extends Observable implements Serializable {
 	public static void setLifes(long lifes) {
 		Board.lifes = lifes;
 	}
+
 	public static Fruit getFruit() {
 		return fruit;
 	}
@@ -248,25 +237,12 @@ public class Board extends Observable implements Serializable {
 		return level;
 	}
 
-	public static Square getOriginalPacmanPosition() {
-		return originalPacmanPosition;
-	}
-
 	public static void setOriginalPacmanPosition(Square board2) {
 		Board.originalPacmanPosition = board2;
 	}
 
-	public static void setBoard(Square[][] board) {
-		Board.board = board;
-
-	}
-
 	public static void setDotRemoved(Dot dotRemoved) {
 		Board.dotRemoved = dotRemoved;
-
-	}
-	public static void setSuperMode(boolean superMode) {
-		Board.superMode = superMode;
 	}
 
 	public static boolean isPacmanEatNewDot() {
@@ -277,17 +253,16 @@ public class Board extends Observable implements Serializable {
 	public static ArrayList<Ghost> getGhostsArray() {
 		return ghostsArray;
 	}
+
 	public static void setPacmanEatNewDot(boolean pacmanEatNewDot) {
 		Board.pacmanEatNewDot = pacmanEatNewDot;
 	}
 
-	// AVISA AL VISUAL SI HUBO MODIFICACIÓN DE DOTS EN EL TABLERO
 	public void update() {
 		setChanged();
 		notifyObservers();
 	}
 
-	// LOS DATOS DEL BOARD QUE SE GUARDAN CUANDO SE EJECUTA toPersist
 	public void writeJSONString(Writer out) throws IOException {
 		LinkedHashMap<String, Long> obj = new LinkedHashMap<>();
 		obj.put("score", score);

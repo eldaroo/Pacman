@@ -8,8 +8,8 @@ import org.json.simple.parser.ParseException;
 
 import controller.Game;
 import model.Board;
-import model.Dot;
 import model.Serializator;
+import model.board.Dot;
 import sounds.Sounds;
 
 public class Recovery extends GameState {

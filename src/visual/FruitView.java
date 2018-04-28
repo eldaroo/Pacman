@@ -5,7 +5,8 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import model.Fruit;
+
+import model.board.Fruit;
 
 public class FruitView extends JLabel  {
 

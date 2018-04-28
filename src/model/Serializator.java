@@ -14,6 +14,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import model.board.Dot;
+import model.board.SuperDot;
+
 
 public abstract class Serializator {
 	

@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.board.Dot;
+import model.board.SuperDot;
 import model.squares.FalseHell;
 import model.squares.FalsePath;
 import model.squares.FalseTeleport;
