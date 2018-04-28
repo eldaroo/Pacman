@@ -166,7 +166,8 @@ public abstract class ImageBinding {
 	}
 
 	public static Icon getBoard() {
-		return new ImageIcon("resources/board600x600.png");
+		//return new ImageIcon("resources/board600x600.png");
+		return new ImageIcon("resources/animatedBoard_i.gif");
 	}
 
 }
