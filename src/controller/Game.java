@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JOptionPane;
 import org.json.simple.parser.ParseException;
 import controller.states.GameState;
 import controller.states.Load;
@@ -35,7 +34,8 @@ public class Game implements KeyListener {
 	private static boolean changeState = true;
 	private static boolean firstTime = true;
 	private static Sounds sound = new Sounds();
-	static Game game;
+	private static boolean win = false;
+	private static Game game;
 
 	// DATOS
 	private static int time = 0;
@@ -89,9 +89,11 @@ public class Game implements KeyListener {
 			}
 
 			if (Board.getLevel() > 3) {
-				JOptionPane.showMessageDialog(null, "Termino el juego");
-
-			}
+				win = true;
+				state = new PostGame();
+				firstTime = true;	
+				Board.setLevel(1);
+				}
 		}
 	}
 
@@ -177,6 +179,12 @@ public class Game implements KeyListener {
 
 	public static int getTime() {
 		return time;
+	}
+	public static boolean getWin() {
+		return win;
+	}
+	public static void setWin(boolean win) {
+		Game.win = win;
 	}
 
 	public static void upTime() {

@@ -16,7 +16,7 @@ import controller.states.Normal;
 import controller.states.Respawn;
 import model.DataManager;
 
-public class PostGameView extends JPanel {
+public abstract class PostGameView extends JPanel {
 
 	private static final long serialVersionUID = 34706378010734016L;
 	private JTextField textField;
@@ -25,12 +25,10 @@ public class PostGameView extends JPanel {
 
 		setVisible(true);
 		setSize(324, 333);
-		setLocation(200, 200);
+		setLocation(100, 200);
 		
-		JLabel lblGameOver = new JLabel(" G A M E   O V E R ");
-		lblGameOver.setFont(new Font("Tekton Pro Cond", Font.PLAIN, 36));
-		lblGameOver.setSize(131, 33);
-		add(lblGameOver, BorderLayout.NORTH);
+		generateParticularLabel();
+		
 
 		JLabel lblName = new JLabel("Nombre: ");
 		lblName.setSize(54, 87);
@@ -88,4 +86,5 @@ public class PostGameView extends JPanel {
 		btnTomarseElChori.setBounds(11, 235, 132, 23);
 		add(btnTomarseElChori,BorderLayout.SOUTH);
 	}
+	public abstract void generateParticularLabel() ;
 }

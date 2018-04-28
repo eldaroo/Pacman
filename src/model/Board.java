@@ -32,9 +32,9 @@ public class Board extends Observable implements Serializable {
 	static int hellIndex = 0;
 	static Random randomHellZoneSquare = new Random();
 	static private boolean pacmanEatNewDot = false;
-	private static long lifes = 3;
+	private static long lifes = 1;
 	private static long score = 0;
-	private static Long level = (long) 1;
+	private static Long level = (long) 3;
 	private static int aux = 0;
 
 	public Board() {
