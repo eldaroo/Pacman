@@ -79,7 +79,7 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 	}
 	public void createBackground() {
 		background = new JLabel();
-		background.setIcon(ImageBinding.getBoard());
+		background.setIcon(ImageBinding.getBoard(Board.getLevel()));
 		background.setBounds(0, ViewManager.getWindow().getY() + 5, 600, 600);
 		layers.add(background);
 	}

@@ -34,7 +34,7 @@ public class Board extends Observable implements Serializable {
 	static private boolean pacmanEatNewDot = false;
 	private static long lifes = 1;
 	private static long score = 0;
-	private static Long level = (long) 3;
+	private static Long level = (long) 1;
 	private static int aux = 0;
 
 	public Board() {
