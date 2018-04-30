@@ -39,14 +39,12 @@ public abstract class IA {
 		directionAvailables = new ArrayList<Direction>();
 		goAwayTargetMatrix = new ArrayList<Direction>();
 
-		randomChoise = getRandomChoise(DirectionMap, targetMatrix, squaresAvailables, threeDirectionMatrix,
+		randomChoise = getRandomChoice(DirectionMap, targetMatrix, squaresAvailables, threeDirectionMatrix,
 				directionAvailables);
 		smartChoise = getSmartPotentialDirection();
 		generateGoAwayDirection();
 
 	}
-
-	// RETURNS DIRECTIONS
 
 	static Direction pussyDirection() {
 		return goAwayDirection;
@@ -60,15 +58,11 @@ public abstract class IA {
 		return randomChoise;
 	}
 
-	// FUNCIONES
-
 	public static int random(int value) {
 		Random random = new Random();
 		int aux = random.nextInt(value);
 		return aux;
 	}
-
-	// METODOS DE PATHFINDER
 
 	public static Direction pathFinder(int intelligence) {
 		ArrayList<Direction> potentialDirectionsList = new ArrayList<Direction>();
@@ -97,7 +91,6 @@ public abstract class IA {
 		return goAwayDirection;
 	}
 
-	// GENERAMOS LA MEJOR DECISION
 	private static Direction getSmartPotentialDirection() {
 		Direction bestChoise = null;
 
@@ -110,7 +103,6 @@ public abstract class IA {
 		return bestChoise;
 	}
 
-	// GENERAMOS UNA MATRIZ CON LAS MEJORES DECISIONES
 	private static void generateSmartDirectionArray() {
 		
 		smartDirectionAvailables.clear();
@@ -149,7 +141,6 @@ public abstract class IA {
 
 	}
 
-	// IDENTIFICAMOS DONDE ESTA EL TARGET
 	private static void localizateTarget() {
 		goAwayTargetMatrix.clear();
 		targetMatrix.clear();
@@ -181,8 +172,7 @@ public abstract class IA {
 			goAwayTargetMatrix.add(Direction.DOWN);
 	}
 
-	// GENERAMOS UNA DECISION ALEATORIA ENTRE LAS DISPONIBLES
-	private static Direction getRandomChoise(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix,
+	private static Direction getRandomChoice(Map<Square, Direction> directionMap, ArrayList<Direction> targetMatrix,
 			ArrayList<Square> squaresAvailables, ArrayList<Square> threeDirectionMatrix,
 			ArrayList<Direction> directionAvailables) {
 		createDirectionAvailablesArray();

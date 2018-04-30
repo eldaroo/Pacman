@@ -1,22 +1,17 @@
 package visual;
 
 import java.awt.Container;
-import model.Board;
+
+import controller.Game;
 
 
-public class ViewManager {
+public abstract class ViewManager {
 
-	private static Window window;
+	private static Window window = new Window();;
 	private static BeginMenu beginMenu;
 	private static BoardView boardView;
 	private static PostGameView postGameView;
 	private static ScoreView scoreView;
-
-
-	public ViewManager() {
-		window = new Window();
-
-	}
 
 	public static void startBeginMenu() {
 		beginMenu = new BeginMenu();
@@ -26,7 +21,7 @@ public class ViewManager {
 	public static void startGameView() {
 
 		boardView = new BoardView();
-		boardView.createDotsView(Board.getDots());
+		boardView.createDotsView(Game.getBoard().getDots());
 		boardView.createGhostsView();
 		boardView.createPacmanView();
 		boardView.createBackground();
@@ -43,7 +38,7 @@ public class ViewManager {
 		} else {
 			postGameView = new GameOverView(window, scoreView);
 		}
-		window.remove(boardView.getLayers());
+		//window.remove(boardView.getLayers());
 		window.setContentPane(postGameView);
 		window.repaint();
 	}

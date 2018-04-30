@@ -8,11 +8,11 @@ import org.json.simple.parser.ParseException;
 
 import controller.Game;
 import model.Board;
-import model.Serializator;
 import model.board.Dot;
+import model.persistence.Serializator;
 import sounds.Sounds;
 
-public class Recovery extends GameState {
+public class RecoveryState extends GameState {
 
 	@Override
 	public void reorganize() {
@@ -24,8 +24,8 @@ public class Recovery extends GameState {
 	public void run() throws FileNotFoundException, IOException, ParseException  {
 
 		ArrayList<Dot> dotsArraySaved = Serializator.recover();
-		Board.setDots(dotsArraySaved);
-		Game.setState(new Normal());
+		Game.getBoard().setDots(dotsArraySaved);
+		Game.setState(new NormalState());
 		Game.setFirstTime(true);
 	}
 

@@ -8,34 +8,31 @@ import java.util.Observable;
 import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 
+import controller.Game;
+import controller.states.GameState;
+import controller.states.SuperState;
 import model.Position;
+import model.creatures.Pacman;
 import model.squares.Square;
 
-public class Dot extends Element implements JSONStreamAware{
+public class Dot extends Observable  implements JSONStreamAware{
 
-	private boolean superDot=false;
 	private Square position;
 
-
-	public void setSuper (boolean sd) {
-		superDot=sd;
-	}
 	public Position getBoardPosition() {
 		return position.getBoardPosition();
-	}
-	public boolean getSuper () {
-		return superDot;
-	}
-	public boolean isSuperDot() {
-		return superDot;
-	}
-
-	public void setSuperDot(boolean superDot) {
-		this.superDot = superDot;
 	}
 
 	public void setPosition(Square position) {
 		this.position = position;
+	}
+	
+	public void eatenInState(GameState gameState) {
+		gameState.dotEaten();
+	}
+	
+	public void eaten(Pacman pacman){
+		Game.getBoard().upScore(10,0);
 	}
 	
 	@Override
@@ -43,7 +40,7 @@ public class Dot extends Element implements JSONStreamAware{
 		LinkedHashMap<Object, Object> obj = new LinkedHashMap<>();
 		obj.put("xPosition", String.valueOf(getBoardPosition().getX()));
 		obj.put("yPosition", String.valueOf(getBoardPosition().getY()));
-		obj.put("superDot", String.valueOf(superDot));
+		obj.put("superDot", String.valueOf(this.getClass().getName()));
 		JSONValue.writeJSONString(obj, out);
 	}
 

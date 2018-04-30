@@ -9,16 +9,16 @@ import sounds.Sounds;
 import visual.BoardView;
 import visual.ViewManager;
 
-public class Normal extends GameState {
+public class NormalState extends GameState {
 
 
 	@Override
 	public void reorganize() throws InterruptedException {
 		ViewManager.startGameView();
 		Game.getBoard().addObserver(ViewManager.getBoardView());
-		Board.observePacman(BoardView.getPacmanView());
+		Game.getBoard().observePacman(BoardView.getPacmanView());
 		Game.getBoard().update();
-		if(Board.getLevel()==1)
+		if(Game.getBoard().getLevel()==1)
 		{				
 			JOptionPane.showMessageDialog(null, "Move a Paco con las flechitas.\nCon la tecla 'P', hace una pausa.");
 			Game.setWin(false);

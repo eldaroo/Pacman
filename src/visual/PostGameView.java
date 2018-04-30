@@ -12,9 +12,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.EmptyBorder;
 
 import controller.Game;
-import controller.states.Normal;
-import controller.states.Respawn;
-import model.DataManager;
+import controller.states.NormalState;
+import controller.states.RespawnState;
+import model.persistence.DataManager;
 
 public abstract class PostGameView extends JPanel {
 
@@ -24,12 +24,8 @@ public abstract class PostGameView extends JPanel {
 	public PostGameView(Window window, ScoreView scoreView) {
 
 		setVisible(true);
-		setSize(324, 333);
-		setLocation(100, 200);
-		
-		generateParticularLabel();
-		
 
+		generateParticularComponents();
 		JLabel lblName = new JLabel("Nombre: ");
 		lblName.setSize(54, 87);
 		add(lblName,BorderLayout.CENTER);
@@ -42,6 +38,10 @@ public abstract class PostGameView extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnSave = new JButton("SAVE SCORE");
+		
+
+		btnSave.setSize(124, 23);
+		add(btnSave, BorderLayout.CENTER);
 		btnSave.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
@@ -62,29 +62,11 @@ public abstract class PostGameView extends JPanel {
 
 				window.repaint();
 			}
+			
 		});
-		btnSave.setSize(124, 23);
-		add(btnSave, BorderLayout.CENTER);
-
-		JButton btnAgain = new JButton("TRY AGAIN");
-		btnAgain.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Game.setState(new Normal());
-				Game.setFirstTime(true);
-				Game.setState(new Respawn());
-			}
-		});
-		btnAgain.setSize(121, 23);
-		add(btnAgain,BorderLayout.SOUTH);
-
-		JButton btnTomarseElChori = new JButton("EXIT");
-		btnTomarseElChori.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
-		btnTomarseElChori.setBounds(11, 235, 132, 23);
-		add(btnTomarseElChori,BorderLayout.SOUTH);
+		
+		
 	}
-	public abstract void generateParticularLabel() ;
+	
+	public abstract void generateParticularComponents() ;
 }

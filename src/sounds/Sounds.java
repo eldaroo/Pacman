@@ -4,6 +4,7 @@ import java.applet.AudioClip;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import controller.Game;
 import controller.states.GameState;
 import model.Board;
 import model.creatures.IA;
@@ -39,24 +40,33 @@ public class Sounds {
 
 	}
 
-	public void reproduceBeginning() throws InterruptedException
+	public void reproduceBeginning()
 	{
 		music.stop();
 		String url = SoundsBinding.getBeginningSounds(IA.random(2));
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();
-		Thread.sleep(5500);
+		sleep(5500);
 
 	}
 
-	public void reproduceLifeUp() throws InterruptedException
+	private void sleep(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			System.err.println("Problem with Sleep");
+			e.printStackTrace(System.err);
+		}
+	}
+
+	public void reproduceLifeUp()
 	{
 		String url = SoundsBinding.getGameSounds("lifeUp");
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();
-		Thread.sleep(1000);
+		sleep(1000);
 
 	}
 	public void changeToPostGame()
@@ -66,31 +76,31 @@ public class Sounds {
 		music = java.applet.Applet.newAudioClip(getClass().getResource(url));
 
 	}
-	public void reproduceEatGhost(int ghostEated) throws InterruptedException
+	public void reproduceEatGhost(int ghostEated)
 	{
 		String url = SoundsBinding.getDeathSounds(ghostEated);
 		 AudioClip sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();
-	    Thread.sleep(100);
+	    sleep(100);
 		
 
 	}
-	public void chageToLoad() throws InterruptedException, FileNotFoundException
+	public void chageToLoad()
 	{
 		String url = SoundsBinding.getGameSounds("load");
 		music = java.applet.Applet.newAudioClip(getClass().getResource(url));
 	    
 	}
 	
-	public void changeToNormal() throws InterruptedException
+	public void changeToNormal()
 	{
-		String url = SoundsBinding.getNormalMusic(Board.getLevel());
+		String url = SoundsBinding.getNormalMusic(Game.getBoard().getLevel());
 
 		music = java.applet.Applet.newAudioClip(getClass().getResource(url));
 
 	    
 	}
-	public void changeToSuper() throws InterruptedException
+	public void changeToSuper() 
 	{
 		String url = SoundsBinding.getSuperMusic(IA.random(2));
 
@@ -98,21 +108,21 @@ public class Sounds {
 
 	    
 	}
-	public void reproduceDeath() throws InterruptedException
+	public void reproduceDeath()
 	{
 
 		 AudioClip sound = java.applet.Applet.newAudioClip(getClass().getResource("/sounds/death.wav"));
 		sound.play();
 		music.stop();
-	    Thread.sleep(2000);
+	    sleep(2000);
 	}
 
-	public void reproduceLevelUp() throws InterruptedException {
+	public void reproduceLevelUp(){
 		String url = SoundsBinding.getGameSounds("levelUp");
 
 		AudioClip  sound = java.applet.Applet.newAudioClip(getClass().getResource(url));
 		sound.play();	
-		Thread.sleep(3000);
+		sleep(3000);
 
 	}
 

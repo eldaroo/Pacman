@@ -10,12 +10,13 @@ import org.json.simple.JSONValue;
 
 import model.Direction;
 import model.Position;
+import model.squares.Hell;
 import model.squares.Square;
 
 public abstract class Creature extends Observable implements JSONStreamAware {
 
 	private boolean alive = true;
-	protected boolean keyOfHell;
+	protected boolean haveKeyOfHell;
 	private Direction direction = Direction.RIGHT;
 	private String name = null;
 	protected Square position = null;
@@ -78,7 +79,7 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	}
 
 	public boolean haveKeyOfHell() {
-		return keyOfHell;
+		return haveKeyOfHell;
 	}
 
 	public boolean isAlive() {
@@ -90,15 +91,15 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 	}
 
 	public void setKeyOfHell(boolean key) {
-		keyOfHell = key;
+		haveKeyOfHell = key;
 
 	}
 
-	public String getName() {
+	private String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 	
@@ -110,5 +111,9 @@ public abstract class Creature extends Observable implements JSONStreamAware {
 		obj.put("position", String.valueOf(position));
 		obj.put("status", alive);
 		JSONValue.writeJSONString(obj, out);
+	}
+
+	public boolean canWalkInHell() {
+		return false;
 	}
 }

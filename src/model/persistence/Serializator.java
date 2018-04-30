@@ -1,4 +1,4 @@
-package model;
+package model.persistence;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import controller.Game;
 import model.board.Dot;
 import model.board.SuperDot;
 
@@ -45,9 +46,9 @@ public abstract class Serializator {
 		} 
 		try {
 
-			Board.setScore((long) jObj.get("score"));
-			Board.setLifes((long) jObj.get("lifes"));
-			Board.setLevel((long) jObj.get("level"));
+			Game.getBoard().setScore((long) jObj.get("score"));
+			Game.getBoard().setLifes((long) jObj.get("lifes"));
+			Game.getBoard().setLevel((long) jObj.get("level"));
 				
 		
 			jCreatures = (JSONArray) jObj.get("Creatures") ;
@@ -76,12 +77,12 @@ public abstract class Serializator {
 
 				if (Boolean.parseBoolean((String) jAux.get("superDot"))) {
 					dot=new SuperDot();
-					dot.setPosition(Board.getBoard()[(int) x][(int) y]);
+					dot.setPosition(Game.getBoard().getBoard()[(int) x][(int) y]);
 					dotsArraySaved.add(dot);
 
 				} else if(!Boolean.parseBoolean((String) jAux.get("superDot"))){
 					dot=new Dot();
-					dot.setPosition(Board.getBoard()[(int) x][(int) y]);
+					dot.setPosition(Game.getBoard().getBoard()[(int) x][(int) y]);
 					dotsArraySaved.add(dot);
 				}
 
@@ -101,10 +102,10 @@ public abstract class Serializator {
 		jDots = new JSONArray();
 		jObj = new JSONObject();
 		 jCreatures = new JSONArray();
-		ArrayList<Dot> dots = Board.getDots();
+		ArrayList<Dot> dots = Game.getBoard().getDots();
 		
 		//Guarda los Objetos en un JSON Array y los escribe en un archivo
-		jCreatures.add(Board.pacman);
+		jCreatures.add(Game.getBoard().pacman);
 		//jCreatures.add(Board.getGhostsArray());
 
 		jObj.put("Creatures", jCreatures);
@@ -115,9 +116,9 @@ public abstract class Serializator {
 			}
 		jObj.put("Dots", jDots);
 
-		jObj.put("score", Board.getScore());
-		jObj.put("lifes", Board.getLifes());
-		jObj.put("level", Board.getLevel());
+		jObj.put("score", Game.getBoard().getScore());
+		jObj.put("lifes", Game.getBoard().getLifes());
+		jObj.put("level", Game.getBoard().getLevel());
 
 		
 		StringWriter out = new StringWriter();

@@ -12,12 +12,10 @@ public class Hell extends Square {
 	public Hell()
 	{}
 
-@Override
-public boolean isNavegable(Creature creature) {
-	if(creature.getName().equals("pacman")) {
-	return false;}
-	else return true;
-}
+	@Override
+	public boolean isNavegable(Creature creature) {
+		return creature.canWalkInHell();
+	}
 
 
 

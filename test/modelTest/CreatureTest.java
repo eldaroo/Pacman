@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.Board;
-import model.BoardConfiguration;
+import model.BoardFactory;
 /*
 public class CreatureTest {
 	Board board;

@@ -1,7 +1,8 @@
-package model;
+package model.persistence;
 
 import java.sql.ResultSet;
 
+import controller.Game;
 import visual.ScoreView;
 
 public abstract class DataManager {
@@ -13,7 +14,7 @@ public abstract class DataManager {
 	public static void saveScore(String name) {
 		try {
 			connection = new MyDataAcces();
-			connection.setQuery(name, Board.getScore());
+			connection.setQuery(name, Game.getBoard().getScore());
 		} catch (Exception e) {
 		}
 	}

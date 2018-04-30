@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import controller.Game;
-import controller.states.Respawn;
+import controller.states.RespawnState;
 import model.Board;
 import model.Direction;
 import model.Position;
@@ -63,7 +63,7 @@ public class Ghost extends Creature {
 
 		Game.getSound().reproduceDeath();
 		pacman.death();
-		Game.setState(new Respawn());
+		Game.setState(new RespawnState());
 
 	}
 
@@ -117,6 +117,10 @@ public class Ghost extends Creature {
 
 	public void upHellTime() {
 		hellTime++;
+	}
+	
+	public boolean canWalkInHell() {
+		return true;
 	}
 
 }

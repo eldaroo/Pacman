@@ -7,7 +7,7 @@ import controller.Game;
 import model.Position;
 import model.board.Fruit.FruitType;
 
-public class Fruit extends Element {
+public class Fruit extends Observable {
 	public static enum FruitType {
 		CHERRY, BANANNA, APPLE, ORANGE
 	}

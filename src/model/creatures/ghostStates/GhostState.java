@@ -1,5 +1,6 @@
 package model.creatures.ghostStates;
 
+import controller.Game;
 import model.Board;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
@@ -16,16 +17,14 @@ public abstract class GhostState {
 	
 	public void checkGoingThroughHellGate(Ghost ghost)
 	{
-		if (ghost.getBoardPosition().equals(Board.getHellGatePosition())) {
+		if (ghost.getBoardPosition().equals(Game.getBoard().getHellGatePosition())) {
 			ghost.setKeyOfHell(!ghost.haveKeyOfHell());
-
-			if (ghost.getState().toString()=="Death") {
-				ghost.setState(new InHell());
-			}else if (ghost.getState().toString()=="InHell")
-			{
-				ghost.setState(new Courageous());
-			}
+			ghost.setState(ghost.getState().nextState());
 		}
+	}
+	
+	protected GhostState nextState() {
+		return this;		
 	}
 	
 	public abstract String toString();

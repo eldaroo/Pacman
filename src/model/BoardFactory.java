@@ -5,9 +5,6 @@ import java.util.Random;
 
 import model.board.Dot;
 import model.board.SuperDot;
-import model.squares.FalseHell;
-import model.squares.FalsePath;
-import model.squares.FalseTeleport;
 import model.squares.Hell;
 import model.squares.HellGate;
 import model.squares.Path;
@@ -15,91 +12,82 @@ import model.squares.Square;
 import model.squares.Teleport;
 import model.squares.Wall;
 
-public class BoardConfiguration {
-	int cont = 0;
+public abstract class BoardFactory {
 
-	static private Square[][] board;
-	static private HellGate hellGate = new HellGate();
-	static private ArrayList<Square> hellZone = new ArrayList<Square>();
-	static private ArrayList<Square> teleportList = new ArrayList<Square>();
-	static private ArrayList<Dot> dots;
-	static Random randomHellZoneSquare = new Random();
-
-
-	public static Square[][] makeBoard() {
-		board = new Square[levelBoard.length][levelBoard.length];
+	public static void createGameMatrix(Board board) {
+		Square[][] matrix = new Square[levelBoard.length][levelBoard.length];
+		HellGate hellGate = new HellGate();
+		ArrayList<Square> teleportList = new ArrayList<Square>();
 		for (int i = 0; i < levelBoard.length; i++) {
 			for (int j = 0; j < levelBoard.length; j++) {
 				switch (levelBoard[i][j]) {
 				case '\u0000':
-					board[i][j] = new Wall();
+					matrix[i][j] = new Wall();//(Square) Class.forName("MyClass").newInstance();
 					break;
 				case '\u0001':
-					board[i][j] = new Path();
+					matrix[i][j] = new Path();
 					break;
 				case '\u0002':
-					board[i][j] = new FalsePath();
+					matrix[i][j] = new Wall();
 					break;
 				case '\u0003':
-					board[i][j] = new FalseTeleport();
+					matrix[i][j] = new Wall();
 					break;
 				case '\u0004':
-					board[i][j] = new Path();
+					matrix[i][j] = new Path();
 					break;
 				case '\u0005':
-					board[i][j] = new Path();
+					matrix[i][j] = new Path();
 					break;
 				case '\u0006':
-					board[i][j] = new Hell();
-					hellZone.add(board[i][j]);
+					matrix[i][j] = new Hell();
+					board.getHellZone().add(matrix[i][j]);
 					break;
 				case '\u0007':
 					hellGate.setBoardPosition(new Position(i, j));
-					board[i][j] = hellGate;
+					matrix[i][j] = hellGate;
 					break;
 				case '\u0008':
-					board[i][j] = new FalseHell();
+					matrix[i][j] = new Wall();
 					break;
 				case '\u0009':
-					board[i][j] = new Teleport();
-					teleportList.add(board[i][j]);
+					matrix[i][j] = new Teleport();
+					teleportList.add(matrix[i][j]);
 					break;
 
 				}
 
 				// ASIGNA AL CASILLERO EN UNA POSICION DEL TABLERO
-				board[i][j].setBoardPosition(new Position(i, j));
-				Board.setOriginalPacmanPosition(board[27][43]);
+				matrix[i][j].setBoardPosition(new Position(i, j));
 			}
 		}
 		// ENLAZA CADA CASILLERO CON SU ADYACENTE
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
 
-				if (j + 1 < board.length) {
-					board[i][j].setDown(board[i][j + 1]);
+				if (j + 1 < matrix.length) {
+					matrix[i][j].setDown(matrix[i][j + 1]);
 				}
 				if (j - 1 >= 0) {
-					board[i][j].setUp(board[i][j - 1]);
+					matrix[i][j].setUp(matrix[i][j - 1]);
 				}
 				if (i - 1 >= 0) {
-					board[i][j].setLeft(board[i - 1][j]);
+					matrix[i][j].setLeft(matrix[i - 1][j]);
 				}
-				if (i + 1 < board.length) {
-					board[i][j].setRight(board[i + 1][j]);
+				if (i + 1 < matrix.length) {
+					matrix[i][j].setRight(matrix[i + 1][j]);
 				}
 			}
 		}
-		// EJECUTA EL ENLACE DE CASILLEROS TELEPORT
-		linkTeleports();
-		return board;
+		linkTeleports(teleportList);
+		board.setHellGate(hellGate);
+		board.setMatrix(matrix);
 	}
 
-	// CREA LOS DOTS Y SUPER DOTS Y LES ASIGNA UNA POSICIÓN EN EL TABLERO
-	public static ArrayList<Dot> makeDots() {
+	public static ArrayList<Dot> createDots(Square[][] board) {
 		Dot dot;
 		SuperDot superDot;
-		dots = new ArrayList<Dot>();
+		ArrayList<Dot> dots = new ArrayList<Dot>();
 
 		for (int i = 0; i < levelBoard.length; i++) {
 			for (int j = 0; j < levelBoard.length; j++) {
@@ -120,8 +108,7 @@ public class BoardConfiguration {
 		return dots;
 	}
 
-	// ESTABLECE LOS CASILLEROS SIGUIENTES A LOS TELEPORT
-	private static void linkTeleports() {
+	private static void linkTeleports(ArrayList<Square> teleportList) {
 		teleportList.get(0).setLeft(teleportList.get(5));
 		teleportList.get(1).setUp(teleportList.get(2));
 		teleportList.get(2).setDown(teleportList.get(1));
@@ -132,8 +119,6 @@ public class BoardConfiguration {
 
 	
 	private static char[][] levelBoard = {
-
-
 
 			{ 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 2,9,2, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, },
 			{ 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 2,1,2, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, },
@@ -226,18 +211,10 @@ public class BoardConfiguration {
 	//7 HELL GATE
 	//8 FALSE HELL
 	//9 PATH WITH TELEPORT
-	
-	public static Position getHellGatePosition() {
-		return hellGate.getBoardPosition();
-	}
 
 	static public char[][] getLevelBoard() {
 		return levelBoard;
 	}
 
-	public static ArrayList<Square> getHellZone() {
-		// TODO Auto-generated method stub
-		return hellZone;
-	}
 
 }

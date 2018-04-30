@@ -1,5 +1,6 @@
 package model.creatures.ghostStates;
 
+import controller.Game;
 import model.Board;
 import model.creatures.Ghost;
 import model.creatures.IA;
@@ -10,7 +11,7 @@ public class Death extends GhostState {
 
 	@Override
 	public void determinateTarget(Ghost ghost, Pacman pacman) {
-		ghost.setTarget(Board.getHellGatePosition());
+		ghost.setTarget(Game.getBoard().getHellGatePosition());
 		
 	}
 
@@ -31,6 +32,9 @@ public class Death extends GhostState {
 		
 	}
 
+	protected GhostState nextState() {
+		return new InHell();		
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

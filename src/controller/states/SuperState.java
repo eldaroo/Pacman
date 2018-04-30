@@ -6,12 +6,11 @@ import model.creatures.ghostStates.Hurry;
 import model.creatures.ghostStates.Pussy;
 import sounds.Sounds;
 
-public class Super extends GameState {
+public class SuperState extends GameState {
 
 	@Override
 	public void reorganize() throws InterruptedException {
-		Game.setSuperTime(0);
-		Board.setGhostStates(new Pussy());
+		superDotEaten();
 		Game.setFirstTime(false);
 
 	}
@@ -25,18 +24,22 @@ public class Super extends GameState {
 			Game.upSuperTime();
 			Game.runCreatures();
 
-			if (Board.getDotRemoved().getSuper())
-			{
-				Game.setSuperTime(0);
-				Board.setGhostStates(new Pussy());
-			}
+			Game.getBoard().getDotRemoved().eatenInState(this);
+			
 			if (Game.getSuperTime() == 150) {
-				Game.setState(new Normal());
-				Board.pacman.resetGhostEated();
+				Game.setState(new NormalState());
+				Game.getBoard().pacman.resetGhostEated();
 			}
 
 			Game.getBoard().update();
 
+	}
+	
+	public void dotEaten() {}
+
+	public void superDotEaten() {
+		Game.setSuperTime(0);
+		Game.getBoard().setGhostStates(new Pussy());
 	}
 
 	@Override

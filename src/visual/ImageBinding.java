@@ -1,36 +1,17 @@
 package visual;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import controller.states.GameState;
-import controller.states.Load;
 import model.Direction;
 import model.board.Dot;
 import model.board.Fruit;
 import model.board.SuperDot;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
-import model.creatures.ghostStates.Courageous;
-import model.creatures.ghostStates.Death;
-import model.creatures.ghostStates.Eated;
-import model.creatures.ghostStates.Hurry;
-import model.creatures.ghostStates.InHell;
-import model.creatures.ghostStates.Pussy;
-import model.squares.FalseHell;
-import model.squares.FalsePath;
-import model.squares.FalseTeleport;
-import model.squares.Hell;
-import model.squares.HellGate;
-import model.squares.Path;
-import model.squares.Square;
-import model.squares.Teleport;
-import model.squares.Wall;
-import model.squares.Square.Corner;
 
 public abstract class ImageBinding {
 	// MAPA DE BOARD
@@ -51,39 +32,30 @@ public abstract class ImageBinding {
 	// PATH
 	private static String i = "resources/images/";
 
+	public static ImageIcon getFruitIcon(Fruit fruit) {
+		return fruitIcon.get(Fruit.getFruitType());
+	}
+	
 	static {
 		fruitIcon.put(Fruit.FruitType.BANANNA, new ImageIcon(i + "fruit_lsd.gif"));
 		fruitIcon.put(Fruit.FruitType.CHERRY, new ImageIcon(i + "fruit_joint.gif"));
 		fruitIcon.put(Fruit.FruitType.ORANGE, new ImageIcon(i + "fruit_cogollo.gif"));
 		fruitIcon.put(Fruit.FruitType.APPLE, new ImageIcon(i + "fruit_pipe.gif"));
-	}
 
-	public static ImageIcon getFruitIcon(Fruit fruit) {
-		return fruitIcon.get(Fruit.getFruitType());
-	}
-
-	static {
 		images.put(Dot.class, new ImageIcon(i+"chala.gif"));
 		images.put(SuperDot.class, new ImageIcon(i+"superchala_b.gif"));
 		images.put(BeginMenu.class, new ImageIcon(i+"paco_inicio.gif"));
 
-	}
-
-	static {
 		pacmanWithDirection.put(Direction.DOWN, new ImageIcon(i+"pacoman.png"));
 		pacmanWithDirection.put(Direction.LEFT, new ImageIcon(i+"pacoman.png"));
 		pacmanWithDirection.put(Direction.UP, new ImageIcon(i+"pacoman.png"));
 		pacmanWithDirection.put(Direction.RIGHT, new ImageIcon(i+"pacoman_back.png"));
-	}
-	static {
+
 		pacmanEatingGhost.put(1, new ImageIcon(i+"eat_score_1.gif"));
 		pacmanEatingGhost.put(2, new ImageIcon(i+"eat_score_2.gif"));
 		pacmanEatingGhost.put(3, new ImageIcon(i+"eat_score_3.gif"));
 		pacmanEatingGhost.put(4, new ImageIcon(i+"eat_score_4.gif"));
 		pacmanEatingGhost.put(5, new ImageIcon(i+"eat_score_5.gif"));
-	}
-
-	static {
 
 		ghostAlive.put(5, new ImageIcon(i+"police1.gif"));
 		ghostAlive.put(6, new ImageIcon(i+"police3.gif"));
@@ -91,17 +63,11 @@ public abstract class ImageBinding {
 		ghostAlive.put(8, new ImageIcon(i+"police7.gif"));
 		ghostAlive.put(9, new ImageIcon(i+"police9.gif"));
 
-	}
-	static {
-
 		ghostDeath.put(5, new ImageIcon(i+"police_death.gif"));
 		ghostDeath.put(6, new ImageIcon(i+"police_death.gif"));
 		ghostDeath.put(7, new ImageIcon(i+"police_death.gif"));
 		ghostDeath.put(8, new ImageIcon(i+"police_death.gif"));
 		ghostDeath.put(9, new ImageIcon(i+"police_death.gif"));
-
-	}
-	static {
 
 		ghostEated.put(5, new ImageIcon(i+""));
 		ghostEated.put(6, new ImageIcon(i+""));
@@ -109,36 +75,25 @@ public abstract class ImageBinding {
 		ghostEated.put(8, new ImageIcon(i+""));
 		ghostEated.put(9, new ImageIcon(i+""));
 
-	}
-	static {
-
 		ghostPussy.put(5, new ImageIcon(i+"police_pussy.gif"));
 		ghostPussy.put(6, new ImageIcon(i+"police_pussy.gif"));
 		ghostPussy.put(7, new ImageIcon(i+"police_pussy.gif"));
 		ghostPussy.put(8, new ImageIcon(i+"police_pussy.gif"));
 		ghostPussy.put(9, new ImageIcon(i+"police_pussy.gif"));
 
-	}
-	static {
-
 		ghostHurry.put(5, new ImageIcon(i+"police_hurry.gif"));
 		ghostHurry.put(6, new ImageIcon(i+"police_hurry.gif"));
 		ghostHurry.put(7, new ImageIcon(i+"police_hurry.gif"));
 		ghostHurry.put(8, new ImageIcon(i+"police_hurry.gif"));
 		ghostHurry.put(9, new ImageIcon(i+"police_hurry.gif"));
-
-	}
-
-	static {
+		
 		ghostState.put("Courageous", ghostAlive);
 		ghostState.put("Death", ghostDeath);
 		ghostState.put("Pussy", ghostPussy);
 		ghostState.put("Eated", ghostEated);
 		ghostState.put("InHell", ghostAlive);
 		ghostState.put("Hurry", ghostHurry);
-	}
-
-	static {
+		
 		pacmanState.put(Pacman.PacmanState.MOVE, pacmanWithDirection);
 		pacmanState.put(Pacman.PacmanState.DEATH, pacmanDying);
 	}
@@ -157,7 +112,6 @@ public abstract class ImageBinding {
 		return pacmanEatingGhost.get(pacman.getGhostsEated());
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	static public ImageIcon getGhostIcon(Ghost ghost) {
 		Map<Integer, ImageIcon> stateIcon = new HashMap<Integer, ImageIcon>();
 		stateIcon = ghostState.get(ghost.getState().toString());

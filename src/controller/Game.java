@@ -9,10 +9,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import org.json.simple.parser.ParseException;
 import controller.states.GameState;
-import controller.states.Load;
-import controller.states.NextLevel;
-import controller.states.Pause;
-import controller.states.PostGame;
+import controller.states.LoadState;
+import controller.states.NextLevelState;
+import controller.states.PauseState;
+import controller.states.PostGameState;
 import model.Board;
 import model.Direction;
 import model.board.Dot;
@@ -28,7 +28,6 @@ public class Game implements KeyListener {
 	private static Board board;
 	private static Square[][] boardMatrix;
 	private static ArrayList<Dot> dotStartMatrix;
-	private static ViewManager viewManager;
 
 	// ESTRUCTURA
 	private static boolean changeState = true;
@@ -53,13 +52,12 @@ public class Game implements KeyListener {
 	public static void initGame() {
 
 		game = new Game();
-		viewManager = new ViewManager();
-		state = new Load();
+		state = new LoadState();
 		board = new Board();
-		boardMatrix = Board.getBoard();
-		Board.makeDots();
-		Board.createGhosts(ghostQuantity);
-		Board.createPacman("pacman", boardMatrix[27][43]);
+		boardMatrix = board.getBoard();
+		board.makeDots();
+		board.createGhosts(ghostQuantity);
+		board.createPacman("pacman", boardMatrix[27][43]);
 		ViewManager.getWindow().addKeyListener(game);
 
 	}
@@ -82,17 +80,17 @@ public class Game implements KeyListener {
 
 			state.run();
 
-			if (Board.getLifes() <= 0) {
-				state = new PostGame();
+			if (board.getLifes() <= 0) {
+				state = new PostGameState();
 				firstTime = true;
-				Board.setLifes(3);
+				board.setLifes(3);
 			}
 
-			if (Board.getLevel() > 3) {
+			if (board.getLevel() > 3) {
 				win = true;
-				state = new PostGame();
+				state = new PostGameState();
 				firstTime = true;	
-				Board.setLevel(1);
+				board.setLevel(1);
 				}
 		}
 	}
@@ -106,11 +104,10 @@ public class Game implements KeyListener {
 
 	public static void runCreatures() throws InterruptedException {
 
-		Board.lookingForCreatures();
-		Board.moveGhosts();
-		Board.lookingForCreatures();
-		Board.movePacman();
-		Board.lookingForDotAndFruit();
+		board.lookingForCreatures();
+		board.moveGhosts();
+		board.lookingForCreatures();
+		board.movePacman();
 
 	}
 
@@ -124,33 +121,33 @@ public class Game implements KeyListener {
 
 		switch (arg0.getKeyCode()) {
 		case KeyEvent.VK_LEFT: {
-			Board.pacman.setPotentialDirection(Direction.LEFT);
+			board.pacman.setPotentialDirection(Direction.LEFT);
 			break;
 		}
 		case KeyEvent.VK_UP: {
-			Board.pacman.setPotentialDirection(Direction.UP);
+			board.pacman.setPotentialDirection(Direction.UP);
 			break;
 		}
 		case KeyEvent.VK_RIGHT: {
-			Board.pacman.setPotentialDirection(Direction.RIGHT);
+			board.pacman.setPotentialDirection(Direction.RIGHT);
 			break;
 		}
 		case KeyEvent.VK_DOWN: {
-			Board.pacman.setPotentialDirection(Direction.DOWN);
+			board.pacman.setPotentialDirection(Direction.DOWN);
 			break;
 		}
 		case KeyEvent.VK_P: {
-			setState(new Pause());
+			setState(new PauseState());
 			break;
 		}
 		}
 	}
 
-	public static void checkIfCompleteLevel() throws InterruptedException {
-		if (Board.getDots().size() == 0) {
+	public static void checkIfCompleteLevel(){
+		if (board.getDots().size() == 0) {
 			sound.reproduceLevelUp();
-			setState(new NextLevel());
-			Board.setPacmanEatNewDot(false);
+			setState(new NextLevelState());
+			board.setPacmanEatNewDot(false);
 			setFirstTime(true);
 		}
 	}

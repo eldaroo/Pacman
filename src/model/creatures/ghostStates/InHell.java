@@ -1,5 +1,6 @@
 package model.creatures.ghostStates;
 
+import controller.Game;
 import model.Board;
 import model.creatures.Ghost;
 import model.creatures.IA;
@@ -24,7 +25,7 @@ public class InHell extends GhostState{
 	}
 	private void determinatePermanenceInHell(Ghost ghost) {
 		if (ghost.timeForOutOfHell()) {
-			ghost.setTarget(Board.getHellGatePosition());
+			ghost.setTarget(Game.getBoard().getHellGatePosition());
 			ghost.setPotentialDirection(IA.pathFinder(ghost.getIntelligence()));
 			ghost.setKeyOfHell(true);
 			
@@ -36,7 +37,12 @@ public class InHell extends GhostState{
 	public void meetPacman(Ghost ghost, Pacman pacman) throws InterruptedException {
 		// TODO Auto-generated method stub
 		
+	}	
+	
+	protected GhostState nextState() {
+		return new Courageous();		
 	}
+	
 
 	@Override
 	public String toString() {

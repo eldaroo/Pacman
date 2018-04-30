@@ -16,14 +16,15 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import controller.Game;
 import model.Board;
 import model.Position;
-import model.Serializator;
 import model.board.Dot;
 import model.board.Fruit;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
 import model.creatures.Pacman.PacmanState;
+import model.persistence.Serializator;
 import model.squares.Square;
 
 public class BoardView extends JPanel implements ActionListener, Observer {
@@ -67,11 +68,11 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 	}
 	public void createPacmanView() {
 
-		pacmanView = new PacmanView(Board.pacman, layers);
+		pacmanView = new PacmanView(Game.getBoard().pacman, layers);
 	}
 	public void createGhostsView() {
 		int aux = 0;
-		for (Ghost ghost : Board.getGhostsArray()) { 
+		for (Ghost ghost : Game.getBoard().getGhostsArray()) { 
 			ghostViewsArray.add(new GhostView(ghost, layers));
 			ghost.addObserver(ghostViewsArray.get(aux));
 			aux++;
@@ -79,7 +80,7 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 	}
 	public void createBackground() {
 		background = new JLabel();
-		background.setIcon(ImageBinding.getBoard(Board.getLevel()));
+		background.setIcon(ImageBinding.getBoard(Game.getBoard().getLevel()));
 		background.setBounds(0, ViewManager.getWindow().getY() + 5, 600, 600);
 		layers.add(background);
 	}

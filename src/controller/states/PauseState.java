@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import controller.Game;
 import sounds.Sounds;
 
-public class Pause extends GameState {
+public class PauseState extends GameState {
 
 	@Override
 	public void reorganize() {
@@ -16,7 +16,7 @@ public class Pause extends GameState {
 	@Override
 	public void run() {
 		JOptionPane.showMessageDialog(null, "la partida esta en pausa");
-		Game.setState(new Normal());
+		Game.setState(new NormalState());
 	}
 
 }
