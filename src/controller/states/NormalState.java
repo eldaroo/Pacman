@@ -3,9 +3,6 @@ package controller.states;
 import javax.swing.JOptionPane;
 
 import controller.Game;
-import model.Board;
-import model.creatures.ghostStates.Courageous;
-import sounds.Sounds;
 import visual.BoardView;
 import visual.ViewManager;
 

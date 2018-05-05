@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import org.json.simple.parser.ParseException;
 
 import controller.Game;
-import model.Board;
 import model.board.Dot;
 import model.persistence.Serializator;
-import sounds.Sounds;
 
 public class RecoveryState extends GameState {
 

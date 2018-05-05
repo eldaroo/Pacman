@@ -2,8 +2,6 @@ package visual;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -25,7 +23,6 @@ import model.creatures.Ghost;
 import model.creatures.Pacman;
 import model.creatures.Pacman.PacmanState;
 import model.persistence.Serializator;
-import model.squares.Square;
 
 public class BoardView extends JPanel implements ActionListener, Observer {
 
@@ -143,7 +140,7 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 	}
 	private void repaintFruit(Board board) {
 		Fruit fruit = board.getFruit();
-		if (fruit.isEnableToEat()==true)
+		if (Fruit.isEnableToEat()==true)
 		{
 			setVisible(true);
 			fruitView.setIcon(ImageBinding.getFruitIcon(fruit));
@@ -172,7 +169,6 @@ public class BoardView extends JPanel implements ActionListener, Observer {
 			try {
 				Serializator.toPersist();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

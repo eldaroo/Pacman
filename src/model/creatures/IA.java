@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import controller.Game;
 import model.Direction;
 import model.Position;
-import model.creatures.ghostStates.Pussy;
 import model.squares.Square;
 
 public abstract class IA {

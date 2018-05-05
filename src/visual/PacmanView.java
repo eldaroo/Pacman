@@ -5,7 +5,6 @@ import java.util.Observable;
 import javax.swing.JLayeredPane;
 
 
-import model.Board;
 
 import model.Position;
 import model.creatures.Pacman;

@@ -1,21 +1,18 @@
 package model.creatures;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import controller.Game;
 import controller.states.RespawnState;
-import model.Board;
 import model.Direction;
 import model.Position;
-import model.creatures.ghostStates.Courageous;
 import model.creatures.ghostStates.GhostState;
 import model.creatures.ghostStates.InHell;
 import model.squares.Square;
-import sounds.Sounds;
 
 public class Ghost extends Creature {
 
+	@SuppressWarnings("unused")
 	private static ArrayList<Direction> potentialDirectionsList;
 
 	private Position target;

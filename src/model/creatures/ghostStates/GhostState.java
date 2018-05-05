@@ -1,7 +1,6 @@
 package model.creatures.ghostStates;
 
 import controller.Game;
-import model.Board;
 import model.creatures.Ghost;
 import model.creatures.Pacman;
 

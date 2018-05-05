@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import model.board.Dot;
 import model.board.SuperDot;

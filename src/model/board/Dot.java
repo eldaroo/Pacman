@@ -10,7 +10,6 @@ import org.json.simple.JSONValue;
 
 import controller.Game;
 import controller.states.GameState;
-import controller.states.SuperState;
 import model.Position;
 import model.creatures.Pacman;
 import model.squares.Square;

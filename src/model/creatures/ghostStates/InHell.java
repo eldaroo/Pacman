@@ -1,7 +1,6 @@
 package model.creatures.ghostStates;
 
 import controller.Game;
-import model.Board;
 import model.creatures.Ghost;
 import model.creatures.IA;
 import model.creatures.Pacman;
@@ -35,7 +34,6 @@ public class InHell extends GhostState{
 
 	@Override
 	public void meetPacman(Ghost ghost, Pacman pacman) throws InterruptedException {
-		// TODO Auto-generated method stub
 		
 	}	
 	
@@ -46,13 +44,11 @@ public class InHell extends GhostState{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "InHell";
 	}
 
 	@Override
 	public void changeState(Ghost ghost) {
-		// TODO Auto-generated method stub
 		
 	}
 

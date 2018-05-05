@@ -7,10 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
-
-import org.omg.PortableServer.ServantRetentionPolicyOperations;
 
 import controller.Game;
 import controller.states.NormalState;
@@ -19,6 +16,11 @@ import controller.states.RespawnState;
 import java.awt.Color;
 
 public class GameOverView extends PostGameView {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public GameOverView(Window window, ScoreView scoreView) {
 		super(window, scoreView);

@@ -6,14 +6,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EmptyBorder;
 
-import controller.Game;
-import controller.states.NormalState;
-import controller.states.RespawnState;
 import model.persistence.DataManager;
 
 public abstract class PostGameView extends JPanel {

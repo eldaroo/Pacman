@@ -1,14 +1,7 @@
 package visual;
 
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
-import model.Board;
 import model.board.Dot;
 
 public class DotView extends JLabel {

@@ -31,7 +31,6 @@ public class Courageous extends GhostState {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Courageous";
 	}
 

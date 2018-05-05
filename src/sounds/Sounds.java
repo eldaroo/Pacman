@@ -1,14 +1,10 @@
 package sounds;
 
 import java.applet.AudioClip;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import controller.Game;
-import controller.states.GameState;
-import model.Board;
 import model.creatures.IA;
-import visual.ImageBinding;
 
 public class Sounds {
 	AudioClip  music;

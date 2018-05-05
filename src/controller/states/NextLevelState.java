@@ -1,7 +1,6 @@
 package controller.states;
 
 import controller.Game;
-import model.Board;
 
 public class NextLevelState extends GameState {
 

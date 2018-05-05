@@ -1,9 +1,7 @@
 package visual;
 
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-import java.awt.LayoutManager;
 
 import javax.swing.ImageIcon;
 
@@ -14,7 +12,6 @@ public class WinGameView extends PostGameView{
 		super(window, scoreView);
 		setSize(500, 550);
 		setLocation(50, 33);
-		// TODO Auto-generated constructor stub
 	}
 
 	private static final long serialVersionUID = 1L;

@@ -1,7 +1,6 @@
 package model.creatures.ghostStates;
 
 import controller.Game;
-import model.Board;
 import model.creatures.Ghost;
 import model.creatures.IA;
 import model.creatures.Pacman;
@@ -36,7 +35,6 @@ public class Hurry extends GhostState {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Hurry";
 	}
 

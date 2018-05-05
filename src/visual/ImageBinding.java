@@ -121,6 +121,7 @@ public abstract class ImageBinding {
 	public static Icon getBoard(long l) {
 		// return new ImageIcon("resources/board600x600.png");
 		return new ImageIcon(i+"animatedBoard_"+l +".gif");
+		//return new ImageIcon( imageBinding.getClass().getResource("/img/imagen.gif"));
 	}
 
 }

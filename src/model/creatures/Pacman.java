@@ -4,16 +4,11 @@ package model.creatures;
 
 
 import controller.Game;
-import controller.states.SuperState;
 
-import model.Board;
 import model.creatures.ghostStates.Eated;
-import model.squares.Hell;
 import model.squares.Square;
 import model.board.Dot;
 import model.board.Fruit;
-import model.board.Fruit.FruitType;
-import sounds.Sounds;
 
 public class Pacman extends Creature  {
 

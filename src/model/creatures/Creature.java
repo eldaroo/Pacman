@@ -10,7 +10,6 @@ import org.json.simple.JSONValue;
 
 import model.Direction;
 import model.Position;
-import model.squares.Hell;
 import model.squares.Square;
 
 public abstract class Creature extends Observable implements JSONStreamAware {

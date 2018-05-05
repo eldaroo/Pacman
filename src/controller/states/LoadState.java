@@ -2,10 +2,7 @@ package controller.states;
 
 import java.io.FileNotFoundException;
 
-import javax.swing.text.View;
-
 import controller.Game;
-import sounds.Sounds;
 import visual.BeginMenu;
 import visual.ViewManager;
 

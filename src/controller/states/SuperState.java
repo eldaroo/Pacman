@@ -1,10 +1,7 @@
 package controller.states;
 
 import controller.Game;
-import model.Board;
-import model.creatures.ghostStates.Hurry;
 import model.creatures.ghostStates.Pussy;
-import sounds.Sounds;
 
 public class SuperState extends GameState {
 

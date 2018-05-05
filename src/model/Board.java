@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 import org.json.simple.JSONValue;
 import controller.Game;
-import controller.states.NextLevelState;
 import model.board.Dot;
 import model.board.Fruit;
 import model.creatures.*;
@@ -32,7 +31,7 @@ public class Board extends Observable implements Serializable {
 	int hellIndex = 0;
 	Random randomHellZoneSquare = new Random();
 	private boolean pacmanEatNewDot = false;
-	private long lifes = 3;
+	private long lifes = 0;
 	private long score = 0;
 	private Long level = (long) 1;
 	private int aux = 0;
